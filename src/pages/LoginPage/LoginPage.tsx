@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { RoutesEnum } from "src/shared/constants/routesEnum.ts";
-import { useStableCallback } from "src/utils/hooks/useStableCallback.ts";
+import { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
+import { useStableCallback } from 'src/utils/hooks/useStableCallback.ts';
 
 const LoginPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLoginClick = useStableCallback(() => {
-    const redirectTo = searchParams.get("to")?.split("?")[0];
+    const redirectTo = searchParams.get('to')?.split('?')[0];
     const otherPartOfUrl = redirectTo
       ? window.location.href.split(redirectTo)[1]
       : window.location.href.split(RoutesEnum.Root)[1];
