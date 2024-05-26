@@ -10,6 +10,7 @@
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "format:fix": "prettier --write \"src/**/*.ts\"",
     "format": "prettier --check \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
     "preview": "vite preview"
   },
   "dependencies": {
