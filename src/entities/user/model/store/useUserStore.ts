@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { TUserStore } from 'src/entities/user/model/types/TUserStore.ts';
+import { create } from "zustand";
+import { TUserStore } from "src/entities/user/model/types/TUserStore.ts";
 
 const useUserStore = create<TUserStore>()((set) => ({
   email: undefined,

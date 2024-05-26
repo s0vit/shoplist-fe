@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
 export const useStableCallback = <P extends unknown[], R>(fn: (...args: P) => R): ((...args: P) => R) => {
   const inputRef = useRef(fn);
