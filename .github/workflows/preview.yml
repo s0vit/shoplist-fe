@@ -36,10 +36,6 @@ jobs:
           ISSUE_HTML_URL=$(echo "$ISSUE_DATA" | jq -r .html_url)
           EXPECTED_URL="https://github.com/${{ github.repository }}/issues/$ISSUE_NUMBER"
           
-          echo "Issue Data: $ISSUE_DATA"
-          echo "Issue HTML URL: $ISSUE_HTML_URL"
-          echo "Expected URL: $EXPECTED_URL"
-          
           if [ "$ISSUE_HTML_URL" != "$EXPECTED_URL" ]; then
             echo ":name_badge: The issue linked in the pull request description does not belong to this repository." >> $GITHUB_STEP_SUMMARY
             echo "Error: The issue linked in the pull request description does not belong to this repository." >&2
