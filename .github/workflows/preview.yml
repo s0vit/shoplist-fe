@@ -10,12 +10,12 @@ on:
   push:
     branches-ignore:
       - main
+
 jobs:
   build-and-cache:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
 
       - name: Check PR Description for Issue Link
         if: github.event_name == 'pull_request'
@@ -33,19 +33,20 @@ jobs:
           fi
 
           ISSUE_DATA=$(curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER)
-          ISSUE_REPO=$(echo "$ISSUE_DATA" | jq -r .repository_url | grep -oP '[^/]+$')
-          ISSUE_STATE=$(echo "$ISSUE_DATA" | jq -r .state)
+          ISSUE_HTML_URL=$(echo "$ISSUE_DATA" | jq -r .html_url)
+          EXPECTED_URL="https://github.com/${{ github.repository }}/issues/$ISSUE_NUMBER"
           
           echo "Issue Data: $ISSUE_DATA"
-          echo "Issue Repository: $ISSUE_REPO"
-          echo "Issue State: $ISSUE_STATE"
+          echo "Issue HTML URL: $ISSUE_HTML_URL"
+          echo "Expected URL: $EXPECTED_URL"
           
-          if [ "$ISSUE_REPO" != "${{ github.repository }}" ]; then
+          if [ "$ISSUE_HTML_URL" != "$EXPECTED_URL" ]; then
             echo ":name_badge: The issue linked in the pull request description does not belong to this repository." >> $GITHUB_STEP_SUMMARY
             echo "Error: The issue linked in the pull request description does not belong to this repository." >&2
             exit 1
           fi
           
+          ISSUE_STATE=$(echo "$ISSUE_DATA" | jq -r .state)
           if [ "$ISSUE_STATE" == "closed" ]; then
             echo ":name_badge: The issue linked in the pull request description is closed." >> $GITHUB_STEP_SUMMARY
             echo "Error: The issue linked in the pull request description is closed." >&2
