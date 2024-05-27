@@ -36,7 +36,7 @@ jobs:
           ISSUE_REPO=$(echo "$ISSUE_DATA" | jq -r .repository_url | grep -oP '[^/]+$')
           ISSUE_STATE=$(echo "$ISSUE_DATA" | jq -r .state)
           
-          ecgo "Issue Data: $ISSUE_DATA"
+          echo "Issue Data: $ISSUE_DATA"
           echo "Issue Repository: $ISSUE_REPO"
           echo "Issue State: $ISSUE_STATE"
           
