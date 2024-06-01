@@ -1,15 +1,16 @@
 import { Outlet } from 'react-router-dom';
+import { Box } from '@mui/material';
+import { ContentContainer } from 'src/utils/components/ContentContainer.tsx';
+import { Navbar } from 'src/entities/user/ui/Navbar.tsx';
 
 const Layout = () => {
   return (
-    <div>
-      <header>
-        <h1>Shoplist</h1>
-      </header>
-      <div>
+    <Box>
+      <Navbar />
+      <ContentContainer>
         <Outlet />
-      </div>
-    </div>
+      </ContentContainer>
+    </Box>
   );
 };
 

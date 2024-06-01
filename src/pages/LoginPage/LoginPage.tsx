@@ -3,12 +3,17 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
 import { useStableCallback } from 'src/utils/hooks/useStableCallback.ts';
 import { useMutation } from '@tanstack/react-query';
-import { login } from 'src/shared/api/api.ts';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import LoginForm from 'src/entities/user/ui/LoginForm.tsx';
+import { login } from 'src/shared/api/authApi.ts';
+import RegisterForm from 'src/entities/user/ui/RegisterForm.tsx';
+import { Box, Tab } from '@mui/material';
+import { CenteredTabsWrapper } from 'src/entities/user/ui/CenteredTabsWrapper.tsx';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [currentTab, setCurrentTab] = useState<'login' | 'register'>('login');
 
   const setUser = useUserStore((state) => state.setUser);
 
@@ -16,9 +21,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const { mutate, error, data } = useMutation({
-    mutationFn: () => {
-      return login({ email, password });
-    },
+    mutationFn: () => login({ email, password }),
   });
 
   const handleLoginClick = useStableCallback(() => {
@@ -42,13 +45,22 @@ const LoginPage = () => {
     }
   }, [data, navigate, searchParams, setUser]);
   return (
-    <div>
-      <h1>Login Page</h1>
-      <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-
-      <button onClick={handleLoginClick}>Login</button>
-    </div>
+    <Box>
+      <CenteredTabsWrapper value={currentTab} onChange={(_, newValue) => setCurrentTab(newValue)}>
+        <Tab value="login" label="Login" />
+        <Tab value="register" label="Register" />
+      </CenteredTabsWrapper>
+      {currentTab === 'login' && (
+        <LoginForm
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          handleLoginClick={handleLoginClick}
+        />
+      )}
+      {currentTab === 'register' && <RegisterForm />}
+    </Box>
   );
 };
 
