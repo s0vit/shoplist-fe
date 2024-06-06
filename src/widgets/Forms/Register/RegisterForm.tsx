@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { confirmEmail, register } from 'src/shared/api/authApi.ts';
 import { Id, toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-import { FormWrapper } from 'src/entities/user/ui/FormWrapper.tsx';
+import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 
 const RegisterForm = () => {

@@ -9,6 +9,7 @@ import HomePage from 'src/pages/HomePage/HomePage.tsx';
 import Redirector from 'src/utils/components/Redirector.tsx';
 import LoginPage from 'src/pages/LoginPage/LoginPage.tsx';
 import ErrorPage from 'src/pages/ErrorPage/ErrorPage.tsx';
+import PasswordRecoveryPage from 'src/pages/PasswordRecoveryPage/PasswordRecoveryPage.tsx';
 
 const routes: RouteObject[] = [
   {
@@ -40,6 +41,10 @@ const routes: RouteObject[] = [
       {
         path: RoutesEnum.Login,
         element: <LoginPage />,
+      },
+      {
+        path: RoutesEnum.ResetPassword,
+        element: <PasswordRecoveryPage />,
       },
       {
         id: 'not-found',

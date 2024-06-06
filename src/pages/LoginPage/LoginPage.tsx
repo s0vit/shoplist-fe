@@ -1,31 +1,34 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
-import { useStableCallback } from 'src/utils/hooks/useStableCallback.ts';
 import { useMutation } from '@tanstack/react-query';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
-import LoginForm from 'src/entities/user/ui/LoginForm.tsx';
-import { login } from 'src/shared/api/authApi.ts';
-import RegisterForm from 'src/entities/user/ui/RegisterForm.tsx';
-import { Box, Tab } from '@mui/material';
-import { CenteredTabsWrapper } from 'src/entities/user/ui/CenteredTabsWrapper.tsx';
+import LoginForm from 'src/widgets/Forms/Login/LoginForm.tsx';
+import { login, TLoginRequest } from 'src/shared/api/authApi.ts';
+import RegisterForm from 'src/widgets/Forms/Register/RegisterForm.tsx';
+import { Stack, Tab } from '@mui/material';
+import { CenteredTabsWrapper } from 'src/widgets/Forms/Login/CenteredTabsWrapper.tsx';
+import RequestPasswordRecoveryForm from 'src/widgets/Forms/RequestPasswordRecovery/RequestPasswordRecoveryForm.tsx';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [currentTab, setCurrentTab] = useState<'login' | 'register'>('login');
+  const tabs = [
+    { label: 'login', value: 'login' },
+    { label: 'register', value: 'register' },
+    { label: 'password recovery', value: 'requestPassRecover' },
+  ];
+  const [currentTab, setCurrentTab] = useState<(typeof tabs)[number]>(tabs[0]);
 
   const setUser = useUserStore((state) => state.setUser);
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const { mutate, error, data } = useMutation({
-    mutationFn: () => login({ email, password }),
-  });
-
-  const handleLoginClick = useStableCallback(() => {
-    mutate();
+  const {
+    mutate: sendLoginRequest,
+    error,
+    data,
+  } = useMutation({
+    mutationFn: ({ email, password }: TLoginRequest) => login({ email, password }),
   });
 
   if (error) {
@@ -45,22 +48,19 @@ const LoginPage = () => {
     }
   }, [data, navigate, searchParams, setUser]);
   return (
-    <Box>
-      <CenteredTabsWrapper value={currentTab} onChange={(_, newValue) => setCurrentTab(newValue)}>
-        <Tab value="login" label="Login" />
-        <Tab value="register" label="Register" />
+    <Stack direction="column" gap={2}>
+      <CenteredTabsWrapper
+        value={currentTab.value}
+        onChange={(_, newValue) => setCurrentTab({ ...tabs.find((tab) => tab.value === newValue)! })}
+      >
+        {tabs.map((tab) => (
+          <Tab key={tab.value} label={tab.label} value={tab.value} wrapped />
+        ))}
       </CenteredTabsWrapper>
-      {currentTab === 'login' && (
-        <LoginForm
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          handleLoginClick={handleLoginClick}
-        />
-      )}
-      {currentTab === 'register' && <RegisterForm />}
-    </Box>
+      {currentTab.value === 'login' && <LoginForm sendLoginRequest={sendLoginRequest} />}
+      {currentTab.value === 'register' && <RegisterForm />}
+      {currentTab.value === 'requestPassRecover' && <RequestPasswordRecoveryForm />}
+    </Stack>
   );
 };
 

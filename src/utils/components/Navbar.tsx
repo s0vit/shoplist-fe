@@ -9,26 +9,32 @@ import { toast } from 'react-toastify';
 import { ColorModeContext } from 'src/app/providers/Theme.tsx';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useNavigate } from 'react-router-dom';
+import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
+import cookie from 'js-cookie';
 
 export const Navbar = () => {
   const isLoggedIn = useUserStore(selectUserData)?.accessToken;
   const colorMode = useContext(ColorModeContext);
+  const navigate = useNavigate();
   const theme = useTheme();
 
-  const { isSuccess, mutate } = useMutation({
+  const { isSuccess, mutate: requestLogout } = useMutation({
     mutationFn: () => logout(),
   });
 
   const handleLoginClick = () => {
     if (isLoggedIn) {
-      mutate();
+      requestLogout();
       return;
     }
-    console.log('login click logic goes here');
+    navigate(RoutesEnum.Login);
   };
 
   useEffect(() => {
     if (isSuccess) {
+      cookie.remove('refreshToken');
+      cookie.remove('accessToken');
       toast('Logged out', { type: 'success' });
     }
   }, [isSuccess]);

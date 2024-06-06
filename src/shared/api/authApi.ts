@@ -4,7 +4,7 @@ export const login = async ({ email, password }: TLoginRequest): Promise<TLoginR
   const response = await apiInstance.post<TLoginResponse>('auth/login', { email, password });
   return response.data;
 };
-type TLoginRequest = {
+export type TLoginRequest = {
   email: string;
   password: string;
 };
@@ -52,4 +52,21 @@ type TRefreshTokenResponse = {
 export const logout = async (): Promise<void> => {
   const response = await apiInstance.post<void>('auth/logout');
   return response.data;
+};
+
+export const forgotPassword = async ({ email }: TPasswordRecoveryRequest): Promise<void> => {
+  const response = await apiInstance.post<void>('auth/forgot-password', { email });
+  return response.data;
+};
+type TPasswordRecoveryRequest = {
+  email: string;
+};
+
+export const resetPassword = async ({ token, password }: TPasswordResetRequest): Promise<void> => {
+  const response = await apiInstance.post<void>(`auth/reset-password?token=${token}`, { password });
+  return response.data;
+};
+type TPasswordResetRequest = {
+  token: string;
+  password: string;
 };
