@@ -20,7 +20,7 @@ export const Navbar = () => {
   const theme = useTheme();
 
   const { isSuccess, mutate: requestLogout } = useMutation({
-    mutationFn: () => logout(),
+    mutationFn: logout,
   });
 
   const handleLoginClick = () => {

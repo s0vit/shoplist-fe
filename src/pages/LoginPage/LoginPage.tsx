@@ -10,11 +10,22 @@ import { Stack, Tab } from '@mui/material';
 import { CenteredTabsWrapper } from 'src/widgets/Forms/Login/CenteredTabsWrapper.tsx';
 import RequestPasswordRecoveryForm from 'src/widgets/Forms/RequestPasswordRecovery/RequestPasswordRecoveryForm.tsx';
 
+type TTab = {
+  label: string;
+  value: TabValuesEnum;
+};
+
+enum TabValuesEnum {
+  Login = 'login',
+  Register = 'register',
+  RequestPassRecover = 'requestPassRecover',
+}
+
 const LoginPage = () => {
-  const tabs = [
-    { label: 'login', value: 'login' },
-    { label: 'register', value: 'register' },
-    { label: 'password recovery', value: 'requestPassRecover' },
+  const tabs: TTab[] = [
+    { label: 'login', value: TabValuesEnum.Login },
+    { label: 'register', value: TabValuesEnum.Register },
+    { label: 'password recovery', value: TabValuesEnum.RequestPassRecover },
   ];
   const [currentTab, setCurrentTab] = useState<(typeof tabs)[number]>(tabs[0]);
 
@@ -57,9 +68,9 @@ const LoginPage = () => {
           <Tab key={tab.value} label={tab.label} value={tab.value} wrapped />
         ))}
       </CenteredTabsWrapper>
-      {currentTab.value === 'login' && <LoginForm sendLoginRequest={sendLoginRequest} />}
-      {currentTab.value === 'register' && <RegisterForm />}
-      {currentTab.value === 'requestPassRecover' && <RequestPasswordRecoveryForm />}
+      {currentTab.value === TabValuesEnum.Login && <LoginForm sendLoginRequest={sendLoginRequest} />}
+      {currentTab.value === TabValuesEnum.Register && <RegisterForm />}
+      {currentTab.value === TabValuesEnum.RequestPassRecover && <RequestPasswordRecoveryForm />}
     </Stack>
   );
 };
