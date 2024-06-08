@@ -8,7 +8,7 @@ export type TLoginRequest = {
   email: string;
   password: string;
 };
-type TLoginResponse = {
+export type TLoginResponse = {
   email: string;
   login: string;
   isVerified: boolean;
@@ -32,7 +32,7 @@ export const confirmEmail = async ({ token }: TConfirmEmailRequest): Promise<TCo
 type TConfirmEmailRequest = {
   token: string;
 };
-type TConfirmEmailResponse = {
+export type TConfirmEmailResponse = {
   email: string;
   login: string;
   createdAt: Date;
@@ -50,7 +50,7 @@ type TRefreshTokenResponse = {
 };
 
 export const logout = async (): Promise<void> => {
-  const response = await apiInstance.post<void>('auth/logout');
+  const response = await apiInstance.delete<void>('auth/logout');
   return response.data;
 };
 

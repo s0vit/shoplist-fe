@@ -6,6 +6,8 @@ import { useStableCallback } from 'src/utils/hooks/useStableCallback.ts';
 import { useMutation } from '@tanstack/react-query';
 import { forgotPassword } from 'src/shared/api/authApi.ts';
 import { toast } from 'react-toastify';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import { handleError } from 'src/utils/errorHandler.ts';
 
 const RequestPasswordRecoveryForm = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +17,7 @@ const RequestPasswordRecoveryForm = () => {
     isPending: isConfirmPending,
     mutate: requestPassRecovery,
     error,
-  } = useMutation({
+  } = useMutation<void, TErrorResponse>({
     mutationFn: () => forgotPassword({ email }),
   });
 
@@ -25,7 +27,7 @@ const RequestPasswordRecoveryForm = () => {
 
   useEffect(() => {
     if (error) {
-      toast(error.message, { type: 'error' });
+      handleError(error);
     }
   }, [error]);
 

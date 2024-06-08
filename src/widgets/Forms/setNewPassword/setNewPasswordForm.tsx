@@ -6,6 +6,8 @@ import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
 import { Form } from 'react-router-dom';
 import { Box, Button, IconButton, InputAdornment, Stack, TextField, Typography } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import { handleError } from 'src/utils/errorHandler.ts';
 
 type TSetNewPasswordFormProps = {
   token: string;
@@ -20,7 +22,7 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
     isSuccess,
     error,
     mutate: requestSetNewPassword,
-  } = useMutation({
+  } = useMutation<void, TErrorResponse>({
     mutationFn: () => resetPassword({ token, password }),
   });
 
@@ -35,7 +37,7 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
   }, [isSuccess]);
   useEffect(() => {
     if (error) {
-      toast(error.message, { type: 'error' });
+      handleError(error);
     }
   }, [error]);
   return (

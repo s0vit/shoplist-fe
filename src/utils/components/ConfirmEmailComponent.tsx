@@ -1,10 +1,11 @@
-import { confirmEmail } from 'src/shared/api/authApi.ts';
+import { confirmEmail, TConfirmEmailResponse } from 'src/shared/api/authApi.ts';
 import { useMutation } from '@tanstack/react-query';
 import { Id, toast } from 'react-toastify';
 import { Box, Paper, Stack, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 
 type TConfirmEmailComponentProps = {
   token: string;
@@ -18,7 +19,7 @@ const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
     isSuccess: isConfirmSuccess,
     mutate: confirmMutate,
     error: confirmError,
-  } = useMutation({
+  } = useMutation<TConfirmEmailResponse, TErrorResponse>({
     mutationFn: () => confirmEmail({ token }),
   });
 

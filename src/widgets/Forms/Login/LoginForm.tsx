@@ -3,11 +3,13 @@ import { Form, useNavigate, useSearchParams } from 'react-router-dom';
 import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
 import { useEffect, useState } from 'react';
 import { useStableCallback } from 'src/utils/hooks/useStableCallback.ts';
-import { login, TLoginRequest } from 'src/shared/api/authApi.ts';
+import { login, TLoginRequest, TLoginResponse } from 'src/shared/api/authApi.ts';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useMutation } from '@tanstack/react-query';
 import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import { handleError } from 'src/utils/errorHandler.ts';
 
 type TLoginFormProps = {
   setCurrentTabToRecovery: () => void;
@@ -29,13 +31,15 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
     mutate: sendLoginRequest,
     error,
     data,
-  } = useMutation({
+  } = useMutation<TLoginResponse, TErrorResponse, TLoginRequest>({
     mutationFn: ({ email, password }: TLoginRequest) => login({ email, password }),
   });
 
-  if (error) {
-    console.error({ error });
-  }
+  useEffect(() => {
+    if (error) {
+      handleError(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (data) {

@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { confirmEmail, register } from 'src/shared/api/authApi.ts';
+import { confirmEmail, register, TConfirmEmailResponse } from 'src/shared/api/authApi.ts';
 import { Id, toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
 import { Button, IconButton, InputAdornment, Stack, TextField, Typography } from '@mui/material';
 import { Form } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 
 const RegisterForm = () => {
   const [isRegistered, setIsRegistered] = useState(false);
@@ -24,7 +25,7 @@ const RegisterForm = () => {
     isPending: isRegisterPending,
     mutate: registerMutate,
     error: registerError,
-  } = useMutation({
+  } = useMutation<void, TErrorResponse>({
     mutationFn: () => register({ email, password }),
   });
   const {
@@ -32,7 +33,7 @@ const RegisterForm = () => {
     isPending: isConfirmPending,
     mutate: confirmMutate,
     error: confirmError,
-  } = useMutation({
+  } = useMutation<TConfirmEmailResponse, TErrorResponse>({
     mutationFn: () => confirmEmail({ token: code }),
   });
 
