@@ -6,15 +6,18 @@ import { useStableCallback } from 'src/utils/hooks/useStableCallback.ts';
 import { useMutation } from '@tanstack/react-query';
 import { forgotPassword } from 'src/shared/api/authApi.ts';
 import { toast } from 'react-toastify';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import { handleError } from 'src/utils/errorHandler.ts';
 
 const RequestPasswordRecoveryForm = () => {
   const [email, setEmail] = useState('');
 
   const {
     isSuccess,
+    isPending: isConfirmPending,
     mutate: requestPassRecovery,
     error,
-  } = useMutation({
+  } = useMutation<void, TErrorResponse>({
     mutationFn: () => forgotPassword({ email }),
   });
 
@@ -24,7 +27,7 @@ const RequestPasswordRecoveryForm = () => {
 
   useEffect(() => {
     if (error) {
-      toast(error.message, { type: 'error' });
+      handleError(error);
     }
   }, [error]);
 
@@ -37,10 +40,21 @@ const RequestPasswordRecoveryForm = () => {
   return (
     <FormWrapper elevation={5}>
       <Form onSubmit={handleRecoveryClick}>
-        <Stack spacing={2}>
-          <Typography variant="h4">Email</Typography>
-          <TextField type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-          <Button type="submit">Send recovery link</Button>
+        <Stack spacing={1}>
+          <Typography variant="h4" align="center">
+            Password recovery
+          </Typography>
+          <Typography variant="body2">Enter your email to recover password</Typography>
+          <TextField
+            disabled={isConfirmPending}
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <Button disabled={isConfirmPending} type="submit" variant="outlined">
+            Send recovery link
+          </Button>
         </Stack>
       </Form>
     </FormWrapper>

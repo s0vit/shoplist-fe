@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { confirmEmail, register } from 'src/shared/api/authApi.ts';
+import { confirmEmail, register, TConfirmEmailResponse } from 'src/shared/api/authApi.ts';
 import { Id, toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
-import { Button, Stack, TextField, Typography } from '@mui/material';
+import { Button, IconButton, InputAdornment, Stack, TextField, Typography } from '@mui/material';
+import { Form } from 'react-router-dom';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 
 const RegisterForm = () => {
   const [isRegistered, setIsRegistered] = useState(false);
@@ -13,6 +16,7 @@ const RegisterForm = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const toastId = useRef<Id>();
 
@@ -21,14 +25,15 @@ const RegisterForm = () => {
     isPending: isRegisterPending,
     mutate: registerMutate,
     error: registerError,
-  } = useMutation({
+  } = useMutation<void, TErrorResponse>({
     mutationFn: () => register({ email, password }),
   });
   const {
     isSuccess: isConfirmSuccess,
+    isPending: isConfirmPending,
     mutate: confirmMutate,
     error: confirmError,
-  } = useMutation({
+  } = useMutation<TConfirmEmailResponse, TErrorResponse>({
     mutationFn: () => confirmEmail({ token: code }),
   });
 
@@ -80,36 +85,78 @@ const RegisterForm = () => {
     <FormWrapper elevation={5}>
       {isRegistered ? (
         isConfirmed ? (
-          <Stack>
-            <Typography variant="h4">Registration finished!</Typography>
+          <Stack spacing={1}>
+            <Typography variant="h4" align="center">
+              Registration finished!
+            </Typography>
             <Typography>You can now login</Typography>
           </Stack>
         ) : (
-          <Stack>
-            <Typography variant="h4">Registration successful!</Typography>
-            <Typography>Confirm your email. Enter code from letter</Typography>
-            <TextField type="text" value={code} onChange={(e) => setCode(e.target.value)} placeholder="Code" />
-            <Button onClick={() => confirmMutate()}>Confirm</Button>
-          </Stack>
+          <Form onSubmit={() => confirmMutate()}>
+            <Stack spacing={1}>
+              <Typography variant="h4" align="center">
+                Registration successful!
+              </Typography>
+              <Typography>Confirm your email. Enter code from letter</Typography>
+              <TextField
+                disabled={isConfirmPending}
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="Code"
+              />
+              <Button disabled={isConfirmPending} type="submit" variant="outlined">
+                Confirm
+              </Button>
+            </Stack>
+          </Form>
         )
       ) : (
-        <Stack>
-          <Typography variant="h4">Register</Typography>
-          <TextField type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-          <TextField
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-          />
-          <TextField
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm Password"
-          />
-          <Button onClick={handleRegisterSubmit}>Register</Button>
-        </Stack>
+        <Form onSubmit={handleRegisterSubmit}>
+          <Stack spacing={1}>
+            <Typography variant="h4" align="center">
+              Register
+            </Typography>
+            <TextField
+              disabled={isRegisterPending}
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+            />
+            <TextField
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword(!showPassword)}
+                        onMouseDown={(e) => e.preventDefault()}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+            <TextField
+              type="password"
+              value={confirmPassword}
+              disabled={isRegisterPending}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm Password"
+            />
+            <Button disabled={isRegisterPending} type="submit" variant="outlined">
+              Register
+            </Button>
+          </Stack>
+        </Form>
       )}
     </FormWrapper>
   );

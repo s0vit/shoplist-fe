@@ -1,6 +1,7 @@
 export enum RoutesEnum {
-  Root = '/',
-  Login = '/login',
-  Profile = '/profile',
-  ResetPassword = '/reset-password',
+  ROOT = '/',
+  LOGIN = '/login',
+  PROFILE = '/profile',
+  RESET_PASSWORD = '/reset-password',
+  CONFIRM_EMAIL = '/confirm',
 }

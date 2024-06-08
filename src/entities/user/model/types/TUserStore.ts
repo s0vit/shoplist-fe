@@ -1,6 +1,6 @@
 export type TUserStore = {
   user?: TUserType;
-  setUser: (userData: TUserType) => void;
+  setUser: (userData?: TUserType) => void;
 };
 
 export type TUserType = {

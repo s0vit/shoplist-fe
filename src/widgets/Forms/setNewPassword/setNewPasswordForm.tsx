@@ -4,7 +4,10 @@ import { resetPassword } from 'src/shared/api/authApi.ts';
 import { toast } from 'react-toastify';
 import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
 import { Form } from 'react-router-dom';
-import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, IconButton, InputAdornment, Stack, TextField, Typography } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import { handleError } from 'src/utils/errorHandler.ts';
 
 type TSetNewPasswordFormProps = {
   token: string;
@@ -12,12 +15,14 @@ type TSetNewPasswordFormProps = {
 
 const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
+    isPending: isPendingSetNewPassword,
     isSuccess,
     error,
     mutate: requestSetNewPassword,
-  } = useMutation({
+  } = useMutation<void, TErrorResponse>({
     mutationFn: () => resetPassword({ token, password }),
   });
 
@@ -32,23 +37,42 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
   }, [isSuccess]);
   useEffect(() => {
     if (error) {
-      toast(error.message, { type: 'error' });
+      handleError(error);
     }
   }, [error]);
   return (
     <Box>
       <FormWrapper elevation={5}>
         <Form onSubmit={setNewPassword}>
-          <Stack spacing={2}>
-            <Typography variant="h6">Set new password</Typography>
+          <Stack spacing={1}>
+            <Typography variant="h6" align="center">
+              Set new password
+            </Typography>
             <TextField
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword(!showPassword)}
+                        onMouseDown={(e) => e.preventDefault()}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
             />
 
-            <Button type="submit">Reset password</Button>
+            <Button type="submit" variant="outlined" disabled={isPendingSetNewPassword}>
+              Reset password
+            </Button>
           </Stack>
         </Form>
       </FormWrapper>

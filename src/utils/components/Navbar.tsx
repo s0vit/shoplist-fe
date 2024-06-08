@@ -12,14 +12,16 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
 import cookie from 'js-cookie';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 
 export const Navbar = () => {
   const isLoggedIn = useUserStore(selectUserData)?.accessToken;
+  const setUserData = useUserStore((state) => state.setUser);
   const colorMode = useContext(ColorModeContext);
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const { isSuccess, mutate: requestLogout } = useMutation({
+  const { isSuccess, mutate: requestLogout } = useMutation<void, TErrorResponse>({
     mutationFn: logout,
   });
 
@@ -28,7 +30,7 @@ export const Navbar = () => {
       requestLogout();
       return;
     }
-    navigate(RoutesEnum.Login);
+    navigate(RoutesEnum.LOGIN);
   };
 
   useEffect(() => {
@@ -36,8 +38,9 @@ export const Navbar = () => {
       cookie.remove('refreshToken');
       cookie.remove('accessToken');
       toast('Logged out', { type: 'success' });
+      setUserData();
     }
-  }, [isSuccess]);
+  }, [isSuccess, setUserData]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
