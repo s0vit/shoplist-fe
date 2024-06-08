@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 
-export const handleError = (error: any) => {
+export const handleError = (error: unknown) => {
   if (error instanceof AxiosError) {
     console.error(error);
     for (const key in error.response?.data.meta) {
