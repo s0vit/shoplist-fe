@@ -10,11 +10,13 @@ import Redirector from 'src/utils/components/Redirector.tsx';
 import LoginPage from 'src/pages/LoginPage/LoginPage.tsx';
 import ErrorPage from 'src/pages/ErrorPage/ErrorPage.tsx';
 import PasswordRecoveryPage from 'src/pages/PasswordRecoveryPage/PasswordRecoveryPage.tsx';
+import NotFoundPage from 'src/pages/NotFoundPage/NotFoundPage.tsx';
+import ConfirmPage from 'src/pages/ConfirmPage/ConfirmPage.tsx';
 
 const routes: RouteObject[] = [
   {
     id: 'root',
-    path: RoutesEnum.Root,
+    path: RoutesEnum.ROOT,
     loader: rootLoader,
     errorElement: <ErrorPage />,
     element: (
@@ -33,23 +35,27 @@ const routes: RouteObject[] = [
             element: <HomePage />,
           },
           {
-            path: RoutesEnum.Profile,
+            path: RoutesEnum.PROFILE,
             element: <UserPage />,
           },
         ],
       },
       {
-        path: RoutesEnum.Login,
+        path: RoutesEnum.LOGIN,
         element: <LoginPage />,
       },
       {
-        path: RoutesEnum.ResetPassword,
+        path: RoutesEnum.RESET_PASSWORD,
         element: <PasswordRecoveryPage />,
+      },
+      {
+        path: RoutesEnum.CONFIRM_EMAIL,
+        element: <ConfirmPage />,
       },
       {
         id: 'not-found',
         path: '*',
-        element: <div>Not found</div>,
+        element: <NotFoundPage />,
       },
     ],
   },

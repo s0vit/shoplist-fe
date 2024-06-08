@@ -2,17 +2,17 @@ import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
 import { useQuery } from '@tanstack/react-query';
 import { getExpenses } from 'src/shared/api/rootApi';
 import {
-  Stack,
-  Typography,
   Link,
+  Paper,
+  Stack,
   Table,
+  TableBody,
+  TableCell,
+  TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  TableContainer,
-  TableCell,
-  TableBody,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ const HomePage = () => {
     <Stack gap={2}>
       <Paper sx={{ padding: 2 }}>
         <Typography variant="h6">Home Page</Typography>
-        <Link component={RouterLink} to={RoutesEnum.Profile}>
+        <Link component={RouterLink} to={RoutesEnum.PROFILE}>
           Profile
         </Link>
       </Paper>

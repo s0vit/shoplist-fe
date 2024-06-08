@@ -28,7 +28,7 @@ export const Navbar = () => {
       requestLogout();
       return;
     }
-    navigate(RoutesEnum.Login);
+    navigate(RoutesEnum.LOGIN);
   };
 
   useEffect(() => {

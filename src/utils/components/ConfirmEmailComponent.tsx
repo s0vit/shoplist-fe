@@ -1,0 +1,78 @@
+import { confirmEmail } from 'src/shared/api/authApi.ts';
+import { useMutation } from '@tanstack/react-query';
+import { Id, toast } from 'react-toastify';
+import { Box, Paper, Stack, Typography } from '@mui/material';
+import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
+
+type TConfirmEmailComponentProps = {
+  token: string;
+};
+
+const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
+  const toastIdRef = useRef<Id>();
+  const navigate = useNavigate();
+  const {
+    isPending: isConfirmPending,
+    isSuccess: isConfirmSuccess,
+    mutate: confirmMutate,
+    error: confirmError,
+  } = useMutation({
+    mutationFn: () => confirmEmail({ token }),
+  });
+
+  useEffect(() => {
+    if (!isConfirmPending && !isConfirmSuccess && !confirmError) {
+      confirmMutate();
+    }
+  }, [confirmError, confirmMutate, isConfirmPending, isConfirmSuccess]);
+
+  useEffect(() => {
+    if (isConfirmSuccess) {
+      toast.dismiss(toastIdRef.current);
+      setTimeout(() => {
+        navigate(RoutesEnum.LOGIN);
+      }, 3000);
+    }
+  }, [isConfirmSuccess, navigate]);
+
+  if (isConfirmPending) {
+    toastIdRef.current = toast('Confirming email...', { isLoading: isConfirmPending, autoClose: false });
+    return (
+      <Box padding={2}>
+        <Paper>
+          <Typography variant="h4">Confirming email...</Typography>
+        </Paper>
+      </Box>
+    );
+  }
+
+  if (isConfirmSuccess) {
+    toast('Email confirmed', { type: 'success' });
+    return (
+      <Box padding={2}>
+        <Paper>
+          <Stack spacing={1}>
+            <Typography variant="h4">Email confirmed</Typography>
+            <Typography variant="body1">Redirecting to login page...</Typography>
+          </Stack>
+        </Paper>
+      </Box>
+    );
+  }
+
+  if (confirmError) {
+    toast(confirmError.message, { type: 'error' });
+    return (
+      <Box padding={2}>
+        <Paper>
+          <Typography variant="h4">Error confirming email</Typography>
+        </Paper>
+      </Box>
+    );
+  }
+  return null;
+};
+
+export default ConfirmEmailComponent;

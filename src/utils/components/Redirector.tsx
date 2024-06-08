@@ -13,7 +13,7 @@ const Redirector = () => {
     return (
       <Navigate
         to={{
-          pathname: RoutesEnum.Login,
+          pathname: RoutesEnum.LOGIN,
           search: from,
         }}
       />

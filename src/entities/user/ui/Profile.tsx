@@ -9,7 +9,7 @@ const Profile = () => {
   return (
     <div>
       <h1>Profile Page</h1>
-      <Link to={RoutesEnum.Root}>Go Home</Link>
+      <Link to={RoutesEnum.ROOT}>Go Home</Link>
       <br />
       {userData?.email}
       <br />

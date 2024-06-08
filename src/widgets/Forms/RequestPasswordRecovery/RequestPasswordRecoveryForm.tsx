@@ -12,6 +12,7 @@ const RequestPasswordRecoveryForm = () => {
 
   const {
     isSuccess,
+    isPending: isConfirmPending,
     mutate: requestPassRecovery,
     error,
   } = useMutation({
@@ -37,10 +38,20 @@ const RequestPasswordRecoveryForm = () => {
   return (
     <FormWrapper elevation={5}>
       <Form onSubmit={handleRecoveryClick}>
-        <Stack spacing={2}>
-          <Typography variant="h4">Email</Typography>
-          <TextField type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-          <Button type="submit">Send recovery link</Button>
+        <Stack spacing={1}>
+          <Typography variant="h4" align="center">
+            Email
+          </Typography>
+          <TextField
+            disabled={isConfirmPending}
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <Button disabled={isConfirmPending} type="submit" variant="outlined">
+            Send recovery link
+          </Button>
         </Stack>
       </Form>
     </FormWrapper>
