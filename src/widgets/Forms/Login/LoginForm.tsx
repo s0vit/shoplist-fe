@@ -1,4 +1,4 @@
-import { Button, IconButton, InputAdornment, Stack, TextField, Typography } from '@mui/material';
+import { Button, IconButton, InputAdornment, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { Form, useNavigate, useSearchParams } from 'react-router-dom';
 import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
 import { useEffect, useState } from 'react';
@@ -9,15 +9,20 @@ import { useMutation } from '@tanstack/react-query';
 import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-const LoginForm = () => {
+type TLoginFormProps = {
+  setCurrentTabToRecovery: () => void;
+};
+
+const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const setUser = useUserStore((state) => state.setUser);
-
+  const theme = useTheme();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const setUser = useUserStore((state) => state.setUser);
 
   const {
     isPending: isLoginPending,
@@ -88,6 +93,17 @@ const LoginForm = () => {
           <Button type="submit" disabled={isLoginPending} variant="outlined">
             Login
           </Button>
+          <Typography variant="body1" align="center" paddingTop={5}>
+            Forgot password?
+          </Typography>
+          <Typography
+            variant="body2"
+            align="center"
+            color={theme.palette.primary.main}
+            onClick={setCurrentTabToRecovery}
+          >
+            Click here to recover password
+          </Typography>
         </Stack>
       </Form>
     </FormWrapper>

@@ -40,8 +40,9 @@ const RequestPasswordRecoveryForm = () => {
       <Form onSubmit={handleRecoveryClick}>
         <Stack spacing={1}>
           <Typography variant="h4" align="center">
-            Email
+            Password recovery
           </Typography>
+          <Typography variant="body2">Enter your email to recover password</Typography>
           <TextField
             disabled={isConfirmPending}
             type="text"
