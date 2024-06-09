@@ -25,6 +25,7 @@ const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
     mutationFn: createCategory,
     mutationKey: ['category'],
   });
+
   const addCategory = () => {
     if (matchIsValidColor(color)) {
       createCategoryMutate({ color, title, comments });
@@ -43,6 +44,7 @@ const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
       handleError(createCategoryError);
     }
   }, [createCategoryError]);
+
   return (
     <FormWrapper>
       <Typography variant="h5" textAlign="center">

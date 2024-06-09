@@ -36,4 +36,5 @@ const ThemeProviderWithToggle = ({ children }: PropsWithChildren) => {
     </ColorModeContext.Provider>
   );
 };
+
 export default ThemeProviderWithToggle;

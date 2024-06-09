@@ -44,6 +44,8 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
   useEffect(() => {
     if (data) {
       setUser(data);
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
       const redirectTo = searchParams.get('to')?.split('?')[0];
       const otherPartOfUrl = redirectTo
         ? window.location.href.split(redirectTo)[1]
@@ -57,6 +59,7 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
   const handleLoginClick = useStableCallback(() => {
     sendLoginRequest({ email, password });
   });
+
   return (
     <FormWrapper elevation={5}>
       <Form onSubmit={handleLoginClick}>

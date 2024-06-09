@@ -41,8 +41,10 @@ const RegisterForm = () => {
     if (password !== confirmPassword) {
       toast.dismiss(toastId.current);
       toastId.current = toast('Passwords do not match', { type: 'error' });
+
       return;
     }
+
     toast.dismiss(toastId.current);
     toastId.current = toast('Registering...', { isLoading: isRegisterPending, autoClose: false });
     registerMutate();

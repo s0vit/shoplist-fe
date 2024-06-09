@@ -25,6 +25,7 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
     mutationFn: createPaymentSource,
     mutationKey: ['paymentSources'],
   });
+
   const addPaymentSource = () => {
     if (matchIsValidColor(color)) {
       createPaymentSourceMutate({ color, title, comments });
@@ -43,6 +44,7 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
       handleError(createPaymentSourceError);
     }
   }, [createPaymentSourceError]);
+
   return (
     <FormWrapper>
       <Typography variant="h5" textAlign="center">
