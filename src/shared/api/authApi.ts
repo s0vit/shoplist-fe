@@ -44,7 +44,7 @@ export type TConfirmEmailResponse = {
   createdAt: Date;
 };
 
-export const refreshToken = async ({ refreshToken }: TRefreshTokenRequest): Promise<TRefreshTokenResponse> => {
+export const getRefreshToken = async ({ refreshToken }: TRefreshTokenRequest): Promise<TRefreshTokenResponse> => {
   const response = await apiInstance.post<TRefreshTokenResponse>('auth/refresh', { refreshToken });
 
   return response.data;
