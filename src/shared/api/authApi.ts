@@ -45,9 +45,7 @@ export const refreshToken = async ({ refreshToken }: TRefreshTokenRequest): Prom
 type TRefreshTokenRequest = {
   refreshToken: string;
 };
-type TRefreshTokenResponse = {
-  refreshToken: string;
-};
+type TRefreshTokenResponse = TLoginResponse;
 
 export const logout = async (): Promise<void> => {
   const response = await apiInstance.delete<void>('auth/logout');

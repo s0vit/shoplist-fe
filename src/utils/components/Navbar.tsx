@@ -11,7 +11,6 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
-import cookie from 'js-cookie';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 
 export const Navbar = () => {
@@ -35,8 +34,8 @@ export const Navbar = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      cookie.remove('refreshToken');
-      cookie.remove('accessToken');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       toast('Logged out', { type: 'success' });
       setUserData();
     }
