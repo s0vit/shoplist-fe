@@ -40,6 +40,7 @@ const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
 
   if (isConfirmPending) {
     toastIdRef.current = toast('Confirming email...', { isLoading: isConfirmPending, autoClose: false });
+
     return (
       <Box padding={2}>
         <Paper>
@@ -51,6 +52,7 @@ const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
 
   if (isConfirmSuccess) {
     toast('Email confirmed', { type: 'success' });
+
     return (
       <Box padding={2}>
         <Paper>
@@ -65,6 +67,7 @@ const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
 
   if (confirmError) {
     toast(confirmError.message, { type: 'error' });
+
     return (
       <Box padding={2}>
         <Paper>
@@ -73,6 +76,7 @@ const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
       </Box>
     );
   }
+
   return null;
 };
 

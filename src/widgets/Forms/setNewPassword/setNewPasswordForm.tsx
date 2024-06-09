@@ -40,6 +40,7 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
       handleError(error);
     }
   }, [error]);
+
   return (
     <Box>
       <FormWrapper elevation={5}>

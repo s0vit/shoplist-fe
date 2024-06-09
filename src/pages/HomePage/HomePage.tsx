@@ -30,6 +30,7 @@ const HomePage = () => {
   });
 
   const openExpenseModal = useStableCallback(() => setIsExpenseModalOpen(true));
+
   return (
     <>
       <Stack gap={2}>
@@ -73,4 +74,5 @@ const HomePage = () => {
     </>
   );
 };
+
 export default HomePage;

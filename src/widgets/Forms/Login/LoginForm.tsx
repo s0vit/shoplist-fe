@@ -59,6 +59,7 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
   const handleLoginClick = useStableCallback(() => {
     sendLoginRequest({ email, password });
   });
+
   return (
     <FormWrapper elevation={5}>
       <Form onSubmit={handleLoginClick}>

@@ -27,8 +27,10 @@ export const Navbar = () => {
   const handleLoginClick = () => {
     if (isLoggedIn) {
       requestLogout();
+
       return;
     }
+
     navigate(RoutesEnum.LOGIN);
   };
 

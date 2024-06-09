@@ -2,26 +2,31 @@ import { apiInstance } from 'src/shared/api/rootApi.ts';
 
 export const getCategories = async (): Promise<TGetCategoriesResponse> => {
   const response = await apiInstance.get<TGetCategoriesResponse>('category');
+
   return response.data;
 };
 
 export const getCategoryById = async (id: string): Promise<TCategory> => {
   const response = await apiInstance.get<TCategory>(`category/${id}`);
+
   return response.data;
 };
 
 export const createCategory = async (data: TCreateCategoryInput): Promise<TCategory> => {
   const response = await apiInstance.post<TCategory>('category', data);
+
   return response.data;
 };
 
 export const updateCategory = async (id: string, data: TCreateCategoryInput): Promise<TCategory> => {
   const response = await apiInstance.put<TCategory>(`category/${id}`, data);
+
   return response.data;
 };
 
 export const deleteCategory = async (id: string): Promise<TCategory> => {
   const response = await apiInstance.delete<TCategory>(`category/${id}`);
+
   return response.data;
 };
 
