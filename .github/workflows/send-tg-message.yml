@@ -15,11 +15,11 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           disable_notification: true
-          message: "PR: ${{ github.event.pull_request.title }} by ${{ github.event.pull_request.user.login }}. Link: ${{ github.event.pull_request.html_url }}"
+          message: "PR: ${{ github.event.pull_request.title }} by *${{ github.event.pull_request.user.login }}*. \nLink: ${{ github.event.pull_request.html_url }}"
 
       - name: Prepare reviewers list
         id: reviewers
-        run: echo "::set-output name=list::$(echo '${{ toJson(github.event.pull_request.requested_reviewers.*.login) }}' | jq -r 'join(", ")')"
+        run: echo "::set-output name=list::$(echo '${{ toJson(github.event.pull_request.requested_reviewers.*.login) }}' | jq -r 'map("*" + . + "*") | join("\n")')"
 
       - name: Send message for review requested
         if: github.event.action == 'synchronize' && github.event.pull_request.draft == false
@@ -28,4 +28,4 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           disable_notification: true
-          message: "Review requested for PR: ${{ github.event.pull_request.title }} by ${{ steps.reviewers.outputs.list }}. Link: ${{ github.event.pull_request.html_url }}"
+          message: "Review requested for PR: ${{ github.event.pull_request.title }} by \n${{ steps.reviewers.outputs.list }}. \nLink: ${{ github.event.pull_request.html_url }}"
