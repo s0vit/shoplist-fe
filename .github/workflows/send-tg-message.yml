@@ -14,9 +14,10 @@ jobs:
 
       - name: Send message for review request
         if: github.event.pull_request.draft == false
-        uses: appleboy/telegram-action@master
+        uses: cbrgm/telegram-github-action@v1
         with:
-          to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.TELEGRAM_TO }}
+          parse-mode: html
           disable_notification: true
           message: "<b>Review requested for PR:</b> ${{ github.event.pull_request.title }} by %0A${{ steps.reviewers.outputs.list }}. %0ALink: ${{ github.event.pull_request.html_url }}"
