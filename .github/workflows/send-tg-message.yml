@@ -8,24 +8,15 @@ jobs:
   send-tg-message:
     runs-on: ubuntu-latest
     steps:
-      - name: Send message for opened PR
-        if: github.event.action == 'opened' && github.event.pull_request.draft == false
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          disable_notification: true
-          message: "PR: ${{ github.event.pull_request.title }} by *${{ github.event.pull_request.user.login }}*. \nLink: ${{ github.event.pull_request.html_url }}"
-
       - name: Prepare reviewers list
         id: reviewers
-        run: echo "::set-output name=list::$(echo '${{ toJson(github.event.pull_request.requested_reviewers.*.login) }}' | jq -r 'map("*" + . + "*") | join("\n")')"
+        run: echo "::set-output name=list::$(echo '${{ toJson(github.event.pull_request.requested_reviewers.*.login) }}' | jq -r 'join("%0A")')"
 
-      - name: Send message for review requested
-        if: github.event.action == 'synchronize' && github.event.pull_request.draft == false
+      - name: Send message for review request
+        if: github.event.pull_request.draft == false
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           disable_notification: true
-          message: "Review requested for PR: ${{ github.event.pull_request.title }} by \n${{ steps.reviewers.outputs.list }}. \nLink: ${{ github.event.pull_request.html_url }}"
+          message: "<b>Review requested for PR:</b> ${{ github.event.pull_request.title }} by %0A${{ steps.reviewers.outputs.list }}. %0ALink: ${{ github.event.pull_request.html_url }}"
