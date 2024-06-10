@@ -43,7 +43,7 @@ const useLoadCategories = (withSharedCategories?: boolean, onFetchFinish?: () =>
       if (!onFetchFinish) return;
       onFetchFinish();
     }
-  }, [categories, setUserCategories]);
+  }, [categories, setUserCategories, onFetchFinish]);
 
   return {
     userCategories,

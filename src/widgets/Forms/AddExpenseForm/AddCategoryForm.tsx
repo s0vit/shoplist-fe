@@ -39,7 +39,7 @@ const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
       toast('Category source added', { type: 'success' });
       fetchCategories();
     }
-  }, [closeModal, isCreateCategorySuccess]);
+  }, [fetchCategories, isCreateCategorySuccess]);
 
   useEffect(() => {
     if (createCategoryError) {

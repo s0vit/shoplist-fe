@@ -39,7 +39,7 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
       toast('Payment source added', { type: 'success' });
       fetchPaymentSources();
     }
-  }, [closeModal, isCreatePaymentSourceSuccess]);
+  }, [isCreatePaymentSourceSuccess, fetchPaymentSources]);
 
   useEffect(() => {
     if (createPaymentSourceError) {
