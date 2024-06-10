@@ -1,0 +1,23 @@
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  send-tg-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare reviewers list
+        id: reviewers
+        run: echo "::set-output name=list::$(echo '${{ toJson(github.event.pull_request.requested_reviewers.*.login) }}' | jq -r 'join(",")')"
+
+      - name: Send message for review request
+        if: github.event.pull_request.draft == false
+        uses: appleboy/telegram-action@master
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.TELEGRAM_TO }}
+          format: html
+          disable_notification: true
+          message: "<b>Review requested for PR:</b> ${{ github.event.pull_request.title }} by \n${{ steps.reviewers.outputs.list }}. \nLink: ${{ github.event.pull_request.html_url }}"
