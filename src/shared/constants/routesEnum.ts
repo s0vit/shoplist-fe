@@ -4,4 +4,5 @@ export enum RoutesEnum {
   PROFILE = '/profile',
   RESET_PASSWORD = '/reset-password',
   CONFIRM_EMAIL = '/confirm',
+  CATEGORY = '/category',
 }

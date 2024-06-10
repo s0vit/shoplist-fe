@@ -2,6 +2,7 @@ import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
 import { useQuery } from '@tanstack/react-query';
 import {
   Button,
+  Chip,
   Link,
   Paper,
   Stack,
@@ -13,6 +14,7 @@ import {
   TableRow,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
@@ -20,10 +22,15 @@ import ExpenseModal from 'src/widgets/Modal/ExpenseModal/ExpenseModal.tsx';
 import { useStableCallback } from 'src/utils/hooks/useStableCallback.ts';
 import { getExpenses, TGetExpensesResponse } from 'src/shared/api/expenseApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
+import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 
 const HomePage = () => {
   const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
   const { data } = useQuery<TGetExpensesResponse, TErrorResponse>({ queryFn: getExpenses, queryKey: ['expenses'] });
+  const { userPaymentSources } = useLoadPaymentSources();
+  const { userCategories } = useLoadCategories();
+  const theme = useTheme();
 
   const closeExpenseModal = useStableCallback(() => {
     setIsExpenseModalOpen(false);
@@ -59,10 +66,38 @@ const HomePage = () => {
               {data?.map((expense) => (
                 <Tooltip title={expense.comments} key={expense._id} placement="top">
                   <TableRow key={expense._id}>
-                    <TableCell>{expense.createdAt.toLocaleString()}</TableCell>
+                    <TableCell>{new Date(expense.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell>{expense.amount}</TableCell>
-                    <TableCell>{expense.categoryId}</TableCell>
-                    <TableCell>{expense.paymentSourceId}</TableCell>
+                    <TableCell>
+                      <Chip
+                        label={userCategories.find((category) => category._id === expense.categoryId)?.title}
+                        color="primary"
+                        sx={{
+                          backgroundColor:
+                            userCategories.find((category) => category._id === expense.categoryId)?.color ||
+                            theme.palette.primary.main,
+                          color: theme.palette.getContrastText(
+                            userCategories.find((category) => category._id === expense.categoryId)?.color ||
+                              theme.palette.primary.main,
+                          ),
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        label={userPaymentSources.find((source) => source._id === expense.paymentSourceId)?.title}
+                        color="primary"
+                        sx={{
+                          backgroundColor:
+                            userPaymentSources.find((source) => source._id === expense.paymentSourceId)?.color ||
+                            theme.palette.primary.main,
+                          color: theme.palette.getContrastText(
+                            userPaymentSources.find((source) => source._id === expense.paymentSourceId)?.color ||
+                              theme.palette.primary.main,
+                          ),
+                        }}
+                      />
+                    </TableCell>
                   </TableRow>
                 </Tooltip>
               ))}

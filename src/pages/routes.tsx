@@ -12,6 +12,7 @@ import ErrorPage from 'src/pages/ErrorPage/ErrorPage.tsx';
 import PasswordRecoveryPage from 'src/pages/PasswordRecoveryPage/PasswordRecoveryPage.tsx';
 import NotFoundPage from 'src/pages/NotFoundPage/NotFoundPage.tsx';
 import ConfirmPage from 'src/pages/ConfirmPage/ConfirmPage.tsx';
+import CategoryPage from 'src/pages/CategoryPage/CategoryPage.tsx';
 
 const routes: RouteObject[] = [
   {
@@ -37,6 +38,10 @@ const routes: RouteObject[] = [
           {
             path: RoutesEnum.PROFILE,
             element: <UserPage />,
+          },
+          {
+            path: RoutesEnum.CATEGORY,
+            element: <CategoryPage />,
           },
         ],
       },
