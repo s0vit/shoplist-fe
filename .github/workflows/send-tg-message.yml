@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Prepare reviewers list
         id: reviewers
-        run: echo "::set-output name=list::$(echo '${{ toJson(github.event.pull_request.requested_reviewers.*.login) }}' | jq -r 'join("%0A")')"
+        run: echo "::set-output name=list::$(echo '${{ toJson(github.event.pull_request.requested_reviewers.*.login) }}' | jq -r 'join("\n")')"
 
       - name: Send message for review request
         if: github.event.pull_request.draft == false
@@ -20,4 +20,4 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           format: html
           disable_notification: true
-          message: "<b>Review requested for PR:</b> ${{ github.event.pull_request.title }} by %0A${{ steps.reviewers.outputs.list }}. %0ALink: ${{ github.event.pull_request.html_url }}"
+          message: "<b>Review requested for PR:</b> ${{ github.event.pull_request.title }} by \n${{ steps.reviewers.outputs.list }}. \nLink: ${{ github.event.pull_request.html_url }}"
