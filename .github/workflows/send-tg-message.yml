@@ -1,3 +1,4 @@
+name: Send Telegram Message
 on:
   pull_request:
     types:
