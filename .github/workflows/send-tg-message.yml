@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Prepare reviewers list
         id: reviewers
-        run: echo "::set-output name=list::$(echo '${{ toJson(github.event.pull_request.requested_reviewers.*.login) }}' | jq -r 'join("\n")')"
+        run: echo "::set-output name=list::$(echo '${{ toJson(github.event.pull_request.requested_reviewers.*.login) }}' | jq -r 'join(",")')"
 
       - name: Send message for review request
         if: github.event.pull_request.draft == false
