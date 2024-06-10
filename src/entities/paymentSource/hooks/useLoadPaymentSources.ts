@@ -7,7 +7,7 @@ import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors
 import selectSetUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectSetUserPaymentSources.ts';
 import { getPaymentSources, TGetPaymentSourcesResponse } from 'src/shared/api/paymentsSourceApi.ts';
 
-const useLoadPaymentSources = (withShared?: boolean) => {
+const useLoadPaymentSources = (withShared?: boolean, onFetchFinish?: () => void) => {
   const setUserPaymentSources = usePaymentSourcesStore(selectSetUserPaymentSources);
   const userPaymentSources = usePaymentSourcesStore(selectUserPaymentSources);
 
@@ -17,7 +17,7 @@ const useLoadPaymentSources = (withShared?: boolean) => {
     error: paymentSourcesError,
     mutate: fetchPaymentSources,
   } = useMutation<TGetPaymentSourcesResponse, TErrorResponse>({
-    mutationKey: ['category'],
+    mutationKey: ['paymentSources'],
     mutationFn: getPaymentSources,
   });
 
@@ -38,10 +38,12 @@ const useLoadPaymentSources = (withShared?: boolean) => {
   }, [paymentSourcesError]);
 
   useEffect(() => {
-    if (paymentSources) {
+    if (paymentSources && !isPaymentSourcesLoading) {
       setUserPaymentSources(paymentSources);
+      if (!onFetchFinish) return;
+      onFetchFinish();
     }
-  }, [paymentSources, setUserPaymentSources]);
+  }, [paymentSources, isPaymentSourcesLoading, setUserPaymentSources, onFetchFinish]);
 
   return {
     userPaymentSources,

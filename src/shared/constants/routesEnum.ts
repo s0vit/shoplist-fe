@@ -5,4 +5,5 @@ export enum RoutesEnum {
   RESET_PASSWORD = '/reset-password',
   CONFIRM_EMAIL = '/confirm',
   CATEGORY = '/category',
+  PAYMENT_SOURCE = '/payment-source',
 }

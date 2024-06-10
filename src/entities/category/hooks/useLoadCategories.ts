@@ -7,7 +7,7 @@ import useCategoryStore from 'src/entities/category/model/store/useCategoryStore
 import selectSetUserCategories from 'src/entities/category/model/selectors/selectSetCategories.ts';
 import selectUserCategories from 'src/entities/category/model/selectors/selectUserCategories.ts';
 
-const useLoadCategories = (withSharedCategories?: boolean) => {
+const useLoadCategories = (withSharedCategories?: boolean, onFetchFinish?: () => void) => {
   const setUserCategories = useCategoryStore(selectSetUserCategories);
   const userCategories = useCategoryStore(selectUserCategories);
 
@@ -40,13 +40,15 @@ const useLoadCategories = (withSharedCategories?: boolean) => {
   useEffect(() => {
     if (categories) {
       setUserCategories(categories);
+      if (!onFetchFinish) return;
+      onFetchFinish();
     }
   }, [categories, setUserCategories]);
 
   return {
     userCategories,
     isCategoriesLoading,
-    getCategoriesMutation: fetchCategories,
+    fetchCategories: fetchCategories,
   };
 };
 

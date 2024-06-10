@@ -7,6 +7,7 @@ import { matchIsValidColor, MuiColorInput } from 'mui-color-input';
 import { createCategory, TCategory, TCreateCategoryInput } from 'src/shared/api/categoryApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { handleError } from 'src/utils/errorHandler.ts';
+import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 
 type TAddCategoryFormProps = {
   closeModal: () => void;
@@ -16,6 +17,7 @@ const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#ffffff');
   const [comments, setComments] = useState('');
+  const { fetchCategories } = useLoadCategories(false, closeModal);
   const {
     mutate: createCategoryMutate,
     error: createCategoryError,
@@ -35,7 +37,7 @@ const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
   useEffect(() => {
     if (isCreateCategorySuccess) {
       toast('Category source added', { type: 'success' });
-      closeModal();
+      fetchCategories();
     }
   }, [closeModal, isCreateCategorySuccess]);
 
@@ -60,7 +62,7 @@ const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
             disabled={isCreateCategoryPending}
             size="small"
             value={color}
-            fallbackValue="#ffffff"
+            fallbackValue={Math.random().toString(16).slice(2, 8)}
             isAlphaHidden
             onChange={setColor}
             format="hex"
