@@ -1,30 +1,56 @@
-# React + TypeScript + Vite
+# Shoplist
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Shoplist is a simple application that allows users to write expenses and save them in a database.
+The user can also delete and update the expenses.
 
-Currently, two official plugins are available:
+Each expense has an amount, a description, a category, a payment method, and a date.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
 
-## Expanding the ESLint configuration
+We are using pnpm as a package manager. To install it, run the following command:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+npm install -g pnpm
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+To install the dependencies, run the following command:
+
+```bash
+pnpm install
+```
+
+## Development
+
+To start the development server, run the following command:
+
+```bash
+pnpm start
+```
+
+### Technologies
+**Bundle**: [Vite](https://vitejs.dev/)
+
+**API**: [Axios](https://axios-http.com/)
+
+**Core**: [React](https://reactjs.org/), [React Router](https://reactrouter.com/), [Zustand](https://zustand.surge.sh/)
+
+**UI**: [Material-UI](https://material-ui.com/), [Mui-color-input](https://www.npmjs.com/package/mui-color-input), [react-toastify](https://fkhadra.github.io/react-toastify/introduction)
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change. Please make sure to update tests as appropriate.
+
+**Each PR should be reviewed by at least one other person before being merged.** 
+
+**Each PR should have a link to the issue that it solves.**
+
+## Project Status
+
+This project is currently in development.
+
+Current production version: [Shoplist](https://shoplist-fe.vercel.app/)
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
