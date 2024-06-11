@@ -1,13 +1,13 @@
 import { Form } from 'react-router-dom';
 import { Button, Stack, TextField, Typography } from '@mui/material';
-import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
+import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useEffect, useState } from 'react';
-import { useStableCallback } from 'src/utils/hooks/useStableCallback.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import { useMutation } from '@tanstack/react-query';
 import { forgotPassword } from 'src/shared/api/authApi.ts';
 import { toast } from 'react-toastify';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
-import { handleError } from 'src/utils/errorHandler.ts';
+import handleError from 'src/utils/errorHandler.ts';
 
 const RequestPasswordRecoveryForm = () => {
   const [email, setEmail] = useState('');

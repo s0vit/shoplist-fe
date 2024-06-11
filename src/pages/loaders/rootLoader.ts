@@ -2,7 +2,7 @@ import { jwtDecode } from 'jwt-decode';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { getRefreshToken } from 'src/shared/api/authApi.ts';
 
-export const rootLoader = async () => {
+const rootLoader = async () => {
   const isUserLoggedIn = useUserStore.getState().user?.accessToken;
 
   if (isUserLoggedIn) return null;
@@ -27,3 +27,5 @@ export const rootLoader = async () => {
 
   return null;
 };
+
+export default rootLoader;

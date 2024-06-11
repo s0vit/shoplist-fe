@@ -1,4 +1,4 @@
-import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
+import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { Form } from 'react-router-dom';
 import { Button, FormControl, FormGroup, InputLabel, OutlinedInput, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -9,10 +9,9 @@ import { toast } from 'react-toastify';
 import PaymentSourcesSelect from 'src/widgets/Forms/AddExpenseForm/PaymentSourcesSelect.tsx';
 import CategoriesSelect from 'src/widgets/Forms/AddExpenseForm/CategoriesSelect.tsx';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
-import { handleError } from 'src/utils/errorHandler.ts';
+import handleError from 'src/utils/errorHandler.ts';
 
 const AddExpenseForm = () => {
-  //TODO mode to state management
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedPaymentSource, setSelectedPaymentSource] = useState('');
   const [comments, setComments] = useState('');

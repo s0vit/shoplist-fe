@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { getCategories, TGetCategoriesResponse } from 'src/shared/api/categoryApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
-import { useEffect } from 'react';
-import { handleError } from 'src/utils/errorHandler.ts';
+import { useEffect, useRef } from 'react';
+import handleError from 'src/utils/errorHandler.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import selectSetUserCategories from 'src/entities/category/model/selectors/selectSetCategories.ts';
 import selectUserCategories from 'src/entities/category/model/selectors/selectUserCategories.ts';
@@ -10,6 +10,8 @@ import selectUserCategories from 'src/entities/category/model/selectors/selectUs
 const useLoadCategories = (withSharedCategories?: boolean, onFetchFinish?: () => void) => {
   const setUserCategories = useCategoryStore(selectSetUserCategories);
   const userCategories = useCategoryStore(selectUserCategories);
+
+  const isInitialFetch = useRef<boolean>(true);
 
   const {
     data: categories,
@@ -26,10 +28,10 @@ const useLoadCategories = (withSharedCategories?: boolean, onFetchFinish?: () =>
   }
 
   useEffect(() => {
-    if (!userCategories.length) {
+    if (isInitialFetch.current) {
       fetchCategories();
     }
-  }, [fetchCategories, userCategories.length]);
+  }, [fetchCategories]);
 
   useEffect(() => {
     if (categoriesError) {

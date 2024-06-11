@@ -1,7 +1,31 @@
 import { apiInstance } from 'src/shared/api/rootApi.ts';
 
-export const getExpenses = async (): Promise<TGetExpensesResponse> => {
-  const response = await apiInstance.get<TGetExpensesResponse>('expense');
+export const getExpenses = async (queryData: TGetExpenseQuery | undefined): Promise<TGetExpensesResponse> => {
+  //prepare queries for the request
+  const stringifiedQuery = queryData
+    ? Object.entries({
+        categoryId: queryData.categoryId,
+        paymentSourceId: queryData.paymentSourceId,
+        createdStartDate: queryData.createdStartDate?.toISOString(),
+        createdEndDate: queryData.createdEndDate?.toISOString(),
+        amountStart: queryData.amountStart?.toString(),
+        amountEnd: queryData.amountEnd?.toString(),
+        skip: queryData.skip?.toString(),
+        limit: queryData.limit?.toString(),
+      }).reduce(
+        (acc, [key, value]) => {
+          if (value) {
+            acc[key] = value;
+          }
+
+          return acc;
+        },
+        {} as Record<string, string>,
+      )
+    : undefined;
+
+  const url = `expense?${stringifiedQuery ? new URLSearchParams(Object.entries(stringifiedQuery)) : ''}`;
+  const response = await apiInstance.get<TGetExpensesResponse>(url);
 
   return response.data;
 };
@@ -44,4 +68,15 @@ export type TCreateExpenseInput = {
   comments?: string;
   createdAt?: Date;
   updatedAt?: Date;
+};
+
+export type TGetExpenseQuery = {
+  categoryId?: string;
+  paymentSourceId?: string;
+  createdStartDate?: Date;
+  createdEndDate?: Date;
+  amountStart?: number;
+  amountEnd?: number;
+  skip?: number;
+  limit?: number;
 };

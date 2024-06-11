@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { resetPassword } from 'src/shared/api/authApi.ts';
 import { toast } from 'react-toastify';
-import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
+import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { Form } from 'react-router-dom';
 import { Box, Button, IconButton, InputAdornment, Stack, TextField, Typography } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
-import { handleError } from 'src/utils/errorHandler.ts';
+import handleError from 'src/utils/errorHandler.ts';
 
 type TSetNewPasswordFormProps = {
   token: string;

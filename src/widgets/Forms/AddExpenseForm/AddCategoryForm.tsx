@@ -1,4 +1,4 @@
-import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
+import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { Button, FormControl, FormGroup, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { matchIsValidColor, MuiColorInput } from 'mui-color-input';
 import { createCategory, TCategory, TCreateCategoryInput } from 'src/shared/api/categoryApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
-import { handleError } from 'src/utils/errorHandler.ts';
+import handleError from 'src/utils/errorHandler.ts';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 
 type TAddCategoryFormProps = {

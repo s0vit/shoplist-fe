@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 
-export const Navbar = () => {
+const Navbar = () => {
   const isLoggedIn = useUserStore(selectUserData)?.accessToken;
   const setUserData = useUserStore((state) => state.setUser);
   const colorMode = useContext(ColorModeContext);
@@ -64,3 +64,5 @@ export const Navbar = () => {
     </Box>
   );
 };
+
+export default Navbar;
