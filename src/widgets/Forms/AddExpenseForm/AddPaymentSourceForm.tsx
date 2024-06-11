@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { matchIsValidColor, MuiColorInput } from 'mui-color-input';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { handleError } from 'src/utils/errorHandler.ts';
+import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 
 type TAddPaymentSourceFormProps = {
   closeModal: () => void;
@@ -16,6 +17,7 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#ffffff');
   const [comments, setComments] = useState('');
+  const { fetchPaymentSources } = useLoadPaymentSources(false, closeModal);
   const {
     mutate: createPaymentSourceMutate,
     error: createPaymentSourceError,
@@ -35,9 +37,9 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
   useEffect(() => {
     if (isCreatePaymentSourceSuccess) {
       toast('Payment source added', { type: 'success' });
-      closeModal();
+      fetchPaymentSources();
     }
-  }, [closeModal, isCreatePaymentSourceSuccess]);
+  }, [isCreatePaymentSourceSuccess, fetchPaymentSources]);
 
   useEffect(() => {
     if (createPaymentSourceError) {
@@ -60,7 +62,7 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
             disabled={isCreatePaymentSourcePending}
             size="small"
             value={color}
-            fallbackValue="#ffffff"
+            fallbackValue={Math.random().toString(16).slice(2, 8)}
             isAlphaHidden
             onChange={setColor}
             format="hex"
