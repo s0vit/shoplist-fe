@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -12,11 +12,23 @@ import useDebouncedValue from 'src/shared/hooks/useDebouncedValue.ts';
 
 type TExpenseQueryFormProps = {
   onSubmit: (query: Record<string, string | undefined | Date | number>) => void;
+  isLoading: boolean;
 };
 
-const ExpenseQueryForm = ({ onSubmit }: TExpenseQueryFormProps) => {
+type TQuery = {
+  categoryId: string;
+  paymentSourceId: string;
+  createdStartDate: string;
+  createdEndDate: string;
+  amountStart: string;
+  amountEnd: string;
+  skip: string;
+  limit: string;
+};
+
+const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
   //TODO save to store globally to reuse in all places.
-  const [query, setQuery] = useState({
+  const emptyQuery = {
     categoryId: '',
     paymentSourceId: '',
     createdStartDate: '',
@@ -25,7 +37,11 @@ const ExpenseQueryForm = ({ onSubmit }: TExpenseQueryFormProps) => {
     amountEnd: '',
     skip: '',
     limit: '',
-  });
+  };
+
+  const prevQuery = useRef<TQuery>(emptyQuery);
+  const [query, setQuery] = useState<TQuery>(emptyQuery);
+
   const debouncedQuery = useDebouncedValue(query, 300);
   const handleChange = useStableCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -34,6 +50,12 @@ const ExpenseQueryForm = ({ onSubmit }: TExpenseQueryFormProps) => {
       [name]: value,
     });
   });
+
+  const isLoadingRef = useRef(isLoading);
+
+  useEffect(() => {
+    isLoadingRef.current = isLoading;
+  }, [isLoading]);
 
   useEffect(() => {
     const formattedQuery = {
@@ -45,8 +67,12 @@ const ExpenseQueryForm = ({ onSubmit }: TExpenseQueryFormProps) => {
       skip: debouncedQuery?.skip ? parseInt(debouncedQuery.skip, 10) : undefined,
       limit: debouncedQuery?.limit ? parseInt(debouncedQuery.limit, 10) : undefined,
     };
-    onSubmit(formattedQuery);
-  }, [onSubmit, debouncedQuery]);
+
+    if (JSON.stringify(formattedQuery) !== JSON.stringify(prevQuery.current) && !isLoadingRef.current) {
+      onSubmit(formattedQuery);
+      prevQuery.current = debouncedQuery;
+    }
+  }, [debouncedQuery, onSubmit]);
 
   return (
     <Accordion>

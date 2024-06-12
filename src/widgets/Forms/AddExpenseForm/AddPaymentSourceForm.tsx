@@ -17,7 +17,7 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#ffffff');
   const [comments, setComments] = useState('');
-  const { fetchPaymentSources } = useLoadPaymentSources(false, closeModal);
+  const { fetchPaymentSources } = useLoadPaymentSources();
   const {
     mutate: createPaymentSourceMutate,
     error: createPaymentSourceError,
@@ -26,6 +26,10 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
   } = useMutation<TPaymentSource, TErrorResponse, TCreatePaymentSourceInput>({
     mutationFn: createPaymentSource,
     mutationKey: ['paymentSources'],
+    onSuccess: () => {
+      fetchPaymentSources();
+      closeModal();
+    },
   });
 
   const addPaymentSource = () => {

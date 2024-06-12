@@ -17,7 +17,7 @@ const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#ffffff');
   const [comments, setComments] = useState('');
-  const { fetchCategories } = useLoadCategories(false, closeModal);
+  const { fetchCategories } = useLoadCategories();
   const {
     mutate: createCategoryMutate,
     error: createCategoryError,
@@ -26,6 +26,10 @@ const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
   } = useMutation<TCategory, TErrorResponse, TCreateCategoryInput>({
     mutationFn: createCategory,
     mutationKey: ['category'],
+    onSuccess: () => {
+      fetchCategories();
+      closeModal();
+    },
   });
 
   const addCategory = () => {

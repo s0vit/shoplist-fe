@@ -12,9 +12,9 @@ import ExpenseQueryForm from 'src/entities/expenses/ui/expensesQueryForm.tsx';
 
 const HomePage = () => {
   const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
-  const { fetchExpenses } = useLoadExpenses();
-  useLoadPaymentSources();
-  useLoadCategories();
+  const { fetchExpenses, isExpensesLoading } = useLoadExpenses({ shouldFetchOnLoad: true });
+  useLoadPaymentSources(true);
+  useLoadCategories(true);
 
   const closeExpenseModal = useStableCallback(() => {
     setIsExpenseModalOpen(false);
@@ -36,7 +36,7 @@ const HomePage = () => {
         <Paper sx={{ padding: 2 }}>
           <Typography variant="h5">Expenses</Typography>
         </Paper>
-        <ExpenseQueryForm onSubmit={fetchExpenses} />
+        <ExpenseQueryForm onSubmit={fetchExpenses} isLoading={isExpensesLoading} />
         <ExpensesTable fetchExpenses={fetchExpenses} />
       </Stack>
       {isExpenseModalOpen && <ExpenseModal closeModal={closeExpenseModal} />}

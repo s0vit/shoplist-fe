@@ -10,12 +10,15 @@ import PaymentSourcesSelect from 'src/widgets/Forms/AddExpenseForm/PaymentSource
 import CategoriesSelect from 'src/widgets/Forms/AddExpenseForm/CategoriesSelect.tsx';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
+import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 
 const AddExpenseForm = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedPaymentSource, setSelectedPaymentSource] = useState('');
   const [comments, setComments] = useState('');
   const [amount, setAmount] = useState(0);
+
+  const { fetchExpenses } = useLoadExpenses();
 
   const {
     isPending: isCreateExpensePending,
@@ -25,6 +28,9 @@ const AddExpenseForm = () => {
   } = useMutation<TExpense, TErrorResponse, TCreateExpenseInput>({
     mutationFn: createExpense,
     mutationKey: ['expenses'],
+    onSuccess: () => {
+      fetchExpenses({});
+    },
   });
 
   const addExpense = () => {
