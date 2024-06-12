@@ -1,7 +1,7 @@
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import selectUserData from 'src/entities/user/model/selectors/selectUserData.ts';
 import { Link as RouterLink } from 'react-router-dom';
-import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
+import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { Link, Paper, Typography } from '@mui/material';
 
 const Profile = () => {

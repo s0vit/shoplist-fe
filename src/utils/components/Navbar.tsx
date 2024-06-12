@@ -10,7 +10,7 @@ import { ColorModeContext } from 'src/app/providers/Theme.tsx';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useNavigate } from 'react-router-dom';
-import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
+import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 
 const Navbar = () => {

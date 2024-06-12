@@ -1,4 +1,4 @@
-import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
+import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { Button, Link, Paper, Stack, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';

@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
-import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
+import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import rootLoader from 'src/pages/loaders/rootLoader.ts';
 import { Suspense } from 'react';
 import ErrorBoundary from 'src/utils/components/ErrorBoundary.tsx';
@@ -71,4 +71,6 @@ const routes: RouteObject[] = [
   },
 ];
 
-export const Router = createBrowserRouter(routes);
+const Router = createBrowserRouter(routes);
+
+export default Router;
