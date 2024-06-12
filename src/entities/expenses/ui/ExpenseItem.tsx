@@ -23,14 +23,13 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   const handlers = useSwipeable({
     onSwiping: (eventData) => setTranslateX(Math.max(-eventData.deltaX, 0)),
     onSwipedLeft: (eventData) => {
-      if (eventData.absX > 75) {
-        handleRemove(expense._id);
-      }
-
+      if (eventData.absX > 75) handleRemove(expense._id);
       setTranslateX(0);
     },
     onSwipedRight: () => setTranslateX(0),
     trackMouse: true,
+    trackTouch: true,
+    preventScrollOnSwipe: true,
   });
 
   return (
