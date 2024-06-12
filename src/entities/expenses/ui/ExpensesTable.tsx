@@ -27,6 +27,8 @@ const ExpensesTable = ({ fetchExpenses }: TExpensesTableProps) => {
     fetchExpenses({});
   };
 
+  console.log(expenses);
+
   return (
     <Box>
       {expenses?.map((expense) => {

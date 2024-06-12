@@ -62,13 +62,15 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
             </Typography>
             <Typography variant="caption">{category?.title}</Typography>
           </Box>
-          <Chip
-            label={expense.amount}
-            sx={{
-              backgroundColor: paymentSourceColor,
-              color: theme.palette.getContrastText(paymentSourceColor),
-            }}
-          />
+          <Tooltip title={paymentSource?.title || ''}>
+            <Chip
+              label={expense.amount}
+              sx={{
+                backgroundColor: paymentSourceColor,
+                color: theme.palette.getContrastText(paymentSourceColor),
+              }}
+            />
+          </Tooltip>
         </Box>
         <Box
           sx={{

@@ -6,6 +6,8 @@ import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore
 import selectUserExpenses from 'src/entities/expenses/model/selectors/selectUserExpenses.ts';
 import selectSetUserExpenses from 'src/entities/expenses/model/selectors/selectSetUserExpenses.ts';
 import handleError from 'src/utils/errorHandler.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import { isAxiosError } from 'axios';
 
 type TUseLoadExpensesArgs =
   | {
@@ -29,7 +31,7 @@ const useLoadExpenses = ({
     data: expenses,
     isPending: isExpensesLoading,
     error: expensesError,
-    refetch: fetchExpenses,
+    refetch,
   } = useQuery<TGetExpensesResponse, TErrorResponse>({
     queryKey: ['expenses'],
     queryFn: () => getExpenses(query),
@@ -49,10 +51,20 @@ const useLoadExpenses = ({
   useEffect(() => {
     if (!isExpensesLoading) {
       setUserExpenses(expenses || []);
-      if (!onFetchFinish) return;
-      onFetchFinish();
+      if (onFetchFinish) onFetchFinish();
     }
   }, [expenses, isExpensesLoading, setUserExpenses, onFetchFinish]);
+
+  const fetchExpenses = useStableCallback(async (newQuery?: TGetExpenseQuery) => {
+    if (newQuery) {
+      query = newQuery;
+    }
+
+    const newData = await refetch();
+    if (isAxiosError(newData)) handleError(newData);
+    setUserExpenses((newData.data as unknown as TGetExpensesResponse) || []);
+    if (onFetchFinish) onFetchFinish();
+  });
 
   return {
     userExpenses,

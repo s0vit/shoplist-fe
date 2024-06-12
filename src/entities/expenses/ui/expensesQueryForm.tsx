@@ -39,7 +39,6 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
     limit: '',
   };
 
-  const prevQuery = useRef<TQuery>(emptyQuery);
   const [query, setQuery] = useState<TQuery>(emptyQuery);
 
   const debouncedQuery = useDebouncedValue(query, 300);
@@ -68,10 +67,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
       limit: debouncedQuery?.limit ? parseInt(debouncedQuery.limit, 10) : undefined,
     };
 
-    if (JSON.stringify(formattedQuery) !== JSON.stringify(prevQuery.current) && !isLoadingRef.current) {
-      onSubmit(formattedQuery);
-      prevQuery.current = debouncedQuery;
-    }
+    onSubmit(formattedQuery);
   }, [debouncedQuery, onSubmit]);
 
   return (

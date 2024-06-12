@@ -6,6 +6,8 @@ import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePa
 import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectUserPaymentSources.ts';
 import selectSetUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectSetUserPaymentSources.ts';
 import { getPaymentSources, TGetPaymentSourcesResponse } from 'src/shared/api/paymentsSourceApi.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import { isAxiosError } from 'axios';
 
 const useLoadPaymentSources = (
   shouldFetchOnLoad: boolean = false,
@@ -19,7 +21,7 @@ const useLoadPaymentSources = (
     data: paymentSources,
     isPending: isPaymentSourcesLoading,
     error: paymentSourcesError,
-    refetch: fetchPaymentSources,
+    refetch,
   } = useQuery<TGetPaymentSourcesResponse, TErrorResponse>({
     queryKey: ['paymentSources'],
     queryFn: getPaymentSources,
@@ -29,6 +31,13 @@ const useLoadPaymentSources = (
   if (withShared) {
     console.warn('Shared paymentSources are not implemented yet');
   }
+
+  const fetchPaymentSources = useStableCallback(async () => {
+    const newData = await refetch();
+    if (isAxiosError(newData)) handleError(newData);
+    setUserPaymentSources((newData.data as unknown as TGetPaymentSourcesResponse) || []);
+    if (onFetchFinish) onFetchFinish();
+  });
 
   useEffect(() => {
     if (paymentSourcesError) {

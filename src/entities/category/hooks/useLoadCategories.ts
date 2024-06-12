@@ -6,6 +6,8 @@ import handleError from 'src/utils/errorHandler.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import selectSetUserCategories from 'src/entities/category/model/selectors/selectSetCategories.ts';
 import selectUserCategories from 'src/entities/category/model/selectors/selectUserCategories.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import { isAxiosError } from 'axios';
 
 const useLoadCategories = (
   shouldFetchOnLoad: boolean = false,
@@ -19,7 +21,7 @@ const useLoadCategories = (
     data: categories,
     isPending: isCategoriesLoading,
     error: categoriesError,
-    refetch: fetchCategories,
+    refetch,
   } = useQuery<TGetCategoriesResponse, TErrorResponse>({
     queryKey: ['categories'],
     queryFn: getCategories,
@@ -29,6 +31,13 @@ const useLoadCategories = (
   if (withSharedCategories) {
     console.warn('Shared categories are not implemented yet');
   }
+
+  const fetchCategories = useStableCallback(async () => {
+    const newData = await refetch();
+    if (isAxiosError(newData)) handleError(newData);
+    setUserCategories((newData.data as unknown as TGetCategoriesResponse) || []);
+    if (onFetchFinish) onFetchFinish();
+  });
 
   useEffect(() => {
     if (categoriesError) {
