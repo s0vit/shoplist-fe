@@ -1,7 +1,11 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
+import { Box, Button, Typography } from '@mui/material';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { Link as RouterLink } from 'react-router-dom';
+import ErrorWrapper from 'src/utils/components/ErrorWrapper.tsx';
 
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
+class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> {
+  constructor(props: TErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
   }
@@ -11,12 +15,31 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     this.setState({ hasError: true });
   }
 
+  handleReload = () => {
+    this.setState({ hasError: false });
+    window.location.reload();
+  };
+
   render() {
     if (this.state.hasError) {
       return (
-        <div>
-          <h2>Something went wrong.</h2>
-        </div>
+        <ErrorWrapper>
+          <ErrorOutlineIcon color="error" sx={{ fontSize: 80 }} />
+          <Typography variant="h4" gutterBottom>
+            Something went wrong.
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            An unexpected error has occurred. Please try reloading the page or go back to the home page.
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button variant="contained" color="primary" onClick={this.handleReload}>
+              Reload
+            </Button>
+            <Button variant="outlined" color="primary" component={RouterLink} to="/">
+              Home
+            </Button>
+          </Box>
+        </ErrorWrapper>
       );
     }
 
@@ -24,11 +47,12 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 }
 
-interface ErrorBoundaryProps {
+type TErrorBoundaryProps = {
   children: ReactNode;
-}
-interface ErrorBoundaryState {
+};
+
+type TErrorBoundaryState = {
   hasError: boolean;
-}
+};
 
 export default ErrorBoundary;
