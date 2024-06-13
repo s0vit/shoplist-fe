@@ -1,7 +1,11 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
+import { Box, Button, ButtonGroup, Paper, Typography } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import ErrorWrapper from 'src/utils/components/ErrorWrapper.tsx';
+import { HomeOutlined, Refresh, ReportGmailerrorred } from '@mui/icons-material';
 
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
+class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> {
+  constructor(props: TErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
   }
@@ -11,12 +15,38 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     this.setState({ hasError: true });
   }
 
+  handleReload = () => {
+    this.setState({ hasError: false });
+    window.location.reload();
+  };
+
   render() {
     if (this.state.hasError) {
       return (
-        <div>
-          <h2>Something went wrong.</h2>
-        </div>
+        <ErrorWrapper>
+          <Paper>
+            <Box padding={2}>
+              <ReportGmailerrorred color="error" sx={{ fontSize: 80 }} />
+              <Typography variant="h4" gutterBottom>
+                Something went wrong.
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                An unexpected error has occurred.
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                Please try reloading the page or go back to the home page.
+              </Typography>
+              <ButtonGroup fullWidth>
+                <Button variant="contained" color="primary" onClick={this.handleReload} startIcon={<Refresh />}>
+                  Reload
+                </Button>
+                <Button variant="outlined" color="primary" component={RouterLink} to="/" startIcon={<HomeOutlined />}>
+                  Home
+                </Button>
+              </ButtonGroup>
+            </Box>
+          </Paper>
+        </ErrorWrapper>
       );
     }
 
@@ -24,11 +54,12 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 }
 
-interface ErrorBoundaryProps {
+type TErrorBoundaryProps = {
   children: ReactNode;
-}
-interface ErrorBoundaryState {
+};
+
+type TErrorBoundaryState = {
   hasError: boolean;
-}
+};
 
 export default ErrorBoundary;

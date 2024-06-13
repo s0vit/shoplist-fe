@@ -1,15 +1,15 @@
 import { Button, IconButton, InputAdornment, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { Form, useNavigate, useSearchParams } from 'react-router-dom';
-import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
+import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useEffect, useState } from 'react';
-import { useStableCallback } from 'src/utils/hooks/useStableCallback.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import { login, TLoginRequest, TLoginResponse } from 'src/shared/api/authApi.ts';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useMutation } from '@tanstack/react-query';
-import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
+import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
-import { handleError } from 'src/utils/errorHandler.ts';
+import handleError from 'src/utils/errorHandler.ts';
 
 type TLoginFormProps = {
   setCurrentTabToRecovery: () => void;

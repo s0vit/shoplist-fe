@@ -1,11 +1,11 @@
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 
-export const handleError = (error: unknown) => {
+const handleError = (error: unknown) => {
   if (error instanceof AxiosError) {
     console.error(error);
 
-    if (error.response && Object.keys(error.response.data.meta.length === 0)) {
+    if (error.response && Object.keys(error.response.data.meta).length === 0) {
       toast(error.response?.data.message, { type: 'error' });
 
       return;
@@ -28,3 +28,5 @@ export const handleError = (error: unknown) => {
   console.error(error);
   toast(JSON.stringify(error), { type: 'error' });
 };
+
+export default handleError;

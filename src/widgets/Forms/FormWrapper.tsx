@@ -1,6 +1,6 @@
 import { Paper, PaperProps, styled } from '@mui/material';
 
-export const FormWrapper = styled(Paper)<PaperProps>(({ theme }) => ({
+const FormWrapper = styled(Paper)<PaperProps>(({ theme }) => ({
   width: 'fit-content',
   minWidth: '370px',
   margin: 'auto',
@@ -10,3 +10,5 @@ export const FormWrapper = styled(Paper)<PaperProps>(({ theme }) => ({
     minWidth: '100%',
   },
 }));
+
+export default FormWrapper;

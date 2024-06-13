@@ -2,9 +2,9 @@ import { SyntheticEvent, useState } from 'react';
 import LoginForm from 'src/widgets/Forms/Login/LoginForm.tsx';
 import RegisterForm from 'src/widgets/Forms/Register/RegisterForm.tsx';
 import { Stack, Tab } from '@mui/material';
-import { CenteredTabsWrapper } from 'src/widgets/Forms/Login/CenteredTabsWrapper.tsx';
+import CenteredTabsWrapper from 'src/widgets/Forms/Login/CenteredTabsWrapper.tsx';
 import RequestPasswordRecoveryForm from 'src/widgets/Forms/RequestPasswordRecovery/RequestPasswordRecoveryForm.tsx';
-import { useStableCallback } from 'src/utils/hooks/useStableCallback.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 
 type TTab = {
   label: string;

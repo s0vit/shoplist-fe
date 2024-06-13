@@ -1,4 +1,4 @@
-export enum RoutesEnum {
+enum RoutesEnum {
   ROOT = '/',
   LOGIN = '/login',
   PROFILE = '/profile',
@@ -7,3 +7,5 @@ export enum RoutesEnum {
   CATEGORY = '/category',
   PAYMENT_SOURCE = '/payment-source',
 }
+
+export default RoutesEnum;

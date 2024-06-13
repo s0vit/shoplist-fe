@@ -1,9 +1,11 @@
 import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import AddCategoryModal from 'src/widgets/Modal/AddCategoryModal/AddCategoryModal.tsx';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import selectUserCategories from 'src/entities/category/model/selectors/selectUserCategories.ts';
+import { TCategory } from 'src/shared/api/categoryApi.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 
 type TCategoriesSelectProps = {
   selectedCategoryId: string;
@@ -19,7 +21,15 @@ const CategoriesSelect = ({
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const categories = useCategoryStore(selectUserCategories);
 
-  const selectedCategory = categories?.find((category) => category._id === selectedCategoryId);
+  const onAutocompleteChange = useStableCallback((_e: SyntheticEvent, value: TCategory | null) => {
+    if (value === null || categories?.some((category) => category._id === value._id)) {
+      setSelectedCategoryId(value?._id || '');
+    } else {
+      setSelectedCategoryId('');
+    }
+  });
+
+  const selectedCategory = categories?.find((category) => category._id === selectedCategoryId) || null;
 
   return (
     <>
@@ -32,7 +42,7 @@ const CategoriesSelect = ({
           options={categories || []}
           renderInput={(params) => <TextField {...params} label="Category" />}
           value={selectedCategory}
-          onChange={(_e, value) => setSelectedCategoryId(value?._id || '')}
+          onChange={onAutocompleteChange}
           getOptionLabel={(option) => option.title}
         />
         <IconButton aria-label="add" disabled={isCreateExpensePending} onClick={() => setIsAddCategoryModalOpen(true)}>

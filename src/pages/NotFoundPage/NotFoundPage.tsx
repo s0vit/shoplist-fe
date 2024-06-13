@@ -1,6 +1,6 @@
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import { RoutesEnum } from 'src/shared/constants/routesEnum.ts';
+import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import notFoundImage from 'src/assets/404notfound.png';
 
 const NotFoundPage = () => {

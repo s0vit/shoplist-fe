@@ -1,4 +1,4 @@
-import { FormWrapper } from 'src/widgets/Forms/FormWrapper.tsx';
+import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { Button, FormControl, FormGroup, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { createPaymentSource, TCreatePaymentSourceInput, TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { matchIsValidColor, MuiColorInput } from 'mui-color-input';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
-import { handleError } from 'src/utils/errorHandler.ts';
+import handleError from 'src/utils/errorHandler.ts';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 
 type TAddPaymentSourceFormProps = {
@@ -17,7 +17,7 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#ffffff');
   const [comments, setComments] = useState('');
-  const { fetchPaymentSources } = useLoadPaymentSources(false, closeModal);
+  const { fetchPaymentSources } = useLoadPaymentSources();
   const {
     mutate: createPaymentSourceMutate,
     error: createPaymentSourceError,
@@ -26,6 +26,10 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
   } = useMutation<TPaymentSource, TErrorResponse, TCreatePaymentSourceInput>({
     mutationFn: createPaymentSource,
     mutationKey: ['paymentSources'],
+    onSuccess: () => {
+      fetchPaymentSources();
+      closeModal();
+    },
   });
 
   const addPaymentSource = () => {

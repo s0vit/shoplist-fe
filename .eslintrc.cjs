@@ -28,6 +28,7 @@ module.exports = {
       { blankLine: 'any', prev: 'import', next: 'import' },
     ],
     'unused-imports/no-unused-imports': 'error',
+    'import/prefer-default-export': 'error',
     'import/no-unused-modules': 'error',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-react': 'off',

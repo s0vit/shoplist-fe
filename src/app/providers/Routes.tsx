@@ -1,7 +1,7 @@
 import { RouterProvider } from 'react-router-dom';
-import { Router } from 'src/pages/routes.tsx';
+import Router from 'src/pages/routes.tsx';
 
-export const Routes = () => {
+const Routes = () => {
   return <RouterProvider router={Router} />;
 };
 

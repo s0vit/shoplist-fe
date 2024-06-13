@@ -1,9 +1,11 @@
 import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import AddPaymentSourceModal from 'src/widgets/Modal/AddPaymantSourceModal/AddPaymentSourceModal.tsx';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectUserPaymentSources.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 
 type TPaymentSourcesSelectProps = {
   selectedPaymentSourceId: string;
@@ -17,9 +19,18 @@ const PaymentSourcesSelect = ({
   isCreateExpensePending,
 }: TPaymentSourcesSelectProps) => {
   const [isAddPaymentSourceModalOpen, setIsAddPaymentSourceModalOpen] = useState(false);
+
   const paymentSources = usePaymentSourcesStore(selectUserPaymentSources);
 
-  const selectedPaymentSource = paymentSources?.find((source) => source._id === selectedPaymentSourceId);
+  const onAutocompleteChange = useStableCallback((_e: SyntheticEvent, value: TPaymentSource | null) => {
+    if (value === null || paymentSources?.some((source) => source._id === value._id)) {
+      setSelectedPaymentSourceId(value?._id || '');
+    } else {
+      setSelectedPaymentSourceId('');
+    }
+  });
+
+  const selectedPaymentSource = paymentSources?.find((source) => source._id === selectedPaymentSourceId) || null;
 
   return (
     <>
@@ -32,7 +43,7 @@ const PaymentSourcesSelect = ({
           options={paymentSources || []}
           renderInput={(params) => <TextField {...params} label="Payment source" />}
           value={selectedPaymentSource}
-          onChange={(_e, value) => setSelectedPaymentSourceId(value?._id || '')}
+          onChange={onAutocompleteChange}
           getOptionLabel={(option) => option.title}
         />
         <IconButton
