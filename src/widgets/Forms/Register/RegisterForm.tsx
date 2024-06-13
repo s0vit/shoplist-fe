@@ -153,6 +153,7 @@ const RegisterForm = () => {
               disabled={isRegisterPending}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm Password"
+              helperText={"Password should contain 1 number and 1 capital letter" }
             />
             <Button disabled={isRegisterPending} type="submit" variant="outlined">
               Register
