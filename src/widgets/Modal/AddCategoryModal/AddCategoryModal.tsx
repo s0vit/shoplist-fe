@@ -3,11 +3,12 @@ import AddCategoryForm from 'src/widgets/Forms/AddExpenseForm/AddCategoryForm.ts
 
 type TAddCategoryModalProps = {
   closeCategoryModal: () => void;
+  isCategoryModalOpen: boolean;
 };
 
-const AddCategoryModal = ({ closeCategoryModal }: TAddCategoryModalProps) => {
+const AddCategoryModal = ({ closeCategoryModal, isCategoryModalOpen }: TAddCategoryModalProps) => {
   return (
-    <ModalWrapper onClickAway={closeCategoryModal}>
+    <ModalWrapper onClickAway={closeCategoryModal} isModalOpen={isCategoryModalOpen}>
       <AddCategoryForm closeModal={closeCategoryModal} />
     </ModalWrapper>
   );

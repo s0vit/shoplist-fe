@@ -39,7 +39,7 @@ const HomePage = () => {
         <ExpenseQueryForm onSubmit={fetchExpenses} isLoading={isExpensesLoading} />
         <ExpensesTable fetchExpenses={fetchExpenses} />
       </Stack>
-      {isExpenseModalOpen && <ExpenseModal closeModal={closeExpenseModal} />}
+      <ExpenseModal closeModal={closeExpenseModal} isExpenseModalOpen={isExpenseModalOpen} />
     </>
   );
 };

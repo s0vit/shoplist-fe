@@ -1,13 +1,14 @@
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
-import { Button, FormControl, FormGroup, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
+import { Button, FormControl, FormGroup, InputLabel, OutlinedInput, Stack, Typography, useTheme } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { matchIsValidColor, MuiColorInput } from 'mui-color-input';
 import { createCategory, TCategory, TCreateCategoryInput } from 'src/shared/api/categoryApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
+import { Colorful } from '@uiw/react-color';
+import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 
 type TAddCategoryFormProps = {
   closeModal: () => void;
@@ -15,7 +16,8 @@ type TAddCategoryFormProps = {
 
 const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
   const [title, setTitle] = useState('');
-  const [color, setColor] = useState('#ffffff');
+  const [color, setColor] = useState(getRandomHexColor());
+  const theme = useTheme();
   const [comments, setComments] = useState('');
   const { fetchCategories } = useLoadCategories();
   const {
@@ -33,9 +35,7 @@ const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
   });
 
   const addCategory = () => {
-    if (matchIsValidColor(color)) {
-      createCategoryMutate({ color, title, comments });
-    }
+    createCategoryMutate({ color, title, comments });
   };
 
   useEffect(() => {
@@ -57,26 +57,27 @@ const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
         Add category
       </Typography>
       <FormGroup>
-        <Stack gap={1}>
+        <Stack gap={1} paddingY={2}>
+          <Colorful color={color} onChange={(color) => setColor(color.hex)} disableAlpha style={{ width: '100%' }} />
+          <Button
+            variant="contained"
+            size="small"
+            sx={{ backgroundColor: color, color: theme.palette.getContrastText(color) }}
+            onClick={() => {
+              setColor('#' + Math.floor(Math.random() * 16777215).toString(16));
+            }}
+          >
+            Random Color
+          </Button>
           <FormControl disabled={isCreateCategoryPending}>
             <InputLabel size="small">Title</InputLabel>
             <OutlinedInput size="small" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
           </FormControl>
-          <MuiColorInput
-            disabled={isCreateCategoryPending}
-            size="small"
-            value={color}
-            fallbackValue={Math.random().toString(16).slice(2, 8)}
-            isAlphaHidden
-            onChange={setColor}
-            format="hex"
-            sx={{ '& .MuiColorInput-Button': { marginLeft: 2 } }}
-          />
           <FormControl disabled={isCreateCategoryPending}>
             <InputLabel size="small">Comments</InputLabel>
             <OutlinedInput size="small" type="text" value={comments} onChange={(e) => setComments(e.target.value)} />
           </FormControl>
-          <Button type="submit" onClick={addCategory} disabled={isCreateCategoryPending}>
+          <Button variant="outlined" type="submit" onClick={addCategory} disabled={isCreateCategoryPending}>
             Add
           </Button>
         </Stack>

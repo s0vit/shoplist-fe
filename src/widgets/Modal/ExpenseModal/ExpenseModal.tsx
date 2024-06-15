@@ -1,14 +1,15 @@
 import ModalWrapper from 'src/widgets/Modal/ModalWrapper.tsx';
-import AddExpenseForm from 'src/widgets/Forms/AddExpenseForm/AddExpenseForm.tsx';
+import AddExpenseCalculator from 'src/widgets/Forms/AddExpenseForm/AddExpenseCalc.tsx';
 
 type TExpenseModalProps = {
   closeModal: () => void;
+  isExpenseModalOpen: boolean;
 };
 
-const ExpenseModal = ({ closeModal }: TExpenseModalProps) => {
+const ExpenseModal = ({ closeModal, isExpenseModalOpen }: TExpenseModalProps) => {
   return (
-    <ModalWrapper onClickAway={closeModal}>
-      <AddExpenseForm />
+    <ModalWrapper onClickAway={closeModal} isModalOpen={isExpenseModalOpen}>
+      <AddExpenseCalculator />
     </ModalWrapper>
   );
 };
