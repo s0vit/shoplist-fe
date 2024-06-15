@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Button, IconButton, Paper, TextField, Typography, useTheme } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
@@ -8,6 +8,12 @@ import selectUserCategories from 'src/entities/category/model/selectors/selectUs
 import AddCategoryModal from 'src/widgets/Modal/AddCategoryModal/AddCategoryModal.tsx';
 import AddPaymentSourceModal from 'src/widgets/Modal/AddPaymantSourceModal/AddPaymentSourceModal.tsx';
 import { AddCircle } from '@mui/icons-material';
+import { createExpense, TCreateExpenseInput, TExpense } from 'src/shared/api/expenseApi.ts';
+import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
+import { useMutation } from '@tanstack/react-query';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import handleError from 'src/utils/errorHandler.ts';
+import { toast } from 'react-toastify';
 
 const AddExpenseCalculator = () => {
   const paymentSources = usePaymentSourcesStore(selectUserPaymentSources);
@@ -18,6 +24,21 @@ const AddExpenseCalculator = () => {
   const [selectedPaymentSource, setSelectedPaymentSource] = useState<string>('');
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [isAddPaymentSourceModalOpen, setIsAddPaymentSourceModalOpen] = useState(false);
+
+  const { fetchExpenses } = useLoadExpenses();
+
+  const {
+    isPending: isCreateExpensePending,
+    isSuccess: isCreateExpenseSuccess,
+    error: createExpenseError,
+    mutate: createExpenseMutate,
+  } = useMutation<TExpense, TErrorResponse, TCreateExpenseInput>({
+    mutationFn: createExpense,
+    mutationKey: ['expenses'],
+    onSuccess: () => {
+      fetchExpenses({});
+    },
+  });
 
   const calcButtons = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '←'];
 
@@ -48,12 +69,35 @@ const AddExpenseCalculator = () => {
     setAmount(e.target.value.replace(/^0+/, ''));
   };
 
+  const handleSave = () => {
+    if (!amount || !selectedCategory || !selectedPaymentSource) return;
+    createExpenseMutate({
+      amount: parseFloat(amount),
+      categoryId: selectedCategory,
+      paymentSourceId: selectedPaymentSource,
+    });
+  };
+
+  useEffect(() => {
+    if (isCreateExpenseSuccess) {
+      toast('Expense added successfully', { type: 'success' });
+      setAmount('');
+      setSelectedPaymentSource('');
+      setSelectedCategory('');
+    }
+  }, [isCreateExpenseSuccess]);
+
+  useEffect(() => {
+    if (createExpenseError) handleError(createExpenseError);
+  }, [createExpenseError]);
+
   return (
     <Paper>
       <Box
         sx={{ p: 2, border: '1px solid grey', borderRadius: '8px', backgroundColor: theme.palette.background.paper }}
       >
         <TextField
+          disabled={isCreateExpensePending}
           //TODO: Add currency formatting when we have backend for that
           variant="outlined"
           value={amount}
@@ -71,7 +115,13 @@ const AddExpenseCalculator = () => {
         <Grid container spacing={1}>
           {calcButtons.map((value) => (
             <Grid xs={4} key={value}>
-              <Button variant="contained" fullWidth onClick={() => handleButtonClick(value)} sx={{ height: 40 }}>
+              <Button
+                disabled={isCreateExpensePending}
+                variant="contained"
+                fullWidth
+                onClick={() => handleButtonClick(value)}
+                sx={{ height: 40 }}
+              >
                 {value}
               </Button>
             </Grid>
@@ -79,13 +129,14 @@ const AddExpenseCalculator = () => {
         </Grid>
         <Box display="flex" alignItems="center" justifyContent="space-between" paddingTop={1}>
           <Typography variant="subtitle2">Category:</Typography>
-          <IconButton color="primary" onClick={() => setIsAddCategoryModalOpen(true)}>
+          <IconButton disabled={isCreateExpensePending} color="primary" onClick={() => setIsAddCategoryModalOpen(true)}>
             <AddCircle />
           </IconButton>
         </Box>
         <Box paddingY={1} sx={{ overflowX: 'auto', display: 'flex' }}>
           {categories.map((category) => (
             <Button
+              disabled={isCreateExpensePending}
               key={category._id}
               variant={selectedCategory === category._id ? 'contained' : 'outlined'}
               color="primary"
@@ -103,13 +154,18 @@ const AddExpenseCalculator = () => {
         </Box>
         <Box display="flex" alignItems="center" justifyContent="space-between" paddingTop={1}>
           <Typography variant="subtitle2">Payment Source:</Typography>
-          <IconButton color="primary" onClick={() => setIsAddPaymentSourceModalOpen(true)}>
+          <IconButton
+            disabled={isCreateExpensePending}
+            color="primary"
+            onClick={() => setIsAddPaymentSourceModalOpen(true)}
+          >
             <AddCircle />
           </IconButton>
         </Box>
         <Box paddingY={1} sx={{ overflowX: 'auto', display: 'flex' }}>
           {paymentSources.map((payment) => (
             <Button
+              disabled={isCreateExpensePending}
               key={payment._id}
               variant={selectedPaymentSource === payment._id ? 'contained' : 'outlined'}
               color="primary"
@@ -127,12 +183,24 @@ const AddExpenseCalculator = () => {
         </Box>
         <Grid container spacing={1} sx={{ mt: 1 }}>
           <Grid xs={6}>
-            <Button variant="contained" color="warning" fullWidth onClick={() => handleButtonClick('Clear')}>
+            <Button
+              disabled={isCreateExpensePending}
+              variant="contained"
+              color="warning"
+              fullWidth
+              onClick={() => handleButtonClick('Clear')}
+            >
               Clear
             </Button>
           </Grid>
           <Grid xs={6}>
-            <Button variant="contained" color="success" fullWidth>
+            <Button
+              disabled={isCreateExpensePending || !amount || !selectedCategory || !selectedPaymentSource}
+              variant="contained"
+              color="success"
+              fullWidth
+              onClick={handleSave}
+            >
               Save
             </Button>
           </Grid>
