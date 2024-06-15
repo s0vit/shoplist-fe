@@ -1,13 +1,13 @@
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
-import { Button, FormControl, FormGroup, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
+import { Button, FormControl, FormGroup, InputLabel, OutlinedInput, Stack, Typography, useTheme } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { createPaymentSource, TCreatePaymentSourceInput, TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { matchIsValidColor, MuiColorInput } from 'mui-color-input';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
+import { Colorful } from '@uiw/react-color';
 
 type TAddPaymentSourceFormProps = {
   closeModal: () => void;
@@ -15,7 +15,9 @@ type TAddPaymentSourceFormProps = {
 
 const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
   const [title, setTitle] = useState('');
-  const [color, setColor] = useState('#ffffff');
+  //random color always 6 symbols
+  const [color, setColor] = useState(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
+  const theme = useTheme();
   const [comments, setComments] = useState('');
   const { fetchPaymentSources } = useLoadPaymentSources();
   const {
@@ -33,9 +35,7 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
   });
 
   const addPaymentSource = () => {
-    if (matchIsValidColor(color)) {
-      createPaymentSourceMutate({ color, title, comments });
-    }
+    createPaymentSourceMutate({ color, title, comments });
   };
 
   useEffect(() => {
@@ -57,26 +57,27 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
         Add payment source
       </Typography>
       <FormGroup>
-        <Stack gap={1}>
+        <Stack gap={1} paddingY={2}>
+          <Colorful color={color} onChange={(color) => setColor(color.hex)} disableAlpha style={{ width: '100%' }} />{' '}
+          <Button
+            variant="contained"
+            size="small"
+            sx={{ backgroundColor: color, color: theme.palette.getContrastText(color) }}
+            onClick={() => {
+              setColor('#' + Math.floor(Math.random() * 16777215).toString(16));
+            }}
+          >
+            Random Color
+          </Button>
           <FormControl disabled={isCreatePaymentSourcePending}>
             <InputLabel size="small">Title</InputLabel>
             <OutlinedInput size="small" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
           </FormControl>
-          <MuiColorInput
-            disabled={isCreatePaymentSourcePending}
-            size="small"
-            value={color}
-            fallbackValue={Math.random().toString(16).slice(2, 8)}
-            isAlphaHidden
-            onChange={setColor}
-            format="hex"
-            sx={{ '& .MuiColorInput-Button': { marginLeft: 2 } }}
-          />
           <FormControl disabled={isCreatePaymentSourcePending}>
             <InputLabel size="small">Comments</InputLabel>
             <OutlinedInput size="small" type="text" value={comments} onChange={(e) => setComments(e.target.value)} />
           </FormControl>
-          <Button type="submit" onClick={addPaymentSource} disabled={isCreatePaymentSourcePending}>
+          <Button variant="outlined" type="submit" onClick={addPaymentSource} disabled={isCreatePaymentSourcePending}>
             Add
           </Button>
         </Stack>

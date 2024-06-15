@@ -3,11 +3,15 @@ import AddPaymentSourceForm from 'src/widgets/Forms/AddExpenseForm/AddPaymentSou
 
 type TAddPaymentSourceModalProps = {
   closePaymentSourcesModal: () => void;
+  isPaymentSourcesModalOpen: boolean;
 };
 
-const AddPaymentSourceModal = ({ closePaymentSourcesModal }: TAddPaymentSourceModalProps) => {
+const AddPaymentSourceModal = ({
+  closePaymentSourcesModal,
+  isPaymentSourcesModalOpen,
+}: TAddPaymentSourceModalProps) => {
   return (
-    <ModalWrapper onClickAway={closePaymentSourcesModal}>
+    <ModalWrapper onClickAway={closePaymentSourcesModal} isModalOpen={isPaymentSourcesModalOpen}>
       <AddPaymentSourceForm closeModal={closePaymentSourcesModal} />
     </ModalWrapper>
   );

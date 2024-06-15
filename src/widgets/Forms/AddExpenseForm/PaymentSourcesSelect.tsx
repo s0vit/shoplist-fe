@@ -54,9 +54,10 @@ const PaymentSourcesSelect = ({
           <AddCircle />
         </IconButton>
       </Stack>
-      {isAddPaymentSourceModalOpen && (
-        <AddPaymentSourceModal closePaymentSourcesModal={() => setIsAddPaymentSourceModalOpen(false)} />
-      )}
+      <AddPaymentSourceModal
+        closePaymentSourcesModal={() => setIsAddPaymentSourceModalOpen(false)}
+        isPaymentSourcesModalOpen={isAddPaymentSourceModalOpen}
+      />
     </>
   );
 };

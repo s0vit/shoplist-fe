@@ -49,7 +49,10 @@ const CategoriesSelect = ({
           <AddCircle />
         </IconButton>
       </Stack>
-      {isAddCategoryModalOpen && <AddCategoryModal closeCategoryModal={() => setIsAddCategoryModalOpen(false)} />}
+      <AddCategoryModal
+        closeCategoryModal={() => setIsAddCategoryModalOpen(false)}
+        isCategoryModalOpen={isAddCategoryModalOpen}
+      />
     </>
   );
 };
