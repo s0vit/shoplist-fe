@@ -8,6 +8,7 @@ import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 import { Colorful } from '@uiw/react-color';
+import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 
 type TAddPaymentSourceFormProps = {
   closeModal: () => void;
@@ -16,7 +17,7 @@ type TAddPaymentSourceFormProps = {
 const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
   const [title, setTitle] = useState('');
   //random color always 6 symbols
-  const [color, setColor] = useState(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
+  const [color, setColor] = useState(getRandomHexColor());
   const theme = useTheme();
   const [comments, setComments] = useState('');
   const { fetchPaymentSources } = useLoadPaymentSources();
