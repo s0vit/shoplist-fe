@@ -9,6 +9,7 @@ import { alpha, Box, Button, FormHelperText, Paper, Stack, TextField, Typography
 import handleError from 'src/utils/errorHandler.ts';
 import { shareWith } from 'src/shared/api/accessControlApi.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import { toast } from 'react-toastify';
 
 type TShareWithModalProps = {
   expenseIds?: string[];
@@ -18,13 +19,7 @@ type TShareWithModalProps = {
   onClose: () => void;
 };
 
-const ShareWithModal = ({
-  isOpen,
-  categoryIds = [],
-  paymentSourceIds = [],
-  expenseIds = [],
-  onClose,
-}: TShareWithModalProps) => {
+const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onClose }: TShareWithModalProps) => {
   const [email, setEmail] = useState('');
   const [foundUsers, setFoundUsers] = useState<TFindUserByEmailResponse>([]);
   const [selectedUser, setSelectedUser] = useState<TUserType | null>(null);
@@ -52,6 +47,7 @@ const ShareWithModal = ({
       onClose();
       setFoundUsers([]);
       setSelectedUser(null);
+      toast(`Shared with ${selectedUser?.email}`, { type: 'success' });
     },
   });
 

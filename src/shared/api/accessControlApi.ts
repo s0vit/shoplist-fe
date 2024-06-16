@@ -8,9 +8,9 @@ export const shareWith = async (data: TCreateAccessControlRequest): Promise<TCre
 
 export type TCreateAccessControlRequest = {
   sharedWith: string;
-  expenseIds: string[];
-  categoryIds: string[];
-  paymentSourceIds: string[];
+  expenseIds?: string[];
+  categoryIds?: string[];
+  paymentSourceIds?: string[];
 };
 
 export type TCreateAccessControlResponse = {
