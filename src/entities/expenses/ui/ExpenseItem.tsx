@@ -3,7 +3,7 @@ import { alpha, Box, Chip, Menu, MenuItem, Stack, Tooltip, Typography, useTheme 
 import { TExpense } from 'src/shared/api/expenseApi.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
-import { Delete, Edit } from '@mui/icons-material';
+import { Delete, Edit, Share } from '@mui/icons-material';
 import {
   LeadingActions,
   SwipeableList,
@@ -17,6 +17,7 @@ import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore
 import selectSetCurrentEditExpense from 'src/entities/expenses/model/selectors/selectSetCurrentEditExpense.ts';
 import selectSetIsExpenseModalOpen from 'src/entities/expenses/model/selectors/selectSetIsExpenseModalOpen.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import ShareWithModal from 'src/widgets/Modal/ShareWithModal/ShareWithModal.tsx';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -26,6 +27,9 @@ type TExpenseItemProps = {
 };
 
 const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpenseItemProps) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isShareWithModalOpen, setIsShareWithModalOpen] = useState(false);
+
   const setCurrentEditExpense = useExpensesStore(selectSetCurrentEditExpense);
   const setIsEditExpenseModalOpen = useExpensesStore(selectSetIsExpenseModalOpen);
   const theme = useTheme();
@@ -33,8 +37,6 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   const browserLocale = navigator.language;
   const categoryColor = category?.color || theme.palette.primary.main;
   const paymentSourceColor = paymentSource?.color || theme.palette.primary.main;
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault(); // предотвратить контекстное меню браузера
@@ -149,7 +151,6 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
         }}
       >
         <MenuItem
-          divider
           onClick={() => {
             handleEdit();
             handleCloseMenu();
@@ -158,6 +159,18 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
           <Edit fontSize="small" />
           <Typography variant="body2" sx={{ ml: 1 }}>
             Edit
+          </Typography>
+        </MenuItem>
+        <MenuItem
+          divider
+          onClick={() => {
+            setIsShareWithModalOpen(true);
+            handleCloseMenu();
+          }}
+        >
+          <Share fontSize="small" />
+          <Typography variant="body2" sx={{ ml: 1 }}>
+            Share with
           </Typography>
         </MenuItem>
         <MenuItem
@@ -172,6 +185,11 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
           </Typography>
         </MenuItem>
       </Menu>
+      <ShareWithModal
+        expenseIds={[expense._id]}
+        isOpen={isShareWithModalOpen}
+        onClose={() => setIsShareWithModalOpen(false)}
+      />
     </>
   );
 };
