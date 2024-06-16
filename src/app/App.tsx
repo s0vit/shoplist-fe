@@ -9,7 +9,7 @@ function App() {
     <QueryProvider>
       <ThemeProviderWithToggle>
         <Routes />
-        <ToastContainer stacked />
+        <ToastContainer stacked hideProgressBar />
       </ThemeProviderWithToggle>
     </QueryProvider>
   );

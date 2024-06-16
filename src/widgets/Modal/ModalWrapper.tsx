@@ -3,7 +3,7 @@ import { Backdrop, Fade, Modal } from '@mui/material';
 
 type TModelWrapperProps = {
   onClickAway: () => void;
-  isModalOpen: boolean;
+  isModalOpen?: boolean;
 };
 
 const ModalWrapper = ({ onClickAway, children, isModalOpen = false }: PropsWithChildren<TModelWrapperProps>) => {

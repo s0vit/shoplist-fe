@@ -5,7 +5,6 @@ import { logout } from 'src/shared/api/authApi.ts';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import selectUserData from 'src/entities/user/model/selectors/selectUserData.ts';
 import { useContext, useEffect } from 'react';
-import { toast } from 'react-toastify';
 import { ColorModeContext } from 'src/app/providers/Theme.tsx';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -38,7 +37,6 @@ const Navbar = () => {
     if (isSuccess) {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
-      toast('Logged out', { type: 'success' });
       setUserData();
     }
   }, [isSuccess, setUserData]);

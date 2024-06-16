@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ['@mui/material', '@emotion/react', '@emotion/styled'],
+    include: ['@mui/material', '@emotion/react', '@emotion/styled', '@mui/x-date-pickers', 'date-fns'],
   },
   resolve: {
     alias: {
