@@ -3,7 +3,6 @@ import { Button, FormControl, FormGroup, InputLabel, OutlinedInput, Stack, Typog
 import { useMutation } from '@tanstack/react-query';
 import { createPaymentSource, TCreatePaymentSourceInput, TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
@@ -25,7 +24,6 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
     mutate: createPaymentSourceMutate,
     error: createPaymentSourceError,
     isPending: isCreatePaymentSourcePending,
-    isSuccess: isCreatePaymentSourceSuccess,
   } = useMutation<TPaymentSource, TErrorResponse, TCreatePaymentSourceInput>({
     mutationFn: createPaymentSource,
     mutationKey: ['paymentSources'],
@@ -38,13 +36,6 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
   const addPaymentSource = () => {
     createPaymentSourceMutate({ color, title, comments });
   };
-
-  useEffect(() => {
-    if (isCreatePaymentSourceSuccess) {
-      toast('Payment source added', { type: 'success' });
-      fetchPaymentSources();
-    }
-  }, [isCreatePaymentSourceSuccess, fetchPaymentSources]);
 
   useEffect(() => {
     if (createPaymentSourceError) {
