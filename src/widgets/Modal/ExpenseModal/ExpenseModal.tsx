@@ -3,13 +3,13 @@ import AddExpenseCalculator from 'src/widgets/Forms/AddExpenseForm/AddExpenseCal
 
 type TExpenseModalProps = {
   closeModal: () => void;
-  isExpenseModalOpen: boolean;
+  isExpenseModalOpen?: boolean;
 };
 
 const ExpenseModal = ({ closeModal, isExpenseModalOpen }: TExpenseModalProps) => {
   return (
     <ModalWrapper onClickAway={closeModal} isModalOpen={isExpenseModalOpen}>
-      <AddExpenseCalculator />
+      <AddExpenseCalculator closeModal={closeModal} />
     </ModalWrapper>
   );
 };

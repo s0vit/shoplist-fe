@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Box, Button, IconButton, Paper, TextField, Typography, useTheme } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
@@ -8,20 +8,33 @@ import selectUserCategories from 'src/entities/category/model/selectors/selectUs
 import AddCategoryModal from 'src/widgets/Modal/AddCategoryModal/AddCategoryModal.tsx';
 import AddPaymentSourceModal from 'src/widgets/Modal/AddPaymantSourceModal/AddPaymentSourceModal.tsx';
 import { AddCircle } from '@mui/icons-material';
-import { createExpense, TCreateExpenseInput, TExpense } from 'src/shared/api/expenseApi.ts';
+import { createExpense, TCreateExpenseInput, TExpense, updateExpense } from 'src/shared/api/expenseApi.ts';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import { useMutation } from '@tanstack/react-query';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import { toast } from 'react-toastify';
+import selectCurrentEditExpense from 'src/entities/expenses/model/selectors/selectCurrentEditExpense.ts';
+import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
+import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import HorizontalList from 'src/widgets/Forms/AddExpenseForm/HorizontalList.tsx';
 
-const AddExpenseCalculator = () => {
+type TExpensesCalculatorProps = {
+  closeModal: () => void;
+};
+
+const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const paymentSources = usePaymentSourcesStore(selectUserPaymentSources);
   const categories = useCategoryStore(selectUserCategories);
+  const currentExpense = useExpensesStore(selectCurrentEditExpense);
   const theme = useTheme();
-  const [amount, setAmount] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [selectedPaymentSource, setSelectedPaymentSource] = useState<string>('');
+  const [amount, setAmount] = useState<string>(currentExpense?.amount.toString() || '');
+  const [selectedCategory, setSelectedCategory] = useState<string>(currentExpense?.categoryId || '');
+  const [selectedPaymentSource, setSelectedPaymentSource] = useState<string>(currentExpense?.paymentSourceId || '');
+  const [selectedDate, setSelectedDate] = useState<Date | null>(
+    currentExpense?.createdAt ? new Date(currentExpense.createdAt) : new Date(),
+  );
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [isAddPaymentSourceModalOpen, setIsAddPaymentSourceModalOpen] = useState(false);
 
@@ -35,10 +48,21 @@ const AddExpenseCalculator = () => {
   } = useMutation<TExpense, TErrorResponse, TCreateExpenseInput>({
     mutationFn: createExpense,
     mutationKey: ['expenses'],
-    onSuccess: () => {
-      fetchExpenses({});
-    },
   });
+
+  const {
+    isPending: isUpdateExpensePending,
+    isSuccess: isUpdateExpenseSuccess,
+    error: updateExpenseError,
+    mutate: updateExpenseMutate,
+  } = useMutation<TExpense, TErrorResponse, { id: string; data: TCreateExpenseInput }>({
+    mutationFn: ({ id, data }) => updateExpense(id, data),
+    mutationKey: ['expenses'],
+  });
+
+  const isPending = isCreateExpensePending || isUpdateExpensePending;
+  const isSuccess = isCreateExpenseSuccess || isUpdateExpenseSuccess;
+  const error = createExpenseError || updateExpenseError;
 
   const calcButtons = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '←'];
 
@@ -62,7 +86,7 @@ const AddExpenseCalculator = () => {
     }
   };
 
-  const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
     // only numbers and 2 decimal places
     if (isNaN(Number(e.target.value)) || e.target.value.split('.')[1]?.length > 2) return;
     // replace leading zeros
@@ -71,25 +95,39 @@ const AddExpenseCalculator = () => {
 
   const handleSave = () => {
     if (!amount || !selectedCategory || !selectedPaymentSource) return;
-    createExpenseMutate({
-      amount: parseFloat(amount),
-      categoryId: selectedCategory,
-      paymentSourceId: selectedPaymentSource,
-    });
+    currentExpense?._id
+      ? updateExpenseMutate({
+          id: currentExpense._id,
+          data: {
+            amount: parseFloat(amount),
+            categoryId: selectedCategory,
+            paymentSourceId: selectedPaymentSource,
+            createdAt: selectedDate!, // it's update function so createdAt is already set
+          },
+        })
+      : createExpenseMutate({
+          amount: parseFloat(amount),
+          categoryId: selectedCategory,
+          paymentSourceId: selectedPaymentSource,
+          createdAt: selectedDate || new Date(),
+        });
   };
 
   useEffect(() => {
-    if (isCreateExpenseSuccess) {
+    if (isSuccess) {
+      fetchExpenses();
       toast('Expense added successfully', { type: 'success' });
       setAmount('');
       setSelectedPaymentSource('');
       setSelectedCategory('');
+      setSelectedDate(new Date());
+      closeModal();
     }
-  }, [isCreateExpenseSuccess]);
+  }, [closeModal, fetchExpenses, isSuccess]);
 
   useEffect(() => {
-    if (createExpenseError) handleError(createExpenseError);
-  }, [createExpenseError]);
+    if (error) handleError(error);
+  }, [error]);
 
   return (
     <Paper>
@@ -97,13 +135,12 @@ const AddExpenseCalculator = () => {
         sx={{ p: 2, border: '1px solid grey', borderRadius: '8px', backgroundColor: theme.palette.background.paper }}
       >
         <TextField
-          disabled={isCreateExpensePending}
-          //TODO: Add currency formatting when we have backend for that
+          disabled={isPending}
           variant="outlined"
           value={amount}
           fullWidth
-          onChange={handleChangeAmount}
           sx={{ mb: 1 }}
+          onChange={handleChangeAmount}
           InputProps={{
             endAdornment: (
               <Typography variant="h6" mr={1}>
@@ -116,7 +153,7 @@ const AddExpenseCalculator = () => {
           {calcButtons.map((value) => (
             <Grid xs={4} key={value}>
               <Button
-                disabled={isCreateExpensePending}
+                disabled={isPending}
                 variant="contained"
                 fullWidth
                 onClick={() => handleButtonClick(value)}
@@ -129,62 +166,47 @@ const AddExpenseCalculator = () => {
         </Grid>
         <Box display="flex" alignItems="center" justifyContent="space-between" paddingTop={1}>
           <Typography variant="subtitle2">Category:</Typography>
-          <IconButton disabled={isCreateExpensePending} color="primary" onClick={() => setIsAddCategoryModalOpen(true)}>
+          <IconButton disabled={isPending} color="primary" onClick={() => setIsAddCategoryModalOpen(true)}>
             <AddCircle />
           </IconButton>
         </Box>
-        <Box paddingY={1} sx={{ overflowX: 'auto', display: 'flex' }}>
-          {categories.map((category) => (
-            <Button
-              disabled={isCreateExpensePending}
-              key={category._id}
-              variant={selectedCategory === category._id ? 'contained' : 'outlined'}
-              color="primary"
-              onClick={() => setSelectedCategory(category._id)}
-              sx={
-                selectedCategory === category._id
-                  ? { backgroundColor: category.color, color: theme.palette.getContrastText(category.color || '') }
-                  : { borderColor: category.color }
-              }
-              style={{ marginRight: '8px', flexShrink: 0 }}
-            >
-              {category.title}
-            </Button>
-          ))}
-        </Box>
+        <HorizontalList
+          items={categories}
+          disabled={isPending}
+          selectedItem={selectedCategory}
+          setSelectedItem={setSelectedCategory}
+        />
         <Box display="flex" alignItems="center" justifyContent="space-between" paddingTop={1}>
           <Typography variant="subtitle2">Payment Source:</Typography>
-          <IconButton
-            disabled={isCreateExpensePending}
-            color="primary"
-            onClick={() => setIsAddPaymentSourceModalOpen(true)}
-          >
+          <IconButton disabled={isPending} color="primary" onClick={() => setIsAddPaymentSourceModalOpen(true)}>
             <AddCircle />
           </IconButton>
         </Box>
-        <Box paddingY={1} sx={{ overflowX: 'auto', display: 'flex' }}>
-          {paymentSources.map((payment) => (
-            <Button
-              disabled={isCreateExpensePending}
-              key={payment._id}
-              variant={selectedPaymentSource === payment._id ? 'contained' : 'outlined'}
-              color="primary"
-              onClick={() => setSelectedPaymentSource(payment._id)}
-              sx={
-                selectedPaymentSource === payment._id
-                  ? { backgroundColor: payment.color, color: theme.palette.getContrastText(payment.color || '') }
-                  : { borderColor: payment.color }
-              }
-              style={{ marginRight: '8px', flexShrink: 0 }}
-            >
-              {payment.title}
-            </Button>
-          ))}
-        </Box>
+        <HorizontalList
+          items={paymentSources}
+          disabled={isPending}
+          selectedItem={selectedPaymentSource}
+          setSelectedItem={setSelectedPaymentSource}
+        />
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <MobileDatePicker
+            label="Date"
+            disableFuture
+            value={selectedDate}
+            onChange={setSelectedDate}
+            sx={{
+              mt: -1, // to align with other fields
+              width: '100%',
+              '& .MuiInputBase-root': {
+                backgroundColor: theme.palette.background.paper,
+              },
+            }}
+          />
+        </LocalizationProvider>
         <Grid container spacing={1} sx={{ mt: 1 }}>
           <Grid xs={6}>
             <Button
-              disabled={isCreateExpensePending}
+              disabled={isPending}
               variant="contained"
               color="warning"
               fullWidth
@@ -195,7 +217,7 @@ const AddExpenseCalculator = () => {
           </Grid>
           <Grid xs={6}>
             <Button
-              disabled={isCreateExpensePending || !amount || !selectedCategory || !selectedPaymentSource}
+              disabled={isPending || !amount || !selectedCategory || !selectedPaymentSource}
               variant="contained"
               color="success"
               fullWidth
