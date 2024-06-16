@@ -20,12 +20,8 @@ const ExpensesTable = ({ fetchExpenses }: TExpensesTableProps) => {
   const { mutate } = useMutation({
     mutationKey: ['expenses'],
     mutationFn: deleteExpense,
+    onSuccess: () => fetchExpenses({}),
   });
-
-  const handleRemove = (id: string) => {
-    mutate(id);
-    fetchExpenses({});
-  };
 
   return (
     <Box>
@@ -39,7 +35,7 @@ const ExpensesTable = ({ fetchExpenses }: TExpensesTableProps) => {
             expense={expense}
             category={category}
             paymentSource={paymentSource}
-            handleRemove={handleRemove}
+            handleRemove={mutate}
           />
         );
       })}

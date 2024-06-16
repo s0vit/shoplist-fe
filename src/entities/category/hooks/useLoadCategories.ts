@@ -56,7 +56,7 @@ const useLoadCategories = (
   return {
     userCategories,
     isCategoriesLoading,
-    fetchCategories: fetchCategories,
+    fetchCategories,
   };
 };
 
