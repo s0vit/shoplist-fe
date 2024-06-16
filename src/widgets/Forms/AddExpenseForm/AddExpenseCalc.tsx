@@ -130,10 +130,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   }, [error]);
 
   return (
-    <Paper>
-      <Box
-        sx={{ p: 2, border: '1px solid grey', borderRadius: '8px', backgroundColor: theme.palette.background.paper }}
-      >
+    <Paper sx={{ backgroundColor: theme.palette.background.paper, position: 'relative', zIndex: 1 }}>
+      <Box sx={{ p: 2, border: '1px solid grey', borderRadius: '8px' }}>
         <TextField
           disabled={isPending}
           variant="outlined"
