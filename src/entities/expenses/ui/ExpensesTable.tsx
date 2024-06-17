@@ -24,7 +24,7 @@ const ExpensesTable = ({ fetchExpenses }: TExpensesTableProps) => {
   });
 
   return (
-    <Box>
+    <Box width="100%">
       {expenses?.map((expense) => {
         const category = userCategories.find((category) => category._id === expense.categoryId);
         const paymentSource = userPaymentSources.find((source) => source._id === expense.paymentSourceId);

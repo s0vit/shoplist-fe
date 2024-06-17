@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@emotion/react';
 import { createTheme, CssBaseline } from '@mui/material';
-import { createContext, PropsWithChildren, useMemo, useState } from 'react';
+import { createContext, PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
 export const ColorModeContext = createContext({
   toggleColorMode: () => {},
@@ -28,6 +28,32 @@ const ThemeProviderWithToggle = ({ children }: PropsWithChildren) => {
       }),
     [mode],
   );
+
+  useEffect(() => {
+    const styleContent = `
+    ::-webkit-scrollbar {
+      width: 9px;
+      height: 9px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: ${theme.palette.background.default};
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: ${theme.palette.grey[500]};
+      border-radius: 20px;
+      border: 1px solid ${theme.palette.grey[600]};
+    }
+  `;
+    const style = document.createElement('style');
+    style.innerHTML = styleContent;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, [theme]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>

@@ -16,12 +16,12 @@ import handleError from 'src/utils/errorHandler.ts';
 import { toast } from 'react-toastify';
 import selectCurrentEditExpense from 'src/entities/expenses/model/selectors/selectCurrentEditExpense.ts';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
-import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import HorizontalList from 'src/widgets/Forms/AddExpenseForm/HorizontalList.tsx';
 
 type TExpensesCalculatorProps = {
-  closeModal: () => void;
+  closeModal?: () => void;
 };
 
 const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
@@ -121,7 +121,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
       setSelectedPaymentSource('');
       setSelectedCategory('');
       setSelectedDate(new Date());
-      closeModal();
+      closeModal?.();
     }
   }, [closeModal, fetchExpenses, isSuccess]);
 
@@ -130,7 +130,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   }, [error]);
 
   return (
-    <Paper sx={{ backgroundColor: theme.palette.background.paper, position: 'relative', zIndex: 1 }}>
+    <Paper sx={{ backgroundColor: theme.palette.background.paper, position: 'relative', zIndex: 1, maxWidth: '400px' }}>
       <Box sx={{ p: 2, border: '1px solid grey', borderRadius: '8px' }}>
         <TextField
           disabled={isPending}
@@ -187,13 +187,18 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           setSelectedItem={setSelectedPaymentSource}
         />
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <MobileDatePicker
+          <DatePicker
             label="Date"
             disableFuture
             value={selectedDate}
             onChange={setSelectedDate}
+            slotProps={{
+              day: {
+                sx: { borderRadius: theme.spacing(1) },
+              },
+            }}
             sx={{
-              mt: -1, // to align with other fields
+              mt: 2,
               width: '100%',
               '& .MuiInputBase-root': {
                 backgroundColor: theme.palette.background.paper,
