@@ -11,6 +11,7 @@ export type TLoginRequest = {
   password: string;
 };
 export type TLoginResponse = {
+  _id: string;
   email: string;
   login: string;
   isVerified: boolean;

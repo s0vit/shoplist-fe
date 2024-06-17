@@ -1,4 +1,15 @@
-import { Button, IconButton, InputAdornment, Stack, TextField, Typography, useTheme } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Stack,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { Form, useNavigate, useSearchParams } from 'react-router-dom';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useEffect, useState } from 'react';
@@ -74,29 +85,27 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
           />
-          <TextField
-            disabled={isLoginPending}
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword(!showPassword)}
-                      onMouseDown={(e) => e.preventDefault()}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-
+          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <OutlinedInput
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={isLoginPending}
+              type={showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
           <Button type="submit" disabled={isLoginPending} variant="outlined">
             Login
           </Button>
