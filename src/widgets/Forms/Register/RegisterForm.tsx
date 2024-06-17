@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { confirmEmail, register, TConfirmEmailResponse } from 'src/shared/api/authApi.ts';
 import { Id, toast } from 'react-toastify';
-import { AxiosError } from 'axios';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import {
   Button,
@@ -16,8 +15,9 @@ import {
   Typography,
 } from '@mui/material';
 import { Form } from 'react-router-dom';
-import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import handleError from 'src/utils/errorHandler.ts';
 
 const RegisterForm = () => {
   const [isRegistered, setIsRegistered] = useState(false);
@@ -67,6 +67,7 @@ const RegisterForm = () => {
       setIsRegistered(true);
     }
   }, [isRegisterSuccess]);
+
   useEffect(() => {
     if (isConfirmSuccess) {
       toast.dismiss(toastId.current);
@@ -74,22 +75,18 @@ const RegisterForm = () => {
       setIsConfirmed(true);
     }
   }, [isConfirmSuccess]);
+
   useEffect(() => {
-    if (registerError && registerError instanceof AxiosError) {
+    if (registerError) {
       toast.dismiss(toastId.current);
-      toastId.current = toast('Registration failed: ' + registerError.response?.data.message, {
-        type: 'error',
-        autoClose: false,
-      });
+      toastId.current = handleError(registerError);
     }
   }, [registerError]);
+
   useEffect(() => {
-    if (confirmError && confirmError instanceof AxiosError) {
+    if (confirmError) {
       toast.dismiss(toastId.current);
-      toastId.current = toast('Email confirmation failed: ' + confirmError.response?.data.message, {
-        type: 'error',
-        autoClose: false,
-      });
+      toastId.current = handleError(confirmError);
     }
   }, [confirmError]);
 

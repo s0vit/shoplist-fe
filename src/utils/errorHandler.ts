@@ -1,32 +1,46 @@
-import { toast } from 'react-toastify';
+import { Id, toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 
 const handleError = (error: unknown) => {
+  const resultArray: Array<string> = [];
+  let tostId: Id;
+
   if (error instanceof AxiosError) {
     console.error(error);
+    const errorArray = error.response?.data.meta;
 
-    if (error.response && Object.keys(error.response.data.meta).length === 0) {
-      toast(error.response?.data.message, { type: 'error' });
+    if (error.response && Object.keys(errorArray).length === 0) {
+      resultArray.push(error.response?.data.message);
+    } else {
+      for (const key in errorArray) {
+        const errorArrayValue = errorArray[key];
 
-      return;
+        if (Array.isArray(errorArrayValue)) {
+          resultArray.push(errorArrayValue.join(', '));
+        }
+      }
     }
 
-    for (const key in error.response?.data.meta) {
-      toast(error.response?.data.meta[key].join('\n'), { type: 'error' });
+    if (!resultArray.length) {
+      resultArray.push(error.response?.data.message || 'Something went wrong');
     }
 
-    return;
+    tostId = toast(resultArray.join(', '), { type: 'error' });
+
+    return tostId;
   }
 
   if (error instanceof Error) {
     console.error(error.message);
-    toast(error.message, { type: 'error' });
+    tostId = toast(error.message, { type: 'error' });
 
-    return;
+    return tostId;
   }
 
   console.error(error);
-  toast(JSON.stringify(error), { type: 'error' });
+  tostId = toast(JSON.stringify(error), { type: 'error' });
+
+  return tostId;
 };
 
 export default handleError;
