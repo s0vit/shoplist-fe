@@ -82,3 +82,9 @@ type TPasswordResetRequest = {
   token: string;
   password: string;
 };
+
+export const getNewLink = async (): Promise<void> => {
+  const response = await apiInstance.post<void>('auth/request-confirm');
+
+  return response.data;
+};
