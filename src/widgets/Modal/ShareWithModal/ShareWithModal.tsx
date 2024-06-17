@@ -10,6 +10,7 @@ import handleError from 'src/utils/errorHandler.ts';
 import { shareWith } from 'src/shared/api/accessControlApi.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import { toast } from 'react-toastify';
+import emailToHexColor from 'src/utils/helpers/emailToHexColor.ts';
 
 type TShareWithModalProps = {
   expenseIds?: string[];
@@ -89,24 +90,28 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
           <FormHelperText>Enter email to share with</FormHelperText>
           <Stack>
             {foundUsers &&
-              foundUsers?.map((user) => (
-                <Box key={user._id}>
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    sx={{
-                      border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
-                      borderRadius: 1,
-                      cursor: 'pointer',
-                      backgroundColor: selectedUser?._id === user._id ? theme.palette.primary.main : 'transparent',
-                      color: selectedUser?._id === user._id ? theme.palette.primary.contrastText : 'inherit',
-                    }}
-                    onClick={() => onUserSelect(user)}
-                  >
-                    {user.email}
-                  </Typography>
-                </Box>
-              ))}
+              foundUsers?.map((user) => {
+                const emailColor = emailToHexColor(user.email);
+
+                return (
+                  <Box key={user._id}>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{
+                        border: `1px solid ${alpha(emailColor, 0.3)}`,
+                        borderRadius: 1,
+                        cursor: 'pointer',
+                        backgroundColor: selectedUser?._id === user._id ? emailColor : 'transparent',
+                        color: selectedUser?._id === user._id ? theme.palette.getContrastText(emailColor) : 'inherit',
+                      }}
+                      onClick={() => onUserSelect(user)}
+                    >
+                      {user.email}
+                    </Typography>
+                  </Box>
+                );
+              })}
           </Stack>
           <Button variant="outlined" fullWidth onClick={handleShare} disabled={isLoading || !selectedUser}>
             Share
