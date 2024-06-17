@@ -4,6 +4,7 @@ export type TUserStore = {
 };
 
 export type TUserType = {
+  _id: string;
   email: string;
   login: string;
   isVerified: boolean;
