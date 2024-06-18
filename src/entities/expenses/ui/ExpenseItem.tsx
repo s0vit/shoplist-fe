@@ -94,7 +94,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
 
   return (
     <>
-      <SwipeableList type={Type.IOS} fullSwipe>
+      <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
           <Tooltip title={expense.comments || ''} key={expense._id} placement="top">
             <Stack

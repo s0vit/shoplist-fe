@@ -25,7 +25,7 @@ apiInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 403 && !originalRequest._retry) {
+    if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const oldRefreshToken = useUserStore.getState().user?.refreshToken || localStorage.getItem('refreshToken');
       if (!oldRefreshToken) throw new Error('No refresh token');

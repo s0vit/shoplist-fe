@@ -1,6 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, IconButton, Paper, TextField, Typography, useTheme } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
+import { Box, Button, Grid, IconButton, Paper, TextField, Typography, useTheme } from '@mui/material';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectUserPaymentSources.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
@@ -147,9 +146,9 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             ),
           }}
         />
-        <Grid container spacing={1}>
+        <Grid container gap={1}>
           {calcButtons.map((value) => (
-            <Grid xs={4} key={value}>
+            <Grid xs={3.82} key={value}>
               <Button
                 disabled={isPending}
                 variant="contained"
