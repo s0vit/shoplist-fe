@@ -139,14 +139,16 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'right',
+          horizontal: 'center',
         }}
         open={Boolean(anchorEl)}
         onClose={handleCloseMenu}
-        PaperProps={{
-          style: {
-            width: '200px',
-            border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+        slotProps={{
+          paper: {
+            style: {
+              width: '200px',
+              border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+            },
           },
         }}
       >

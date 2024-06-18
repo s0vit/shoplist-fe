@@ -1,4 +1,4 @@
-import { Box, Button, useTheme } from '@mui/material';
+import { alpha, Box, Button, useTheme } from '@mui/material';
 
 type THorizontalListProps = {
   items: { _id: string; title: string; color?: string }[];
@@ -21,7 +21,10 @@ const HorizontalList = ({ items, disabled, selectedItem, setSelectedItem }: THor
           onClick={() => setSelectedItem(item._id)}
           sx={
             selectedItem === item._id
-              ? { backgroundColor: item.color, color: theme.palette.getContrastText(item.color || '') }
+              ? {
+                  backgroundColor: alpha(item.color || '', 0.7),
+                  color: theme.palette.getContrastText(item.color || ''),
+                }
               : { borderColor: item.color }
           }
           style={{ marginRight: '8px', flexShrink: 0 }}
