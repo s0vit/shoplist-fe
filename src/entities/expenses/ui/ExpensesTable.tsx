@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
-import selectUserCategories from 'src/entities/category/model/selectors/selectUserCategories.ts';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectUserPaymentSources.ts';
 import selectUserExpenses from 'src/entities/expenses/model/selectors/selectUserExpenses.ts';
@@ -14,7 +13,7 @@ type TExpensesTableProps = {
 };
 
 const ExpensesTable = ({ fetchExpenses }: TExpensesTableProps) => {
-  const userCategories = useCategoryStore(selectUserCategories);
+  const userCategories = useCategoryStore.use.userCategories();
   const userPaymentSources = usePaymentSourcesStore(selectUserPaymentSources);
   const expenses = useExpensesStore(selectUserExpenses);
   const { mutate } = useMutation({

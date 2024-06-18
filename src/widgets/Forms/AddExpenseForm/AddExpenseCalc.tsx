@@ -4,7 +4,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectUserPaymentSources.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
-import selectUserCategories from 'src/entities/category/model/selectors/selectUserCategories.ts';
 import AddCategoryModal from 'src/widgets/Modal/AddCategoryModal/AddCategoryModal.tsx';
 import AddPaymentSourceModal from 'src/widgets/Modal/AddPaymantSourceModal/AddPaymentSourceModal.tsx';
 import { AddCircle } from '@mui/icons-material';
@@ -26,7 +25,7 @@ type TExpensesCalculatorProps = {
 
 const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const paymentSources = usePaymentSourcesStore(selectUserPaymentSources);
-  const categories = useCategoryStore(selectUserCategories);
+  const categories = useCategoryStore.use.userCategories();
   const currentExpense = useExpensesStore(selectCurrentEditExpense);
   const theme = useTheme();
   const [amount, setAmount] = useState<string>(currentExpense?.amount.toString() || '');
