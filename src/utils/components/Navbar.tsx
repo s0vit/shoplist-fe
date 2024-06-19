@@ -26,6 +26,14 @@ const Navbar = () => {
     mutationFn: logout,
   });
 
+  useEffect(() => {
+    if (isSuccess) {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      setUserData();
+    }
+  }, [isSuccess, setUserData]);
+
   const handleLoginClick = () => {
     if (isLoggedIn) {
       requestLogout();
@@ -35,14 +43,6 @@ const Navbar = () => {
 
     navigate(RoutesEnum.LOGIN);
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      setUserData();
-    }
-  }, [isSuccess, setUserData]);
 
   const onIconButtonHandler = () => {
     setIsDrawerOpen(true);

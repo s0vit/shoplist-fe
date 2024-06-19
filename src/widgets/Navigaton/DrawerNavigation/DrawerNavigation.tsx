@@ -1,4 +1,4 @@
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
 import PeopleIcon from '@mui/icons-material/People';
@@ -17,14 +17,8 @@ type TNavigationItem = {
   link: string;
   icon: ReactElement;
 };
-// ROOT = '/',
-// LOGIN = '/login',
-// PROFILE = '/profile',
-// RESET_PASSWORD = '/reset-password',
-// CONFIRM_EMAIL = '/confirm',
-// CATEGORY = '/category',
-// PAYMENT_SOURCE = '/payment-source',
-const NavigationList: Array<TNavigationItem> = [
+
+const navigationList: Array<TNavigationItem> = [
   { title: 'Home', link: RoutesEnum.ROOT, icon: <HomeIcon /> },
   { title: 'Profile', link: RoutesEnum.PROFILE, icon: <AccountCircleIcon /> },
   { title: 'Categories', link: RoutesEnum.CATEGORY, icon: <CategoryIcon /> },
@@ -35,27 +29,32 @@ const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationPr
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isRoutActive = (link: string) => {
+  const isRouteActive = (link: string) => {
     return matchPath(location.pathname, link) !== null;
   };
 
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+
   return (
-    <Drawer anchor="left" open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
-      <Box sx={{ width: 250 }} role="presentation" onClick={() => setIsDrawerOpen(false)}>
+    <Drawer anchor="left" open={isDrawerOpen} onClose={closeDrawer}>
+      <Box sx={{ width: 250 }} onClick={closeDrawer}>
         <List>
-          {NavigationList.map((rout) => (
-            <ListItem key={rout.link} disablePadding>
-              <ListItemButton onClick={() => navigate(rout.link)}>
-                <ListItemIcon>{rout.icon}</ListItemIcon>
+          {navigationList.map((route) => (
+            <ListItem key={route.link} disablePadding>
+              <ListItemButton onClick={() => navigate(route.link)}>
+                <ListItemIcon>{route.icon}</ListItemIcon>
                 <ListItemText
-                  primary={rout.title}
-                  primaryTypographyProps={isRoutActive(rout.link) ? { fontWeight: 'bold' } : {}}
+                  primary={route.title}
+                  primaryTypographyProps={isRouteActive(route.link) ? { fontWeight: 'bold' } : {}}
                 />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
       </Box>
+      <Divider />
     </Drawer>
   );
 };
