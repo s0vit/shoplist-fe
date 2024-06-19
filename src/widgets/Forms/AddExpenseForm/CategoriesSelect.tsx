@@ -3,7 +3,6 @@ import { AddCircle } from '@mui/icons-material';
 import { SyntheticEvent, useState } from 'react';
 import AddCategoryModal from 'src/widgets/Modal/AddCategoryModal/AddCategoryModal.tsx';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
-import selectUserCategories from 'src/entities/category/model/selectors/selectUserCategories.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 
@@ -19,7 +18,7 @@ const CategoriesSelect = ({
   isCreateExpensePending,
 }: TCategoriesSelectProps) => {
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
-  const categories = useCategoryStore(selectUserCategories);
+  const categories = useCategoryStore.use.userCategories();
 
   const onAutocompleteChange = useStableCallback((_e: SyntheticEvent, value: TCategory | null) => {
     if (value === null || categories?.some((category) => category._id === value._id)) {
