@@ -1,5 +1,6 @@
 import { AddCircle } from '@mui/icons-material';
-import { alpha, Box, Button, IconButton, useTheme } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
+import HorizontalListItem from 'src/widgets/Forms/AddExpenseForm/HorizontalListItem.tsx';
 
 type THorizontalListProps = {
   items: { _id: string; title: string; color?: string }[];
@@ -7,34 +8,37 @@ type THorizontalListProps = {
   selectedItem: string;
   setSelectedItem: (id: string) => void;
   openModal: () => void;
+  handleDelete: (id: string) => void;
+  handleEdit: (item: { _id: string; title: string; color?: string }) => void;
+  handleShare: (id: string) => void;
 };
 
-const HorizontalList = ({ items, disabled, selectedItem, setSelectedItem, openModal }: THorizontalListProps) => {
-  const theme = useTheme();
-
+const HorizontalList = ({
+  items,
+  disabled,
+  selectedItem,
+  setSelectedItem,
+  openModal,
+  handleDelete,
+  handleShare,
+  handleEdit,
+}: THorizontalListProps) => {
   return (
     <Box pt={1} pb={0.5} sx={{ overflowX: 'auto', display: 'flex' }}>
-      {items.map((item) => (
-        <Button
-          size="small"
-          disabled={disabled}
-          key={item._id}
-          variant={selectedItem === item._id ? 'contained' : 'outlined'}
-          color="primary"
-          onClick={() => setSelectedItem(selectedItem === item._id ? '' : item._id)}
-          sx={
-            selectedItem === item._id
-              ? {
-                  backgroundColor: `${alpha(item.color || '', 0.7)}!important`,
-                  color: `${theme.palette.getContrastText(item.color || '')}!important`,
-                }
-              : { borderColor: `${item.color}!important`, color: theme.palette.text.secondary }
-          }
-          style={{ marginRight: '8px', flexShrink: 0 }}
-        >
-          {item.title}
-        </Button>
-      ))}
+      {items.map((item) => {
+        return (
+          <HorizontalListItem
+            key={item._id}
+            disabled={disabled}
+            item={item}
+            handleEdit={handleEdit}
+            handleShare={handleShare}
+            handleDelete={handleDelete}
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
+          />
+        );
+      })}
       <IconButton size="small" disabled={disabled} color="primary" onClick={openModal}>
         <AddCircle />
       </IconButton>

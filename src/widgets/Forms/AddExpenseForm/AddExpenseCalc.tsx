@@ -13,6 +13,11 @@ import { toast } from 'react-toastify';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import { DatePicker } from '@mui/x-date-pickers';
 import HorizontalList from 'src/widgets/Forms/AddExpenseForm/HorizontalList.tsx';
+import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
+import { deleteCategory } from 'src/shared/api/categoryApi.ts';
+import { deletePaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
+import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
+import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
@@ -34,6 +39,25 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const [isAddPaymentSourceModalOpen, setIsAddPaymentSourceModalOpen] = useState(false);
 
   const { fetchExpenses } = useLoadExpenses();
+  const { isDesktopWidth } = useWindowWidth();
+  const { fetchCategories } = useLoadCategories(false);
+  const { fetchPaymentSources } = useLoadPaymentSources(false);
+  const {
+    isSuccess: isDeleteCategorySuccess,
+    mutate: deleteCategoryMutate,
+    isPending: isDeleteCategoryPending,
+  } = useMutation({
+    mutationFn: deleteCategory,
+    onSuccess: fetchCategories,
+  });
+  const {
+    isSuccess: isDeletePaymentSourceSuccess,
+    mutate: deletePaymentSourceMutate,
+    isPending: isDeletePaymentSourcePending,
+  } = useMutation({
+    mutationFn: deletePaymentSource,
+    onSuccess: fetchPaymentSources,
+  });
 
   const {
     isPending: isCreateExpensePending,
@@ -55,8 +79,10 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     mutationKey: ['expenses'],
   });
 
-  const isPending = isCreateExpensePending || isUpdateExpensePending;
-  const isSuccess = isCreateExpenseSuccess || isUpdateExpenseSuccess;
+  const isPending =
+    isCreateExpensePending || isUpdateExpensePending || isDeleteCategoryPending || isDeletePaymentSourcePending;
+  const isSuccess =
+    isCreateExpenseSuccess || isUpdateExpenseSuccess || isDeleteCategorySuccess || isDeletePaymentSourceSuccess;
   const error = createExpenseError || updateExpenseError;
 
   const calcButtons = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '←'];
@@ -102,14 +128,14 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             amount: parseFloat(amount),
             categoryId: selectedCategory,
             paymentSourceId: selectedPaymentSource,
-            createdAt: selectedDate!, // it's update function so createdAt is already set
+            createdAt: selectedDate!.toISOString(),
           },
         })
       : createExpenseMutate({
           amount: parseFloat(amount),
           categoryId: selectedCategory,
           paymentSourceId: selectedPaymentSource,
-          createdAt: selectedDate || new Date(),
+          createdAt: selectedDate!.toISOString(),
         });
   };
 
@@ -130,7 +156,14 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   }, [error]);
 
   return (
-    <Paper sx={{ backgroundColor: theme.palette.background.paper, position: 'relative', zIndex: 1, maxWidth: '400px' }}>
+    <Paper
+      sx={{
+        backgroundColor: theme.palette.background.paper,
+        position: 'relative',
+        zIndex: 1,
+        maxWidth: isDesktopWidth ? '400px' : '100%',
+      }}
+    >
       <Box sx={{ p: 2, border: '1px solid grey', borderRadius: '8px' }}>
         <Stack spacing={1} direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <Typography
@@ -165,9 +198,9 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             </Select>
           </FormControl>
         </Stack>
-        <Grid container gap={1} item>
+        <Grid container gap={1} justifyContent="space-between">
           {calcButtons.map((value) => (
-            <Grid key={value} width="calc(34% - 8px)">
+            <Grid key={value} width="calc(33% - 8px)">
               <Button
                 disabled={isPending}
                 variant="contained"
@@ -186,6 +219,9 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           selectedItem={selectedCategory}
           setSelectedItem={setSelectedCategory}
           openModal={() => setIsAddCategoryModalOpen(true)}
+          handleDelete={deleteCategoryMutate}
+          handleShare={(id) => alert(`not implemented yet ${id}`)}
+          handleEdit={(item) => alert(`not implemented yet ${item}`)}
         />
         <HorizontalList
           items={paymentSources}
@@ -193,6 +229,9 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           selectedItem={selectedPaymentSource}
           setSelectedItem={setSelectedPaymentSource}
           openModal={() => setIsAddPaymentSourceModalOpen(true)}
+          handleDelete={deletePaymentSourceMutate}
+          handleShare={(id) => alert(`not implemented yet ${id}`)}
+          handleEdit={(item) => alert(`not implemented yet ${item}`)}
         />
         <DatePicker
           label="Date"
