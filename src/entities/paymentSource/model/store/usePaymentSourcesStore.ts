@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi';
+import createSelectors from 'src/utils/helpers/createSelectors.ts';
 
 export type TPaymentSourcesStore = {
   userPaymentSources: TPaymentSource[];
@@ -11,4 +12,4 @@ const usePaymentSourcesStore = create<TPaymentSourcesStore>((set) => ({
   setUserPaymentSources: (userPaymentSources) => set({ userPaymentSources }),
 }));
 
-export default usePaymentSourcesStore;
+export default createSelectors(usePaymentSourcesStore);

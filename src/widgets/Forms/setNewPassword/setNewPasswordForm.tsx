@@ -59,7 +59,7 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
             <Typography variant="h6" align="center">
               Set new password
             </Typography>
-            <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+            <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
               <OutlinedInput
                 disabled={isPendingSetNewPassword}
