@@ -19,3 +19,5 @@ const useFiltersStoreForExpenses = create<FiltersStoreTypes>((set) => ({
   },
   setFilter: (filter) => set({ filter }),
 }));
+
+export default useFiltersStoreForExpenses;

@@ -8,6 +8,8 @@ import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import CategoriesSelect from 'src/widgets/Forms/AddExpenseForm/CategoriesSelect.tsx';
 import PaymentSourcesSelect from 'src/widgets/Forms/AddExpenseForm/PaymentSourcesSelect.tsx';
 import useDebouncedValue from 'src/shared/hooks/useDebouncedValue.ts';
+import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
+import selectForSetFilter from 'src/entities/filters/models/selectors/selectForSetFilter.ts';
 
 type TExpenseQueryFormProps = {
   onSubmit: (query: Record<string, string | undefined | Date | number>) => void;
@@ -39,6 +41,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
   };
 
   const [query, setQuery] = useState<TQuery>(emptyQuery);
+  const filter = useFiltersStoreForExpenses(selectForSetFilter);
 
   const debouncedQuery = useDebouncedValue(query, 300);
   const handleChange = useStableCallback((event: ChangeEvent<HTMLInputElement>) => {
