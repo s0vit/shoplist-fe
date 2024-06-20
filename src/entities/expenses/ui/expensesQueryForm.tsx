@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import CategoriesSelect from 'src/widgets/Forms/AddExpenseForm/CategoriesSelect.tsx';
 import PaymentSourcesSelect from 'src/widgets/Forms/AddExpenseForm/PaymentSourcesSelect.tsx';
