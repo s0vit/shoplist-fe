@@ -93,7 +93,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   );
 
   return (
-    <>
+    <div onContextMenu={handleOpenMenu}>
       <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
           <Tooltip title={expense.comments || ''} key={expense._id} placement="top">
@@ -101,7 +101,6 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
               direction="row"
               justifyContent="space-between"
               alignItems="center"
-              onContextMenu={handleOpenMenu}
               sx={{
                 backgroundColor: alpha(categoryColor, 0.7),
                 padding: theme.spacing(1),
@@ -192,7 +191,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
         isOpen={isShareWithModalOpen}
         onClose={() => setIsShareWithModalOpen(false)}
       />
-    </>
+    </div>
   );
 };
 
