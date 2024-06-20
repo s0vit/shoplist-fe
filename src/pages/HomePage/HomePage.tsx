@@ -12,6 +12,7 @@ import selectSetIsExpenseModalOpen from 'src/entities/expenses/model/selectors/s
 import selectSetCurrentEditExpense from 'src/entities/expenses/model/selectors/selectSetCurrentEditExpense.ts';
 import AddExpenseCalculator from 'src/widgets/Forms/AddExpenseForm/AddExpenseCalc.tsx';
 import useWindowWidth from 'src/shared/hooks/useWindowWidth.ts';
+import { TGetExpenseQuery } from 'src/shared/api/expenseApi.ts';
 
 const HomePage = () => {
   const isExpenseModalOpen = useExpensesStore(selectIsExpenseModalOpen);
@@ -28,12 +29,16 @@ const HomePage = () => {
     setCurrentExpense(undefined);
   });
 
+  const test = (value: TGetExpenseQuery | undefined) => {
+    fetchExpenses(value);
+  };
+
   const openExpenseModal = useStableCallback(() => setIsExpenseModalOpen(true));
 
   return (
     <Stack gap={2}>
       {!isDesktopWidth && <Button onClick={openExpenseModal}>Add Expense</Button>}
-      <ExpenseQueryForm onSubmit={fetchExpenses} isLoading={isExpensesLoading} />
+      <ExpenseQueryForm onSubmit={test} isLoading={isExpensesLoading} />
       <Stack gap={1} direction="row" divider={isDesktopWidth && <Divider orientation="vertical" flexItem />}>
         <ExpensesTable fetchExpenses={fetchExpenses} />
         {isDesktopWidth ? (
