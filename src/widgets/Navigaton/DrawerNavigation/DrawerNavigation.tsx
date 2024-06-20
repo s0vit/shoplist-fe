@@ -1,11 +1,12 @@
 import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
-import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
-import { ReactElement } from 'react';
-import { useLocation, useNavigate, matchPath } from 'react-router-dom';
+import { ReactElement, useEffect } from 'react';
+import { matchPath, useLocation, useNavigate } from 'react-router-dom';
+import useWindowWidth from 'src/shared/hooks/useWindowWidth.ts';
+import { Money, Payments } from '@mui/icons-material';
 
 type TDrawerNavigationProps = {
   isDrawerOpen: boolean;
@@ -22,10 +23,11 @@ const navigationList: Array<TNavigationItem> = [
   { title: 'Home', link: RoutesEnum.ROOT, icon: <HomeIcon /> },
   { title: 'Profile', link: RoutesEnum.PROFILE, icon: <AccountCircleIcon /> },
   { title: 'Categories', link: RoutesEnum.CATEGORY, icon: <CategoryIcon /> },
-  { title: 'Accounts', link: RoutesEnum.PAYMENT_SOURCE, icon: <PeopleIcon /> },
+  { title: 'Accounts', link: RoutesEnum.PAYMENT_SOURCE, icon: <Payments /> },
 ];
 
 const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationProps) => {
+  const { isDesktopWidth } = useWindowWidth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,6 +38,12 @@ const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationPr
   const closeDrawer = () => {
     setIsDrawerOpen(false);
   };
+
+  useEffect(() => {
+    if (!isDesktopWidth && !navigationList.some((route) => route.link === RoutesEnum.EXPENSES_LIST)) {
+      navigationList.push({ title: 'Expenses', link: RoutesEnum.EXPENSES_LIST, icon: <Money /> });
+    }
+  }, [isDesktopWidth]);
 
   return (
     <Drawer anchor="left" open={isDrawerOpen} onClose={closeDrawer}>

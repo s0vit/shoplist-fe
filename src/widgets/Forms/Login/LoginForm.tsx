@@ -6,7 +6,6 @@ import {
   InputLabel,
   OutlinedInput,
   Stack,
-  TextField,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -78,14 +77,17 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
           <Typography variant="h4" align="center">
             Login
           </Typography>
-          <TextField
-            disabled={isLoginPending}
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-          />
-          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+          <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
+            <OutlinedInput
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={isLoginPending}
+              type="text"
+              label="Email"
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
             <OutlinedInput
               value={password}
