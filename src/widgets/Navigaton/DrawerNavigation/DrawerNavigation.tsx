@@ -5,7 +5,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { ReactElement, useEffect } from 'react';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
-import useWindowWidth from 'src/shared/hooks/useWindowWidth.ts';
+import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import { Money, Payments } from '@mui/icons-material';
 
 type TDrawerNavigationProps = {

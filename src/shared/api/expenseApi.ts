@@ -58,7 +58,7 @@ export type TGetExpensesResponse = TExpense[];
 export type TExpense = TCreateExpenseInput & {
   _id: string;
   userId: string;
-  createdAt: Date;
+  createdAt: string;
 };
 
 export type TCreateExpenseInput = {
@@ -66,8 +66,8 @@ export type TCreateExpenseInput = {
   categoryId: string;
   paymentSourceId: string;
   comments?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type TGetExpenseQuery = {

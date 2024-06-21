@@ -4,7 +4,7 @@ import { findUserByEmail, TFindUserByEmailResponse } from 'src/shared/api/userAp
 import { TUserType } from 'src/entities/user/model/types/TUserStore.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { useEffect, useState } from 'react';
-import useDebouncedValue from 'src/shared/hooks/useDebouncedValue.ts';
+import useDebouncedValue from 'src/utils/hooks/useDebouncedValue.ts';
 import { alpha, Box, Button, FormHelperText, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
 import handleError from 'src/utils/errorHandler.ts';
 import { shareWith } from 'src/shared/api/accessControlApi.ts';

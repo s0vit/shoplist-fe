@@ -12,6 +12,9 @@ import { useNavigate } from 'react-router-dom';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import DrawerNavigation from 'src/widgets/Navigaton/DrawerNavigation/DrawerNavigation.tsx';
+import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
+import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
+import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 
 const Navbar = () => {
   const isLoggedIn = useUserStore(selectUserData)?.accessToken;
@@ -19,6 +22,10 @@ const Navbar = () => {
   const colorMode = useContext(ColorModeContext);
   const navigate = useNavigate();
   const theme = useTheme();
+
+  useLoadExpenses({ shouldFetchOnLoad: true });
+  useLoadCategories(true);
+  useLoadPaymentSources(true);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
