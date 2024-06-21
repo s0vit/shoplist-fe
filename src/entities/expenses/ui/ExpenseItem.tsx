@@ -106,7 +106,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
               alignItems="center"
               sx={{
                 backgroundColor: alpha(categoryColor, 0.7),
-                padding: theme.spacing(1),
+                padding: theme.spacing(0.5),
                 borderRadius: theme.spacing(1),
                 color: theme.palette.getContrastText(categoryColor),
                 marginBottom: theme.spacing(1),
@@ -115,12 +115,15 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
               }}
             >
               <Box>
-                <Typography variant="body1">
-                  {new Date(expense.createdAt).toLocaleDateString(browserLocale, { day: '2-digit', month: '2-digit' })}
-                </Typography>
                 <Typography variant="subtitle2">{category?.title}</Typography>
+                <Typography variant="body2">
+                  {new Intl.DateTimeFormat(browserLocale, {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  }).format(new Date(expense.createdAt))}
+                </Typography>
               </Box>
-              <Tooltip title={paymentSource?.title || ''}>
+              <Box sx={{ textAlign: 'right' }}>
                 <Chip
                   label={expense.amount}
                   sx={{
@@ -131,7 +134,8 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
                     padding: theme.spacing(0.5),
                   }}
                 />
-              </Tooltip>
+                <Typography variant="body2">{paymentSource?.title || 'Deleted'}</Typography>
+              </Box>
             </Stack>
           </Tooltip>
         </SwipeableListItem>

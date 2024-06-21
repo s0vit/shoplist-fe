@@ -1,7 +1,7 @@
 import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
 import { SyntheticEvent, useState } from 'react';
-import AddCategoryModal from 'src/widgets/Modal/AddCategoryModal/AddCategoryModal.tsx';
+import UpsertCategoryModal from 'src/entities/category/ui/UpsertCategoryModal.tsx';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
@@ -48,7 +48,7 @@ const CategoriesSelect = ({
           <AddCircle />
         </IconButton>
       </Stack>
-      <AddCategoryModal
+      <UpsertCategoryModal
         closeCategoryModal={() => setIsAddCategoryModalOpen(false)}
         isCategoryModalOpen={isAddCategoryModalOpen}
       />

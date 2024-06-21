@@ -1,7 +1,7 @@
 import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
 import { SyntheticEvent, useState } from 'react';
-import AddPaymentSourceModal from 'src/widgets/Modal/AddPaymantSourceModal/AddPaymentSourceModal.tsx';
+import UpsertPaymentSourceModal from 'src/entities/paymentSource/ui/UpsertPaymentSourceModal.tsx';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectUserPaymentSources.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
@@ -54,7 +54,7 @@ const PaymentSourcesSelect = ({
           <AddCircle />
         </IconButton>
       </Stack>
-      <AddPaymentSourceModal
+      <UpsertPaymentSourceModal
         closePaymentSourcesModal={() => setIsAddPaymentSourceModalOpen(false)}
         isPaymentSourcesModalOpen={isAddPaymentSourceModalOpen}
       />

@@ -4,13 +4,14 @@ import CategoryCard from 'src/entities/category/ui/CategoryCard.tsx';
 
 type TCategoriesProps = {
   categories: TGetCategoriesResponse;
+  refetchCategories: () => void;
 };
 
-const Categories = ({ categories }: TCategoriesProps) => {
+const Categories = ({ categories, refetchCategories }: TCategoriesProps) => {
   return (
     <Grid container spacing={2}>
       {categories.map((category) => (
-        <CategoryCard key={category._id} category={category} />
+        <CategoryCard key={category._id} category={category} refetchCategories={refetchCategories} />
       ))}
     </Grid>
   );

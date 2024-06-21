@@ -1,6 +1,6 @@
 import { AddCircle } from '@mui/icons-material';
 import { Box, IconButton } from '@mui/material';
-import HorizontalListItem from 'src/widgets/Forms/AddExpenseForm/HorizontalListItem.tsx';
+import HorizontalListItem from 'src/widgets/HorizontalList/HorizontalListItem.tsx';
 
 type THorizontalListProps = {
   items: { _id: string; title: string; color?: string }[];
