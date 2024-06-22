@@ -1,6 +1,6 @@
 import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent } from 'react';
 import UpsertPaymentSourceModal from 'src/entities/paymentSource/ui/UpsertPaymentSourceModal.tsx';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectUserPaymentSources.ts';
@@ -18,9 +18,8 @@ const PaymentSourcesSelect = ({
   setSelectedPaymentSourceId,
   isCreateExpensePending,
 }: TPaymentSourcesSelectProps) => {
-  const [isAddPaymentSourceModalOpen, setIsAddPaymentSourceModalOpen] = useState(false);
-
   const paymentSources = usePaymentSourcesStore(selectUserPaymentSources);
+  const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
 
   const onAutocompleteChange = useStableCallback((_e: SyntheticEvent, value: TPaymentSource | null) => {
     if (value === null || paymentSources?.some((source) => source._id === value._id)) {
@@ -49,15 +48,12 @@ const PaymentSourcesSelect = ({
         <IconButton
           aria-label="add"
           disabled={isCreateExpensePending}
-          onClick={() => setIsAddPaymentSourceModalOpen(true)}
+          onClick={() => setIsPaymentSourceModalOpen(true)}
         >
           <AddCircle />
         </IconButton>
       </Stack>
-      <UpsertPaymentSourceModal
-        closePaymentSourcesModal={() => setIsAddPaymentSourceModalOpen(false)}
-        isPaymentSourcesModalOpen={isAddPaymentSourceModalOpen}
-      />
+      <UpsertPaymentSourceModal />
     </>
   );
 };

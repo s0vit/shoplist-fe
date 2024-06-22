@@ -35,8 +35,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     currentExpense?.createdAt ? new Date(currentExpense.createdAt) : new Date(),
   );
-  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
-  const [isAddPaymentSourceModalOpen, setIsAddPaymentSourceModalOpen] = useState(false);
+  const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
+  const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
 
   const { fetchExpenses } = useLoadExpenses();
   const { isDesktopWidth } = useWindowWidth();
@@ -218,7 +218,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           disabled={isPending}
           selectedItem={selectedCategory}
           setSelectedItem={setSelectedCategory}
-          openModal={() => setIsAddCategoryModalOpen(true)}
+          openModal={() => setIsCategoryModalOpen(true)}
           handleDelete={deleteCategoryMutate}
           handleShare={(id) => alert(`not implemented yet ${id}`)}
           handleEdit={(item) => alert(`not implemented yet ${item}`)}
@@ -228,7 +228,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           disabled={isPending}
           selectedItem={selectedPaymentSource}
           setSelectedItem={setSelectedPaymentSource}
-          openModal={() => setIsAddPaymentSourceModalOpen(true)}
+          openModal={() => setIsPaymentSourceModalOpen(true)}
           handleDelete={deletePaymentSourceMutate}
           handleShare={(id) => alert(`not implemented yet ${id}`)}
           handleEdit={(item) => alert(`not implemented yet ${item}`)}
@@ -280,14 +280,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           </Grid>
         </Grid>
       </Box>
-      <UpsertCategoryModal
-        closeCategoryModal={() => setIsAddCategoryModalOpen(false)}
-        isCategoryModalOpen={isAddCategoryModalOpen}
-      />
-      <UpsertPaymentSourceModal
-        closePaymentSourcesModal={() => setIsAddPaymentSourceModalOpen(false)}
-        isPaymentSourcesModalOpen={isAddPaymentSourceModalOpen}
-      />
+      <UpsertCategoryModal />
+      <UpsertPaymentSourceModal />
     </Paper>
   );
 };
