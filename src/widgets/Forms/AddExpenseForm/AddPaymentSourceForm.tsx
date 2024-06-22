@@ -11,9 +11,10 @@ import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 
 type TAddPaymentSourceFormProps = {
   closeModal: () => void;
+  setSelectedPaymentSource: (categoryId: string) => void;
 };
 
-const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
+const AddPaymentSourceForm = ({ closeModal, setSelectedPaymentSource }: TAddPaymentSourceFormProps) => {
   const [title, setTitle] = useState('');
   //random color always 6 symbols
   const [color, setColor] = useState(getRandomHexColor());
@@ -27,7 +28,8 @@ const AddPaymentSourceForm = ({ closeModal }: TAddPaymentSourceFormProps) => {
   } = useMutation<TPaymentSource, TErrorResponse, TCreatePaymentSourceInput>({
     mutationFn: createPaymentSource,
     mutationKey: ['paymentSources'],
-    onSuccess: () => {
+    onSuccess: (PaymentSource) => {
+      setSelectedPaymentSource(PaymentSource._id);
       fetchPaymentSources();
       closeModal();
     },

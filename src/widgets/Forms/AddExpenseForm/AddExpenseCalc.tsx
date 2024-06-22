@@ -283,10 +283,12 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
       <AddCategoryModal
         closeCategoryModal={() => setIsAddCategoryModalOpen(false)}
         isCategoryModalOpen={isAddCategoryModalOpen}
+        setSelectedCategory={setSelectedCategory}
       />
       <AddPaymentSourceModal
         closePaymentSourcesModal={() => setIsAddPaymentSourceModalOpen(false)}
         isPaymentSourcesModalOpen={isAddPaymentSourceModalOpen}
+        setSelectedPaymentSource={setSelectedPaymentSource}
       />
     </Paper>
   );

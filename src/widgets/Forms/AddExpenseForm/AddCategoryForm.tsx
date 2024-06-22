@@ -11,9 +11,10 @@ import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 
 type TAddCategoryFormProps = {
   closeModal: () => void;
+  setSelectedCategory: (categoryId: string) => void;
 };
 
-const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
+const AddCategoryForm = ({ closeModal, setSelectedCategory }: TAddCategoryFormProps) => {
   const [title, setTitle] = useState('');
   const [color, setColor] = useState(getRandomHexColor());
   const theme = useTheme();
@@ -26,7 +27,8 @@ const AddCategoryForm = ({ closeModal }: TAddCategoryFormProps) => {
   } = useMutation<TCategory, TErrorResponse, TCreateCategoryInput>({
     mutationFn: createCategory,
     mutationKey: ['category'],
-    onSuccess: () => {
+    onSuccess: (category) => {
+      setSelectedCategory(category._id);
       fetchCategories();
       closeModal();
     },
