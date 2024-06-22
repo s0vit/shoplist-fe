@@ -11,8 +11,8 @@ import selectIsExpenseModalOpen from 'src/entities/expenses/model/selectors/sele
 import selectSetIsExpenseModalOpen from 'src/entities/expenses/model/selectors/selectSetIsExpenseModalOpen.ts';
 import selectSetCurrentEditExpense from 'src/entities/expenses/model/selectors/selectSetCurrentEditExpense.ts';
 import AddExpenseCalculator from 'src/widgets/Forms/AddExpenseForm/AddExpenseCalc.tsx';
-import useWindowWidth from 'src/shared/hooks/useWindowWidth.ts';
 import { TGetExpenseQuery } from 'src/shared/api/expenseApi.ts';
+import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 
 const HomePage = () => {
   const isExpenseModalOpen = useExpensesStore(selectIsExpenseModalOpen);
