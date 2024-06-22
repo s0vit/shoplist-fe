@@ -11,7 +11,7 @@ import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 
 type TAddCategoryFormProps = {
   closeModal: () => void;
-  setSelectedCategory: (categoryId: string) => void;
+  setSelectedCategory?: (categoryId: string) => void;
 };
 
 const AddCategoryForm = ({ closeModal, setSelectedCategory }: TAddCategoryFormProps) => {
@@ -28,7 +28,7 @@ const AddCategoryForm = ({ closeModal, setSelectedCategory }: TAddCategoryFormPr
     mutationFn: createCategory,
     mutationKey: ['category'],
     onSuccess: (category) => {
-      setSelectedCategory(category._id);
+      setSelectedCategory && setSelectedCategory(category._id);
       fetchCategories();
       closeModal();
     },

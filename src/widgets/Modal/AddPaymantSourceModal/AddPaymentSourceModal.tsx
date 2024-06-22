@@ -4,7 +4,7 @@ import AddPaymentSourceForm from 'src/widgets/Forms/AddExpenseForm/AddPaymentSou
 type TAddPaymentSourceModalProps = {
   closePaymentSourcesModal: () => void;
   isPaymentSourcesModalOpen: boolean;
-  setSelectedPaymentSource: (categoryId: string) => void;
+  setSelectedPaymentSource?: (categoryId: string) => void;
 };
 
 const AddPaymentSourceModal = ({

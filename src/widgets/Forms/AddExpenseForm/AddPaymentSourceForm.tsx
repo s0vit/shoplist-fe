@@ -11,7 +11,7 @@ import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 
 type TAddPaymentSourceFormProps = {
   closeModal: () => void;
-  setSelectedPaymentSource: (categoryId: string) => void;
+  setSelectedPaymentSource?: (categoryId: string) => void;
 };
 
 const AddPaymentSourceForm = ({ closeModal, setSelectedPaymentSource }: TAddPaymentSourceFormProps) => {
@@ -29,7 +29,7 @@ const AddPaymentSourceForm = ({ closeModal, setSelectedPaymentSource }: TAddPaym
     mutationFn: createPaymentSource,
     mutationKey: ['paymentSources'],
     onSuccess: (PaymentSource) => {
-      setSelectedPaymentSource(PaymentSource._id);
+      setSelectedPaymentSource && setSelectedPaymentSource(PaymentSource._id);
       fetchPaymentSources();
       closeModal();
     },
