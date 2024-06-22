@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, TouchEvent, useState } from 'react';
 import { alpha, Box, Chip, Menu, MenuItem, Stack, Tooltip, Typography, useTheme } from '@mui/material';
 import { TExpense } from 'src/shared/api/expenseApi.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
@@ -18,6 +18,7 @@ import selectSetCurrentEditExpense from 'src/entities/expenses/model/selectors/s
 import selectSetIsExpenseModalOpen from 'src/entities/expenses/model/selectors/selectSetIsExpenseModalOpen.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal/ShareWithModal.tsx';
+import useLongPress from 'src/utils/hooks/useLongPress.ts';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -38,10 +39,12 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   const categoryColor = category?.color || theme.palette.primary.main;
   const paymentSourceColor = paymentSource?.color || theme.palette.primary.main;
 
-  const handleOpenMenu = (event: MouseEvent<HTMLElement>) => {
-    event.preventDefault(); // предотвратить контекстное меню браузера
-    setAnchorEl(event.currentTarget);
+  const handleOpenMenu = (event: MouseEvent<HTMLElement> | TouchEvent) => {
+    event.preventDefault();
+    setAnchorEl(event.target as HTMLElement);
   };
+
+  const longPressEvents = useLongPress(handleOpenMenu, 500);
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -93,7 +96,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   );
 
   return (
-    <>
+    <div onContextMenu={handleOpenMenu} {...longPressEvents}>
       <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
           <Tooltip title={expense.comments || ''} key={expense._id} placement="top">
@@ -101,10 +104,9 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
               direction="row"
               justifyContent="space-between"
               alignItems="center"
-              onContextMenu={handleOpenMenu}
               sx={{
                 backgroundColor: alpha(categoryColor, 0.7),
-                padding: theme.spacing(1),
+                padding: theme.spacing(0.5),
                 borderRadius: theme.spacing(1),
                 color: theme.palette.getContrastText(categoryColor),
                 marginBottom: theme.spacing(1),
@@ -113,12 +115,15 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
               }}
             >
               <Box>
-                <Typography variant="body1">
-                  {new Date(expense.createdAt).toLocaleDateString(browserLocale, { day: '2-digit', month: '2-digit' })}
-                </Typography>
                 <Typography variant="subtitle2">{category?.title}</Typography>
+                <Typography variant="body2">
+                  {new Intl.DateTimeFormat(browserLocale, {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  }).format(new Date(expense.createdAt))}
+                </Typography>
               </Box>
-              <Tooltip title={paymentSource?.title || ''}>
+              <Box sx={{ textAlign: 'right' }}>
                 <Chip
                   label={expense.amount}
                   sx={{
@@ -129,7 +134,8 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
                     padding: theme.spacing(0.5),
                   }}
                 />
-              </Tooltip>
+                <Typography variant="body2">{paymentSource?.title || 'Deleted'}</Typography>
+              </Box>
             </Stack>
           </Tooltip>
         </SwipeableListItem>
@@ -192,7 +198,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
         isOpen={isShareWithModalOpen}
         onClose={() => setIsShareWithModalOpen(false)}
       />
-    </>
+    </div>
   );
 };
 

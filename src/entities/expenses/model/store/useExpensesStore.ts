@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { TExpense } from 'src/shared/api/expenseApi.ts';
+import createSelectors from 'src/utils/helpers/createSelectors.ts';
 
 export type TExpensesStore = {
   useExpensesStore: TExpense[];
@@ -12,9 +13,11 @@ export type TExpensesStore = {
 
 const useExpensesStore = create<TExpensesStore>((set) => ({
   useExpensesStore: [],
+  currentEditExpense: undefined,
+  isEditExpenseModalOpen: false,
   setUserExpenses: (useExpensesStore) => set({ useExpensesStore }),
   setCurrentEditExpense: (currentEditExpense) => set({ currentEditExpense }),
   setIsEditExpenseModalOpen: (isEditExpenseModalOpen) => set({ isEditExpenseModalOpen }),
 }));
 
-export default useExpensesStore;
+export default createSelectors(useExpensesStore);

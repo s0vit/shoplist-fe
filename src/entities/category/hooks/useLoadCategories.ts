@@ -3,19 +3,17 @@ import { getCategories, TGetCategoriesResponse } from 'src/shared/api/categoryAp
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { useEffect } from 'react';
 import handleError from 'src/utils/errorHandler.ts';
-import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
-import selectSetUserCategories from 'src/entities/category/model/selectors/selectSetCategories.ts';
-import selectUserCategories from 'src/entities/category/model/selectors/selectUserCategories.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import { isAxiosError } from 'axios';
+import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 
 const useLoadCategories = (
   shouldFetchOnLoad: boolean = false,
   withSharedCategories?: boolean,
   onFetchFinish?: () => void,
 ) => {
-  const setUserCategories = useCategoryStore(selectSetUserCategories);
-  const userCategories = useCategoryStore(selectUserCategories);
+  const setUserCategories = useCategoryStore.use.setUserCategories();
+  const userCategories = useCategoryStore.use.userCategories();
 
   const {
     data: categories,

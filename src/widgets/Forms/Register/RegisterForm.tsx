@@ -133,7 +133,7 @@ const RegisterForm = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
             />
-            <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+            <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
               <OutlinedInput
                 disabled={isRegisterPending}
