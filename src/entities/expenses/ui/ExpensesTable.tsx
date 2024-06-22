@@ -40,7 +40,6 @@ const ExpensesTable = ({ fetchExpenses }: TExpensesTableProps) => {
   const userPaymentSources = usePaymentSourcesStore(selectUserPaymentSources);
   const expenses = useExpensesStore(selectUserExpenses);
   const { mutate } = useMutation({
-    mutationKey: ['expenses'],
     mutationFn: deleteExpense,
     onSuccess: () => fetchExpenses({}),
   });

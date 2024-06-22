@@ -105,10 +105,9 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
               justifyContent="space-between"
               alignItems="center"
               sx={{
-                backgroundColor: alpha(categoryColor, 0.7),
+                backgroundColor: alpha(categoryColor, 0.05),
                 padding: theme.spacing(0.5),
                 borderRadius: theme.spacing(1),
-                color: theme.palette.getContrastText(categoryColor),
                 marginBottom: theme.spacing(1),
                 width: '100%',
                 border: `1px solid ${categoryColor}`,
@@ -127,14 +126,16 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
                 <Chip
                   label={expense.amount}
                   sx={{
-                    backgroundColor: paymentSourceColor,
-                    border: `1px solid ${alpha(theme.palette.getContrastText(paymentSourceColor), 0.3)}`,
+                    backgroundColor: alpha(paymentSourceColor, 0.9),
+                    border: `1px solid ${alpha(theme.palette.getContrastText(paymentSourceColor), 0.8)}`,
                     color: theme.palette.getContrastText(paymentSourceColor),
                     fontSize: '1.2rem',
                     padding: theme.spacing(0.5),
                   }}
                 />
-                <Typography variant="body2">{paymentSource?.title || 'Deleted'}</Typography>
+                <Typography variant="body2" mr={1}>
+                  {paymentSource?.title || 'Deleted'}
+                </Typography>
               </Box>
             </Stack>
           </Tooltip>

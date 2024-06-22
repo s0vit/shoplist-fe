@@ -86,6 +86,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const error = createExpenseError || updateExpenseError;
 
   const calcButtons = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '←'];
+  const currencies = ['$', '€', '₽', '₴', '₺', '£'];
 
   const handleButtonClick = (value: string) => {
     if (
@@ -189,12 +190,11 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
               value={currency}
               onChange={(e) => setCurrency(e.target.value as string)}
             >
-              <MenuItem value="$">$</MenuItem>
-              <MenuItem value="€">€</MenuItem>
-              <MenuItem value="₽">₽</MenuItem>
-              <MenuItem value="₴">₴</MenuItem>
-              <MenuItem value="₺">₺</MenuItem>
-              <MenuItem value="£">£</MenuItem>
+              {currencies.map((value) => (
+                <MenuItem key={value} value={value}>
+                  {value}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Stack>
