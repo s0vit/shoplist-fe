@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Box, Button, FormControl, Grid, MenuItem, Paper, Select, Stack, Typography, useTheme } from '@mui/material';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
@@ -18,6 +18,8 @@ import { deleteCategory } from 'src/shared/api/categoryApi.ts';
 import { deletePaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
+import { BsDot } from 'react-icons/bs';
+import { FaBackspace } from 'react-icons/fa';
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
@@ -28,6 +30,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const categories = useCategoryStore.use.userCategories();
   const currentExpense = useExpensesStore.use.currentEditExpense?.();
   const theme = useTheme();
+  // const [amount, setAmount] = useState<string>(currentExpense?.amount.toString() || '0');
   const [amount, setAmount] = useState<string>(currentExpense?.amount.toString() || '0');
   const [currency, setCurrency] = useState<string>('$');
   const [selectedCategory, setSelectedCategory] = useState<string>(currentExpense?.categoryId || '');
@@ -85,38 +88,76 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     isCreateExpenseSuccess || isUpdateExpenseSuccess || isDeleteCategorySuccess || isDeletePaymentSourceSuccess;
   const error = createExpenseError || updateExpenseError;
 
-  const calcButtons = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '←'];
+  const calcButtons: Array<{ title: string; content: ReactNode }> = [
+    {
+      title: '1',
+      content: '1',
+    },
+    {
+      title: '2',
+      content: '2',
+    },
+    {
+      title: '3',
+      content: '3',
+    },
+    {
+      title: '4',
+      content: '4',
+    },
+    {
+      title: '5',
+      content: '5',
+    },
+    {
+      title: '6',
+      content: '6',
+    },
+    {
+      title: '7',
+      content: '7',
+    },
+    {
+      title: '8',
+      content: '8',
+    },
+    {
+      title: '9',
+      content: '9',
+    },
+    {
+      title: '.',
+      content: <BsDot size={28} />,
+    },
+    {
+      title: '0',
+      content: '0',
+    },
+    {
+      title: 'del',
+      content: <FaBackspace size={28} />,
+    },
+  ];
 
   const handleButtonClick = (value: string) => {
-    if (
-      ((amount + value).split('.')[1]?.length > 2 ||
-        (value === '.' && amount.includes('.')) ||
-        (value === '0' && amount === '0')) &&
-      value !== '←'
-    ) {
-      return;
-    }
+    setAmount((prevValue) => {
+      if (value === 'del') {
+        return prevValue.length === 1 ? '0' : prevValue.slice(0, -1);
+      } else if (value !== '.' && prevValue === '0') {
+        return value;
+      } else if (value === '.' && prevValue.includes('.')) {
+        return prevValue;
+      } else if (prevValue.split('.')[1]?.length >= 2) {
+        return prevValue;
+      } else if (value === 'Clear') {
+        setSelectedPaymentSource('');
+        setSelectedCategory('');
 
-    if (value === '.' && !amount) {
-      setAmount('0.');
-
-      return;
-    }
-
-    if (value === '←') {
-      amount.length > 1 ? setAmount(amount.slice(0, -1)) : setAmount('0');
-    } else if (value === 'Clear') {
-      setAmount('');
-      setSelectedPaymentSource('');
-      setSelectedCategory('');
-    } else {
-      // replace leading zeros but keep zero before dot
-      if (amount === '0' && value !== '.') {
-        setAmount(value);
+        return '0';
       } else {
-        setAmount(amount + value);
+        return `${prevValue}${value}`;
       }
-    }
+    });
   };
 
   const handleSave = () => {
@@ -200,15 +241,15 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
         </Stack>
         <Grid container gap={1} justifyContent="space-between">
           {calcButtons.map((value) => (
-            <Grid key={value} width="calc(33% - 8px)">
+            <Grid key={value.title} width="calc(33% - 8px)">
               <Button
                 disabled={isPending}
                 variant="contained"
                 fullWidth
-                onClick={() => handleButtonClick(value)}
-                sx={{ height: 40 }}
+                onClick={() => handleButtonClick(value.title)}
+                sx={{ height: 50, fontSize: '24px' }}
               >
-                {value}
+                {value.content}
               </Button>
             </Grid>
           ))}
