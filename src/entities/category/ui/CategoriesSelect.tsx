@@ -1,7 +1,7 @@
 import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
-import { SyntheticEvent, useState } from 'react';
-import AddCategoryModal from 'src/widgets/Modal/AddCategoryModal/AddCategoryModal.tsx';
+import { SyntheticEvent } from 'react';
+import UpsertCategoryModal from 'src/entities/category/ui/UpsertCategoryModal.tsx';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
@@ -17,8 +17,8 @@ const CategoriesSelect = ({
   setSelectedCategoryId,
   isCreateExpensePending,
 }: TCategoriesSelectProps) => {
-  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const categories = useCategoryStore.use.userCategories();
+  const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
 
   const onAutocompleteChange = useStableCallback((_e: SyntheticEvent, value: TCategory | null) => {
     if (value === null || categories?.some((category) => category._id === value._id)) {
@@ -44,14 +44,11 @@ const CategoriesSelect = ({
           onChange={onAutocompleteChange}
           getOptionLabel={(option) => option.title}
         />
-        <IconButton aria-label="add" disabled={isCreateExpensePending} onClick={() => setIsAddCategoryModalOpen(true)}>
+        <IconButton aria-label="add" disabled={isCreateExpensePending} onClick={() => setIsCategoryModalOpen(true)}>
           <AddCircle />
         </IconButton>
       </Stack>
-      <AddCategoryModal
-        closeCategoryModal={() => setIsAddCategoryModalOpen(false)}
-        isCategoryModalOpen={isAddCategoryModalOpen}
-      />
+      <UpsertCategoryModal />
     </>
   );
 };

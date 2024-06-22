@@ -6,8 +6,8 @@ import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
-import CategoriesSelect from 'src/widgets/Forms/AddExpenseForm/CategoriesSelect.tsx';
-import PaymentSourcesSelect from 'src/widgets/Forms/AddExpenseForm/PaymentSourcesSelect.tsx';
+import CategoriesSelect from 'src/entities/category/ui/CategoriesSelect.tsx';
+import PaymentSourcesSelect from 'src/entities/paymentSource/ui/PaymentSourcesSelect.tsx';
 import useDebouncedValue from 'src/utils/hooks/useDebouncedValue.ts';
 
 type TExpenseQueryFormProps = {

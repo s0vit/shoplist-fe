@@ -13,6 +13,8 @@ export type TExpensesStore = {
 
 const useExpensesStore = create<TExpensesStore>((set) => ({
   useExpensesStore: [],
+  currentEditExpense: undefined,
+  isEditExpenseModalOpen: false,
   setUserExpenses: (useExpensesStore) => set({ useExpensesStore }),
   setCurrentEditExpense: (currentEditExpense) => set({ currentEditExpense }),
   setIsEditExpenseModalOpen: (isEditExpenseModalOpen) => set({ isEditExpenseModalOpen }),

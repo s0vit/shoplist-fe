@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Box, Button, FormControl, Grid, MenuItem, Paper, Select, Stack, Typography, useTheme } from '@mui/material';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
-import AddCategoryModal from 'src/widgets/Modal/AddCategoryModal/AddCategoryModal.tsx';
-import AddPaymentSourceModal from 'src/widgets/Modal/AddPaymantSourceModal/AddPaymentSourceModal.tsx';
+import UpsertCategoryModal from 'src/entities/category/ui/UpsertCategoryModal.tsx';
+import UpsertPaymentSourceModal from 'src/entities/paymentSource/ui/UpsertPaymentSourceModal.tsx';
 import { createExpense, TCreateExpenseInput, TExpense, updateExpense } from 'src/shared/api/expenseApi.ts';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import { useMutation } from '@tanstack/react-query';
@@ -12,7 +12,7 @@ import handleError from 'src/utils/errorHandler.ts';
 import { toast } from 'react-toastify';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import { DatePicker } from '@mui/x-date-pickers';
-import HorizontalList from 'src/widgets/Forms/AddExpenseForm/HorizontalList.tsx';
+import HorizontalList from 'src/widgets/HorizontalList/HorizontalList.tsx';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import { deleteCategory } from 'src/shared/api/categoryApi.ts';
 import { deletePaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
@@ -35,8 +35,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     currentExpense?.createdAt ? new Date(currentExpense.createdAt) : new Date(),
   );
-  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
-  const [isAddPaymentSourceModalOpen, setIsAddPaymentSourceModalOpen] = useState(false);
+  const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
+  const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
 
   const { fetchExpenses } = useLoadExpenses();
   const { isDesktopWidth } = useWindowWidth();
@@ -218,7 +218,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           disabled={isPending}
           selectedItem={selectedCategory}
           setSelectedItem={setSelectedCategory}
-          openModal={() => setIsAddCategoryModalOpen(true)}
+          openModal={() => setIsCategoryModalOpen(true)}
           handleDelete={deleteCategoryMutate}
           handleShare={(id) => alert(`not implemented yet ${id}`)}
           handleEdit={(item) => alert(`not implemented yet ${item}`)}
@@ -228,7 +228,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           disabled={isPending}
           selectedItem={selectedPaymentSource}
           setSelectedItem={setSelectedPaymentSource}
-          openModal={() => setIsAddPaymentSourceModalOpen(true)}
+          openModal={() => setIsPaymentSourceModalOpen(true)}
           handleDelete={deletePaymentSourceMutate}
           handleShare={(id) => alert(`not implemented yet ${id}`)}
           handleEdit={(item) => alert(`not implemented yet ${item}`)}
@@ -280,14 +280,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           </Grid>
         </Grid>
       </Box>
-      <AddCategoryModal
-        closeCategoryModal={() => setIsAddCategoryModalOpen(false)}
-        isCategoryModalOpen={isAddCategoryModalOpen}
-      />
-      <AddPaymentSourceModal
-        closePaymentSourcesModal={() => setIsAddPaymentSourceModalOpen(false)}
-        isPaymentSourcesModalOpen={isAddPaymentSourceModalOpen}
-      />
+      <UpsertCategoryModal />
+      <UpsertPaymentSourceModal />
     </Paper>
   );
 };
