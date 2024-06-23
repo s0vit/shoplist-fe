@@ -87,6 +87,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     isCreateExpenseSuccess || isUpdateExpenseSuccess || isDeleteCategorySuccess || isDeletePaymentSourceSuccess;
   const error = createExpenseError || updateExpenseError;
 
+  const currencies = ['$', '€', '₽', '₴', '₺', '£'];
   const calcButtons: Array<{ title: string; content: ReactNode }> = [
     {
       title: '1',
@@ -230,12 +231,11 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
               value={currency}
               onChange={(e) => setCurrency(e.target.value as string)}
             >
-              <MenuItem value="$">$</MenuItem>
-              <MenuItem value="€">€</MenuItem>
-              <MenuItem value="₽">₽</MenuItem>
-              <MenuItem value="₴">₴</MenuItem>
-              <MenuItem value="₺">₺</MenuItem>
-              <MenuItem value="£">£</MenuItem>
+              {currencies.map((value) => (
+                <MenuItem key={value} value={value}>
+                  {value}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Stack>

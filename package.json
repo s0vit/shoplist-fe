@@ -1,7 +1,7 @@
 {
   "name": "shoplist-fe",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.28",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -33,6 +33,7 @@
     "react-router-dom": "^6.23.1",
     "react-swipeable-list": "^1.9.3",
     "react-toastify": "^10.0.5",
+    "vite-plugin-package-version": "^1.1.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
