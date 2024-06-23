@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
-import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
 import { getRefreshToken } from 'src/shared/api/authApi.ts';
 
 const rootLoader = async () => {
