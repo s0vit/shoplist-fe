@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Slider } from '@mui/material';
-import _useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
+import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
 import { useMutation } from '@tanstack/react-query';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { uploadAvatar } from 'src/shared/api/userApi.ts';
@@ -18,8 +18,8 @@ const ProfilePhotoUploader = ({ file, onClose, isOpen }: TProfilePhotoUploaderPr
   const [scale, setScale] = useState(1);
   const editorRef = useRef<AvatarEditor | null>(null);
 
-  const userData = _useUserStore.use.user?.();
-  const setUserData = _useUserStore.use.setUser();
+  const userData = useUserStore.use.user?.();
+  const setUserData = useUserStore.use.setUser();
   const { mutate: avatarUploadMutate } = useMutation<void, TErrorResponse, FormData>({
     mutationFn: uploadAvatar,
     onError: handleError,

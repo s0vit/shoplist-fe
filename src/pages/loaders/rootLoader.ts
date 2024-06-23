@@ -1,9 +1,9 @@
 import { jwtDecode } from 'jwt-decode';
-import _useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
+import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
 import { getRefreshToken } from 'src/shared/api/authApi.ts';
 
 const rootLoader = async () => {
-  const isUserLoggedIn = _useUserStore.getState().user?.accessToken;
+  const isUserLoggedIn = useUserStore.getState().user?.accessToken;
 
   if (isUserLoggedIn) return null;
 
@@ -15,14 +15,14 @@ const rootLoader = async () => {
     if (exp && exp * 1000 < Date.now()) {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
-      _useUserStore.getState().setUser(undefined);
+      useUserStore.getState().setUser(undefined);
 
       return null;
     }
 
     const user = await getRefreshToken({ refreshToken });
     localStorage.setItem('accessToken', user.accessToken);
-    _useUserStore.getState().setUser(user);
+    useUserStore.getState().setUser(user);
   }
 
   return null;
