@@ -1,7 +1,7 @@
 import { apiInstance } from 'src/shared/api/rootApi.ts';
 
-export const login = async ({ email, password }: TLoginRequest): Promise<TLoginResponse> => {
-  const response = await apiInstance.post<TLoginResponse>('auth/login', { email, password });
+export const login = async ({ email, password }: TLoginRequest): Promise<TUser> => {
+  const response = await apiInstance.post<TUser>('auth/login', { email, password });
 
   return response.data;
 };
@@ -10,10 +10,11 @@ export type TLoginRequest = {
   email: string;
   password: string;
 };
-export type TLoginResponse = {
+export type TUser = {
   _id: string;
   email: string;
   login: string;
+  avatar?: string;
   isVerified: boolean;
   accessToken: string;
   refreshToken: string;
@@ -54,7 +55,7 @@ export const getRefreshToken = async ({ refreshToken }: TRefreshTokenRequest): P
 type TRefreshTokenRequest = {
   refreshToken: string;
 };
-type TRefreshTokenResponse = TLoginResponse;
+type TRefreshTokenResponse = TUser;
 
 export const logout = async (): Promise<void> => {
   const response = await apiInstance.delete<void>('auth/logout');

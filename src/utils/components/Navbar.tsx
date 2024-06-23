@@ -2,8 +2,7 @@ import { AppBar, Box, Button, IconButton, Toolbar, Typography, useTheme } from '
 import MenuIcon from '@mui/icons-material/Menu';
 import { useMutation } from '@tanstack/react-query';
 import { logout } from 'src/shared/api/authApi.ts';
-import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
-import selectUserData from 'src/entities/user/model/selectors/selectUserData.ts';
+import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
 import { useContext, useEffect, useState } from 'react';
 import { ColorModeContext } from 'src/app/providers/Theme.tsx';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -15,13 +14,15 @@ import DrawerNavigation from 'src/widgets/Navigaton/DrawerNavigation/DrawerNavig
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
+import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 
 const Navbar = () => {
-  const isLoggedIn = useUserStore(selectUserData)?.accessToken;
-  const setUserData = useUserStore((state) => state.setUser);
+  const isLoggedIn = useUserStore.use.user?.() !== undefined;
+  const setUserData = useUserStore.use.setUser();
   const colorMode = useContext(ColorModeContext);
   const navigate = useNavigate();
   const theme = useTheme();
+  const { isDesktopWidth } = useWindowWidth();
 
   useLoadExpenses({ shouldFetchOnLoad: true });
   useLoadCategories(true);
@@ -57,21 +58,23 @@ const Navbar = () => {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+      <Box sx={{ flexGrow: 1, ...theme.mixins.toolbar }}>
+        <AppBar position="fixed">
           <Toolbar>
-            <IconButton
-              onClick={onIconButtonHandler}
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
+            {isDesktopWidth && (
+              <IconButton
+                onClick={onIconButtonHandler}
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              Shoplist
+              Shoplist {`${import.meta.env.PACKAGE_VERSION}`}
             </Typography>
             <Button color="inherit" onClick={handleLoginClick}>
               {isLoggedIn ? 'Logout' : 'Login'}

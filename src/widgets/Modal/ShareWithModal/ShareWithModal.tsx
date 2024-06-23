@@ -1,16 +1,27 @@
 import ModalWrapper from 'src/widgets/Modal/ModalWrapper.tsx';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { findUserByEmail, TFindUserByEmailResponse } from 'src/shared/api/userApi.ts';
-import { TUserType } from 'src/entities/user/model/types/TUserStore.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { useEffect, useState } from 'react';
 import useDebouncedValue from 'src/utils/hooks/useDebouncedValue.ts';
-import { alpha, Box, Button, FormHelperText, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
+import {
+  alpha,
+  Avatar,
+  Box,
+  Button,
+  FormHelperText,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import handleError from 'src/utils/errorHandler.ts';
 import { shareWith } from 'src/shared/api/accessControlApi.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import { toast } from 'react-toastify';
 import emailToHexColor from 'src/utils/helpers/emailToHexColor.ts';
+import { TUser } from 'src/shared/api/authApi.ts';
 
 type TShareWithModalProps = {
   expenseIds?: string[];
@@ -23,7 +34,7 @@ type TShareWithModalProps = {
 const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onClose }: TShareWithModalProps) => {
   const [email, setEmail] = useState('');
   const [foundUsers, setFoundUsers] = useState<TFindUserByEmailResponse>([]);
-  const [selectedUser, setSelectedUser] = useState<TUserType | null>(null);
+  const [selectedUser, setSelectedUser] = useState<TUser | null>(null);
   const debounceEmail = useDebouncedValue(email);
   const theme = useTheme();
 
@@ -42,7 +53,6 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
     isPending: isShareWithPending,
     error: shareWithError,
   } = useMutation({
-    mutationKey: ['shareWith'],
     mutationFn: () => shareWith({ categoryIds, paymentSourceIds, expenseIds, sharedWith: selectedUser!._id }),
     onSuccess: () => {
       onClose();
@@ -69,8 +79,10 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
     if (error) handleError(error);
   }, [error]);
 
-  const onUserSelect = useStableCallback((user: TUserType) => {
-    setSelectedUser(user._id === selectedUser?._id ? null : user);
+  const onUserSelect = useStableCallback((user: TUser) => {
+    if (user.isVerified) {
+      setSelectedUser(user._id === selectedUser?._id ? null : user);
+    }
   });
 
   return (
@@ -94,19 +106,25 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
                 const emailColor = emailToHexColor(user.email);
 
                 return (
-                  <Box key={user._id}>
-                    <Typography
-                      variant="h6"
-                      gutterBottom
-                      sx={{
-                        border: `1px solid ${alpha(emailColor, 0.3)}`,
-                        borderRadius: 1,
-                        cursor: 'pointer',
-                        backgroundColor: selectedUser?._id === user._id ? emailColor : 'transparent',
-                        color: selectedUser?._id === user._id ? theme.palette.getContrastText(emailColor) : 'inherit',
-                      }}
-                      onClick={() => onUserSelect(user)}
-                    >
+                  <Box
+                    key={user._id}
+                    display="flex"
+                    alignItems="center"
+                    gap={2}
+                    sx={{
+                      border: `1px solid ${alpha(emailColor, 0.3)}`,
+                      borderRadius: 1,
+                      cursor: user.isVerified ? 'pointer' : 'not-allowed',
+                      backgroundColor: selectedUser?._id === user._id ? emailColor : 'transparent',
+                      color: selectedUser?._id === user._id ? theme.palette.getContrastText(emailColor) : 'inherit',
+                      padding: 0.5,
+                      mb: 1,
+                      opacity: user.isVerified ? 1 : 0.5,
+                    }}
+                    onClick={() => onUserSelect(user)}
+                  >
+                    <Avatar src={user.avatar} alt={`${user.email}'s avatar`} sx={{ width: 30, height: 30 }} />
+                    <Typography variant="h6" gutterBottom>
                       {user.email}
                     </Typography>
                   </Box>
