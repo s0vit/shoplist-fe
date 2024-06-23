@@ -13,8 +13,8 @@ import { Form, useNavigate, useSearchParams } from 'react-router-dom';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useEffect, useState } from 'react';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
-import { login, TLoginRequest, TLoginResponse } from 'src/shared/api/authApi.ts';
-import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import { login, TLoginRequest, TUser } from 'src/shared/api/authApi.ts';
+import _useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
 import { useMutation } from '@tanstack/react-query';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -34,14 +34,14 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const setUser = useUserStore((state) => state.setUser);
+  const setUser = _useUserStore((state) => state.setUser);
 
   const {
     isPending: isLoginPending,
     mutate: sendLoginRequest,
     error,
     data,
-  } = useMutation<TLoginResponse, TErrorResponse, TLoginRequest>({
+  } = useMutation<TUser, TErrorResponse, TLoginRequest>({
     mutationFn: ({ email, password }: TLoginRequest) => login({ email, password }),
   });
 

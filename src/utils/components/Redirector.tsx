@@ -1,10 +1,9 @@
-import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
-import selectUserData from 'src/entities/user/model/selectors/selectUserData.ts';
+import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { Navigate, Outlet } from 'react-router-dom';
 
 const Redirector = () => {
-  const user = useUserStore(selectUserData);
+  const user = useUserStore.use.user?.();
 
   const isLoggedIn = !!user?.accessToken;
   const from = `to=${location.pathname}${location.search}`;

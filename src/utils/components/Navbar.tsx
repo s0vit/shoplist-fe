@@ -2,8 +2,7 @@ import { AppBar, Box, Button, IconButton, Toolbar, Typography, useTheme } from '
 import MenuIcon from '@mui/icons-material/Menu';
 import { useMutation } from '@tanstack/react-query';
 import { logout } from 'src/shared/api/authApi.ts';
-import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
-import selectUserData from 'src/entities/user/model/selectors/selectUserData.ts';
+import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
 import { useContext, useEffect, useState } from 'react';
 import { ColorModeContext } from 'src/app/providers/Theme.tsx';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -18,8 +17,8 @@ import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPayme
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 
 const Navbar = () => {
-  const isLoggedIn = useUserStore(selectUserData)?.accessToken;
-  const setUserData = useUserStore((state) => state.setUser);
+  const isLoggedIn = useUserStore.use.user?.() !== undefined;
+  const setUserData = useUserStore.use.setUser();
   const colorMode = useContext(ColorModeContext);
   const navigate = useNavigate();
   const theme = useTheme();
