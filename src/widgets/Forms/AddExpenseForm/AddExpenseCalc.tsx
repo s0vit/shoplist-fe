@@ -30,7 +30,6 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const categories = useCategoryStore.use.userCategories();
   const currentExpense = useExpensesStore.use.currentEditExpense?.();
   const theme = useTheme();
-  // const [amount, setAmount] = useState<string>(currentExpense?.amount.toString() || '0');
   const [amount, setAmount] = useState<string>(currentExpense?.amount.toString() || '0');
   const [currency, setCurrency] = useState<string>('$');
   const [selectedCategory, setSelectedCategory] = useState<string>(currentExpense?.categoryId || '');
@@ -127,7 +126,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     },
     {
       title: '.',
-      content: <BsDot size={28} />,
+      content: <BsDot size={26} />,
     },
     {
       title: '0',
@@ -212,6 +211,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
               display: 'flex',
               alignItems: 'center',
               px: 1,
+              fontSize: '20px',
               fontWeight: 'bold',
               border: `1px solid ${theme.palette.grey[700]}`,
               height: '40px',
