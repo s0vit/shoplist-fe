@@ -1,4 +1,4 @@
-export type FilterForQueryTypes = {
+export type TFilterForQueryTypes = {
   categoryId: string;
   paymentSourceId: string;
   createdStartDate: string;

@@ -1,13 +1,13 @@
 import { create } from 'zustand';
-import { FilterForQueryTypes } from 'src/entities/filters/models/types/types.ts';
+import { TFilterForQueryTypes } from 'src/entities/filters/models/types/types.ts';
 import createSelectors from 'src/utils/helpers/createSelectors.ts';
 
-export type FiltersStoreTypes = {
-  filter: FilterForQueryTypes;
-  setFilter: (filter: FilterForQueryTypes) => void;
+export type TFiltersStoreTypes = {
+  filter: TFilterForQueryTypes;
+  setFilter: (filter: TFilterForQueryTypes) => void;
 };
 
-const _useFiltersStoreForExpenses = create<FiltersStoreTypes>((set) => ({
+const _useFiltersStoreForExpenses = create<TFiltersStoreTypes>((set) => ({
   filter: {
     categoryId: '',
     paymentSourceId: '',
