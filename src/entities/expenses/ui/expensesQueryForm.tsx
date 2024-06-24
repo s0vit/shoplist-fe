@@ -1,51 +1,29 @@
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef } from 'react';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import CategoriesSelect from 'src/entities/category/ui/CategoriesSelect.tsx';
 import PaymentSourcesSelect from 'src/entities/paymentSource/ui/PaymentSourcesSelect.tsx';
 import useDebouncedValue from 'src/utils/hooks/useDebouncedValue.ts';
+import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
 
 type TExpenseQueryFormProps = {
   onSubmit: (query: Record<string, string | undefined | Date | number>) => void;
   isLoading: boolean;
 };
 
-type TQuery = {
-  categoryId: string;
-  paymentSourceId: string;
-  createdStartDate: string;
-  createdEndDate: string;
-  amountStart: string;
-  amountEnd: string;
-  skip: string;
-  limit: string;
-};
-
 const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
-  //TODO save to store globally to reuse in all places.
-  const emptyQuery = {
-    categoryId: '',
-    paymentSourceId: '',
-    createdStartDate: '',
-    createdEndDate: '',
-    amountStart: '',
-    amountEnd: '',
-    skip: '',
-    limit: '',
-  };
+  const filters = useFiltersStoreForExpenses.use.filter();
+  const setFilter = useFiltersStoreForExpenses.use.setFilter();
 
-  const [query, setQuery] = useState<TQuery>(emptyQuery);
-
-  const debouncedQuery = useDebouncedValue(query, 300);
+  const debouncedQuery = useDebouncedValue(filters, 300);
   const handleChange = useStableCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setQuery({
-      ...query,
+    setFilter({
+      ...filters,
       [name]: value,
     });
   });
@@ -78,14 +56,14 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
           <Grid container>
             <Grid item xs={12} sm={4}>
               <CategoriesSelect
-                selectedCategoryId={query.categoryId}
-                setSelectedCategoryId={(value) => setQuery({ ...query, categoryId: value })}
+                selectedCategoryId={filters.categoryId}
+                setSelectedCategoryId={(value) => setFilter({ ...filters, categoryId: value })}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <PaymentSourcesSelect
-                selectedPaymentSourceId={query.paymentSourceId}
-                setSelectedPaymentSourceId={(value) => setQuery({ ...query, paymentSourceId: value })}
+                selectedPaymentSourceId={filters.paymentSourceId}
+                setSelectedPaymentSourceId={(value) => setFilter({ ...filters, paymentSourceId: value })}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -95,7 +73,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 type="datetime-local"
                 fullWidth
                 size="small"
-                value={query.createdStartDate}
+                value={filters.createdStartDate}
                 onChange={handleChange}
               />
             </Grid>
@@ -106,7 +84,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 type="datetime-local"
                 fullWidth
                 size="small"
-                value={query.createdEndDate}
+                value={filters.createdEndDate}
                 onChange={handleChange}
               />
             </Grid>
@@ -117,7 +95,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 type="number"
                 fullWidth
                 size="small"
-                value={query.amountStart}
+                value={filters.amountStart}
                 onChange={handleChange}
               />
             </Grid>
@@ -128,7 +106,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 type="number"
                 fullWidth
                 size="small"
-                value={query.amountEnd}
+                value={filters.amountEnd}
                 onChange={handleChange}
               />
             </Grid>
@@ -140,7 +118,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 type="number"
                 fullWidth
                 size="small"
-                value={query.skip}
+                value={filters.skip}
                 onChange={handleChange}
               />
             </Grid>
@@ -151,7 +129,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 type="number"
                 fullWidth
                 size="small"
-                value={query.limit}
+                value={filters.limit}
                 onChange={handleChange}
               />
             </Grid>

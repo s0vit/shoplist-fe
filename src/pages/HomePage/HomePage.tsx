@@ -6,6 +6,7 @@ import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import ExpenseQueryForm from 'src/entities/expenses/ui/expensesQueryForm.tsx';
 import AddExpenseCalculator from 'src/widgets/Forms/AddExpenseForm/AddExpenseCalc.tsx';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
+import { TGetExpenseQuery } from 'src/shared/api/expenseApi.ts';
 
 const HomePage = () => {
   const { isDesktopWidth, windowHeight } = useWindowWidth();
@@ -14,9 +15,15 @@ const HomePage = () => {
   useLoadPaymentSources(true);
   useLoadCategories(true);
 
+  //<ExpenseQueryForm onSubmit={fetchExpenses} isLoading={isExpensesLoading} /> filters work only one time
+
+  const test = (value: TGetExpenseQuery | undefined) => {
+    fetchExpenses(value);
+  };
+
   return isDesktopWidth ? (
     <Stack spacing={1}>
-      <ExpenseQueryForm onSubmit={fetchExpenses} isLoading={isExpensesLoading} />
+      <ExpenseQueryForm onSubmit={test} isLoading={isExpensesLoading} />
       <Stack gap={1} direction="row" divider={isDesktopWidth && <Divider orientation="vertical" flexItem />}>
         <ExpensesTable fetchExpenses={fetchExpenses} />
         <AddExpenseCalculator />
