@@ -3,7 +3,7 @@ import ExpenseQueryForm from 'src/entities/expenses/ui/expensesQueryForm.tsx';
 import ExpensesTable from 'src/entities/expenses/ui/ExpensesTable.tsx';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 
-const ExpensesMobilePage = () => {
+const ExpensesListMobilePage = () => {
   const { fetchExpenses, isExpensesLoading } = useLoadExpenses();
 
   return (
@@ -14,4 +14,4 @@ const ExpensesMobilePage = () => {
   );
 };
 
-export default ExpensesMobilePage;
+export default ExpensesListMobilePage;

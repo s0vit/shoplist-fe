@@ -1,7 +1,7 @@
 {
   "name": "shoplist-fe",
   "private": true,
-  "version": "0.0.29",
+  "version": "0.0.30",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -57,5 +57,9 @@
     "prettier-eslint": "^16.3.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9.0.0"
   }
 }
