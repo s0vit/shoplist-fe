@@ -5,20 +5,24 @@ import createSelectors from 'src/utils/helpers/createSelectors.ts';
 export type TFiltersStoreTypes = {
   filter: TFilterForQueryTypes;
   setFilter: (filter: TFilterForQueryTypes) => void;
+  resetStore: () => void;
+};
+
+const initialState: TFiltersStoreTypes['filter'] = {
+  categoryId: '',
+  paymentSourceId: '',
+  createdStartDate: '',
+  createdEndDate: '',
+  amountStart: '',
+  amountEnd: '',
+  skip: '',
+  limit: '',
 };
 
 const _useFiltersStoreForExpenses = create<TFiltersStoreTypes>((set) => ({
-  filter: {
-    categoryId: '',
-    paymentSourceId: '',
-    createdStartDate: '',
-    createdEndDate: '',
-    amountStart: '',
-    amountEnd: '',
-    skip: '',
-    limit: '',
-  },
+  filter: initialState,
   setFilter: (filter) => set({ filter }),
+  resetStore: () => set({ filter: initialState }),
 }));
 
 const useFiltersStoreForExpenses = createSelectors(_useFiltersStoreForExpenses);

@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
 import { getRefreshToken } from 'src/shared/api/authApi.ts';
+import { jwtDecode } from 'jwt-decode';
 
 export const apiInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'https://shoplist-be.vercel.app/api/',
@@ -24,8 +25,14 @@ apiInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const oldRefreshToken = useUserStore.getState().user?.refreshToken || localStorage.getItem('refreshToken');
+    let exp = 0;
 
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+    if (oldRefreshToken) {
+      exp = jwtDecode(oldRefreshToken).exp || 0;
+    }
+
+    if (error.response && error.response.status === 401 && !originalRequest._retry && exp * 1000 < Date.now()) {
       originalRequest._retry = true;
       const oldRefreshToken = useUserStore.getState().user?.refreshToken || localStorage.getItem('refreshToken');
       if (!oldRefreshToken) throw new Error('No refresh token');
