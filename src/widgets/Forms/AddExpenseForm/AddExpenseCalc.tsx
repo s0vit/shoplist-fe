@@ -87,6 +87,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     isCreateExpenseSuccess || isUpdateExpenseSuccess || isDeleteCategorySuccess || isDeletePaymentSourceSuccess;
   const error = createExpenseError || updateExpenseError;
 
+  const currencies = ['$', '€', '₽', '₴', '₺', '£'];
   const calcButtons: Array<{ title: string; content: ReactNode }> = [
     {
       title: '1',
@@ -142,17 +143,17 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     setAmount((prevValue) => {
       if (value === 'del') {
         return prevValue.length === 1 ? '0' : prevValue.slice(0, -1);
+      } else if (value === 'Clear') {
+        setSelectedPaymentSource('');
+        setSelectedCategory('');
+
+        return '0';
       } else if (value !== '.' && prevValue === '0') {
         return value;
       } else if (value === '.' && prevValue.includes('.')) {
         return prevValue;
       } else if (prevValue.split('.')[1]?.length >= 2) {
         return prevValue;
-      } else if (value === 'Clear') {
-        setSelectedPaymentSource('');
-        setSelectedCategory('');
-
-        return '0';
       } else {
         return `${prevValue}${value}`;
       }
@@ -230,12 +231,11 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
               value={currency}
               onChange={(e) => setCurrency(e.target.value as string)}
             >
-              <MenuItem value="$">$</MenuItem>
-              <MenuItem value="€">€</MenuItem>
-              <MenuItem value="₽">₽</MenuItem>
-              <MenuItem value="₴">₴</MenuItem>
-              <MenuItem value="₺">₺</MenuItem>
-              <MenuItem value="£">£</MenuItem>
+              {currencies.map((value) => (
+                <MenuItem key={value} value={value}>
+                  {value}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Stack>

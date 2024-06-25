@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
 import { getRefreshToken } from 'src/shared/api/authApi.ts';
 
 export const apiInstance = axios.create({
@@ -25,7 +25,7 @@ apiInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const oldRefreshToken = useUserStore.getState().user?.refreshToken || localStorage.getItem('refreshToken');
       if (!oldRefreshToken) throw new Error('No refresh token');
