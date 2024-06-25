@@ -14,7 +14,7 @@ import NotFoundPage from 'src/pages/NotFoundPage/NotFoundPage.tsx';
 import ConfirmPage from 'src/pages/ConfirmPage/ConfirmPage.tsx';
 import CategoryPage from 'src/pages/CategoryPage/CategoryPage.tsx';
 import PaymentSourcesPage from 'src/pages/PaymentSourcesPage/PaymentSourcesPage.tsx';
-import ExpensesMobilePage from 'src/pages/ExpensesMobilePage/ExpensesMobilePage.tsx';
+import ExpensesListMobilePage from 'src/pages/ExpensesMobilePage/ExpensesListMobilePage.tsx';
 
 const routes: RouteObject[] = [
   {
@@ -51,7 +51,7 @@ const routes: RouteObject[] = [
           },
           {
             path: RoutesEnum.EXPENSES_LIST,
-            element: <ExpensesMobilePage />,
+            element: <ExpensesListMobilePage />,
           },
         ],
       },
