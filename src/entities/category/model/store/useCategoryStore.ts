@@ -9,6 +9,7 @@ export type TCategoryStore = {
   setUserCategories: (categories: TCategory[]) => void;
   setCurrentEditingCategory: (category?: Partial<TCategory>) => void;
   setIsCategoryModalOpen: (isCategoryModalOpen: boolean) => void;
+  resetStore: () => void;
 };
 
 const _useCategoryStore = create<TCategoryStore>((set) => ({
@@ -18,6 +19,7 @@ const _useCategoryStore = create<TCategoryStore>((set) => ({
   setUserCategories: (userCategories) => set({ userCategories }),
   setCurrentEditingCategory: (category) => set({ currentEditingCategory: category }),
   setIsCategoryModalOpen: (isCategoryModalOpen) => set({ isCategoryModalOpen }),
+  resetStore: () => set({ userCategories: [], currentEditingCategory: undefined, isCategoryModalOpen: false }),
 }));
 
 const useCategoryStore = createSelectors(_useCategoryStore);

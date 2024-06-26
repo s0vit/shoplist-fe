@@ -16,7 +16,7 @@ const ModalWrapper = ({ onClickAway, children, isModalOpen = false }: PropsWithC
       slotProps={{ backdrop: { timeout: 500 } }}
     >
       <Fade in={isModalOpen}>
-        <div>{children}</div>
+        <div style={{ zIndex: 999, position: 'relative' }}>{children}</div>
       </Fade>
     </Modal>
   );

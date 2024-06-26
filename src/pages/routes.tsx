@@ -1,7 +1,5 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
-import rootLoader from 'src/pages/loaders/rootLoader.ts';
-import { Suspense } from 'react';
 import ErrorBoundary from 'src/utils/components/ErrorBoundary.tsx';
 import Layout from 'src/utils/components/Layout.tsx';
 import UserPage from 'src/pages/UserPage/UserPage.tsx';
@@ -20,14 +18,12 @@ const routes: RouteObject[] = [
   {
     id: 'root',
     path: RoutesEnum.ROOT,
-    loader: rootLoader,
+    // loader: rootLoader,
     errorElement: <ErrorPage />,
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
-        <ErrorBoundary>
-          <Layout />
-        </ErrorBoundary>
-      </Suspense>
+      <ErrorBoundary>
+        <Layout />
+      </ErrorBoundary>
     ),
     children: [
       {
