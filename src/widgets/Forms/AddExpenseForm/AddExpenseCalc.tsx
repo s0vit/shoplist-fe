@@ -321,8 +321,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           </Grid>
         </Grid>
       </Box>
-      <UpsertCategoryModal />
-      <UpsertPaymentSourceModal />
+      <UpsertCategoryModal setSelectedCategory={setSelectedCategory} />
+      <UpsertPaymentSourceModal setSelectedPaymentSource={setSelectedPaymentSource} />
     </Paper>
   );
 };

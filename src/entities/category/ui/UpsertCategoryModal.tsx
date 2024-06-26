@@ -2,7 +2,11 @@ import ModalWrapper from 'src/widgets/Modal/ModalWrapper.tsx';
 import UpsertCategoryForm from 'src/entities/category/ui/UpsertCategoryForm.tsx';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 
-const UpsertCategoryModal = () => {
+type TUpsertCategoryModalProps = {
+  setSelectedCategory?: (categoryId: string) => void;
+};
+
+const UpsertCategoryModal = ({ setSelectedCategory }: TUpsertCategoryModalProps) => {
   const isCategoryModalOpen = useCategoryStore.use.isCategoryModalOpen();
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
 
@@ -12,7 +16,7 @@ const UpsertCategoryModal = () => {
 
   return (
     <ModalWrapper onClickAway={closeCategoryModal} isModalOpen={isCategoryModalOpen}>
-      <UpsertCategoryForm />
+      <UpsertCategoryForm setSelectedCategory={setSelectedCategory} />
     </ModalWrapper>
   );
 };

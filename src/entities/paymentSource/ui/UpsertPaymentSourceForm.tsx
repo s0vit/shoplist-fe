@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import {
   createPaymentSource,
   TCreatePaymentSourceInput,
+  TPaymentSource,
   updatePaymentSource,
 } from 'src/shared/api/paymentsSourceApi.ts';
 import { useState } from 'react';
@@ -14,7 +15,11 @@ import { Colorful } from '@uiw/react-color';
 import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 
-const UpsertPaymentSourceForm = () => {
+type TUpsertPaymentSourceFormProps = {
+  setSelectedPaymentSource?: (paymentSource: string) => void;
+};
+
+const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSourceFormProps) => {
   const paymentSource = usePaymentSourcesStore.use.currentEditingPaymentSource?.();
   const setCurrentEditingPaymentSource = usePaymentSourcesStore.use.setCurrentEditingPaymentSource();
   const setIsPaymentSourcesModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
@@ -29,27 +34,26 @@ const UpsertPaymentSourceForm = () => {
     setIsPaymentSourcesModalOpen(false);
   };
 
+  const handleSuccess = (paymentSource: TPaymentSource) => {
+    fetchPaymentSources();
+    setCurrentEditingPaymentSource(undefined);
+    setSelectedPaymentSource && setSelectedPaymentSource(paymentSource._id);
+    closeModal();
+  };
+
   const { mutate: createPaymentSourceMutate, isPending: isCreatePaymentSourcePending } = useMutation({
     mutationFn: createPaymentSource,
     onError: handleError,
-    onSuccess: () => {
-      fetchPaymentSources();
-      setCurrentEditingPaymentSource(undefined);
-      closeModal();
-    },
+    onSuccess: handleSuccess,
   });
   const { mutate: updatePaymentSourceMutate, isPending: isUpdatePaymentSourcePending } = useMutation<
-    TCreatePaymentSourceInput,
+    TPaymentSource,
     TErrorResponse,
     TCreatePaymentSourceInput & { _id: string }
   >({
     mutationFn: ({ _id, ...data }) => updatePaymentSource(_id, data),
     onError: handleError,
-    onSuccess: () => {
-      fetchPaymentSources();
-      setCurrentEditingPaymentSource(undefined);
-      closeModal();
-    },
+    onSuccess: handleSuccess,
   });
 
   const upsertPaymentSource = () => {
