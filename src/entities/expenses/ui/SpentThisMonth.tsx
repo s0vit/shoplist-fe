@@ -1,6 +1,5 @@
 import { TExpense } from 'src/shared/api/expenseApi.ts';
-import { Box, Divider, Paper, Stack, Typography } from '@mui/material';
-import AddExpenseCalculator from 'src/widgets/Forms/AddExpenseForm/AddExpenseCalc.tsx';
+import { Box, Paper, Typography } from '@mui/material';
 
 type TSpentThisMonthProps = {
   expenses: TExpense[];
@@ -8,23 +7,20 @@ type TSpentThisMonthProps = {
 
 const SpentThisMonth = ({ expenses }: TSpentThisMonthProps) => {
   return (
-    <Stack gap={1} divider={<Divider flexItem />}>
-      <Paper>
-        <Typography variant="h6" textAlign="center">
-          Spent this month:
+    <Paper>
+      <Typography variant="h6" textAlign="center">
+        Spent this month:
+      </Typography>
+      <Box textAlign="center">
+        <Typography variant="h3" color="primary">
+          {expenses.reduce((acc, expense) => {
+            return new Date(expense.createdAt).getMonth() === new Date().getMonth()
+              ? acc + expense.amount * 100 // multiply and then divide by 100 to avoid floating point errors
+              : acc;
+          }, 0) / 100}
         </Typography>
-        <Box textAlign="center">
-          <Typography variant="h3" color="primary">
-            {expenses.reduce((acc, expense) => {
-              return new Date(expense.createdAt).getMonth() === new Date().getMonth()
-                ? acc + expense.amount * 100 // multiply and then divide by 100 to avoid floating point errors
-                : acc;
-            }, 0) / 100}
-          </Typography>
-        </Box>
-      </Paper>
-      <AddExpenseCalculator />
-    </Stack>
+      </Box>
+    </Paper>
   );
 };
 
