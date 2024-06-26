@@ -1,59 +1,37 @@
 import { AppBar, Box, Button, IconButton, Toolbar, Typography, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useMutation } from '@tanstack/react-query';
-import { logout } from 'src/shared/api/authApi.ts';
 import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { ColorModeContext } from 'src/app/providers/Theme.tsx';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useNavigate } from 'react-router-dom';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
-import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import DrawerNavigation from 'src/widgets/Navigaton/DrawerNavigation/DrawerNavigation.tsx';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
+import useLogout from 'src/utils/hooks/useLogout.ts';
 
 const Navbar = () => {
   const isLoggedIn = useUserStore.use.user?.() !== undefined;
-  const setUserData = useUserStore.use.setUser();
+  const isVerified = useUserStore.use.user?.()?.isVerified;
   const colorMode = useContext(ColorModeContext);
   const navigate = useNavigate();
   const theme = useTheme();
   const { isDesktopWidth } = useWindowWidth();
 
-  useLoadExpenses({ shouldFetchOnLoad: true });
-  useLoadCategories(true);
-  useLoadPaymentSources(true);
+  useLoadExpenses({ shouldFetchOnLoad: isVerified });
+  useLoadCategories(isVerified);
+  useLoadPaymentSources(isVerified);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const { isSuccess, mutate: requestLogout } = useMutation<void, TErrorResponse>({
-    mutationFn: logout,
-  });
-
-  useEffect(() => {
-    if (isSuccess) {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      setUserData();
-    }
-  }, [isSuccess, setUserData]);
+  const { handleLogout } = useLogout();
 
   const handleLoginClick = () => {
-    if (isLoggedIn) {
-      requestLogout();
-
-      return;
-    }
-
-    navigate(RoutesEnum.LOGIN);
-  };
-
-  const onIconButtonHandler = () => {
-    setIsDrawerOpen(true);
+    isLoggedIn ? handleLogout() : navigate(RoutesEnum.LOGIN);
   };
 
   return (
@@ -63,7 +41,7 @@ const Navbar = () => {
           <Toolbar>
             {isDesktopWidth && (
               <IconButton
-                onClick={onIconButtonHandler}
+                onClick={() => setIsDrawerOpen(true)}
                 size="large"
                 edge="start"
                 color="inherit"

@@ -27,7 +27,11 @@ const HomePage = () => {
       <ExpenseQueryForm onSubmit={test} isLoading={isExpensesLoading} />
       <Stack gap={1} direction="row" divider={isDesktopWidth && <Divider orientation="vertical" flexItem />}>
         <ExpensesTable fetchExpenses={fetchExpenses} />
-        <SpentThisMonth expenses={userExpenses} />
+
+        <Stack gap={1} divider={<Divider flexItem />}>
+          <SpentThisMonth expenses={userExpenses} />
+          <AddExpenseCalculator />
+        </Stack>
       </Stack>
     </Stack>
   ) : (
