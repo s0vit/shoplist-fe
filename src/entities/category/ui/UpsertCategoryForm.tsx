@@ -2,16 +2,20 @@ import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { Button, FormControl, FormGroup, InputLabel, OutlinedInput, Stack, Typography, useTheme } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { createCategory, TCreateCategoryInput, updateCategory } from 'src/shared/api/categoryApi.ts';
+import { createCategory, TCategory, TCreateCategoryInput, updateCategory } from 'src/shared/api/categoryApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import { Colorful } from '@uiw/react-color';
 import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
-import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 
-const UpsertCategoryForm = () => {
+type TUpsertCategoryFormProps = {
+  setSelectedCategory?: (categoryId: string) => void;
+};
+
+const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) => {
   const category = useCategoryStore.use.currentEditingCategory?.();
   const setCurrentEditingCategory = useCategoryStore.use.setCurrentEditingCategory();
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
@@ -26,9 +30,10 @@ const UpsertCategoryForm = () => {
     setIsCategoryModalOpen(false);
   };
 
-  const handleSuccess = useStableCallback(() => {
+  const handleSuccess = useStableCallback((category: TCategory) => {
     fetchCategories();
     setCurrentEditingCategory(undefined);
+    setSelectedCategory && setSelectedCategory(category._id);
     closeModal();
   });
 
@@ -39,7 +44,7 @@ const UpsertCategoryForm = () => {
   });
 
   const { mutate: updateCategoryMutate, isPending: isUpdateCategoryPending } = useMutation<
-    TCreateCategoryInput,
+    TCategory,
     TErrorResponse,
     TCreateCategoryInput & { _id: string }
   >({
