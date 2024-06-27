@@ -9,6 +9,7 @@ import { deleteExpense, TExpense } from 'src/shared/api/expenseApi.ts';
 import ExpenseItem from 'src/entities/expenses/ui/ExpenseItem.tsx';
 import ExpenseModal from 'src/widgets/Modal/ExpenseModal/ExpenseModal.tsx';
 import { format } from 'date-fns';
+import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 
 const groupExpensesByDate = (expenses: TExpense[]) => {
   return expenses.reduce(
@@ -31,11 +32,8 @@ const calculateTotalAmount = (expenses: TExpense[]) => {
   return expenses.reduce((total, expense) => total + expense.amount, 0);
 };
 
-type TExpensesTableProps = {
-  fetchExpenses: (query: Record<string, string | undefined | Date | number>) => void;
-};
-
-const ExpensesTable = ({ fetchExpenses }: TExpensesTableProps) => {
+const ExpensesTable = () => {
+  const { fetchExpenses } = useLoadExpenses({ shouldFetchOnLoad: true });
   const userCategories = useCategoryStore.use.userCategories();
   const userPaymentSources = usePaymentSourcesStore(selectUserPaymentSources);
   const expenses = useExpensesStore(selectUserExpenses);
