@@ -47,7 +47,7 @@ const ExpensesTable = ({ fetchExpenses }: TExpensesTableProps) => {
   const groupedExpenses = groupExpensesByDate(expenses);
 
   return (
-    <Box width="100%">
+    <Box width="100%" maxHeight="100%" overflow="auto">
       {Object.entries(groupedExpenses).map(([date, expenses]) => (
         <Paper key={date} sx={{ mb: 2, p: 2 }}>
           <Box display="flex" justifyContent="space-between">

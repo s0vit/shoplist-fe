@@ -1,4 +1,4 @@
-import { alpha, Card, CardContent, Grid, Stack, Typography, useTheme } from '@mui/material';
+import { alpha, Box, Card, CardContent, Grid, Stack, Typography, useTheme } from '@mui/material';
 import { deleteCategory, TCategory } from 'src/shared/api/categoryApi.ts';
 import {
   LeadingActions,
@@ -23,8 +23,8 @@ const CategoryCard = ({ category, refetchCategories }: TCategoriesProps) => {
   const setCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
 
   const theme = useTheme();
-  const categoryTextColor = theme.palette.getContrastText(category.color || theme.palette.primary.main);
-  const categoryBackgroundColor = alpha(category.color || theme.palette.primary.main, 0.8);
+  const categoryTextColor = theme.palette.text.primary;
+  const categoryBackgroundColor = alpha(category.color || theme.palette.primary.main, 0.05);
 
   const { mutate: requestDeleteCategory } = useMutation({
     mutationFn: deleteCategory,
@@ -52,7 +52,6 @@ const CategoryCard = ({ category, refetchCategories }: TCategoriesProps) => {
             backgroundColor: theme.palette.info.main,
             color: theme.palette.info.contrastText,
             padding: theme.spacing(2),
-            marginBottom: theme.spacing(1),
             borderRadius: theme.spacing(1),
           }}
         >
@@ -73,7 +72,6 @@ const CategoryCard = ({ category, refetchCategories }: TCategoriesProps) => {
             backgroundColor: theme.palette.error.main,
             color: theme.palette.error.contrastText,
             padding: theme.spacing(2),
-            marginBottom: theme.spacing(1),
             borderRadius: theme.spacing(1),
           }}
         >
@@ -87,19 +85,28 @@ const CategoryCard = ({ category, refetchCategories }: TCategoriesProps) => {
     <Grid item xs={12}>
       <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
-          <Card sx={{ backgroundColor: categoryBackgroundColor, width: '100%', borderRadius: theme.spacing(1) }}>
+          <Card
+            sx={{
+              backgroundColor: categoryBackgroundColor,
+              border: `1px solid ${category.color || theme.palette.primary.main}`,
+              width: '100%',
+              borderRadius: theme.spacing(1),
+            }}
+          >
             <CardContent sx={{ p: 1 }}>
-              <Typography variant="h5" component="div" color={categoryTextColor}>
-                {category.title}
-              </Typography>
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="h5" component="div" color={categoryTextColor}>
+                  {category.title}
+                </Typography>
+                <Typography variant="body2" color={categoryTextColor}>
+                  Created: {new Date(category.createdAt).toLocaleDateString()}
+                </Typography>
+              </Box>
               {category.comments && (
                 <Typography variant="body2" color={categoryTextColor}>
                   {category.comments}
                 </Typography>
               )}
-              <Typography variant="body2" color={categoryTextColor}>
-                Created: {new Date(category.createdAt).toLocaleDateString()}
-              </Typography>
             </CardContent>
           </Card>
         </SwipeableListItem>

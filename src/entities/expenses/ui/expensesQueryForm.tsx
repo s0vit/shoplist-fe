@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { ChangeEvent, useEffect, useRef } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
@@ -9,13 +9,16 @@ import CategoriesSelect from 'src/entities/category/ui/CategoriesSelect.tsx';
 import PaymentSourcesSelect from 'src/entities/paymentSource/ui/PaymentSourcesSelect.tsx';
 import useDebouncedValue from 'src/utils/hooks/useDebouncedValue.ts';
 import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
+import { TGetExpenseQuery } from 'src/shared/api/expenseApi.ts';
+import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 
-type TExpenseQueryFormProps = {
-  onSubmit: (query: Record<string, string | undefined | Date | number>) => void;
-  isLoading: boolean;
-};
+const ExpenseQueryForm = () => {
+  const { fetchExpenses, isExpensesLoading } = useLoadExpenses({ shouldFetchOnLoad: false });
 
-const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
+  const test = useStableCallback((value: TGetExpenseQuery | undefined) => {
+    fetchExpenses(value);
+  });
+
   const filters = useFiltersStoreForExpenses.use.filter();
   const setFilter = useFiltersStoreForExpenses.use.setFilter();
 
@@ -28,12 +31,6 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
     });
   });
 
-  const isLoadingRef = useRef(isLoading);
-
-  useEffect(() => {
-    isLoadingRef.current = isLoading;
-  }, [isLoading]);
-
   useEffect(() => {
     const formattedQuery = {
       ...debouncedQuery,
@@ -45,8 +42,8 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
       limit: debouncedQuery?.limit ? parseInt(debouncedQuery.limit, 10) : undefined,
     };
 
-    onSubmit(formattedQuery);
-  }, [debouncedQuery, onSubmit]);
+    test(formattedQuery);
+  }, [debouncedQuery, test]);
 
   return (
     <Accordion>
@@ -58,12 +55,14 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
               <CategoriesSelect
                 selectedCategoryId={filters.categoryId}
                 setSelectedCategoryId={(value) => setFilter({ ...filters, categoryId: value })}
+                isCreateExpensePending={isExpensesLoading}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <PaymentSourcesSelect
                 selectedPaymentSourceId={filters.paymentSourceId}
                 setSelectedPaymentSourceId={(value) => setFilter({ ...filters, paymentSourceId: value })}
+                isCreateExpensePending={isExpensesLoading}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -75,6 +74,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 size="small"
                 value={filters.createdStartDate}
                 onChange={handleChange}
+                disabled={isExpensesLoading}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -86,6 +86,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 size="small"
                 value={filters.createdEndDate}
                 onChange={handleChange}
+                disabled={isExpensesLoading}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -97,6 +98,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 size="small"
                 value={filters.amountStart}
                 onChange={handleChange}
+                disabled={isExpensesLoading}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -108,6 +110,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 size="small"
                 value={filters.amountEnd}
                 onChange={handleChange}
+                disabled={isExpensesLoading}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -120,6 +123,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 size="small"
                 value={filters.skip}
                 onChange={handleChange}
+                disabled={isExpensesLoading}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -131,6 +135,7 @@ const ExpenseQueryForm = ({ onSubmit, isLoading }: TExpenseQueryFormProps) => {
                 size="small"
                 value={filters.limit}
                 onChange={handleChange}
+                disabled={isExpensesLoading}
               />
             </Grid>
           </Grid>

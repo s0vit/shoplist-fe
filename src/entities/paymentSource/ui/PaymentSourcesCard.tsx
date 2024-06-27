@@ -1,4 +1,4 @@
-import { alpha, Card, CardContent, Grid, Stack, Typography, useTheme } from '@mui/material';
+import { alpha, Box, Card, CardContent, Grid, Stack, Typography, useTheme } from '@mui/material';
 import { deletePaymentSource, TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import {
   LeadingActions,
@@ -23,8 +23,8 @@ const PaymentSourcesCard = ({ paymentSource, refetchPaymentSources }: TPaymentSo
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
 
   const theme = useTheme();
-  const paymentSourceTextColor = theme.palette.getContrastText(paymentSource.color || theme.palette.primary.main);
-  const paymentSourceBackgroundColor = alpha(paymentSource.color || theme.palette.primary.main, 0.8);
+  const paymentSourceTextColor = theme.palette.text.primary;
+  const paymentSourceBackgroundColor = alpha(paymentSource.color || theme.palette.primary.main, 0.05);
 
   const { mutate: requestDeletePaymentSource } = useMutation({
     mutationFn: deletePaymentSource,
@@ -52,7 +52,6 @@ const PaymentSourcesCard = ({ paymentSource, refetchPaymentSources }: TPaymentSo
             backgroundColor: theme.palette.info.main,
             color: theme.palette.info.contrastText,
             padding: theme.spacing(2),
-            marginBottom: theme.spacing(1),
             borderRadius: theme.spacing(1),
           }}
         >
@@ -73,7 +72,6 @@ const PaymentSourcesCard = ({ paymentSource, refetchPaymentSources }: TPaymentSo
             backgroundColor: theme.palette.error.main,
             color: theme.palette.error.contrastText,
             padding: theme.spacing(2),
-            marginBottom: theme.spacing(1),
             borderRadius: theme.spacing(1),
           }}
         >
@@ -84,22 +82,31 @@ const PaymentSourcesCard = ({ paymentSource, refetchPaymentSources }: TPaymentSo
   );
 
   return (
-    <Grid item xs={12} sm={6} md={4} key={paymentSource._id}>
+    <Grid item xs={12}>
       <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
-          <Card sx={{ backgroundColor: paymentSourceBackgroundColor, width: '100%', borderRadius: theme.spacing(1) }}>
-            <CardContent>
-              <Typography variant="h5" component="div" color={paymentSourceTextColor}>
-                {paymentSource.title}
-              </Typography>
+          <Card
+            sx={{
+              backgroundColor: paymentSourceBackgroundColor,
+              width: '100%',
+              borderRadius: theme.spacing(1),
+              border: `1px solid ${paymentSource.color || theme.palette.primary.main}`,
+            }}
+          >
+            <CardContent sx={{ p: 1 }}>
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="h5" component="div" color={paymentSourceTextColor}>
+                  {paymentSource.title}
+                </Typography>
+                <Typography variant="body2" color={paymentSourceTextColor}>
+                  Created: {new Date(paymentSource.createdAt).toLocaleDateString()}
+                </Typography>
+              </Box>
               {paymentSource.comments && (
                 <Typography variant="body2" color={paymentSourceTextColor}>
                   {paymentSource.comments}
                 </Typography>
               )}
-              <Typography variant="body2" color={paymentSourceTextColor}>
-                Created: {new Date(paymentSource.createdAt).toLocaleDateString()}
-              </Typography>
             </CardContent>
           </Card>
         </SwipeableListItem>
