@@ -19,6 +19,7 @@ import selectSetIsExpenseModalOpen from 'src/entities/expenses/model/selectors/s
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal/ShareWithModal.tsx';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
+import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -30,6 +31,7 @@ type TExpenseItemProps = {
 const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpenseItemProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isShareWithModalOpen, setIsShareWithModalOpen] = useState(false);
+  const { isDesktopWidth } = useWindowWidth();
 
   const setCurrentEditExpense = useExpensesStore(selectSetCurrentEditExpense);
   const setIsEditExpenseModalOpen = useExpensesStore(selectSetIsExpenseModalOpen);
@@ -52,7 +54,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
 
   const handleEdit = useStableCallback(() => {
     setCurrentEditExpense(expense);
-    setIsEditExpenseModalOpen(true);
+    !isDesktopWidth && setIsEditExpenseModalOpen(true);
   });
 
   const leadingActions = () => (

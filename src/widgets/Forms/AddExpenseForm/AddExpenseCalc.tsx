@@ -20,6 +20,7 @@ import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts'
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 import { BsDot } from 'react-icons/bs';
 import { FaBackspace } from 'react-icons/fa';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
@@ -29,14 +30,13 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const paymentSources = usePaymentSourcesStore.use.userPaymentSources();
   const categories = useCategoryStore.use.userCategories();
   const currentExpense = useExpensesStore.use.currentEditExpense?.();
+  const setCurrentEditExpense = useExpensesStore.use.setCurrentEditExpense?.();
   const theme = useTheme();
-  const [amount, setAmount] = useState<string>(currentExpense?.amount.toString() || '0');
+  const [amount, setAmount] = useState<string>('0');
   const [currency, setCurrency] = useState<string>('$');
-  const [selectedCategory, setSelectedCategory] = useState<string>(currentExpense?.categoryId || '');
-  const [selectedPaymentSource, setSelectedPaymentSource] = useState<string>(currentExpense?.paymentSourceId || '');
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    currentExpense?.createdAt ? new Date(currentExpense.createdAt) : new Date(),
-  );
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedPaymentSource, setSelectedPaymentSource] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
 
@@ -44,48 +44,53 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const { isDesktopWidth } = useWindowWidth();
   const { fetchCategories } = useLoadCategories(false);
   const { fetchPaymentSources } = useLoadPaymentSources(false);
-  const {
-    isSuccess: isDeleteCategorySuccess,
-    mutate: deleteCategoryMutate,
-    isPending: isDeleteCategoryPending,
-  } = useMutation({
+  const clearData = useStableCallback(() => {
+    setAmount('0');
+    setSelectedPaymentSource('');
+    setSelectedCategory('');
+    setSelectedDate(new Date());
+    setCurrentEditExpense?.(undefined);
+  });
+  const handleSuccess = useStableCallback((text: string, callback: () => void) => {
+    callback();
+    toast(text, { type: 'success' });
+    clearData();
+    closeModal?.();
+  });
+
+  const { mutate: deleteCategoryMutate, isPending: isDeleteCategoryPending } = useMutation({
     mutationFn: deleteCategory,
-    onSuccess: fetchCategories,
+    onSuccess: () => handleSuccess('Category deleted successfully', fetchCategories),
+    onError: handleError,
   });
-  const {
-    isSuccess: isDeletePaymentSourceSuccess,
-    mutate: deletePaymentSourceMutate,
-    isPending: isDeletePaymentSourcePending,
-  } = useMutation({
+  const { mutate: deletePaymentSourceMutate, isPending: isDeletePaymentSourcePending } = useMutation({
     mutationFn: deletePaymentSource,
-    onSuccess: fetchPaymentSources,
+    onSuccess: () => handleSuccess('Payment source deleted successfully', fetchPaymentSources),
+    onError: handleError,
   });
 
-  const {
-    isPending: isCreateExpensePending,
-    isSuccess: isCreateExpenseSuccess,
-    error: createExpenseError,
-    mutate: createExpenseMutate,
-  } = useMutation<TExpense, TErrorResponse, TCreateExpenseInput>({
+  const { isPending: isCreateExpensePending, mutate: createExpenseMutate } = useMutation<
+    TExpense,
+    TErrorResponse,
+    TCreateExpenseInput
+  >({
     mutationFn: createExpense,
-    mutationKey: ['expenses'],
+    onSuccess: () => handleSuccess('Expense added successfully', fetchExpenses),
+    onError: handleError,
   });
 
-  const {
-    isPending: isUpdateExpensePending,
-    isSuccess: isUpdateExpenseSuccess,
-    error: updateExpenseError,
-    mutate: updateExpenseMutate,
-  } = useMutation<TExpense, TErrorResponse, { id: string; data: TCreateExpenseInput }>({
+  const { isPending: isUpdateExpensePending, mutate: updateExpenseMutate } = useMutation<
+    TExpense,
+    TErrorResponse,
+    { id: string; data: TCreateExpenseInput }
+  >({
     mutationFn: ({ id, data }) => updateExpense(id, data),
-    mutationKey: ['expenses'],
+    onSuccess: () => handleSuccess('Expense updated successfully', fetchExpenses),
+    onError: handleError,
   });
 
   const isPending =
     isCreateExpensePending || isUpdateExpensePending || isDeleteCategoryPending || isDeletePaymentSourcePending;
-  const isSuccess =
-    isCreateExpenseSuccess || isUpdateExpenseSuccess || isDeleteCategorySuccess || isDeletePaymentSourceSuccess;
-  const error = createExpenseError || updateExpenseError;
 
   const currencies = ['$', '€', '₽', '₴', '₺', '£'];
   const calcButtons: Array<{ title: string; content: ReactNode }> = [
@@ -146,6 +151,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
       } else if (value === 'Clear') {
         setSelectedPaymentSource('');
         setSelectedCategory('');
+        setCurrentEditExpense?.(undefined);
 
         return '0';
       } else if (value !== '.' && prevValue === '0') {
@@ -181,20 +187,15 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      fetchExpenses();
-      toast('Expense added successfully', { type: 'success' });
-      setAmount('');
-      setSelectedPaymentSource('');
-      setSelectedCategory('');
-      setSelectedDate(new Date());
-      closeModal?.();
+    if (currentExpense) {
+      setAmount(currentExpense.amount.toString());
+      setSelectedCategory(currentExpense.categoryId);
+      setSelectedPaymentSource(currentExpense.paymentSourceId);
+      setSelectedDate(new Date(currentExpense.createdAt));
+    } else {
+      clearData();
     }
-  }, [closeModal, fetchExpenses, isSuccess]);
-
-  useEffect(() => {
-    if (error) handleError(error);
-  }, [error]);
+  }, [clearData, currentExpense]);
 
   return (
     <Paper
