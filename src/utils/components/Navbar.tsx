@@ -36,7 +36,7 @@ const Navbar = () => {
   const theme = useTheme();
   const { isDesktopWidth } = useWindowWidth();
 
-  //все для кнопки
+  //все для кнопки меню
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
