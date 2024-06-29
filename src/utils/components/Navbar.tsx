@@ -45,7 +45,7 @@ const Navbar = () => {
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
               Shoplist {`${import.meta.env.PACKAGE_VERSION}`}
             </Typography>
-            {isLoggedIn ? <NavBarMenu /> : ''}
+            {isLoggedIn && <NavBarMenu />}
 
             <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
               {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
