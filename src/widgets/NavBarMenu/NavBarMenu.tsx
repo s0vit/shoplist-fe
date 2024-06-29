@@ -1,12 +1,16 @@
 import React from 'react';
 import { Avatar, Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
-import { Logout } from '@mui/icons-material';
+import { Logout, Person } from '@mui/icons-material';
 import useLogout from 'src/utils/hooks/useLogout.ts';
 import { useNavigate } from 'react-router-dom';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import _useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
 
 const NavBarMenu = () => {
   const navigate = useNavigate();
+
+  const userData = _useUserStore.use.user?.();
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -80,7 +84,10 @@ const NavBarMenu = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem onClick={handleNavigate}>
-          <Avatar /> Profile
+          <ListItemIcon>
+            <Person fontSize="small" />
+          </ListItemIcon>
+          <Avatar src={userData?.avatar} sx={{ width: 32, height: 32 }}></Avatar> Profile
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleLoginClick}>
