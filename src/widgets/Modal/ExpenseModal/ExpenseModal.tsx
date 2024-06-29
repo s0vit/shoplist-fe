@@ -6,9 +6,11 @@ import { Box } from '@mui/material';
 const ExpenseModal = () => {
   const isExpenseModalOpen = useExpensesStore.use.isEditExpenseModalOpen?.();
   const setIsEditExpenseModalOpen = useExpensesStore.use.setIsEditExpenseModalOpen();
+  const setCurrentEditExpense = useExpensesStore.use.setCurrentEditExpense?.();
 
   const closeModal = () => {
     setIsEditExpenseModalOpen(false);
+    setCurrentEditExpense?.(undefined);
   };
 
   return (
