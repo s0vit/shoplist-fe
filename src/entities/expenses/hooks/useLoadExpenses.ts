@@ -3,8 +3,6 @@ import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { useEffect } from 'react';
 import { getExpenses, TGetExpenseQuery, TGetExpensesResponse } from 'src/shared/api/expenseApi.ts';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
-import selectUserExpenses from 'src/entities/expenses/model/selectors/selectUserExpenses.ts';
-import selectSetUserExpenses from 'src/entities/expenses/model/selectors/selectSetUserExpenses.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import { isAxiosError } from 'axios';
@@ -24,8 +22,8 @@ const useLoadExpenses = ({
   onFetchFinish,
   withShared,
 }: TUseLoadExpensesArgs = {}) => {
-  const setUserExpenses = useExpensesStore(selectSetUserExpenses);
-  const userExpenses = useExpensesStore(selectUserExpenses);
+  const setUserExpenses = useExpensesStore.use.setUserExpenses();
+  const userExpenses = useExpensesStore.use.userExpenses();
 
   const {
     data: expenses,

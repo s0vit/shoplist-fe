@@ -1,5 +1,5 @@
 import { alpha, Box, Card, CardContent, Grid, Stack, Typography, useTheme } from '@mui/material';
-import { deleteCategory, TCategory } from 'src/shared/api/categoryApi.ts';
+import { TCategory } from 'src/shared/api/categoryApi.ts';
 import {
   LeadingActions,
   SwipeableList,
@@ -9,16 +9,14 @@ import {
   Type,
 } from 'react-swipeable-list';
 import { Delete, Edit } from '@mui/icons-material';
-import { useMutation } from '@tanstack/react-query';
-import handleError from 'src/utils/errorHandler.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 
 type TCategoriesProps = {
   category: TCategory;
-  refetchCategories: () => void;
+  handleRemove: () => void;
 };
 
-const CategoryCard = ({ category, refetchCategories }: TCategoriesProps) => {
+const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
   const setCurrentEditingCategory = useCategoryStore.use.setCurrentEditingCategory();
   const setCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
 
@@ -26,19 +24,9 @@ const CategoryCard = ({ category, refetchCategories }: TCategoriesProps) => {
   const categoryTextColor = theme.palette.text.primary;
   const categoryBackgroundColor = alpha(category.color || theme.palette.primary.main, 0.05);
 
-  const { mutate: requestDeleteCategory } = useMutation({
-    mutationFn: deleteCategory,
-    onError: handleError,
-    onSuccess: refetchCategories,
-  });
-
   const handleEdit = () => {
     setCategoryModalOpen(true);
     setCurrentEditingCategory(category);
-  };
-
-  const handleRemove = () => {
-    requestDeleteCategory(category._id);
   };
 
   const leadingActions = () => (

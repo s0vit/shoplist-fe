@@ -67,7 +67,7 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
   return (
     <FormWrapper>
       <Typography variant="h5" textAlign="center">
-        Add payment source
+        Save payment source
       </Typography>
       <FormGroup>
         <Stack gap={1} paddingY={2}>

@@ -72,7 +72,7 @@ const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) =
   return (
     <FormWrapper>
       <Typography variant="h5" textAlign="center">
-        Add category
+        Save category
       </Typography>
       <FormGroup>
         <Stack gap={1} paddingY={2}>
