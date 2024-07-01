@@ -69,87 +69,96 @@ const Profile = () => {
   };
 
   return (
-    <Paper sx={{ padding: 4, maxWidth: 600, margin: 'auto', marginTop: 4, textAlign: 'center' }}>
-      {userData?.login && (
-        <Typography variant="h4" gutterBottom>
-          {userData.login}
-        </Typography>
-      )}
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <Box position="relative" borderRadius={50} display="inline-block" sx={{ marginBottom: 2, overflow: 'hidden' }}>
-          <Avatar
-            src={userData?.avatar}
-            alt="User Avatar"
-            sx={{ width: 100, height: 100, cursor: 'pointer' }}
-            onClick={handleAvatarClick}
-          />
-          <IconButton
-            sx={{
-              position: 'absolute',
-              bottom: -4,
-              right: 0,
-              left: 0,
-              backgroundColor: theme.palette.background.paper,
-              '&:hover': {
-                backgroundColor: alpha(theme.palette.background.paper, 0.8),
-              },
-            }}
-            onClick={handleAvatarClick}
-          >
-            <PhotoCamera />
-          </IconButton>
-        </Box>
-        <input
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-          ref={fileInputRef}
-          onChange={handleFileChange}
-        />
-        <Typography variant="body1" gutterBottom>
-          email: {userData?.email}
-          <br />
-          isVerified: {`${userData?.isVerified}`}
-        </Typography>
-        {!userData?.isVerified && (
-          <Button variant="contained" onClick={() => getNewLinkMutate()} sx={{ marginBottom: 2 }}>
-            New verification link
-          </Button>
-        )}
-        <Button variant="contained" color="error" onClick={handleDeleteClick} sx={{ marginTop: 2 }}>
-          Delete Profile
-        </Button>
-      </Box>
-      <ProfilePhotoUploader file={selectedFile} onClose={() => setOpenUploader(false)} isOpen={openUploader} />
-      <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
-        <DialogTitle>Confirm Profile Deletion</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1" gutterBottom>
-            Please enter your email address to confirm deletion:
+    <Box>
+      <Paper sx={{ padding: 4, maxWidth: 600, margin: 'auto', marginTop: 4, textAlign: 'center' }}>
+        {userData?.login && (
+          <Typography variant="h4" gutterBottom>
+            {userData.login}
           </Typography>
-          <TextField
-            fullWidth
-            variant="outlined"
-            label="Email"
-            value={emailInput}
-            onChange={(e) => setEmailInput(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDeleteDialog(false)} color="primary">
-            Cancel
-          </Button>
-          <Button
-            onClick={handleConfirmDelete}
-            color="error"
-            variant="contained"
-            disabled={userData?.email !== emailInput}
+        )}
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Box
+            position="relative"
+            borderRadius={50}
+            display="inline-block"
+            sx={{ marginBottom: 2, overflow: 'hidden' }}
           >
-            Delete
+            <Avatar
+              src={userData?.avatar}
+              alt="User Avatar"
+              sx={{ width: 100, height: 100, cursor: 'pointer' }}
+              onClick={handleAvatarClick}
+            />
+            <IconButton
+              sx={{
+                position: 'absolute',
+                bottom: -8,
+                right: 0,
+                left: 0,
+                p: 0.5,
+                borderRadius: 0,
+                backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                '&:hover': {
+                  backgroundColor: alpha(theme.palette.background.paper, 0.6),
+                },
+              }}
+              onClick={handleAvatarClick}
+            >
+              <PhotoCamera />
+            </IconButton>
+          </Box>
+          <input
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            ref={fileInputRef}
+            onChange={handleFileChange}
+          />
+          <Typography variant="body1" gutterBottom>
+            email: {userData?.email}
+            <br />
+            isVerified: {`${userData?.isVerified}`}
+          </Typography>
+          {!userData?.isVerified && (
+            <Button variant="contained" onClick={() => getNewLinkMutate()} sx={{ marginBottom: 2 }}>
+              New verification link
+            </Button>
+          )}
+          <Button variant="contained" color="error" onClick={handleDeleteClick} sx={{ marginTop: 2 }}>
+            Delete Profile
           </Button>
-        </DialogActions>
-      </Dialog>
-    </Paper>
+        </Box>
+        <ProfilePhotoUploader file={selectedFile} onClose={() => setOpenUploader(false)} isOpen={openUploader} />
+        <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
+          <DialogTitle>Confirm Profile Deletion</DialogTitle>
+          <DialogContent>
+            <Typography variant="body1" gutterBottom>
+              Please enter your email address to confirm deletion:
+            </Typography>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Email"
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenDeleteDialog(false)} color="primary">
+              Cancel
+            </Button>
+            <Button
+              onClick={handleConfirmDelete}
+              color="error"
+              variant="contained"
+              disabled={userData?.email !== emailInput}
+            >
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Paper>
+    </Box>
   );
 };
 

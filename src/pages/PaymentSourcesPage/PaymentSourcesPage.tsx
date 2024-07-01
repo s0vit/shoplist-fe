@@ -1,7 +1,6 @@
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 import { Box, Divider, Paper, Typography } from '@mui/material';
 import PaymentSourcesGrid from 'src/entities/paymentSource/ui/PaymentSourcesGrid.tsx';
-import UpsertPaymentSourceModal from 'src/entities/paymentSource/ui/UpsertPaymentSourceModal.tsx';
 
 const PaymentSourcesPage = () => {
   const { userPaymentSources, isPaymentSourcesLoading, fetchPaymentSources } = useLoadPaymentSources();
@@ -17,7 +16,6 @@ const PaymentSourcesPage = () => {
           <PaymentSourcesGrid paymentSources={userPaymentSources} refetchPaymentSources={fetchPaymentSources} />
         )}
       </Box>
-      <UpsertPaymentSourceModal />
     </Paper>
   );
 };

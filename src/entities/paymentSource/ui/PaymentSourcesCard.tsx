@@ -1,5 +1,5 @@
 import { alpha, Box, Card, CardContent, Grid, Stack, Typography, useTheme } from '@mui/material';
-import { deletePaymentSource, TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
+import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import {
   LeadingActions,
   SwipeableList,
@@ -9,16 +9,14 @@ import {
   Type,
 } from 'react-swipeable-list';
 import { Delete, Edit } from '@mui/icons-material';
-import { useMutation } from '@tanstack/react-query';
-import handleError from 'src/utils/errorHandler.ts';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 
 type TPaymentSourcesCardProps = {
   paymentSource: TPaymentSource;
-  refetchPaymentSources: () => void;
+  handleRemove: () => void;
 };
 
-const PaymentSourcesCard = ({ paymentSource, refetchPaymentSources }: TPaymentSourcesCardProps) => {
+const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCardProps) => {
   const setCurrentEditingPaymentSource = usePaymentSourcesStore.use.setCurrentEditingPaymentSource();
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
 
@@ -26,19 +24,9 @@ const PaymentSourcesCard = ({ paymentSource, refetchPaymentSources }: TPaymentSo
   const paymentSourceTextColor = theme.palette.text.primary;
   const paymentSourceBackgroundColor = alpha(paymentSource.color || theme.palette.primary.main, 0.05);
 
-  const { mutate: requestDeletePaymentSource } = useMutation({
-    mutationFn: deletePaymentSource,
-    onError: handleError,
-    onSuccess: refetchPaymentSources,
-  });
-
   const handleEdit = () => {
     setCurrentEditingPaymentSource(paymentSource);
     setIsPaymentSourceModalOpen(true);
-  };
-
-  const handleRemove = () => {
-    requestDeletePaymentSource(paymentSource._id);
   };
 
   const leadingActions = () => (

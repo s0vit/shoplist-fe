@@ -47,7 +47,11 @@ const FootBar = () => {
               label={item.label}
               icon={item.icon}
               onClick={() => navigate(item.route)}
-              sx={{ border: `1px solid ${theme.palette.divider}`, borderRadius: theme.spacing(1) }}
+              sx={{
+                border: `1px solid ${theme.palette.divider}`,
+                borderRadius: theme.spacing(1),
+                maxWidth: 'none',
+              }}
             />
           ))}
         </BottomNavigation>
