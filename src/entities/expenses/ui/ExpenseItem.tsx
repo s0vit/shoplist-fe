@@ -20,6 +20,7 @@ import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import { useLocation } from 'react-router-dom';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
+import { currencies } from 'src/shared/constants/currencies.ts';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -41,6 +42,9 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   const browserLocale = navigator.language;
   const categoryColor = category?.color || theme.palette.primary.main;
   const paymentSourceColor = paymentSource?.color || theme.palette.primary.main;
+
+  const expenseCurrency = currencies.find((currency) => currency.value === expense.currency)?.label || '';
+  const amountWithCurrency = expense.amount + ' ' + expenseCurrency;
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement> | TouchEvent) => {
     event.preventDefault();
@@ -127,7 +131,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
               </Box>
               <Box sx={{ textAlign: 'right' }}>
                 <Chip
-                  label={expense.amount}
+                  label={amountWithCurrency}
                   sx={{
                     backgroundColor: alpha(paymentSourceColor, 0.9),
                     border: `1px solid ${alpha(theme.palette.getContrastText(paymentSourceColor), 0.8)}`,

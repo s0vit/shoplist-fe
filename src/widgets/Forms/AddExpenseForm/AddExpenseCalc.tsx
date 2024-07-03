@@ -11,7 +11,7 @@ import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import { toast } from 'react-toastify';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
-import { DatePicker } from '@mui/x-date-pickers';
+import { DateTimePicker } from '@mui/x-date-pickers';
 import HorizontalList from 'src/widgets/HorizontalList/HorizontalList.tsx';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import { deleteCategory } from 'src/shared/api/categoryApi.ts';
@@ -21,6 +21,7 @@ import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPayme
 import { BsDot } from 'react-icons/bs';
 import { FaBackspace } from 'react-icons/fa';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import { CURRENCIES, currencies } from 'src/shared/constants/currencies.ts';
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
@@ -33,7 +34,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const setCurrentEditExpense = useExpensesStore.use.setCurrentEditExpense?.();
   const theme = useTheme();
   const [amount, setAmount] = useState<string>('0');
-  const [currency, setCurrency] = useState<string>('$');
+  const [currency, setCurrency] = useState<CURRENCIES>(CURRENCIES.EUR);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedPaymentSource, setSelectedPaymentSource] = useState<string>('');
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
@@ -92,7 +93,6 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const isPending =
     isCreateExpensePending || isUpdateExpensePending || isDeleteCategoryPending || isDeletePaymentSourcePending;
 
-  const currencies = ['$', '€', '₽', '₴', '₺', '£'];
   const calcButtons: Array<{ title: string; content: ReactNode }> = [
     {
       title: '1',
@@ -175,6 +175,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             amount: parseFloat(amount),
             categoryId: selectedCategory,
             paymentSourceId: selectedPaymentSource,
+            currency: currency,
             createdAt: selectedDate!.toISOString(),
           },
         })
@@ -182,6 +183,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           amount: parseFloat(amount),
           categoryId: selectedCategory,
           paymentSourceId: selectedPaymentSource,
+          currency: currency,
           createdAt: selectedDate!.toISOString(),
         });
   };
@@ -230,11 +232,11 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={currency}
-              onChange={(e) => setCurrency(e.target.value as string)}
+              onChange={(e) => setCurrency(e.target.value as CURRENCIES)}
             >
-              {currencies.map((value) => (
-                <MenuItem key={value} value={value}>
-                  {value}
+              {currencies.map((currency) => (
+                <MenuItem key={currency.value} value={currency.value}>
+                  {currency.label}
                 </MenuItem>
               ))}
             </Select>
@@ -275,7 +277,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           handleShare={(id) => alert(`not implemented yet ${id}`)}
           handleEdit={(item) => alert(`not implemented yet ${item}`)}
         />
-        <DatePicker
+        <DateTimePicker
           label="Date"
           disableFuture
           value={selectedDate}
