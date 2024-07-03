@@ -13,12 +13,12 @@ import ConfirmPage from 'src/pages/ConfirmPage/ConfirmPage.tsx';
 import CategoryPage from 'src/pages/CategoryPage/CategoryPage.tsx';
 import PaymentSourcesPage from 'src/pages/PaymentSourcesPage/PaymentSourcesPage.tsx';
 import ExpensesListMobilePage from 'src/pages/ExpensesMobilePage/ExpensesListMobilePage.tsx';
+import AccessControlPage from 'src/pages/AccessControlPage/AccessControlPage.tsx';
 
 const routes: RouteObject[] = [
   {
     id: 'root',
     path: RoutesEnum.ROOT,
-    // loader: rootLoader,
     errorElement: <ErrorPage />,
     element: (
       <ErrorBoundary>
@@ -48,6 +48,10 @@ const routes: RouteObject[] = [
           {
             path: RoutesEnum.EXPENSES_LIST,
             element: <ExpensesListMobilePage />,
+          },
+          {
+            path: RoutesEnum.ACCESS_CONTROL,
+            element: <AccessControlPage />,
           },
         ],
       },

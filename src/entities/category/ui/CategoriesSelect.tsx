@@ -39,7 +39,7 @@ const CategoriesSelect = ({
           disabled={isCreateExpensePending}
           disablePortal
           options={categories || []}
-          renderInput={(params) => <TextField {...params} label="Category" />}
+          renderInput={(params) => <TextField {...params} label="Category" InputLabelProps={{ shrink: true }} />}
           value={selectedCategory}
           onChange={onAutocompleteChange}
           getOptionLabel={(option) => option.title}

@@ -5,6 +5,9 @@ import Navbar from 'src/utils/components/Navbar.tsx';
 import { useEffect } from 'react';
 import FootBar from 'src/utils/components/FootBar.tsx';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
+import ExpenseModal from 'src/widgets/Modal/ExpenseModal/ExpenseModal.tsx';
+import UpsertCategoryModal from 'src/entities/category/ui/UpsertCategoryModal.tsx';
+import UpsertPaymentSourceModal from 'src/entities/paymentSource/ui/UpsertPaymentSourceModal.tsx';
 
 const Layout = () => {
   const theme = useTheme();
@@ -19,6 +22,10 @@ const Layout = () => {
       <ContentContainer>
         <Outlet />
       </ContentContainer>
+      {/*modals that are called from different pages*/}
+      <ExpenseModal />
+      <UpsertPaymentSourceModal />
+      <UpsertCategoryModal />
       {!isDesktopWidth && <FootBar />}
     </Box>
   );
