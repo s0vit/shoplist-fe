@@ -5,6 +5,7 @@ import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePa
 import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
 import { logout } from 'src/shared/api/authApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
+import useAccessControlStore from 'src/entities/accessControl/model/useAccessControlStore.ts';
 
 const useLogout = () => {
   const resetUserStore = useUserStore.use.resetStore();
@@ -12,6 +13,7 @@ const useLogout = () => {
   const resetCategoryStore = useCategoryStore.use.resetStore();
   const resetPaymentSourceStore = usePaymentSourcesStore.use.resetStore();
   const resetFiltersStore = useFiltersStoreForExpenses.use.resetStore();
+  const resetAccessControlStore = useAccessControlStore.use.resetStore();
 
   const handleLogout = () => {
     logout()
@@ -21,6 +23,7 @@ const useLogout = () => {
         resetCategoryStore();
         resetPaymentSourceStore();
         resetFiltersStore();
+        resetAccessControlStore();
 
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');

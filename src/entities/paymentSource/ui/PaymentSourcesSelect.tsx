@@ -40,7 +40,7 @@ const PaymentSourcesSelect = ({
           disabled={isCreateExpensePending}
           disablePortal
           options={paymentSources || []}
-          renderInput={(params) => <TextField {...params} label="Payment source" />}
+          renderInput={(params) => <TextField {...params} label="Payment source" InputLabelProps={{ shrink: true }} />}
           value={selectedPaymentSource}
           onChange={onAutocompleteChange}
           getOptionLabel={(option) => option.title}

@@ -7,6 +7,12 @@ export const findUserByEmail = async (email: string): Promise<TFindUserByEmailRe
   return response.data;
 };
 
+export const findUserById = async (id: string): Promise<TUser> => {
+  const response = await apiInstance.get<TUser>(`user/id/${id}`);
+
+  return response.data;
+};
+
 export type TFindUserByEmailResponse = TUser[];
 
 export const deleteMe = async (): Promise<void> => {

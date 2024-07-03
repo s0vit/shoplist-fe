@@ -36,6 +36,12 @@ export const getExpenseById = async (id: string): Promise<TExpense> => {
   return response.data;
 };
 
+export const getExpensesByIds = async (ids: string[]): Promise<TGetExpensesResponse> => {
+  const response = await apiInstance.post<TGetExpensesResponse>('expense/bulk', ids);
+
+  return response.data;
+};
+
 export const createExpense = async (data: TCreateExpenseInput): Promise<TExpense> => {
   const response = await apiInstance.post<TExpense>('expense', data);
 

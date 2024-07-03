@@ -14,12 +14,12 @@ import {
 } from 'react-swipeable-list';
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
-import selectSetCurrentEditExpense from 'src/entities/expenses/model/selectors/selectSetCurrentEditExpense.ts';
-import selectSetIsExpenseModalOpen from 'src/entities/expenses/model/selectors/selectSetIsExpenseModalOpen.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal/ShareWithModal.tsx';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
+import { useLocation } from 'react-router-dom';
+import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -33,9 +33,10 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   const [isShareWithModalOpen, setIsShareWithModalOpen] = useState(false);
   const { isDesktopWidth } = useWindowWidth();
 
-  const setCurrentEditExpense = useExpensesStore(selectSetCurrentEditExpense);
-  const setIsEditExpenseModalOpen = useExpensesStore(selectSetIsExpenseModalOpen);
+  const setCurrentEditExpense = useExpensesStore.use.setCurrentEditExpense();
+  const setIsEditExpenseModalOpen = useExpensesStore.use.setIsEditExpenseModalOpen();
   const theme = useTheme();
+  const location = useLocation();
 
   const browserLocale = navigator.language;
   const categoryColor = category?.color || theme.palette.primary.main;
@@ -54,7 +55,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
 
   const handleEdit = useStableCallback(() => {
     setCurrentEditExpense(expense);
-    !isDesktopWidth && setIsEditExpenseModalOpen(true);
+    (!isDesktopWidth || location.pathname !== RoutesEnum.ROOT) && setIsEditExpenseModalOpen(true);
   });
 
   const leadingActions = () => (
