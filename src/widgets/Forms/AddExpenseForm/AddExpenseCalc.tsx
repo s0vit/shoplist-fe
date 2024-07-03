@@ -54,8 +54,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
 
   const { fetchExpenses } = useLoadExpenses();
   const { isDesktopWidth } = useWindowWidth();
-  const { fetchCategories } = useLoadCategories(false);
-  const { fetchPaymentSources } = useLoadPaymentSources(false);
+  const { fetchCategories, isCategoriesLoading } = useLoadCategories(false);
+  const { fetchPaymentSources, isPaymentSourcesLoading } = useLoadPaymentSources(false);
   const clearData = useStableCallback(() => {
     setAmount('0');
     setSelectedPaymentSource('');
@@ -267,8 +267,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             </Grid>
           ))}
         </Grid>
-        {fetchCategories ? (
-          <Skeleton variant="rectangular" width={210} height={60} />
+        {isCategoriesLoading ? (
+          <Skeleton animation="wave" variant="rectangular" height={60} />
         ) : (
           <HorizontalList
             items={categories}
@@ -281,17 +281,21 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             handleEdit={(item) => alert(`not implemented yet ${item}`)}
           />
         )}
+        {isPaymentSourcesLoading ? (
+          <Skeleton variant="rectangular" height={60} />
+        ) : (
+          <HorizontalList
+            items={paymentSources}
+            disabled={isPending}
+            selectedItem={selectedPaymentSource}
+            setSelectedItem={setSelectedPaymentSource}
+            openModal={() => setIsPaymentSourceModalOpen(true)}
+            handleDelete={deletePaymentSourceMutate}
+            handleShare={(id) => alert(`not implemented yet ${id}`)}
+            handleEdit={(item) => alert(`not implemented yet ${item}`)}
+          />
+        )}
 
-        <HorizontalList
-          items={paymentSources}
-          disabled={isPending}
-          selectedItem={selectedPaymentSource}
-          setSelectedItem={setSelectedPaymentSource}
-          openModal={() => setIsPaymentSourceModalOpen(true)}
-          handleDelete={deletePaymentSourceMutate}
-          handleShare={(id) => alert(`not implemented yet ${id}`)}
-          handleEdit={(item) => alert(`not implemented yet ${item}`)}
-        />
         <DatePicker
           label="Date"
           disableFuture
