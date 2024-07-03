@@ -1,5 +1,17 @@
 import { ReactNode, useEffect, useState } from 'react';
-import { Box, Button, FormControl, Grid, MenuItem, Paper, Select, Stack, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  MenuItem,
+  Paper,
+  Select,
+  Skeleton,
+  Stack,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import UpsertCategoryModal from 'src/entities/category/ui/UpsertCategoryModal.tsx';
@@ -255,16 +267,21 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             </Grid>
           ))}
         </Grid>
-        <HorizontalList
-          items={categories}
-          disabled={isPending}
-          selectedItem={selectedCategory}
-          setSelectedItem={setSelectedCategory}
-          openModal={() => setIsCategoryModalOpen(true)}
-          handleDelete={deleteCategoryMutate}
-          handleShare={(id) => alert(`not implemented yet ${id}`)}
-          handleEdit={(item) => alert(`not implemented yet ${item}`)}
-        />
+        {fetchCategories ? (
+          <Skeleton variant="rectangular" width={210} height={60} />
+        ) : (
+          <HorizontalList
+            items={categories}
+            disabled={isPending}
+            selectedItem={selectedCategory}
+            setSelectedItem={setSelectedCategory}
+            openModal={() => setIsCategoryModalOpen(true)}
+            handleDelete={deleteCategoryMutate}
+            handleShare={(id) => alert(`not implemented yet ${id}`)}
+            handleEdit={(item) => alert(`not implemented yet ${item}`)}
+          />
+        )}
+
         <HorizontalList
           items={paymentSources}
           disabled={isPending}
