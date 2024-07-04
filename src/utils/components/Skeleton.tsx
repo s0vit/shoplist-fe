@@ -9,8 +9,9 @@ const SkeletonForCalc = () => {
           <Skeleton
             key={index}
             variant="rectangular"
+            animation="wave"
             width={85}
-            height={43}
+            height={36}
             style={{ marginTop: '10px', marginLeft: '10px' }}
           />
         ))}
