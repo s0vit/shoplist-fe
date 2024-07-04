@@ -1,8 +1,8 @@
-import { Skeleton } from '@mui/material';
+import { Skeleton, Stack } from '@mui/material';
 
 const SkeletonForCalc = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
+    <Stack direction="row">
       {Array(3)
         .fill(0)
         .map((_, index) => (
@@ -15,7 +15,7 @@ const SkeletonForCalc = () => {
             style={{ marginTop: '10px', marginLeft: '10px' }}
           />
         ))}
-    </div>
+    </Stack>
   );
 };
 
