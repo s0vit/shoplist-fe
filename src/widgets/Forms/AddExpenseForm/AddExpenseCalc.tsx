@@ -1,17 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react';
-import {
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  MenuItem,
-  Paper,
-  Select,
-  Skeleton,
-  Stack,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Button, FormControl, Grid, MenuItem, Paper, Select, Stack, Typography, useTheme } from '@mui/material';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import UpsertCategoryModal from 'src/entities/category/ui/UpsertCategoryModal.tsx';
@@ -33,6 +21,7 @@ import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPayme
 import { BsDot } from 'react-icons/bs';
 import { FaBackspace } from 'react-icons/fa';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import SkeletonForCalc from 'src/utils/components/Skeleton.tsx';
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
@@ -268,7 +257,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           ))}
         </Grid>
         {isCategoriesLoading ? (
-          <Skeleton animation="wave" variant="rectangular" height={60} />
+          <SkeletonForCalc />
         ) : (
           <HorizontalList
             items={categories}
@@ -282,7 +271,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           />
         )}
         {isPaymentSourcesLoading ? (
-          <Skeleton variant="rectangular" height={60} />
+          <SkeletonForCalc />
         ) : (
           <HorizontalList
             items={paymentSources}
