@@ -21,6 +21,7 @@ import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPayme
 import { BsDot } from 'react-icons/bs';
 import { FaBackspace } from 'react-icons/fa';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import SkeletonForCalc from 'src/utils/components/Skeleton.tsx';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies.ts';
 
 type TExpensesCalculatorProps = {
@@ -43,8 +44,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
 
   const { fetchExpenses } = useLoadExpenses();
   const { isDesktopWidth } = useWindowWidth();
-  const { fetchCategories } = useLoadCategories(false);
-  const { fetchPaymentSources } = useLoadPaymentSources(false);
+  const { fetchCategories, isCategoriesLoading } = useLoadCategories(false);
+  const { fetchPaymentSources, isPaymentSourcesLoading } = useLoadPaymentSources(false);
   const clearData = useStableCallback(() => {
     setAmount('0');
     setSelectedPaymentSource('');
@@ -257,26 +258,35 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             </Grid>
           ))}
         </Grid>
-        <HorizontalList
-          items={categories}
-          disabled={isPending}
-          selectedItem={selectedCategory}
-          setSelectedItem={setSelectedCategory}
-          openModal={() => setIsCategoryModalOpen(true)}
-          handleDelete={deleteCategoryMutate}
-          handleShare={(id) => alert(`not implemented yet ${id}`)}
-          handleEdit={(item) => alert(`not implemented yet ${item}`)}
-        />
-        <HorizontalList
-          items={paymentSources}
-          disabled={isPending}
-          selectedItem={selectedPaymentSource}
-          setSelectedItem={setSelectedPaymentSource}
-          openModal={() => setIsPaymentSourceModalOpen(true)}
-          handleDelete={deletePaymentSourceMutate}
-          handleShare={(id) => alert(`not implemented yet ${id}`)}
-          handleEdit={(item) => alert(`not implemented yet ${item}`)}
-        />
+        {isCategoriesLoading ? (
+          <SkeletonForCalc />
+        ) : (
+          <HorizontalList
+            items={categories}
+            disabled={isPending}
+            selectedItem={selectedCategory}
+            setSelectedItem={setSelectedCategory}
+            openModal={() => setIsCategoryModalOpen(true)}
+            handleDelete={deleteCategoryMutate}
+            handleShare={(id) => alert(`not implemented yet ${id}`)}
+            handleEdit={(item) => alert(`not implemented yet ${item}`)}
+          />
+        )}
+        {isPaymentSourcesLoading ? (
+          <SkeletonForCalc />
+        ) : (
+          <HorizontalList
+            items={paymentSources}
+            disabled={isPending}
+            selectedItem={selectedPaymentSource}
+            setSelectedItem={setSelectedPaymentSource}
+            openModal={() => setIsPaymentSourceModalOpen(true)}
+            handleDelete={deletePaymentSourceMutate}
+            handleShare={(id) => alert(`not implemented yet ${id}`)}
+            handleEdit={(item) => alert(`not implemented yet ${item}`)}
+          />
+        )}
+
         <DateTimePicker
           label="Date"
           disableFuture
