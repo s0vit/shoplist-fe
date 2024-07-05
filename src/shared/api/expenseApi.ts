@@ -1,4 +1,5 @@
 import { apiInstance } from 'src/shared/api/rootApi.ts';
+import { CURRENCIES } from 'src/shared/constants/currencies.ts';
 
 export const getExpenses = async (queryData: TGetExpenseQuery | undefined): Promise<TGetExpensesResponse> => {
   //prepare queries for the request
@@ -74,6 +75,7 @@ export type TCreateExpenseInput = {
   comments?: string;
   createdAt?: string;
   updatedAt?: string;
+  currency: CURRENCIES;
 };
 
 export type TGetExpenseQuery = {
