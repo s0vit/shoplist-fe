@@ -168,7 +168,17 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   };
 
   const handleSave = () => {
-    if (!amount || !selectedCategory || !selectedPaymentSource) return;
+    // if (!amount || !selectedCategory || !selectedPaymentSource) return;
+    if (!selectedCategory || !selectedPaymentSource) {
+      console.log('error', 55);
+      alert('Category and Payment Source should be added');
+      // return <Alert severity="warning">This is a warning Alert.</Alert>;
+    }
+
+    if (!selectedCategory || !selectedPaymentSource) {
+      alert('Please select a category and payment source');
+    }
+
     currentExpense?._id
       ? updateExpenseMutate({
           id: currentExpense._id,
@@ -323,7 +333,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           </Grid>
           <Grid xs={6} item>
             <Button
-              disabled={isPending || !amount || !selectedCategory || !selectedPaymentSource}
+              // disabled={isPending || !amount || !selectedCategory || !selectedPaymentSource}
               variant="contained"
               color="success"
               fullWidth
