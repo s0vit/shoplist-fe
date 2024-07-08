@@ -172,10 +172,18 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
 
     if (!selectedCategory) {
       toast('Please select a category');
+
+      return;
     }
 
     if (!selectedPaymentSource) {
       toast('Please select payment source');
+
+      return;
+    }
+
+    if (currentExpense?.amount === 0) {
+      return;
     }
 
     currentExpense?._id
