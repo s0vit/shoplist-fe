@@ -169,20 +169,15 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
 
   const handleSave = () => {
     // if (!amount || !selectedCategory || !selectedPaymentSource) return;
+    if (!selectedCategory || !selectedPaymentSource || currentExpense?.amount === 0) {
+      if (!selectedCategory && !selectedPaymentSource) {
+        toast('Please select a category and payment source');
+      } else if (!selectedCategory) {
+        toast('Please select a category');
+      } else {
+        toast('Please select a payment source');
+      }
 
-    if (!selectedCategory) {
-      toast('Please select a category');
-
-      return;
-    }
-
-    if (!selectedPaymentSource) {
-      toast('Please select payment source');
-
-      return;
-    }
-
-    if (currentExpense?.amount === 0) {
       return;
     }
 
