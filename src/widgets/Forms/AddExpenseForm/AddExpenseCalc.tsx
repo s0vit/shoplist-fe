@@ -168,7 +168,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   };
 
   const handleSave = () => {
-    if (!amount || !selectedCategory || !selectedPaymentSource) return;
+    // if (!amount || !selectedCategory || !selectedPaymentSource) return;
 
     if (!selectedCategory) {
       toast('Please select a category');
