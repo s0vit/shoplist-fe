@@ -168,15 +168,22 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   };
 
   const handleSave = () => {
-    // if (!amount || !selectedCategory || !selectedPaymentSource) return;
-    if (!selectedCategory || !selectedPaymentSource || currentExpense?.amount === 0) {
-      if (!selectedCategory && !selectedPaymentSource) {
-        toast('Please select a category and payment source');
-      } else if (!selectedCategory) {
-        toast('Please select a category');
-      } else {
-        toast('Please select a payment source');
+    if (!selectedCategory || !selectedPaymentSource || amount === '0') {
+      const errorMessage = [];
+
+      if (!selectedCategory) {
+        errorMessage.push('Category is required');
       }
+
+      if (!selectedPaymentSource) {
+        errorMessage.push('Payment source is required');
+      }
+
+      if (amount === '0') {
+        errorMessage.push('Amount can not be 0');
+      }
+
+      toast(errorMessage.join(', '), { type: 'error' });
 
       return;
     }
