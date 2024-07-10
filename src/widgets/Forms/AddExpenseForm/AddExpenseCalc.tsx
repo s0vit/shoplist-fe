@@ -341,13 +341,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             </Button>
           </Grid>
           <Grid xs={6} item>
-            <Button
-              // disabled={isPending || !amount || !selectedCategory || !selectedPaymentSource}
-              variant="contained"
-              color="success"
-              fullWidth
-              onClick={handleSave}
-            >
+            <Button disabled={isPending} variant="contained" color="success" fullWidth onClick={handleSave}>
               Save
             </Button>
           </Grid>
