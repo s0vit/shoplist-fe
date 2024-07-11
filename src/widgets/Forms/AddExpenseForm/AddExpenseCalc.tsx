@@ -168,7 +168,26 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   };
 
   const handleSave = () => {
-    if (!amount || !selectedCategory || !selectedPaymentSource) return;
+    if (!selectedCategory || !selectedPaymentSource || amount === '0') {
+      const errorMessage = [];
+
+      if (!selectedCategory) {
+        errorMessage.push('Category is required');
+      }
+
+      if (!selectedPaymentSource) {
+        errorMessage.push('Payment source is required');
+      }
+
+      if (amount === '0') {
+        errorMessage.push('Amount can not be 0');
+      }
+
+      toast(errorMessage.join(', '), { type: 'error' });
+
+      return;
+    }
+
     currentExpense?._id
       ? updateExpenseMutate({
           id: currentExpense._id,
@@ -322,13 +341,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             </Button>
           </Grid>
           <Grid xs={6} item>
-            <Button
-              disabled={isPending || !amount || !selectedCategory || !selectedPaymentSource}
-              variant="contained"
-              color="success"
-              fullWidth
-              onClick={handleSave}
-            >
+            <Button disabled={isPending} variant="contained" color="success" fullWidth onClick={handleSave}>
               Save
             </Button>
           </Grid>
