@@ -33,3 +33,7 @@ dist-ssr
 
 #others
 .notes
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
