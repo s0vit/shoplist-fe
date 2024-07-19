@@ -1,13 +1,12 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 const url = process.env.CURRENT_URL || 'http://localhost:5173/';
 
 test.describe('login', () => {
-  // eslint-disable-next-line no-console
-  console.log(`url: ${url}-22, ${process.env.TEST_USERNAME}-username, ${process.env.TEST_PASSWORD}-passwed`);
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
   });
+
   test('to login correct', async ({ page }) => {
     const loginInput = page.locator(`input[type="text"]`);
     await loginInput.waitFor();
