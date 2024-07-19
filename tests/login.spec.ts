@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const url = process.env.CURRENT_URL || 'http://localhost:5173/';
+const url = process.env.CI ? 'https://shoplist-fe.vercel.app/' : 'http://localhost:5173/';
 
 test.describe('login', () => {
   test.beforeEach(async ({ page }) => {
