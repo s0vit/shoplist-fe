@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const url = process.env.CI ? 'https://shoplist-fe.vercel.app/' : 'http://localhost:5173/';
+const url = process.env.CURRENT_URL || 'http://localhost:5173/';
 
 test.describe('login', () => {
   test.beforeEach(async ({ page }) => {
@@ -20,7 +20,7 @@ test.describe('login', () => {
     await loginInput.fill(process.env.TEST_USERNAME!);
     await passwordInput.fill(process.env.TEST_PASSWORD!);
 
-    expect(currentUrl).toBe(`${url}?to=/`);
+    expect(currentUrl).toBe(`${url}login?to=/`);
 
     await submitButton.click();
     await page.waitForURL(url, { timeout: 60000 });
