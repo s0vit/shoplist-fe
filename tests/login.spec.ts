@@ -3,6 +3,7 @@ import { test, expect } from '@playwright/test';
 const url = process.env.CURRENT_URL || 'http://localhost:5173/';
 
 test.describe('login', () => {
+  console.log(`url: ${url}-22, ${process.env.TEST_USERNAME}-username, ${process.env.TEST_PASSWORD}-passwed`);
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
   });
