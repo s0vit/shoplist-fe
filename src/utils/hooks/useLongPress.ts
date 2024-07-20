@@ -3,7 +3,7 @@ import { TouchEvent, useRef, useState } from 'react';
 const useLongPress = (callback: (event: TouchEvent) => void, ms = 300) => {
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
-  const timeoutRef = useRef<number | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const triggeredRef = useRef(false);
 
   const handleTouchStart = (event: TouchEvent) => {
