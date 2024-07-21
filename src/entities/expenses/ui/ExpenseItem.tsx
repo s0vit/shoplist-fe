@@ -15,7 +15,7 @@ import {
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
-import ShareWithModal from 'src/widgets/Modal/ShareWithModal/ShareWithModal.tsx';
+import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import { useLocation } from 'react-router-dom';

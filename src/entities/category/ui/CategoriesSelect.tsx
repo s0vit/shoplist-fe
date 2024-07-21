@@ -1,10 +1,10 @@
-import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
+import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
 import { SyntheticEvent } from 'react';
-import UpsertCategoryModal from 'src/entities/category/ui/UpsertCategoryModal.tsx';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import UpsertCategoryModal from 'src/widgets/Modal/UpsertCategoryModal';
 
 type TCategoriesSelectProps = {
   selectedCategoryId: string;

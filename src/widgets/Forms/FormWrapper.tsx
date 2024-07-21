@@ -4,6 +4,7 @@ const FormWrapper = styled(Paper)<PaperProps>(({ theme }) => ({
   width: 'fit-content',
   minWidth: '370px',
   margin: 'auto',
+  borderRadius: theme.spacing(1),
   padding: theme.spacing(2),
   [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
     width: '100%',
