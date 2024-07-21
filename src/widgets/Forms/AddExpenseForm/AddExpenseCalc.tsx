@@ -173,25 +173,21 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
       return;
     }
 
+    const expenseData = {
+      amount: parseFloat(amount),
+      categoryId: selectedCategory,
+      paymentSourceId: selectedPaymentSource,
+      currency: currency,
+      createdAt: selectedDate!.toISOString(),
+      comments,
+    };
+
     currentExpense?._id
       ? updateExpenseMutate({
           id: currentExpense._id,
-          data: {
-            amount: parseFloat(amount),
-            categoryId: selectedCategory,
-            paymentSourceId: selectedPaymentSource,
-            currency: currency,
-            createdAt: selectedDate!.toISOString(),
-          },
+          data: expenseData,
         })
-      : createExpenseMutate({
-          amount: parseFloat(amount),
-          categoryId: selectedCategory,
-          paymentSourceId: selectedPaymentSource,
-          currency: currency,
-          createdAt: selectedDate!.toISOString(),
-          comments,
-        });
+      : createExpenseMutate(expenseData);
   };
 
   useEffect(() => {
