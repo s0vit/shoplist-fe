@@ -1,4 +1,17 @@
-import { Box, Button, FormControl, Grid, MenuItem, Paper, Select, Stack, Typography, useTheme } from '@mui/material';
+import { MapsUgc, Message } from '@mui/icons-material';
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  IconButton,
+  MenuItem,
+  Paper,
+  Select,
+  Stack,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -274,19 +287,6 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           isLoading={isPaymentSourcesLoading}
         />
         <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 2 }}>
-          <Button
-            variant="outlined"
-            onClick={() => setIsCommentModalOpen(true)}
-            sx={{
-              width: '41.5%',
-              background: comments?.length ? theme.palette.success.main : theme.palette.background.paper,
-              color: comments?.length
-                ? theme.palette.getContrastText(theme.palette.success.main)
-                : theme.palette.getContrastText(theme.palette.background.paper),
-            }}
-          >
-            {comments?.length ? 'Comment ✓' : 'Comment +'}
-          </Button>
           <DateTimePicker
             label="Date and time"
             disableFuture
@@ -302,19 +302,29 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
               },
             }}
             sx={{
-              width: '59.4%',
+              width: '100%',
               '& .MuiInputBase-root': {
                 backgroundColor: theme.palette.background.paper,
               },
               '& .MuiInputBase-input': {
-                paddingTop: '6.75px',
-                paddingBottom: '6.75px',
+                paddingTop: theme.spacing(1),
+                paddingBottom: theme.spacing(1),
               },
             }}
           />
+          <IconButton
+            onClick={() => setIsCommentModalOpen(true)}
+            sx={{ border: `1px solid ${comments ? theme.palette.success.main : theme.palette.grey[700]}` }}
+          >
+            {comments?.length ? (
+              <Message htmlColor={theme.palette.success.main} sx={{ width: '21px', height: '21px' }} />
+            ) : (
+              <MapsUgc sx={{ width: '21px', height: '21px' }} />
+            )}
+          </IconButton>
         </Stack>
         <Grid container spacing={1} sx={{ mt: 1 }}>
-          <Grid xs={5} item>
+          <Grid xs={6} item>
             <Button
               disabled={isPending}
               variant="contained"
@@ -325,7 +335,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
               Clear
             </Button>
           </Grid>
-          <Grid xs={7} item>
+          <Grid xs={6} item>
             <Button disabled={isPending} variant="contained" color="success" fullWidth onClick={handleSave}>
               Save
             </Button>

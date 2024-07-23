@@ -1,11 +1,11 @@
-import { BottomNavigation, BottomNavigationAction, Box, Fab, useTheme } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
-import { useLocation, useNavigate } from 'react-router-dom';
-import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { Money, Payments } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
 import CategoryIcon from '@mui/icons-material/Category';
+import PersonIcon from '@mui/icons-material/Person';
+import { BottomNavigation, BottomNavigationAction, Box, Fab, useTheme } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
+import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 
 const FootBar = () => {
   const isLoggedIn = useUserStore.use.user?.() !== undefined;
@@ -60,8 +60,8 @@ const FootBar = () => {
           color="success"
           sx={{
             position: 'absolute',
-            top: -30,
-            left: 'calc(50% - 25px)',
+            top: -28,
+            left: 'calc(50% - 28px)',
             border: `1px solid ${theme.palette.divider}`,
             '&.Mui-disabled': {
               backgroundColor: theme.palette.grey[800],
