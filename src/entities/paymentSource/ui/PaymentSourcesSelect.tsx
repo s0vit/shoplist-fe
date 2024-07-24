@@ -1,11 +1,11 @@
-import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
+import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
 import { SyntheticEvent } from 'react';
-import UpsertPaymentSourceModal from 'src/entities/paymentSource/ui/UpsertPaymentSourceModal.tsx';
-import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectUserPaymentSources.ts';
-import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import UpsertPaymentSourceModal from 'src/widgets/Modal/UpsertPaymentSourceModal';
 
 type TPaymentSourcesSelectProps = {
   selectedPaymentSourceId: string;

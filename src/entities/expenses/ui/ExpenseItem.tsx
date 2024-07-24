@@ -1,9 +1,7 @@
-import { MouseEvent, TouchEvent, useState } from 'react';
-import { alpha, Box, Chip, Menu, MenuItem, Stack, Tooltip, Typography, useTheme } from '@mui/material';
-import { TExpense } from 'src/shared/api/expenseApi.ts';
-import { TCategory } from 'src/shared/api/categoryApi.ts';
-import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { Delete, Edit, Share } from '@mui/icons-material';
+import { alpha, Box, Chip, Menu, MenuItem, Stack, Tooltip, Typography, useTheme } from '@mui/material';
+import { MouseEvent, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   LeadingActions,
   SwipeableList,
@@ -14,13 +12,15 @@ import {
 } from 'react-swipeable-list';
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
-import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
-import ShareWithModal from 'src/widgets/Modal/ShareWithModal/ShareWithModal.tsx';
-import useLongPress from 'src/utils/hooks/useLongPress.ts';
-import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
-import { useLocation } from 'react-router-dom';
-import RoutesEnum from 'src/shared/constants/routesEnum.ts';
+import { TCategory } from 'src/shared/api/categoryApi.ts';
+import { TExpense } from 'src/shared/api/expenseApi.ts';
+import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { currencies } from 'src/shared/constants/currencies.ts';
+import RoutesEnum from 'src/shared/constants/routesEnum.ts';
+import useLongPress from 'src/utils/hooks/useLongPress.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
+import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -30,7 +30,10 @@ type TExpenseItemProps = {
 };
 
 const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpenseItemProps) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [contextMenuCoordinates, setContextMenuCoordinates] = useState<{
+    mouseX: number;
+    mouseY: number;
+  } | null>(null);
   const [isShareWithModalOpen, setIsShareWithModalOpen] = useState(false);
   const { isDesktopWidth } = useWindowWidth();
 
@@ -46,15 +49,26 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   const expenseCurrency = currencies.find((currency) => currency.value === expense.currency)?.label || '';
   const amountWithCurrency = expense.amount + ' ' + expenseCurrency;
 
-  const handleOpenMenu = (event: MouseEvent<HTMLElement> | TouchEvent) => {
+  const handleOpenMenu = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    setAnchorEl(event.target as HTMLElement);
+
+    if (event.target instanceof HTMLElement && isDesktopWidth) {
+      setContextMenuCoordinates(
+        contextMenuCoordinates === null ? { mouseX: event.clientX || 0, mouseY: event.clientY } : null,
+      );
+    }
   };
 
-  const longPressEvents = useLongPress(handleOpenMenu, 500);
+  const longPressEvents = useLongPress(
+    (e) =>
+      setContextMenuCoordinates(
+        contextMenuCoordinates === null ? { mouseX: e.touches[0].clientX, mouseY: e.touches[0].clientY } : null,
+      ),
+    400,
+  );
 
   const handleCloseMenu = () => {
-    setAnchorEl(null);
+    setContextMenuCoordinates(null);
   };
 
   const handleEdit = useStableCallback(() => {
@@ -150,12 +164,17 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
       </SwipeableList>
       <Menu
         variant="selectedMenu"
-        anchorEl={anchorEl}
+        anchorReference="anchorPosition"
+        anchorPosition={
+          contextMenuCoordinates
+            ? { top: contextMenuCoordinates.mouseY, left: contextMenuCoordinates.mouseX }
+            : undefined
+        }
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'center',
         }}
-        open={Boolean(anchorEl)}
+        open={!!contextMenuCoordinates}
         onClose={handleCloseMenu}
         slotProps={{
           paper: {

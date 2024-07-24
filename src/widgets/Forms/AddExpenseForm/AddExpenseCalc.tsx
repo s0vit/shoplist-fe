@@ -1,28 +1,41 @@
-import { ReactNode, useEffect, useState } from 'react';
-import { Box, Button, FormControl, Grid, MenuItem, Paper, Select, Stack, Typography, useTheme } from '@mui/material';
-import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
-import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
-import UpsertCategoryModal from 'src/entities/category/ui/UpsertCategoryModal.tsx';
-import UpsertPaymentSourceModal from 'src/entities/paymentSource/ui/UpsertPaymentSourceModal.tsx';
-import { createExpense, TCreateExpenseInput, TExpense, updateExpense } from 'src/shared/api/expenseApi.ts';
-import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
-import { useMutation } from '@tanstack/react-query';
-import { TErrorResponse } from 'src/shared/api/rootApi.ts';
-import handleError from 'src/utils/errorHandler.ts';
-import { toast } from 'react-toastify';
-import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
+import { MapsUgc, Message } from '@mui/icons-material';
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  IconButton,
+  MenuItem,
+  Paper,
+  Select,
+  Stack,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
-import HorizontalList from 'src/widgets/HorizontalList/HorizontalList.tsx';
-import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
-import { deleteCategory } from 'src/shared/api/categoryApi.ts';
-import { deletePaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
+import { useMutation } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
+import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
+import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
+import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
-import { BsDot } from 'react-icons/bs';
-import { FaBackspace } from 'react-icons/fa';
-import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
-import SkeletonForCalc from 'src/utils/components/Skeleton.tsx';
+import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
+import { deleteCategory } from 'src/shared/api/categoryApi.ts';
+import { createExpense, TCreateExpenseInput, TExpense, updateExpense } from 'src/shared/api/expenseApi.ts';
+import { deletePaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies.ts';
+import handleError from 'src/utils/errorHandler.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
+import UpsertCategoryModal from 'src/widgets/Modal/UpsertCategoryModal';
+import UpsertPaymentSourceModal from 'src/widgets/Modal/UpsertPaymentSourceModal';
+import CategoryList from '../../../entities/category/ui/CategoryList';
+import PaymentSourceList from '../../../entities/paymentSource/ui/PaymentSourceList';
+import CommentModal from '../../Modal/CommentModal';
+import CalculatorButtons from './CalculatorButtons';
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
@@ -39,6 +52,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedPaymentSource, setSelectedPaymentSource] = useState<string>('');
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [isCommentModalOpen, setIsCommentModalOpen] = useState<boolean>(false); // TODO move to store
+  const [comments, setComments] = useState<string>('');
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
 
@@ -51,6 +66,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     setSelectedPaymentSource('');
     setSelectedCategory('');
     setSelectedDate(new Date());
+    setComments('');
     setCurrentEditExpense?.(undefined);
   });
   const handleSuccess = useStableCallback((text: string, callback: () => void) => {
@@ -94,57 +110,6 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const isPending =
     isCreateExpensePending || isUpdateExpensePending || isDeleteCategoryPending || isDeletePaymentSourcePending;
 
-  const calcButtons: Array<{ title: string; content: ReactNode }> = [
-    {
-      title: '1',
-      content: '1',
-    },
-    {
-      title: '2',
-      content: '2',
-    },
-    {
-      title: '3',
-      content: '3',
-    },
-    {
-      title: '4',
-      content: '4',
-    },
-    {
-      title: '5',
-      content: '5',
-    },
-    {
-      title: '6',
-      content: '6',
-    },
-    {
-      title: '7',
-      content: '7',
-    },
-    {
-      title: '8',
-      content: '8',
-    },
-    {
-      title: '9',
-      content: '9',
-    },
-    {
-      title: '.',
-      content: <BsDot size={26} />,
-    },
-    {
-      title: '0',
-      content: '0',
-    },
-    {
-      title: 'del',
-      content: <FaBackspace size={28} />,
-    },
-  ];
-
   const handleButtonClick = (value: string) => {
     setAmount((prevValue) => {
       if (value === 'del') {
@@ -167,6 +132,39 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     });
   };
 
+  const handleKeyboard = useStableCallback((e: KeyboardEvent) => {
+    const key = e.key;
+
+    switch (key) {
+      case 'Enter':
+        handleSave();
+        break;
+      case 'Backspace':
+        handleButtonClick('del');
+        break;
+      case 'Escape':
+        handleButtonClick('Clear');
+        break;
+      case '.':
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+        handleButtonClick(key);
+        break;
+      default:
+        break;
+    }
+
+    e.preventDefault();
+  });
+
   const handleSave = () => {
     if (!selectedCategory || !selectedPaymentSource || amount === '0') {
       const errorMessage = [];
@@ -188,24 +186,21 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
       return;
     }
 
+    const expenseData = {
+      amount: parseFloat(amount),
+      categoryId: selectedCategory,
+      paymentSourceId: selectedPaymentSource,
+      currency: currency,
+      createdAt: selectedDate!.toISOString(),
+      comments,
+    };
+
     currentExpense?._id
       ? updateExpenseMutate({
           id: currentExpense._id,
-          data: {
-            amount: parseFloat(amount),
-            categoryId: selectedCategory,
-            paymentSourceId: selectedPaymentSource,
-            currency: currency,
-            createdAt: selectedDate!.toISOString(),
-          },
+          data: expenseData,
         })
-      : createExpenseMutate({
-          amount: parseFloat(amount),
-          categoryId: selectedCategory,
-          paymentSourceId: selectedPaymentSource,
-          currency: currency,
-          createdAt: selectedDate!.toISOString(),
-        });
+      : createExpenseMutate(expenseData);
   };
 
   useEffect(() => {
@@ -214,10 +209,20 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
       setSelectedCategory(currentExpense.categoryId);
       setSelectedPaymentSource(currentExpense.paymentSourceId);
       setSelectedDate(new Date(currentExpense.createdAt));
+      setComments(currentExpense.comments || '');
     } else {
       clearData();
     }
   }, [clearData, currentExpense]);
+
+  useEffect(() => {
+    // TODO uncomment when we have a way to handle the modal state
+    // document.addEventListener('keydown', handleKeyboard);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyboard);
+    };
+  }, [handleKeyboard]);
 
   return (
     <Paper
@@ -262,72 +267,62 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             </Select>
           </FormControl>
         </Stack>
-        <Grid container gap={1} justifyContent="space-between">
-          {calcButtons.map((value) => (
-            <Grid key={value.title} width="calc(33% - 8px)">
-              <Button
-                disabled={isPending}
-                variant="contained"
-                fullWidth
-                onClick={() => handleButtonClick(value.title)}
-                sx={{ height: 50, fontSize: '24px' }}
-              >
-                {value.content}
-              </Button>
-            </Grid>
-          ))}
-        </Grid>
-        {isCategoriesLoading ? (
-          <SkeletonForCalc />
-        ) : (
-          <HorizontalList
-            items={categories}
-            disabled={isPending}
-            selectedItem={selectedCategory}
-            setSelectedItem={setSelectedCategory}
-            openModal={() => setIsCategoryModalOpen(true)}
-            handleDelete={deleteCategoryMutate}
-            handleShare={(id) => alert(`not implemented yet ${id}`)}
-            handleEdit={(item) => alert(`not implemented yet ${item}`)}
-          />
-        )}
-        {isPaymentSourcesLoading ? (
-          <SkeletonForCalc />
-        ) : (
-          <HorizontalList
-            items={paymentSources}
-            disabled={isPending}
-            selectedItem={selectedPaymentSource}
-            setSelectedItem={setSelectedPaymentSource}
-            openModal={() => setIsPaymentSourceModalOpen(true)}
-            handleDelete={deletePaymentSourceMutate}
-            handleShare={(id) => alert(`not implemented yet ${id}`)}
-            handleEdit={(item) => alert(`not implemented yet ${item}`)}
-          />
-        )}
-
-        <DateTimePicker
-          label="Date"
-          disableFuture
-          value={selectedDate}
-          onChange={setSelectedDate}
-          slotProps={{
-            textField: {
-              variant: 'outlined',
-              size: 'small',
-            },
-            day: {
-              sx: { borderRadius: theme.spacing(1) },
-            },
-          }}
-          sx={{
-            mt: 2,
-            width: '100%',
-            '& .MuiInputBase-root': {
-              backgroundColor: theme.palette.background.paper,
-            },
-          }}
+        <CalculatorButtons isPending={isPending} handleButtonClick={handleButtonClick} />
+        <CategoryList
+          categories={categories}
+          isPending={isPending}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          openModal={() => setIsCategoryModalOpen(true)}
+          handleDelete={deleteCategoryMutate}
+          isLoading={isCategoriesLoading}
         />
+        <PaymentSourceList
+          paymentSources={paymentSources}
+          isPending={isPending}
+          selectedPaymentSource={selectedPaymentSource}
+          setSelectedPaymentSource={setSelectedPaymentSource}
+          openModal={() => setIsPaymentSourceModalOpen(true)}
+          handleDelete={deletePaymentSourceMutate}
+          isLoading={isPaymentSourcesLoading}
+        />
+        <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 2 }}>
+          <DateTimePicker
+            label="Date and time"
+            disableFuture
+            value={selectedDate}
+            onChange={setSelectedDate}
+            slotProps={{
+              textField: {
+                variant: 'outlined',
+                size: 'small',
+              },
+              day: {
+                sx: { borderRadius: theme.spacing(1) },
+              },
+            }}
+            sx={{
+              width: '100%',
+              '& .MuiInputBase-root': {
+                backgroundColor: theme.palette.background.paper,
+              },
+              '& .MuiInputBase-input': {
+                paddingTop: theme.spacing(1),
+                paddingBottom: theme.spacing(1),
+              },
+            }}
+          />
+          <IconButton
+            onClick={() => setIsCommentModalOpen(true)}
+            sx={{ border: `1px solid ${comments ? theme.palette.success.main : theme.palette.grey[700]}` }}
+          >
+            {comments?.length ? (
+              <Message htmlColor={theme.palette.success.main} sx={{ width: '21px', height: '21px' }} />
+            ) : (
+              <MapsUgc sx={{ width: '21px', height: '21px' }} />
+            )}
+          </IconButton>
+        </Stack>
         <Grid container spacing={1} sx={{ mt: 1 }}>
           <Grid xs={6} item>
             <Button
@@ -349,6 +344,12 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
       </Box>
       <UpsertCategoryModal setSelectedCategory={setSelectedCategory} />
       <UpsertPaymentSourceModal setSelectedPaymentSource={setSelectedPaymentSource} />
+      <CommentModal
+        isCommentModalOpen={isCommentModalOpen}
+        setIsCommentModalOpen={setIsCommentModalOpen}
+        comment={comments}
+        setComment={setComments}
+      />
     </Paper>
   );
 };

@@ -28,6 +28,7 @@ const useLongPress = (callback: (event: TouchEvent) => void, ms = 300) => {
   const handleTouchEnd = () => {
     if (timeoutRef.current && !triggeredRef.current) {
       clearTimeout(timeoutRef.current);
+      triggeredRef.current = false;
     }
   };
 
@@ -35,6 +36,7 @@ const useLongPress = (callback: (event: TouchEvent) => void, ms = 300) => {
     onTouchStart: handleTouchStart,
     onTouchMove: handleTouchMove,
     onTouchEnd: handleTouchEnd,
+    onTouchCancel: handleTouchEnd,
   };
 };
 

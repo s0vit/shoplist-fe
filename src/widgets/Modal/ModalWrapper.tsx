@@ -1,10 +1,12 @@
-import { PropsWithChildren } from 'react';
 import { Backdrop, Fade, Modal } from '@mui/material';
+import { PropsWithChildren } from 'react';
 
 type TModelWrapperProps = {
   onClickAway: () => void;
   isModalOpen?: boolean;
 };
+
+// TODO: It should handle the modals state
 
 const ModalWrapper = ({ onClickAway, children, isModalOpen = false }: PropsWithChildren<TModelWrapperProps>) => {
   return (
