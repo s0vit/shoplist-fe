@@ -1,8 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { confirmEmail, register, TConfirmEmailResponse } from 'src/shared/api/authApi.ts';
-import { Id, toast } from 'react-toastify';
-import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   Button,
   FormControl,
@@ -14,10 +10,15 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Form } from 'react-router-dom';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useMutation } from '@tanstack/react-query';
+import { useRef, useState } from 'react';
+import { Form, useNavigate } from 'react-router-dom';
+import { Id, toast } from 'react-toastify';
+import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
+import { confirmEmail, login, register, TConfirmEmailResponse, TLoginRequest, TUser } from 'src/shared/api/authApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
+import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 
 const RegisterForm = () => {
   const [isRegistered, setIsRegistered] = useState(false);
@@ -29,22 +30,54 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const toastId = useRef<Id>();
+  const navigate = useNavigate();
+  const setUser = useUserStore.use.setUser();
 
-  const {
-    isSuccess: isRegisterSuccess,
-    isPending: isRegisterPending,
-    mutate: registerMutate,
-    error: registerError,
-  } = useMutation<void, TErrorResponse>({
+  const { isPending: isRegisterPending, mutate: registerMutate } = useMutation<void, TErrorResponse>({
     mutationFn: () => register({ email, password }),
+    onSuccess: () => {
+      toast.dismiss(toastId.current);
+      toastId.current = toast('Check your email to confirm registration', { type: 'warning', autoClose: false });
+      setIsRegistered(true);
+    },
+    onError: (error) => {
+      toast.dismiss(toastId.current);
+      toastId.current = handleError(error);
+    },
   });
-  const {
-    isSuccess: isConfirmSuccess,
-    isPending: isConfirmPending,
-    mutate: confirmMutate,
-    error: confirmError,
-  } = useMutation<TConfirmEmailResponse, TErrorResponse>({
+
+  const { isPending: isConfirmPending, mutate: confirmMutate } = useMutation<TConfirmEmailResponse, TErrorResponse>({
     mutationFn: () => confirmEmail({ token: code }),
+    onSuccess: () => {
+      toast.dismiss(toastId.current);
+      toastId.current = toast('Email confirmed', { type: 'success', autoClose: 3000 });
+      setIsConfirmed(true);
+      sendLoginRequest({ email, password });
+    },
+    onError: (error) => {
+      toast.dismiss(toastId.current);
+      toastId.current = handleError(error);
+    },
+  });
+
+  const { mutate: sendLoginRequest } = useMutation<TUser, TErrorResponse, TLoginRequest>({
+    mutationFn: ({ email, password }: TLoginRequest) => {
+      toast.dismiss(toastId.current);
+      toastId.current = toast('Logging in...', { isLoading: true, autoClose: false });
+
+      return login({ email, password });
+    },
+    onSuccess: (data) => {
+      setUser(data);
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
+      toast.dismiss(toastId.current);
+      navigate('/');
+    },
+    onError: (error) => {
+      handleError(error);
+      navigate('/login');
+    },
   });
 
   const handleRegisterSubmit = () => {
@@ -60,36 +93,6 @@ const RegisterForm = () => {
     registerMutate();
   };
 
-  useEffect(() => {
-    if (isRegisterSuccess) {
-      toast.dismiss(toastId.current);
-      toastId.current = toast('Check your email to confirm registration', { type: 'warning', autoClose: false });
-      setIsRegistered(true);
-    }
-  }, [isRegisterSuccess]);
-
-  useEffect(() => {
-    if (isConfirmSuccess) {
-      toast.dismiss(toastId.current);
-      toastId.current = toast('Email confirmed', { type: 'success', autoClose: 3000 });
-      setIsConfirmed(true);
-    }
-  }, [isConfirmSuccess]);
-
-  useEffect(() => {
-    if (registerError) {
-      toast.dismiss(toastId.current);
-      toastId.current = handleError(registerError);
-    }
-  }, [registerError]);
-
-  useEffect(() => {
-    if (confirmError) {
-      toast.dismiss(toastId.current);
-      toastId.current = handleError(confirmError);
-    }
-  }, [confirmError]);
-
   return (
     <FormWrapper elevation={5}>
       {isRegistered ? (
@@ -98,7 +101,7 @@ const RegisterForm = () => {
             <Typography variant="h4" align="center">
               Registration finished!
             </Typography>
-            <Typography>You can now login</Typography>
+            <Typography>You now will be redirected</Typography>
           </Stack>
         ) : (
           <Form onSubmit={() => confirmMutate()}>

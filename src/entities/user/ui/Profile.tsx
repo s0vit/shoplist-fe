@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { PhotoCamera } from '@mui/icons-material';
 import {
   alpha,
   Avatar,
@@ -14,13 +14,14 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { PhotoCamera } from '@mui/icons-material';
-import { getNewLink, logout } from 'src/shared/api/authApi';
-import { deleteMe } from 'src/shared/api/userApi';
-import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
-import ProfilePhotoUploader from './ProfilePhotoUploader';
 import { useMutation } from '@tanstack/react-query';
+import { ChangeEvent, useRef, useState } from 'react';
+import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
+import { getNewLink } from 'src/shared/api/authApi';
+import { deleteMe } from 'src/shared/api/userApi';
 import handleError from 'src/utils/errorHandler.ts';
+import useLogout from 'src/utils/hooks/useLogout';
+import ProfilePhotoUploader from './ProfilePhotoUploader';
 
 const Profile = () => {
   const [openUploader, setOpenUploader] = useState(false);
@@ -30,16 +31,14 @@ const Profile = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const theme = useTheme();
   const userData = useUserStore.use.user?.();
-  const setUser = useUserStore.use.setUser();
 
   const { mutate: getNewLinkMutate } = useMutation({ mutationFn: getNewLink, onError: handleError });
+  const { handleLogout } = useLogout();
 
   const { mutate: deleteUserMutate } = useMutation({
     mutationFn: deleteMe,
     onError: handleError,
-    onSuccess: () => {
-      logout().then(() => setUser(undefined));
-    },
+    onSuccess: handleLogout,
   });
 
   const handleAvatarClick = () => {
