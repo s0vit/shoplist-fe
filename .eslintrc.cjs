@@ -8,13 +8,13 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
-    "prettier"
+    'prettier',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh', 'unicorn', 'import', 'unused-imports'],
   rules: {
-    'no-console': ['warn', { allow: ['warn', 'error','info'] }],
+    'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
     'padding-line-between-statements': [
       'error',
       { blankLine: 'always', prev: '*', next: 'return' },
@@ -50,7 +50,6 @@ module.exports = {
     'unicorn/prefer-module': 'off',
     'unicorn/no-await-expression-member': 'off',
     'unicorn/no-null': 'off',
-    'unicorn/prefer-spread': 'off', // triggers for tensorflow .concat()
-    'unicorn/no-useless-undefined': 'off', // triggers for _.without(..., undefined)
+    'unicorn/prefer-spread': 'off',
   },
 };

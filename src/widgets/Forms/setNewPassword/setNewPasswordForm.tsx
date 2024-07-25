@@ -1,9 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { resetPassword } from 'src/shared/api/authApi.ts';
-import { toast } from 'react-toastify';
-import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
-import { Form } from 'react-router-dom';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -15,9 +10,16 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useMutation } from '@tanstack/react-query';
+import { jwtDecode } from 'jwt-decode';
+import { useState } from 'react';
+import { Form, useNavigate } from 'react-router-dom';
+import { Id, toast } from 'react-toastify';
+import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
+import { login, resetPassword, TLoginRequest, TUser } from 'src/shared/api/authApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 
 type TSetNewPasswordFormProps = {
   token: string;
@@ -26,35 +28,46 @@ type TSetNewPasswordFormProps = {
 const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [currentToastId, setCurrentToastId] = useState<Id>();
 
-  const {
-    isPending: isPendingSetNewPassword,
-    isSuccess,
-    error,
-    mutate: requestSetNewPassword,
-  } = useMutation<void, TErrorResponse>({
-    mutationFn: () => resetPassword({ token, password }),
+  const { email } = jwtDecode<{ email: string }>(token);
+  const navigate = useNavigate();
+  const setUser = useUserStore.use.setUser();
+
+  const { mutate: sendLoginRequest } = useMutation<TUser, TErrorResponse, TLoginRequest>({
+    mutationFn: ({ email, password }: TLoginRequest) => {
+      toast.dismiss(currentToastId);
+      setCurrentToastId(toast('Logging in...', { isLoading: true, autoClose: false }));
+
+      return login({ email, password });
+    },
+    onSuccess: (data) => {
+      setUser(data);
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
+      toast.dismiss(currentToastId);
+      navigate('/');
+    },
+    onError: (error) => {
+      handleError(error);
+      navigate('/login');
+    },
   });
 
-  const setNewPassword = () => {
-    requestSetNewPassword();
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast('Password has been reset', { type: 'success' });
-    }
-  }, [isSuccess]);
-  useEffect(() => {
-    if (error) {
-      handleError(error);
-    }
-  }, [error]);
+  const { isPending: isPendingSetNewPassword, mutate: requestSetNewPassword } = useMutation<void, TErrorResponse>({
+    mutationFn: () => resetPassword({ token, password }),
+    onError: handleError,
+    onSuccess: () => {
+      toast.dismiss(currentToastId);
+      setCurrentToastId(toast('Password has been reset', { type: 'success' }));
+      sendLoginRequest({ email, password });
+    },
+  });
 
   return (
     <Box>
       <FormWrapper elevation={5}>
-        <Form onSubmit={setNewPassword}>
+        <Form onSubmit={() => requestSetNewPassword()}>
           <Stack spacing={1}>
             <Typography variant="h6" align="center">
               Set new password
