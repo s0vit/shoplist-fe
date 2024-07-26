@@ -1,26 +1,27 @@
 import { PhotoCamera } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   alpha,
   Avatar,
   Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   IconButton,
   Paper,
-  TextField,
   Typography,
   useTheme,
 } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useRef, useState } from 'react';
-import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
+import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import Settings from 'src/entities/userSettings/ui/Settings';
 import { getNewLink } from 'src/shared/api/authApi';
 import { deleteMe } from 'src/shared/api/userApi';
 import handleError from 'src/utils/errorHandler.ts';
 import useLogout from 'src/utils/hooks/useLogout';
+import DeleteUserDialog from 'src/widgets/Modal/DeleteUserDialog';
 import ProfilePhotoUploader from './ProfilePhotoUploader';
 
 const Profile = () => {
@@ -123,39 +124,28 @@ const Profile = () => {
               New verification link
             </Button>
           )}
-          <Button variant="contained" color="error" onClick={handleDeleteClick} sx={{ marginTop: 2 }}>
-            Delete Profile
-          </Button>
         </Box>
+
+        <Accordion sx={{ marginTop: 4 }} elevation={2}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>Settings</Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ p: 0 }}>
+            <Settings />
+          </AccordionDetails>
+        </Accordion>
+        <Button variant="contained" color="error" onClick={handleDeleteClick} sx={{ marginTop: 2 }}>
+          Delete Profile
+        </Button>
         <ProfilePhotoUploader file={selectedFile} onClose={() => setOpenUploader(false)} isOpen={openUploader} />
-        <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
-          <DialogTitle>Confirm Profile Deletion</DialogTitle>
-          <DialogContent>
-            <Typography variant="body1" gutterBottom>
-              Please enter your email address to confirm deletion:
-            </Typography>
-            <TextField
-              fullWidth
-              variant="outlined"
-              label="Email"
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenDeleteDialog(false)} color="primary">
-              Cancel
-            </Button>
-            <Button
-              onClick={handleConfirmDelete}
-              color="error"
-              variant="contained"
-              disabled={userData?.email !== emailInput}
-            >
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <DeleteUserDialog
+          openDeleteDialog={openDeleteDialog}
+          setOpenDeleteDialog={setOpenDeleteDialog}
+          emailInput={emailInput}
+          setEmailInput={setEmailInput}
+          handleConfirmDelete={handleConfirmDelete}
+          userData={userData}
+        />
       </Paper>
     </Box>
   );

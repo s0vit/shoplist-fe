@@ -1,6 +1,6 @@
-import { create } from 'zustand';
 import { TUser } from 'src/shared/api/authApi.ts';
 import createSelectors from 'src/utils/helpers/createSelectors.ts';
+import { create } from 'zustand';
 
 type TUserStore = {
   user?: TUser;

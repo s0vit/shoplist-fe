@@ -4,7 +4,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import PersonIcon from '@mui/icons-material/Person';
 import { BottomNavigation, BottomNavigationAction, Box, Fab, useTheme } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
+import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 
 const FootBar = () => {

@@ -15,7 +15,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
 import { Id, toast } from 'react-toastify';
-import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
+import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { login, resetPassword, TLoginRequest, TUser } from 'src/shared/api/authApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';

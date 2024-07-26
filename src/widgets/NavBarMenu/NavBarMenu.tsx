@@ -2,7 +2,7 @@ import { Logout, Person, ShareSharp } from '@mui/icons-material';
 import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import _useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
+import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import useLogout from 'src/utils/hooks/useLogout.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';

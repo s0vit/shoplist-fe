@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
+import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { getRefreshToken } from 'src/shared/api/authApi.ts';
 
 export const apiInstance = axios.create({

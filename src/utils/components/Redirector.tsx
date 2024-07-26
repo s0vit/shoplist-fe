@@ -1,9 +1,9 @@
-import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
-import RoutesEnum from 'src/shared/constants/routesEnum.ts';
-import { Navigate, Outlet } from 'react-router-dom';
-import { useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { useState } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { getRefreshToken } from 'src/shared/api/authApi.ts';
+import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import Loader from 'src/utils/components/Loader.tsx';
 
 const Redirector = () => {

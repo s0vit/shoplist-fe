@@ -1,12 +1,12 @@
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Slider } from '@mui/material';
+import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Slider } from '@mui/material';
-import useUserStore from 'src/entities/user/model/store/_useUserStore.ts';
-import { useMutation } from '@tanstack/react-query';
+import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import { getRefreshToken } from 'src/shared/api/authApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { uploadAvatar } from 'src/shared/api/userApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
-import { getRefreshToken } from 'src/shared/api/authApi.ts';
 
 type TProfilePhotoUploaderProps = {
   file: File | null;
