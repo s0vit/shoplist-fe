@@ -44,13 +44,13 @@ const AccessControlItem = ({ accessControl, paymentSources, categories, expenses
     { id: string; data: TCreateAccessControlRequest }
   >({
     mutationFn: ({ id, data }) => updateAccessControl(id, data),
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSuccess: fetchAccessControls,
   });
 
   const { mutate: deleteAccessControlMutate } = useMutation({
     mutationFn: () => deleteAccessControl(accessControl._id),
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSuccess: fetchAccessControls,
   });
 

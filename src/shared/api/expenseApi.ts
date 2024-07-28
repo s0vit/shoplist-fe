@@ -66,6 +66,7 @@ export type TExpense = TCreateExpenseInput & {
   _id: string;
   userId: string;
   createdAt: string;
+  exchangeRates: Record<CURRENCIES, number>;
 };
 
 export type TCreateExpenseInput = {

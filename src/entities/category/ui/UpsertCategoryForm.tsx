@@ -1,15 +1,15 @@
-import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { Button, FormControl, FormGroup, InputLabel, OutlinedInput, Stack, Typography, useTheme } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { createCategory, TCategory, TCreateCategoryInput, updateCategory } from 'src/shared/api/categoryApi.ts';
-import handleError from 'src/utils/errorHandler.ts';
-import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import { Colorful } from '@uiw/react-color';
-import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
+import { useEffect, useState } from 'react';
+import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
+import { createCategory, TCategory, TCreateCategoryInput, updateCategory } from 'src/shared/api/categoryApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import handleError from 'src/utils/errorHandler.ts';
+import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 
 type TUpsertCategoryFormProps = {
   setSelectedCategory?: (categoryId: string) => void;
@@ -39,7 +39,7 @@ const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) =
 
   const { mutate: createCategoryMutate, isPending: isCreateCategoryPending } = useMutation({
     mutationFn: createCategory,
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSuccess: handleSuccess,
   });
 
@@ -49,7 +49,7 @@ const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) =
     TCreateCategoryInput & { _id: string }
   >({
     mutationFn: ({ _id, ...data }) => updateCategory(_id, data),
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSuccess: handleSuccess,
   });
 

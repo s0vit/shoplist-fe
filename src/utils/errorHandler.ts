@@ -1,7 +1,7 @@
-import { Id, toast } from 'react-toastify';
 import { AxiosError } from 'axios';
+import { Id, toast } from 'react-toastify';
 
-const handleError = (error: unknown) => {
+const handleError = (error: unknown, showToast: boolean = true) => {
   const resultArray: Array<string> = [];
   let tostId: Id;
 
@@ -25,6 +25,8 @@ const handleError = (error: unknown) => {
       resultArray.push(error.response?.data.message || 'Something went wrong');
     }
 
+    if (!showToast) return;
+
     tostId = toast(resultArray.join(', '), { type: 'error' });
 
     return tostId;
@@ -32,12 +34,16 @@ const handleError = (error: unknown) => {
 
   if (error instanceof Error) {
     console.error(error.message);
+
+    if (!showToast) return;
     tostId = toast(error.message, { type: 'error' });
 
     return tostId;
   }
 
   console.error(error);
+
+  if (!showToast) return;
   tostId = toast(JSON.stringify(error), { type: 'error' });
 
   return tostId;

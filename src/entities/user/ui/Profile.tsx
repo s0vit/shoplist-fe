@@ -33,12 +33,15 @@ const Profile = () => {
   const theme = useTheme();
   const userData = useUserStore.use.user?.();
 
-  const { mutate: getNewLinkMutate } = useMutation({ mutationFn: getNewLink, onError: handleError });
+  const { mutate: getNewLinkMutate } = useMutation({
+    mutationFn: getNewLink,
+    onError: (error) => handleError(error),
+  });
   const { handleLogout } = useLogout();
 
   const { mutate: deleteUserMutate } = useMutation({
-    mutationFn: deleteMe,
-    onError: handleError,
+    mutationFn: () => deleteMe(),
+    onError: (error) => handleError(error),
     onSuccess: handleLogout,
   });
 

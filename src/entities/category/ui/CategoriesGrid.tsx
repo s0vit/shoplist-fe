@@ -12,7 +12,7 @@ type TCategoriesProps = {
 const Categories = ({ categories, refetchCategories }: TCategoriesProps) => {
   const { mutate: requestDeleteCategory } = useMutation({
     mutationFn: deleteCategory,
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSuccess: refetchCategories,
   });
 

@@ -12,7 +12,7 @@ type TPaymentSourcesProps = {
 const PaymentSources = ({ paymentSources, refetchPaymentSources }: TPaymentSourcesProps) => {
   const { mutate: requestDeletePaymentSource } = useMutation({
     mutationFn: deletePaymentSource,
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSuccess: refetchPaymentSources,
   });
 

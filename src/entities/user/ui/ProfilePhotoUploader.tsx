@@ -22,7 +22,7 @@ const ProfilePhotoUploader = ({ file, onClose, isOpen }: TProfilePhotoUploaderPr
   const setUserData = useUserStore.use.setUser();
   const { mutate: avatarUploadMutate } = useMutation<void, TErrorResponse, FormData>({
     mutationFn: uploadAvatar,
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSuccess: () => {
       getRefreshToken({ refreshToken: userData!.refreshToken }).then((data) => {
         setUserData(data);

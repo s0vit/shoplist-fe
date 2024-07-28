@@ -79,12 +79,16 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const { mutate: deleteCategoryMutate, isPending: isDeleteCategoryPending } = useMutation({
     mutationFn: deleteCategory,
     onSuccess: () => handleSuccess('Category deleted successfully', fetchCategories),
-    onError: handleError,
+    onError: (error) => {
+      handleError(error);
+    },
   });
   const { mutate: deletePaymentSourceMutate, isPending: isDeletePaymentSourcePending } = useMutation({
     mutationFn: deletePaymentSource,
     onSuccess: () => handleSuccess('Payment source deleted successfully', fetchPaymentSources),
-    onError: handleError,
+    onError: (error) => {
+      handleError(error);
+    },
   });
 
   const { isPending: isCreateExpensePending, mutate: createExpenseMutate } = useMutation<
@@ -94,7 +98,9 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   >({
     mutationFn: createExpense,
     onSuccess: () => handleSuccess('Expense added successfully', fetchExpenses),
-    onError: handleError,
+    onError: (error) => {
+      handleError(error);
+    },
   });
 
   const { isPending: isUpdateExpensePending, mutate: updateExpenseMutate } = useMutation<
@@ -104,7 +110,9 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   >({
     mutationFn: ({ id, data }) => updateExpense(id, data),
     onSuccess: () => handleSuccess('Expense updated successfully', fetchExpenses),
-    onError: handleError,
+    onError: (error) => {
+      handleError(error);
+    },
   });
 
   const isPending =

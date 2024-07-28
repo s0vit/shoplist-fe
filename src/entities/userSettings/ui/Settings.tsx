@@ -31,13 +31,13 @@ const Settings = () => {
   const { mutate: updateSettings, isPending: isUpdating } = useMutation({
     mutationFn: () => updateMyConfig({ ...userSettings, _id: userSettings._id! }),
     onSuccess: (data) => setUserConfig(data),
-    onError: handleError,
+    onError: (error) => handleError(error),
   });
 
   const { mutate: saveSettings, isPending: isSaving } = useMutation({
     mutationFn: () => setMyConfig(userSettings),
     onSuccess: (data) => setUserConfig(data),
-    onError: handleError,
+    onError: (error) => handleError(error),
   });
 
   const handleSave = () => {

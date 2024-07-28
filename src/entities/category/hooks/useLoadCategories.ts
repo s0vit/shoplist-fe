@@ -39,9 +39,9 @@ const useLoadCategories = (
 
   useEffect(() => {
     if (categoriesError) {
-      handleError(categoriesError);
+      handleError(categoriesError, shouldFetchOnLoad);
     }
-  }, [categoriesError]);
+  }, [categoriesError, shouldFetchOnLoad]);
 
   useEffect(() => {
     if (!isCategoriesLoading) {

@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import { isAxiosError } from 'axios';
 import { useEffect } from 'react';
-import { getExpenses, TGetExpenseQuery, TGetExpensesResponse } from 'src/shared/api/expenseApi.ts';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
+import { getExpenses, TGetExpenseQuery, TGetExpensesResponse } from 'src/shared/api/expenseApi.ts';
+import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
-import { isAxiosError } from 'axios';
 
 type TUseLoadExpensesArgs =
   | {
@@ -42,9 +42,9 @@ const useLoadExpenses = ({
 
   useEffect(() => {
     if (expensesError) {
-      handleError(expensesError);
+      handleError(expensesError, shouldFetchOnLoad);
     }
-  }, [expensesError]);
+  }, [expensesError, shouldFetchOnLoad]);
 
   useEffect(() => {
     if (!isExpensesLoading) {
@@ -59,7 +59,11 @@ const useLoadExpenses = ({
     }
 
     const newData = await refetch();
-    if (isAxiosError(newData)) handleError(newData);
+
+    if (isAxiosError(newData)) {
+      handleError(newData);
+    }
+
     setUserExpenses((newData.data as unknown as TGetExpensesResponse) || []);
     if (onFetchFinish) onFetchFinish();
   });
