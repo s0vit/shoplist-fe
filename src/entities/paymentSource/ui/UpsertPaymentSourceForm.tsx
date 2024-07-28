@@ -43,7 +43,7 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
 
   const { mutate: createPaymentSourceMutate, isPending: isCreatePaymentSourcePending } = useMutation({
     mutationFn: createPaymentSource,
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSuccess: handleSuccess,
   });
   const { mutate: updatePaymentSourceMutate, isPending: isUpdatePaymentSourcePending } = useMutation<
@@ -52,7 +52,7 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
     TCreatePaymentSourceInput & { _id: string }
   >({
     mutationFn: ({ _id, ...data }) => updatePaymentSource(_id, data),
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSuccess: handleSuccess,
   });
 
