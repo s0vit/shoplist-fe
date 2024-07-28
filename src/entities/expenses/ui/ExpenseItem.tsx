@@ -1,5 +1,5 @@
-import { Delete, Edit, Share } from '@mui/icons-material';
-import { alpha, Box, Chip, Menu, MenuItem, Stack, Tooltip, Typography, useTheme } from '@mui/material';
+import { Delete, Edit } from '@mui/icons-material';
+import { alpha, Box, Chip, FormHelperText, Stack, Typography, useTheme } from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
@@ -21,6 +21,7 @@ import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
+import ExpenseItemMenu from './ExpenseItemMenu.tsx';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -118,108 +119,57 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
 
   return (
     <div onContextMenu={handleOpenMenu} {...longPressEvents}>
-      <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
+      <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto', cursor: 'pointer', userSelect: 'none' }}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
-          <Tooltip title={expense.comments || ''} key={expense._id} placement="top">
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              sx={{
-                backgroundColor: alpha(categoryColor, 0.05),
-                padding: theme.spacing(0.5),
-                borderRadius: theme.spacing(1),
-                marginBottom: theme.spacing(1),
-                width: '100%',
-                border: `1px solid ${categoryColor}`,
-              }}
-            >
-              <Box>
-                <Typography variant="subtitle2">{category?.title}</Typography>
-                <Typography variant="body2">
-                  {new Intl.DateTimeFormat(browserLocale, {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  }).format(new Date(expense.createdAt))}
-                </Typography>
-              </Box>
-              <Box sx={{ textAlign: 'right' }}>
-                <Chip
-                  label={amountWithCurrency}
-                  sx={{
-                    backgroundColor: alpha(paymentSourceColor, 0.9),
-                    border: `1px solid ${alpha(theme.palette.getContrastText(paymentSourceColor), 0.8)}`,
-                    color: theme.palette.getContrastText(paymentSourceColor),
-                    fontSize: '1.2rem',
-                    padding: theme.spacing(0.5),
-                  }}
-                />
-                <Typography variant="body2" mr={1}>
-                  {paymentSource?.title || 'Deleted'}
-                </Typography>
-              </Box>
-            </Stack>
-          </Tooltip>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{
+              backgroundColor: alpha(categoryColor, 0.05),
+              padding: theme.spacing(0.5),
+              borderRadius: theme.spacing(1),
+              marginBottom: theme.spacing(1),
+              width: '100%',
+              border: `1px solid ${categoryColor}`,
+            }}
+          >
+            <Box>
+              <Typography variant="subtitle2">{category?.title}</Typography>
+              <Typography variant="body2">
+                {new Intl.DateTimeFormat(browserLocale, {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                }).format(new Date(expense.createdAt))}
+              </Typography>
+              {expense.comments && <FormHelperText>{expense.comments}</FormHelperText>}
+            </Box>
+            <Box sx={{ textAlign: 'right' }}>
+              <Chip
+                label={amountWithCurrency}
+                sx={{
+                  backgroundColor: alpha(paymentSourceColor, 0.9),
+                  border: `1px solid ${alpha(theme.palette.getContrastText(paymentSourceColor), 0.8)}`,
+                  color: theme.palette.getContrastText(paymentSourceColor),
+                  fontSize: '1.2rem',
+                  padding: theme.spacing(0.5),
+                }}
+              />
+              <Typography variant="body2" mr={1}>
+                {paymentSource?.title || 'Deleted'}
+              </Typography>
+            </Box>
+          </Stack>
         </SwipeableListItem>
       </SwipeableList>
-      <Menu
-        variant="selectedMenu"
-        anchorReference="anchorPosition"
-        anchorPosition={
-          contextMenuCoordinates
-            ? { top: contextMenuCoordinates.mouseY, left: contextMenuCoordinates.mouseX }
-            : undefined
-        }
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        open={!!contextMenuCoordinates}
-        onClose={handleCloseMenu}
-        slotProps={{
-          paper: {
-            style: {
-              width: '200px',
-              border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
-            },
-          },
-        }}
-      >
-        <MenuItem
-          onClick={() => {
-            handleEdit();
-            handleCloseMenu();
-          }}
-        >
-          <Edit fontSize="small" />
-          <Typography variant="body2" sx={{ ml: 1 }}>
-            Edit
-          </Typography>
-        </MenuItem>
-        <MenuItem
-          divider
-          onClick={() => {
-            setIsShareWithModalOpen(true);
-            handleCloseMenu();
-          }}
-        >
-          <Share fontSize="small" />
-          <Typography variant="body2" sx={{ ml: 1 }}>
-            Share with
-          </Typography>
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleRemove(expense._id);
-            handleCloseMenu();
-          }}
-        >
-          <Delete fontSize="small" />
-          <Typography variant="body2" sx={{ ml: 1 }}>
-            Delete
-          </Typography>
-        </MenuItem>
-      </Menu>
+      <ExpenseItemMenu
+        expense={expense}
+        handleRemove={handleRemove}
+        contextMenuCoordinates={contextMenuCoordinates}
+        handleCloseMenu={handleCloseMenu}
+        handleEdit={handleEdit}
+        setIsShareWithModalOpen={setIsShareWithModalOpen}
+      />
       <ShareWithModal
         expenseIds={[expense._id]}
         isOpen={isShareWithModalOpen}

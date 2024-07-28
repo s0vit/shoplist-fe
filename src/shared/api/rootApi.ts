@@ -1,12 +1,6 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { getRefreshToken } from 'src/shared/api/authApi.ts';
-
-export const apiInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://shoplist-be.vercel.app/api/',
-  timeout: 5000,
-  withCredentials: true,
-});
 
 let isRefreshing = false;
 let failedQueue: { resolve: (value: unknown) => void; reject: (reason?: unknown) => void }[] = [];
@@ -23,8 +17,14 @@ const processQueue = (error: AxiosError | null, token: string | null = null) => 
   failedQueue = [];
 };
 
+export const apiInstance: AxiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'https://shoplist-be.vercel.app/api/',
+  timeout: 5000,
+  withCredentials: true,
+});
+
 // auth interceptor
-apiInstance.interceptors.request.use((config) => {
+apiInstance.interceptors.request.use((config: TExtendedInternalAxiosRequestConfig) => {
   const accessToken = useUserStore.getState().user?.accessToken || localStorage.getItem('accessToken');
 
   if (accessToken) {
@@ -33,20 +33,28 @@ apiInstance.interceptors.request.use((config) => {
 
   return config;
 });
+apiInstance.interceptors.request.use((config) => {
+  const requestId = Math.random().toString(36).substring(7);
+  config.headers['x-request-id'] = requestId;
+
+  return config;
+});
 
 // refresh token interceptor
 apiInstance.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+  async (error: AxiosError) => {
+    const originalRequest = error.config as TExtendedInternalAxiosRequestConfig;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            originalRequest.headers['Authorization'] = 'Bearer ' + token;
+            if (originalRequest.headers) {
+              originalRequest.headers['Authorization'] = 'Bearer ' + token;
+            }
 
             return apiInstance(originalRequest);
           })
@@ -76,10 +84,10 @@ apiInstance.interceptors.response.use(
 
         return apiInstance(originalRequest);
       } catch (err) {
-        const error = err as AxiosError;
-        processQueue(error, null);
+        const axiosError = err as AxiosError;
+        processQueue(axiosError, null);
 
-        return Promise.reject(err);
+        return Promise.reject(axiosError);
       } finally {
         isRefreshing = false;
       }
@@ -97,3 +105,7 @@ export type TErrorResponse = AxiosError<{
     [key: string]: string[];
   };
 }>;
+
+type TExtendedInternalAxiosRequestConfig = InternalAxiosRequestConfig & {
+  _retry?: boolean;
+};
