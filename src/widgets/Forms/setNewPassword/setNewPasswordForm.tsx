@@ -56,7 +56,7 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
 
   const { isPending: isPendingSetNewPassword, mutate: requestSetNewPassword } = useMutation<void, TErrorResponse>({
     mutationFn: () => resetPassword({ token, password }),
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSuccess: () => {
       toast.dismiss(currentToastId);
       setCurrentToastId(toast('Password has been reset', { type: 'success' }));
