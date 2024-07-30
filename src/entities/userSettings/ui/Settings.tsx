@@ -41,7 +41,7 @@ const Settings = () => {
   });
 
   const handleSave = () => {
-    if (userSettings) {
+    if (userSettings._id) {
       updateSettings();
     } else {
       saveSettings();
