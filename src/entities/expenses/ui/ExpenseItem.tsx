@@ -22,6 +22,7 @@ import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 import ExpenseItemMenu from './ExpenseItemMenu.tsx';
+import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -44,6 +45,8 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   const location = useLocation();
 
   const browserLocale = navigator.language;
+  const { showCategoryColours, showSourceColours, showCategoryNames, showSourceNames } =
+    useUserSettingsStore.use.config();
   const categoryColor = category?.color || theme.palette.primary.main;
   const paymentSourceColor = paymentSource?.color || theme.palette.primary.main;
 
@@ -126,16 +129,17 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
             justifyContent="space-between"
             alignItems="center"
             sx={{
-              backgroundColor: alpha(categoryColor, 0.05),
+              backgroundColor: showCategoryColours ? alpha(categoryColor, 0.05) : 'null',
               padding: theme.spacing(0.5),
               borderRadius: theme.spacing(1),
               marginBottom: theme.spacing(1),
               width: '100%',
-              border: `1px solid ${categoryColor}`,
+              border: `1px solid`,
+              borderColor: showCategoryColours ? categoryColor : 'null',
             }}
           >
             <Box>
-              <Typography variant="subtitle2">{category?.title}</Typography>
+              {showCategoryNames && <Typography variant="subtitle2">{category?.title}</Typography>}
               <Typography variant="body2">
                 {new Intl.DateTimeFormat(browserLocale, {
                   hour: '2-digit',
@@ -148,16 +152,18 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
               <Chip
                 label={amountWithCurrency}
                 sx={{
-                  backgroundColor: alpha(paymentSourceColor, 0.9),
+                  backgroundColor: showSourceColours ? alpha(paymentSourceColor, 0.9) : 'null',
                   border: `1px solid ${alpha(theme.palette.getContrastText(paymentSourceColor), 0.8)}`,
-                  color: theme.palette.getContrastText(paymentSourceColor),
+                  color: showSourceColours ? theme.palette.getContrastText(paymentSourceColor) : 'null',
                   fontSize: '1.2rem',
                   padding: theme.spacing(0.5),
                 }}
               />
-              <Typography variant="body2" mr={1}>
-                {paymentSource?.title || 'Deleted'}
-              </Typography>
+              {showSourceNames && (
+                <Typography variant="body2" mr={1}>
+                  {paymentSource?.title || 'Deleted'}
+                </Typography>
+              )}
             </Box>
           </Stack>
         </SwipeableListItem>
