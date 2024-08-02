@@ -1,7 +1,7 @@
 {
   "name": "shoplist-fe",
   "private": true,
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,11 +15,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
     "@fontsource/roboto": "^5.0.13",
     "@mui/icons-material": "^5.15.18",
-    "@mui/material": "5.15.20",
+    "@mui/material": "^5.16.6",
     "@mui/x-date-pickers": "^7.7.0",
     "@tanstack/react-query": "^5.40.0",
     "@types/js-cookie": "^3.0.6",

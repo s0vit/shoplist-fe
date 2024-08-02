@@ -1,4 +1,5 @@
 import { MapsUgc, Message } from '@mui/icons-material';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
   Box,
   Button,
@@ -345,7 +346,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           </Grid>
           <Grid xs={6} item>
             <Button disabled={isPending} variant="contained" color="success" fullWidth onClick={handleSave}>
-              Save
+              {isPending ? <CircularProgress size={24} /> : 'Save'}
             </Button>
           </Grid>
         </Grid>

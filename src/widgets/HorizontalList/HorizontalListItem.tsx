@@ -57,7 +57,7 @@ const HorizontalListItem = ({
                 color: `${theme.palette.getContrastText(item.color || '')}!important`,
               }
             : {
-                borderColor: !disabled ? `${theme.palette.action.disabled}!important` : `${item.color}!important`,
+                borderColor: disabled ? `${theme.palette.action.disabled}!important` : `${item.color}!important`,
                 color: theme.palette.text.secondary,
               }
         }

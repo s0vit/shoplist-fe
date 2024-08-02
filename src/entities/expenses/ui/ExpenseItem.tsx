@@ -1,4 +1,3 @@
-import { Delete, Edit } from '@mui/icons-material';
 import { MouseEvent, useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
@@ -10,12 +9,13 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
-import { alpha, Chip, FormHelperText, IconButton, Stack, Typography, useTheme, Box } from '@mui/material';
+import { alpha, Chip, FormHelperText, Box, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import { TExpense } from 'src/shared/api/expenseApi.ts';
+import { Delete, Edit } from '@mui/icons-material';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { currencies } from 'src/shared/constants/currencies.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
