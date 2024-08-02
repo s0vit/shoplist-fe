@@ -1,7 +1,7 @@
-import { alpha, Button, Menu, MenuItem, Typography, useTheme } from '@mui/material';
-import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import { Delete, Edit, Share } from '@mui/icons-material';
+import { alpha, Button, Menu, MenuItem, Typography, useTheme } from '@mui/material';
 import { Fragment, MouseEvent, TouchEvent, useState } from 'react';
+import useLongPress from 'src/utils/hooks/useLongPress.ts';
 
 type THorizontalListItemProps = {
   item: { _id: string; title: string; color?: string };
@@ -36,6 +36,8 @@ const HorizontalListItem = ({
     setAnchorEl(null);
   };
 
+  console.log({ theme });
+
   return (
     <Fragment key={item._id}>
       <Button
@@ -49,10 +51,15 @@ const HorizontalListItem = ({
         sx={
           selectedItem === item._id
             ? {
-                backgroundColor: `${alpha(item.color || '', 0.7)}!important`,
+                backgroundColor: disabled
+                  ? `${theme.palette.action.disabled}!important`
+                  : `${alpha(item.color || '', 0.7)}!important`,
                 color: `${theme.palette.getContrastText(item.color || '')}!important`,
               }
-            : { borderColor: `${item.color}!important`, color: theme.palette.text.secondary }
+            : {
+                borderColor: !disabled ? `${theme.palette.action.disabled}!important` : `${item.color}!important`,
+                color: theme.palette.text.secondary,
+              }
         }
         style={{ marginRight: '8px', flexShrink: 0 }}
       >

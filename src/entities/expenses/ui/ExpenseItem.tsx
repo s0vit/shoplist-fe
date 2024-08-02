@@ -1,6 +1,6 @@
 import { Delete, Edit } from '@mui/icons-material';
-import { alpha, Box, Chip, FormHelperText, Stack, Typography, useTheme } from '@mui/material';
 import { MouseEvent, useState } from 'react';
+import { FaPencilAlt } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import {
   LeadingActions,
@@ -10,8 +10,10 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
+import { alpha, Chip, FormHelperText, IconButton, Stack, Typography, useTheme, Box } from '@mui/material';
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
+import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import { TExpense } from 'src/shared/api/expenseApi.ts';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
@@ -22,7 +24,6 @@ import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 import ExpenseItemMenu from './ExpenseItemMenu.tsx';
-import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -148,23 +149,38 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
               </Typography>
               {expense.comments && <FormHelperText>{expense.comments}</FormHelperText>}
             </Box>
-            <Box sx={{ textAlign: 'right' }}>
-              <Chip
-                label={amountWithCurrency}
+            <Stack direction="row">
+              <Box sx={{ textAlign: 'right' }}>
+                <Chip
+                  label={amountWithCurrency}
+                  sx={{
+                    backgroundColor: showSourceColours ? alpha(paymentSourceColor, 0.9) : 'null',
+                    border: `1px solid ${alpha(theme.palette.getContrastText(paymentSourceColor), 0.8)}`,
+                    color: showSourceColours ? theme.palette.getContrastText(paymentSourceColor) : 'null',
+                    fontSize: '1.2rem',
+                    padding: theme.spacing(0.5),
+                  }}
+                />
+                {showSourceNames && (
+                  <Typography variant="body2" mr={1}>
+                    {paymentSource?.title || 'Deleted'}
+                  </Typography>
+                )}
+              </Box>
+              <IconButton
+                aria-label="edit"
                 sx={{
-                  backgroundColor: showSourceColours ? alpha(paymentSourceColor, 0.9) : 'null',
-                  border: `1px solid ${alpha(theme.palette.getContrastText(paymentSourceColor), 0.8)}`,
-                  color: showSourceColours ? theme.palette.getContrastText(paymentSourceColor) : 'null',
-                  fontSize: '1.2rem',
-                  padding: theme.spacing(0.5),
+                  height: 'fit-content',
+                  width: 'fit-content',
+                  p: '5px',
+                  ml: '5px',
+                  border: `1px solid ${theme.palette.text.primary}`,
                 }}
-              />
-              {showSourceNames && (
-                <Typography variant="body2" mr={1}>
-                  {paymentSource?.title || 'Deleted'}
-                </Typography>
-              )}
-            </Box>
+                onClick={handleEdit}
+              >
+                <FaPencilAlt size={20} color={theme.palette.text.primary} />
+              </IconButton>
+            </Stack>
           </Stack>
         </SwipeableListItem>
       </SwipeableList>
