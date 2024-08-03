@@ -15,20 +15,26 @@ import {
 } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useRef, useState } from 'react';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import Settings from 'src/entities/userSettings/ui/Settings';
-import { getNewLink } from 'src/shared/api/authApi';
+import { changePassword, getNewLink } from 'src/shared/api/authApi';
 import { deleteMe } from 'src/shared/api/userApi';
 import handleError from 'src/utils/errorHandler.ts';
 import useLogout from 'src/utils/hooks/useLogout';
 import DeleteUserDialog from 'src/widgets/Modal/DeleteUserDialog';
 import ProfilePhotoUploader from './ProfilePhotoUploader';
+import ChangePasswordDialog from 'src/widgets/Modal/ChangePasswordDialog.tsx';
+import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 
 const Profile = () => {
   const [openUploader, setOpenUploader] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
   const [emailInput, setEmailInput] = useState('');
+  const [newPasswordInput, setNewPasswordInput] = useState(['', '', '']);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const theme = useTheme();
   const userData = useUserStore.use.user?.();
@@ -70,6 +76,24 @@ const Profile = () => {
       setOpenDeleteDialog(false);
     }
   };
+
+  const handleConfirmResetPassword = useStableCallback(async () => {
+    if (userData?.accessToken) {
+      try {
+        await changePassword({
+          oldPassword: newPasswordInput[0],
+          newPassword: newPasswordInput[1],
+        });
+        toast('Password has changed successfully', { type: 'success' });
+        setOpenResetPasswordDialog(false);
+        setNewPasswordInput(['', '', '']);
+      } catch (e) {
+        if (e instanceof AxiosError) {
+          toast(e.response!.data.message as string, { type: 'error' });
+        }
+      }
+    }
+  });
 
   return (
     <Box>
@@ -121,6 +145,15 @@ const Profile = () => {
             email: {userData?.email}
             <br />
             isVerified: {`${userData?.isVerified}`}
+            <Button
+              variant="contained"
+              onClick={() => {
+                setOpenResetPasswordDialog(true);
+              }}
+              sx={{ marginBottom: 2, marginTop: 2, marginLeft: 2 }}
+            >
+              Change password
+            </Button>
           </Typography>
           {!userData?.isVerified && (
             <Button variant="contained" onClick={() => getNewLinkMutate()} sx={{ marginBottom: 2 }}>
@@ -148,6 +181,13 @@ const Profile = () => {
           setEmailInput={setEmailInput}
           handleConfirmDelete={handleConfirmDelete}
           userData={userData}
+        />
+        <ChangePasswordDialog
+          newPasswordInput={newPasswordInput}
+          setNewPasswordInput={setNewPasswordInput}
+          openResetPasswordDialog={openResetPasswordDialog}
+          setOpenResetPasswordDialog={setOpenResetPasswordDialog}
+          handleConfirmReset={handleConfirmResetPassword}
         />
       </Paper>
     </Box>

@@ -84,6 +84,17 @@ type TPasswordResetRequest = {
   password: string;
 };
 
+export const changePassword = async ({ oldPassword, newPassword }: TPasswordChangeRequest): Promise<void> => {
+  const response = await apiInstance.put<void>(`auth/change-password`, { oldPassword, newPassword });
+
+  return response.data;
+};
+
+type TPasswordChangeRequest = {
+  oldPassword: string;
+  newPassword: string;
+};
+
 export const getNewLink = async (): Promise<void> => {
   const response = await apiInstance.post<void>('auth/request-confirm');
 
