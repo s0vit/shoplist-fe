@@ -33,7 +33,11 @@ const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) =
   const handleSuccess = useStableCallback((category: TCategory) => {
     fetchCategories();
     setCurrentEditingCategory(undefined);
-    setSelectedCategory && setSelectedCategory(category._id);
+
+    if (setSelectedCategory) {
+      setSelectedCategory(category._id);
+    }
+
     closeModal();
   });
 
@@ -54,9 +58,11 @@ const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) =
   });
 
   const upsertCategory = () => {
-    category?._id
-      ? updateCategoryMutate({ color, title, comments, _id: category._id })
-      : createCategoryMutate({ color, title, comments });
+    if (category?._id) {
+      updateCategoryMutate({ color, title, comments, _id: category._id });
+    } else {
+      createCategoryMutate({ color, title, comments });
+    }
   };
 
   const isPending = isCreateCategoryPending || isUpdateCategoryPending;

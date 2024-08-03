@@ -204,12 +204,14 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
       comments,
     };
 
-    currentExpense?._id
-      ? updateExpenseMutate({
-          id: currentExpense._id,
-          data: expenseData,
-        })
-      : createExpenseMutate(expenseData);
+    if (currentExpense?._id) {
+      updateExpenseMutate({
+        id: currentExpense._id,
+        data: expenseData,
+      });
+    } else {
+      createExpenseMutate(expenseData);
+    }
   };
 
   useEffect(() => {

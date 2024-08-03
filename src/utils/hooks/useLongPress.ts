@@ -21,7 +21,9 @@ const useLongPress = (callback: (event: TouchEvent) => void, ms = 300) => {
     const moveY = event.touches[0].clientY - startY;
 
     if (Math.abs(moveX) > 20 || Math.abs(moveY) > 20) {
-      timeoutRef.current && clearTimeout(timeoutRef.current);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
     }
   };
 

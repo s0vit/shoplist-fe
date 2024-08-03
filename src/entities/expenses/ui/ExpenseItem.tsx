@@ -78,7 +78,10 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
 
   const handleEdit = useStableCallback(() => {
     setCurrentEditExpense(expense);
-    (!isDesktopWidth || location.pathname !== RoutesEnum.ROOT) && setIsEditExpenseModalOpen(true);
+
+    if (!isDesktopWidth || location.pathname !== RoutesEnum.ROOT) {
+      setIsEditExpenseModalOpen(true);
+    }
   });
 
   const leadingActions = () => (
