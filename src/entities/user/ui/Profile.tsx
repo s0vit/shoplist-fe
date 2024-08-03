@@ -34,7 +34,6 @@ const Profile = () => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
   const [emailInput, setEmailInput] = useState('');
-  const [newPasswordInput, setNewPasswordInput] = useState(['', '', '']);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const theme = useTheme();
   const userData = useUserStore.use.user?.();
@@ -77,16 +76,15 @@ const Profile = () => {
     }
   };
 
-  const handleConfirmResetPassword = useStableCallback(async () => {
+  const handleConfirmResetPassword = useStableCallback(async (oldPassword: string, newPassword: string) => {
     if (userData?.accessToken) {
       try {
         await changePassword({
-          oldPassword: newPasswordInput[0],
-          newPassword: newPasswordInput[1],
+          oldPassword,
+          newPassword,
         });
         toast('Password has changed successfully', { type: 'success' });
-        setOpenResetPasswordDialog(false);
-        setNewPasswordInput(['', '', '']);
+        handleLogout();
       } catch (e) {
         if (e instanceof AxiosError) {
           toast(e.response!.data.message as string, { type: 'error' });
@@ -183,8 +181,6 @@ const Profile = () => {
           userData={userData}
         />
         <ChangePasswordDialog
-          newPasswordInput={newPasswordInput}
-          setNewPasswordInput={setNewPasswordInput}
           openResetPasswordDialog={openResetPasswordDialog}
           setOpenResetPasswordDialog={setOpenResetPasswordDialog}
           handleConfirmReset={handleConfirmResetPassword}
