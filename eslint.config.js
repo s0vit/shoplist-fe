@@ -55,6 +55,7 @@ export default [
           caughtErrors: 'all',
         },
       ],
+      'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
       'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',
       'no-restricted-syntax': [
@@ -77,7 +78,6 @@ export default [
       'unicorn/no-await-expression-member': 'off',
       'unicorn/no-null': 'off',
       'unicorn/prefer-spread': 'off',
-      // 'naming-convention': ['warn', { selector: 'typeAlias', format: ['PascalCase'], prefix: ['T'] }],
       'stylisticJs/template-curly-spacing': 'error',
       'stylisticJs/padding-line-between-statements': [
         'error',

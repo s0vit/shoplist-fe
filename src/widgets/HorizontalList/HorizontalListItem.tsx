@@ -36,8 +36,6 @@ const HorizontalListItem = ({
     setAnchorEl(null);
   };
 
-  console.log({ theme });
-
   return (
     <Fragment key={item._id}>
       <Button
