@@ -1,5 +1,5 @@
-import { ThemeProvider } from '@emotion/react';
 import { createTheme, CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@emotion/react';
 import { createContext, PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
 export const ColorModeContext = createContext({
