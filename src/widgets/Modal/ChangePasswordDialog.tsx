@@ -96,8 +96,11 @@ const ChangePasswordDialog = ({
   );
 
   const handleSubmitForm = () => {
-    finalDataValidation(currentPasswordInput, newPasswordInput, confirmPasswordInput) &&
+    const finalValidationResult = finalDataValidation(currentPasswordInput, newPasswordInput, confirmPasswordInput);
+
+    if (finalValidationResult) {
       handleConfirmChange({ oldPassword: currentPasswordInput, newPassword: newPasswordInput });
+    }
   };
 
   const handleClickShowPassword = (callback: (value: (prevState: boolean) => boolean) => void) => {
