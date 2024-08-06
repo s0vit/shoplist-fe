@@ -8,6 +8,7 @@ import {
   Avatar,
   Box,
   Button,
+  ButtonGroup,
   IconButton,
   Paper,
   Typography,
@@ -17,17 +18,20 @@ import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useRef, useState } from 'react';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import Settings from 'src/entities/userSettings/ui/Settings';
-import { getNewLink } from 'src/shared/api/authApi';
+import { changePassword, getNewLink, TPasswordChangeRequest } from 'src/shared/api/authApi';
 import { deleteMe } from 'src/shared/api/userApi';
 import handleError from 'src/utils/errorHandler.ts';
 import useLogout from 'src/utils/hooks/useLogout';
 import DeleteUserDialog from 'src/widgets/Modal/DeleteUserDialog';
 import ProfilePhotoUploader from './ProfilePhotoUploader';
+import ChangePasswordDialog from 'src/widgets/Modal/ChangePasswordDialog.tsx';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
   const [openUploader, setOpenUploader] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
   const [emailInput, setEmailInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const theme = useTheme();
@@ -43,6 +47,19 @@ const Profile = () => {
     mutationFn: () => deleteMe(),
     onError: (error) => handleError(error),
     onSuccess: handleLogout,
+  });
+
+  const { mutate: requestChangePassword } = useMutation<void, Error, TPasswordChangeRequest, unknown>({
+    mutationFn: ({ oldPassword, newPassword }) =>
+      changePassword({
+        oldPassword,
+        newPassword,
+      }),
+    onError: (error) => handleError(error),
+    onSuccess: () => {
+      toast('Password has changed successfully', { type: 'success' });
+      handleLogout();
+    },
   });
 
   const handleAvatarClick = () => {
@@ -137,9 +154,20 @@ const Profile = () => {
             <Settings />
           </AccordionDetails>
         </Accordion>
-        <Button variant="contained" color="error" onClick={handleDeleteClick} sx={{ marginTop: 2 }}>
-          Delete Profile
-        </Button>
+        <ButtonGroup>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setOpenResetPasswordDialog(true);
+            }}
+            sx={{ marginRight: 5, marginTop: 2 }}
+          >
+            Change password
+          </Button>
+          <Button variant="contained" color="error" onClick={handleDeleteClick} sx={{ marginTop: 2 }}>
+            Delete Profile
+          </Button>
+        </ButtonGroup>
         <ProfilePhotoUploader file={selectedFile} onClose={() => setOpenUploader(false)} isOpen={openUploader} />
         <DeleteUserDialog
           openDeleteDialog={openDeleteDialog}
@@ -148,6 +176,11 @@ const Profile = () => {
           setEmailInput={setEmailInput}
           handleConfirmDelete={handleConfirmDelete}
           userData={userData}
+        />
+        <ChangePasswordDialog
+          openResetPasswordDialog={openResetPasswordDialog}
+          setOpenResetPasswordDialog={setOpenResetPasswordDialog}
+          handleConfirmChange={requestChangePassword}
         />
       </Paper>
     </Box>
