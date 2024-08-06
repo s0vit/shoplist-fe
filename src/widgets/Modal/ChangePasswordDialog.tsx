@@ -16,8 +16,8 @@ import {
 import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
-import useValidate from 'src/utils/hooks/useValidate.ts';
 import { TPasswordChangeRequest } from 'src/shared/api/authApi';
+import passwordValidate from 'src/utils/helpers/passwordValidate.ts';
 
 type TChangePasswordDialogProps = {
   openResetPasswordDialog: boolean;
@@ -52,7 +52,6 @@ const ChangePasswordDialog = ({
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formError, setFormError] = useState<TFormError>(initialFormError);
-  const validate = useValidate();
 
   const handleAbortReset = () => {
     setOpenResetPasswordDialog(false);
@@ -125,7 +124,7 @@ const ChangePasswordDialog = ({
             error={!!formError.currentPasswordError || !!formError.differentPasswordsError}
             onChange={(e) => setCurrentPasswordInput(e.target.value)}
             onBlur={() =>
-              setFormError({ ...formError, currentPasswordError: validate(currentPasswordInput, 'password') })
+              setFormError({ ...formError, currentPasswordError: passwordValidate(currentPasswordInput, 'password') })
             }
             endAdornment={
               <InputAdornment position="end">
@@ -164,7 +163,7 @@ const ChangePasswordDialog = ({
             }
             onChange={(e) => setNewPasswordInput(e.target.value)}
             onBlur={() => {
-              setFormError({ ...formError, newPasswordError: validate(newPasswordInput, 'password') });
+              setFormError({ ...formError, newPasswordError: passwordValidate(newPasswordInput, 'password') });
             }}
             endAdornment={
               <InputAdornment position="end">
@@ -199,7 +198,7 @@ const ChangePasswordDialog = ({
             error={!!formError.confirmPasswordError || !!formError.equalPasswordsError}
             onChange={(e) => setConfirmPasswordInput(e.target.value)}
             onBlur={() => {
-              setFormError({ ...formError, confirmPasswordError: validate(confirmPasswordInput, 'password') });
+              setFormError({ ...formError, confirmPasswordError: passwordValidate(confirmPasswordInput, 'password') });
             }}
             endAdornment={
               <InputAdornment position="end">
