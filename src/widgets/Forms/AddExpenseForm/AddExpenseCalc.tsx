@@ -1,4 +1,5 @@
 import { MapsUgc, Message } from '@mui/icons-material';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
   Box,
   Button,
@@ -203,12 +204,14 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
       comments,
     };
 
-    currentExpense?._id
-      ? updateExpenseMutate({
-          id: currentExpense._id,
-          data: expenseData,
-        })
-      : createExpenseMutate(expenseData);
+    if (currentExpense?._id) {
+      updateExpenseMutate({
+        id: currentExpense._id,
+        data: expenseData,
+      });
+    } else {
+      createExpenseMutate(expenseData);
+    }
   };
 
   useEffect(() => {
@@ -345,7 +348,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           </Grid>
           <Grid xs={6} item>
             <Button disabled={isPending} variant="contained" color="success" fullWidth onClick={handleSave}>
-              Save
+              {isPending ? <CircularProgress size={24} /> : 'Save'}
             </Button>
           </Grid>
         </Grid>

@@ -37,7 +37,11 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
   const handleSuccess = (paymentSource: TPaymentSource) => {
     fetchPaymentSources();
     setCurrentEditingPaymentSource(undefined);
-    setSelectedPaymentSource && setSelectedPaymentSource(paymentSource._id);
+
+    if (setSelectedPaymentSource) {
+      setSelectedPaymentSource(paymentSource._id);
+    }
+
     closeModal();
   };
 
@@ -57,9 +61,11 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
   });
 
   const upsertPaymentSource = () => {
-    paymentSource?._id
-      ? updatePaymentSourceMutate({ color, title, comments, _id: paymentSource._id })
-      : createPaymentSourceMutate({ color, title, comments });
+    if (paymentSource?._id) {
+      updatePaymentSourceMutate({ color, title, comments, _id: paymentSource._id });
+    } else {
+      createPaymentSourceMutate({ color, title, comments });
+    }
   };
 
   const isPending = isCreatePaymentSourcePending || isUpdatePaymentSourcePending;

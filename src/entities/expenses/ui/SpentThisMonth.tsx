@@ -8,6 +8,15 @@ const SpentThisMonth = () => {
   const [currency, setCurrency] = useState<CURRENCIES>(CURRENCIES.EUR);
   const { userExpenses } = useLoadExpenses({ shouldFetchOnLoad: true });
 
+  const currentMonth = new Date().getMonth();
+  const curentYear = new Date().getFullYear();
+
+  const filteredExpenses = userExpenses.filter(
+    (expense) =>
+      new Date(expense.createdAt).getMonth() === currentMonth &&
+      new Date(expense.createdAt).getFullYear() === curentYear,
+  );
+
   return (
     <Paper>
       <Typography variant="h6" textAlign="center">
@@ -15,7 +24,7 @@ const SpentThisMonth = () => {
       </Typography>
       <Stack textAlign="center" direction="row" spacing={2} justifyContent="center">
         <Typography variant="h3" color="primary">
-          {calculateTotalAmount(userExpenses, currency)}
+          {calculateTotalAmount(filteredExpenses, currency)}
         </Typography>
         <FormControl>
           <Select
