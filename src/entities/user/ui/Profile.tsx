@@ -88,22 +88,6 @@ const Profile = () => {
     }
   };
 
-  // const handleConfirmChangePassword = useStableCallback(async (oldPassword: string, newPassword: string) => {
-  //   if (userData?.accessToken) {
-  //     try {
-  //       await changePassword({
-  //         oldPassword,
-  //         newPassword,
-  //       });
-  //       toast('Password has changed successfully', { type: 'success' });
-  //     } catch (e) {
-  //       if (e instanceof AxiosError) {
-  //         toast(e.response!.data.message as string, { type: 'error' });
-  //       }
-  //     }
-  //   }
-  // });
-
   return (
     <Box>
       <Paper sx={{ padding: 4, maxWidth: 600, margin: 'auto', marginTop: 4, textAlign: 'center' }}>
