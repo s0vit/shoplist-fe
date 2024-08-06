@@ -1,121 +1,242 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from '@mui/material';
 import { useState } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import useValidate from 'src/utils/hooks/useValidate.ts';
+import { TPasswordChangeRequest } from 'src/shared/api/authApi';
 
 type TChangePasswordDialogProps = {
   openResetPasswordDialog: boolean;
   setOpenResetPasswordDialog: (value: boolean) => void;
-  handleConfirmReset: (oldPassword: string, newPassword: string) => void;
+  handleConfirmChange: ({ oldPassword, newPassword }: TPasswordChangeRequest) => void;
+};
+
+type TFormError = {
+  currentPasswordError: string;
+  newPasswordError: string;
+  confirmPasswordError: string;
+  equalPasswordsError: string;
+  differentPasswordsError: string;
 };
 
 const ChangePasswordDialog = ({
   openResetPasswordDialog,
   setOpenResetPasswordDialog,
-  handleConfirmReset,
+  handleConfirmChange,
 }: TChangePasswordDialogProps) => {
+  const initialFormError: TFormError = {
+    currentPasswordError: '',
+    newPasswordError: '',
+    confirmPasswordError: '',
+    equalPasswordsError: '',
+    differentPasswordsError: '',
+  };
   const [currentPasswordInput, setCurrentPasswordInput] = useState('');
-  const [currentPasswordError, setCurrentPasswordError] = useState('');
   const [newPasswordInput, setNewPasswordInput] = useState('');
-  const [newPasswordError, setNewPasswordError] = useState('');
-  const [isNewPasswordInputTouched, setIsNewPasswordInputTouched] = useState(false);
   const [confirmPasswordInput, setConfirmPasswordInput] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const [isConfirmPasswordInputTouched, setIsConfirmPasswordInputTouched] = useState(false);
-  const [equalError, setequalError] = useState('');
-  const regex = /^(?=.*[0-9])(?=.*[A-Z]).*$/;
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formError, setFormError] = useState<TFormError>(initialFormError);
+  const validate = useValidate();
 
   const handleAbortReset = () => {
     setOpenResetPasswordDialog(false);
     setCurrentPasswordInput('');
     setNewPasswordInput('');
     setConfirmPasswordInput('');
-    setCurrentPasswordError('');
-    setNewPasswordError('');
-    setConfirmPasswordError('');
-    setIsNewPasswordInputTouched(false);
-    setIsConfirmPasswordInputTouched(false);
-    setequalError('');
+    setShowCurrentPassword(false);
+    setShowNewPassword(false);
+    setShowConfirmPassword(false);
+    setFormError({ ...initialFormError });
   };
 
-  const passwordValidation = (value: string, callback: (errorMessage: string) => void) => {
-    if (value.length === 0) callback('Fill out this field');
-    else if (value.length < 6) callback('Should contain 6 or more symbols');
-    else if (value.length > 20) callback('Should contain less than 20 symbols');
-    else if (!regex.test(value)) callback('Should contain at least 1 number and 1 capital letter');
-    else callback('');
+  const finalDataValidation = useStableCallback(
+    (currentPassword: string, newPassword: string, confirmPassword: string) => {
+      let validationResult = true;
+      let differentPasswordsValidate;
+      let equalPasswordsValidate;
+
+      if (currentPassword === newPassword) {
+        differentPasswordsValidate = 'Passwords must be differ';
+        validationResult = false;
+      } else {
+        differentPasswordsValidate = '';
+      }
+
+      if (newPassword !== confirmPassword) {
+        equalPasswordsValidate = 'Passwords must be equal';
+        validationResult = false;
+      } else {
+        equalPasswordsValidate = '';
+      }
+
+      setFormError({
+        ...formError,
+        differentPasswordsError: differentPasswordsValidate,
+        equalPasswordsError: equalPasswordsValidate,
+      });
+
+      return validationResult;
+    },
+  );
+
+  const handleSubmitForm = () => {
+    finalDataValidation(currentPasswordInput, newPasswordInput, confirmPasswordInput) &&
+      handleConfirmChange({ oldPassword: currentPasswordInput, newPassword: newPasswordInput });
   };
 
-  const equalNewPasswordValidation = () => {
-    if (isNewPasswordInputTouched && isConfirmPasswordInputTouched && newPasswordInput !== confirmPasswordInput) {
-      setequalError('Passwords must be equal');
-    } else {
-      setequalError('');
-    }
+  const handleClickShowPassword = (callback: (value: (prevState: boolean) => boolean) => void) => {
+    callback((prev) => !prev);
   };
 
   return (
     <Dialog open={openResetPasswordDialog} onClose={handleAbortReset}>
       <DialogTitle>Change you password</DialogTitle>
       <DialogContent>
-        <TextField
-          fullWidth
-          error={!!currentPasswordError}
-          helperText={currentPasswordError}
-          onBlur={() => passwordValidation(currentPasswordInput, setCurrentPasswordError)}
-          variant="outlined"
-          label="Current password"
-          value={currentPasswordInput}
-          margin="dense"
-          onChange={(e) => setCurrentPasswordInput(e.target.value)}
-        />
-        <TextField
-          fullWidth
-          error={!!newPasswordError || !!equalError}
-          helperText={newPasswordError || equalError}
-          onBlur={() => {
-            passwordValidation(newPasswordInput, setNewPasswordError);
-            if (!isNewPasswordInputTouched) setIsNewPasswordInputTouched(true);
-            equalNewPasswordValidation();
-          }}
-          variant="outlined"
-          label="New password"
-          value={newPasswordInput}
-          margin="dense"
-          onChange={(e) => setNewPasswordInput(e.target.value)}
-        />
-        <TextField
-          fullWidth
-          error={!!confirmPasswordError || !!equalError}
-          helperText={confirmPasswordError || equalError}
-          onBlur={() => {
-            passwordValidation(confirmPasswordInput, setConfirmPasswordError);
-            if (!isConfirmPasswordInputTouched) setIsConfirmPasswordInputTouched(true);
-            equalNewPasswordValidation();
-          }}
-          variant="outlined"
-          label="Confirm password"
-          value={confirmPasswordInput}
-          margin="dense"
-          onChange={(e) => setConfirmPasswordInput(e.target.value)}
-        />
-        <Typography variant="caption" style={{ color: 'red', paddingRight: '5px' }}>
-          Warning: After changing you will sign you out.
-        </Typography>
-        <Typography variant="caption"></Typography>
+        <FormControl fullWidth variant="outlined" margin="dense">
+          <InputLabel
+            htmlFor="current-password-input"
+            error={!!formError.currentPasswordError || !!formError.differentPasswordsError}
+          >
+            Current password
+          </InputLabel>
+          <OutlinedInput
+            id="current-password-input"
+            type={showCurrentPassword ? 'text' : 'password'}
+            value={currentPasswordInput}
+            error={!!formError.currentPasswordError || !!formError.differentPasswordsError}
+            onChange={(e) => setCurrentPasswordInput(e.target.value)}
+            onBlur={() =>
+              setFormError({ ...formError, currentPasswordError: validate(currentPasswordInput, 'password') })
+            }
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => handleClickShowPassword(setShowCurrentPassword)}
+                  edge="end"
+                >
+                  {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Current password"
+          />
+          {(formError.currentPasswordError || formError.differentPasswordsError) && (
+            <FormHelperText error id="current-password-error-text">
+              {formError.currentPasswordError || formError.differentPasswordsError}
+            </FormHelperText>
+          )}
+        </FormControl>
+        <FormControl fullWidth variant="outlined" margin="dense">
+          <InputLabel
+            htmlFor="new-password-input"
+            error={
+              !!formError.newPasswordError || !!formError.equalPasswordsError || !!formError.differentPasswordsError
+            }
+          >
+            New password
+          </InputLabel>
+          <OutlinedInput
+            id="new-password-input"
+            type={showNewPassword ? 'text' : 'password'}
+            value={newPasswordInput}
+            error={
+              !!formError.newPasswordError || !!formError.equalPasswordsError || !!formError.differentPasswordsError
+            }
+            onChange={(e) => setNewPasswordInput(e.target.value)}
+            onBlur={() => {
+              setFormError({ ...formError, newPasswordError: validate(newPasswordInput, 'password') });
+            }}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle-new-password-visibility"
+                  onClick={() => handleClickShowPassword(setShowNewPassword)}
+                  edge="end"
+                >
+                  {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="New password"
+          />
+          {(formError.newPasswordError || formError.equalPasswordsError || formError.differentPasswordsError) && (
+            <FormHelperText error id="new-password-error-text">
+              {formError.newPasswordError || formError.equalPasswordsError || formError.differentPasswordsError}
+            </FormHelperText>
+          )}
+        </FormControl>
+        <FormControl fullWidth variant="outlined" margin="dense">
+          <InputLabel
+            htmlFor="confirm-password-input"
+            error={!!formError.confirmPasswordError || !!formError.equalPasswordsError}
+          >
+            Confirm password
+          </InputLabel>
+          <OutlinedInput
+            id="confirm-password-input"
+            type={showConfirmPassword ? 'text' : 'password'}
+            value={confirmPasswordInput}
+            error={!!formError.confirmPasswordError || !!formError.equalPasswordsError}
+            onChange={(e) => setConfirmPasswordInput(e.target.value)}
+            onBlur={() => {
+              setFormError({ ...formError, confirmPasswordError: validate(confirmPasswordInput, 'password') });
+            }}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle-confirm-password-visibility"
+                  onClick={() => handleClickShowPassword(setShowConfirmPassword)}
+                  edge="end"
+                >
+                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Confirm password"
+          />
+          {(formError.confirmPasswordError || formError.equalPasswordsError) && (
+            <FormHelperText error id="confirm-password-error-text">
+              {formError.confirmPasswordError || formError.equalPasswordsError}
+            </FormHelperText>
+          )}
+        </FormControl>
+        <Alert severity="warning" variant="outlined" style={{ marginTop: '10px' }}>
+          <AlertTitle>Warning: </AlertTitle>
+          After changing you will sign out.
+        </Alert>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleAbortReset} color="primary">
           Cancel
         </Button>
         <Button
-          onClick={() => handleConfirmReset(currentPasswordInput, newPasswordInput)}
+          onClick={handleSubmitForm}
           color="success"
           variant="contained"
           disabled={
-            newPasswordInput.length < 6 ||
-            newPasswordInput.length > 20 ||
-            !regex.test(newPasswordInput) ||
-            newPasswordInput !== confirmPasswordInput ||
-            newPasswordInput == currentPasswordInput
+            !!formError.currentPasswordError ||
+            !!formError.newPasswordError ||
+            !!formError.confirmPasswordError ||
+            currentPasswordInput.length < 5 ||
+            newPasswordInput.length < 5 ||
+            confirmPasswordInput.length < 5
           }
         >
           Apply

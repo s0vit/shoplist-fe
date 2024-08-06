@@ -90,7 +90,7 @@ export const changePassword = async ({ oldPassword, newPassword }: TPasswordChan
   return response.data;
 };
 
-type TPasswordChangeRequest = {
+export type TPasswordChangeRequest = {
   oldPassword: string;
   newPassword: string;
 };
