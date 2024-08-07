@@ -30,7 +30,10 @@ const Settings = () => {
 
   const { mutate: updateSettings, isPending: isUpdating } = useMutation({
     mutationFn: () => updateMyConfig({ ...userSettings, _id: userSettings._id! }),
-    onSuccess: (data) => setUserConfig(data),
+    onSuccess: (data) => {
+      setUserConfig(data);
+      localStorage.setItem('userTheme', data.theme);
+    },
     onError: (error) => handleError(error),
   });
 

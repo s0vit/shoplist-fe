@@ -5,10 +5,11 @@ import createSelectors from 'src/utils/helpers/createSelectors.ts';
 import { create } from 'zustand';
 
 type TTempConfig = Omit<TConfig, '_id'> & { _id?: string };
+const localStorageTheme = localStorage.getItem('userTheme') as THEME_ENUM;
 const defaultSettings: TTempConfig = {
   currency: languageToCurrencyMap[navigator.language] || CURRENCIES.USD,
   language: browserLanguageToLanguageMap[navigator.language] || LANGUAGES_ENUM.EN,
-  theme: THEME_ENUM.SYSTEM,
+  theme: localStorageTheme ?? THEME_ENUM.SYSTEM,
   showCategoryColours: true,
   showSourceColours: true,
   showCategoryNames: true,
