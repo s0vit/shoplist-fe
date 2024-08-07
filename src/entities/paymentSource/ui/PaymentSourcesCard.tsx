@@ -1,4 +1,4 @@
-import { alpha, Box, Card, CardContent, Grid, Stack, Typography, useTheme } from '@mui/material';
+import { alpha, Box, Card, CardContent, Grid, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import {
   LeadingActions,
@@ -15,6 +15,7 @@ import ShareWithModal from 'src/widgets/Modal/ShareWithModal.tsx';
 import { MouseEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
+import { FaPencilAlt } from 'react-icons/fa';
 
 type TPaymentSourcesCardProps = {
   paymentSource: TPaymentSource;
@@ -114,14 +115,29 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
               border: `1px solid ${paymentSource.color || theme.palette.primary.main}`,
             }}
           >
-            <CardContent sx={{ p: 1 }}>
+            <CardContent sx={{ p: 1 }} style={{ paddingBottom: '16px' }}>
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="h5" component="div" color={paymentSourceTextColor}>
                   {paymentSource.title}
                 </Typography>
-                <Typography variant="body2" color={paymentSourceTextColor}>
-                  Created: {new Date(paymentSource.createdAt).toLocaleDateString()}
-                </Typography>
+                <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
+                  <Typography variant="body2" color={paymentSourceTextColor}>
+                    Created: {new Date(paymentSource.createdAt).toLocaleDateString()}
+                  </Typography>
+                  <IconButton
+                    aria-label="edit"
+                    sx={{
+                      height: 'fit-content',
+                      width: 'fit-content',
+                      p: '5px',
+                      ml: '5px',
+                      border: `1px solid ${theme.palette.text.primary}`,
+                    }}
+                    onClick={handleEdit}
+                  >
+                    <FaPencilAlt size={20} color={theme.palette.text.primary} />
+                  </IconButton>
+                </Box>
               </Box>
               {paymentSource.comments && (
                 <Typography variant="body2" color={paymentSourceTextColor}>

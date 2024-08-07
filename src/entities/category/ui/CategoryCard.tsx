@@ -1,4 +1,4 @@
-import { alpha, Box, Card, CardContent, Grid, Stack, Typography, useTheme } from '@mui/material';
+import { alpha, Box, Card, CardContent, Grid, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import {
   LeadingActions,
@@ -15,6 +15,7 @@ import { MouseEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal.tsx';
+import { FaPencilAlt } from 'react-icons/fa';
 
 type TCategoriesProps = {
   category: TCategory;
@@ -114,14 +115,29 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
               borderRadius: theme.spacing(1),
             }}
           >
-            <CardContent sx={{ p: 1 }}>
+            <CardContent sx={{ p: 1 }} style={{ paddingBottom: '16px' }}>
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="h5" component="div" color={categoryTextColor}>
                   {category.title}
                 </Typography>
-                <Typography variant="body2" color={categoryTextColor}>
-                  Created: {new Date(category.createdAt).toLocaleDateString()}
-                </Typography>
+                <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
+                  <Typography variant="body2" color={categoryTextColor}>
+                    Created: {new Date(category.createdAt).toLocaleDateString()}
+                  </Typography>
+                  <IconButton
+                    aria-label="edit"
+                    sx={{
+                      height: 'fit-content',
+                      width: 'fit-content',
+                      p: '5px',
+                      ml: '5px',
+                      border: `1px solid ${theme.palette.text.primary}`,
+                    }}
+                    onClick={handleEdit}
+                  >
+                    <FaPencilAlt size={20} color={theme.palette.text.primary} />
+                  </IconButton>
+                </Box>
               </Box>
               {category.comments && (
                 <Typography variant="body2" color={categoryTextColor}>
