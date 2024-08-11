@@ -7,7 +7,7 @@ on:
 #      - completed
     push:
         branches:
-          - *
+          - "*"
 
 jobs:
   Deploy-to-Production:
