@@ -19,9 +19,11 @@ jobs:
           version: 9
 
       - name: Build Local Artefacts
+        env:
+          VITE_BACKEND_SERVER: ${{ secrets.VPS_BACKEND_SERVER }}
         run: pnpm install && pnpm build
 
-      - name: Copy Build Artefacts and .env to VPS
+      - name: Copy Build Artefacts
         env:
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
           SSH_USER: ${{ secrets.SSH_USER }}
