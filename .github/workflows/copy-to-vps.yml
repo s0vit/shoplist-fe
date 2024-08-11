@@ -1,13 +1,10 @@
 name: copy-to-vps.yml
 
 on:
-#  workflow_run:
-#    workflows: ["Create Production Deployment"]
-#    types:
-#      - completed
-    push:
-        branches:
-          - "*"
+  workflow_run:
+    workflows: ["Create Production Deployment"]
+    types:
+      - completed
 
 jobs:
   Deploy-to-Production:
