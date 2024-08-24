@@ -1,7 +1,5 @@
-import { Save } from '@mui/icons-material';
 import {
   Box,
-  Button,
   FormControl,
   FormControlLabel,
   InputLabel,
@@ -24,15 +22,10 @@ const Settings = () => {
 
   const theme = useTheme();
 
-  const handleSettingChange = <K extends keyof TConfig>(field: K, value: TConfig[K]) => {
-    setUserConfig({ ...userSettings, [field]: value });
-  };
-
   const { mutate: updateSettings, isPending: isUpdating } = useMutation({
     mutationFn: () => updateMyConfig({ ...userSettings, _id: userSettings._id! }),
     onSuccess: (data) => {
       setUserConfig(data);
-      localStorage.setItem('userTheme', data.theme);
     },
     onError: (error) => handleError(error),
   });
@@ -51,6 +44,11 @@ const Settings = () => {
     }
   };
 
+  const handleSettingChange = <K extends keyof TConfig>(field: K, value: TConfig[K]) => {
+    setUserConfig({ ...userSettings, [field]: value });
+    handleSave();
+  };
+
   return (
     <Paper elevation={2} style={{ padding: '16px', margin: '0 auto' }}>
       <Box display="flex" flexDirection="column" gap="16px">
@@ -62,6 +60,7 @@ const Settings = () => {
             id="currency"
             value={userSettings.currency}
             onChange={(e) => handleSettingChange('currency', e.target.value as CURRENCIES)}
+            disabled={isUpdating || isSaving}
             label="Currency"
           >
             {Object.values(CURRENCIES).map((currency) => (
@@ -80,6 +79,7 @@ const Settings = () => {
             id="language"
             value={userSettings.language}
             onChange={(e) => handleSettingChange('language', e.target.value as LANGUAGES_ENUM)}
+            disabled={isUpdating || isSaving}
             label="Language"
           >
             {Object.values(LANGUAGES_ENUM).map((language) => (
@@ -98,6 +98,7 @@ const Settings = () => {
             id="theme"
             value={userSettings.theme}
             onChange={(e) => handleSettingChange('theme', e.target.value as THEME_ENUM)}
+            disabled={isUpdating || isSaving}
             label="Theme"
           >
             {Object.values(THEME_ENUM).map((theme) => (
@@ -121,6 +122,7 @@ const Settings = () => {
               <Switch
                 checked={userSettings.showCategoryColours}
                 onChange={(e) => handleSettingChange('showCategoryColours', e.target.checked)}
+                disabled={isUpdating || isSaving}
               />
             }
             label="Category Colours"
@@ -131,6 +133,7 @@ const Settings = () => {
               <Switch
                 checked={userSettings.showSourceColours}
                 onChange={(e) => handleSettingChange('showSourceColours', e.target.checked)}
+                disabled={isUpdating || isSaving}
               />
             }
             label="Source Colours"
@@ -141,6 +144,7 @@ const Settings = () => {
               <Switch
                 checked={userSettings.showCategoryNames}
                 onChange={(e) => handleSettingChange('showCategoryNames', e.target.checked)}
+                disabled={isUpdating || isSaving}
               />
             }
             label="Category Names"
@@ -151,6 +155,7 @@ const Settings = () => {
               <Switch
                 checked={userSettings.showSourceNames}
                 onChange={(e) => handleSettingChange('showSourceNames', e.target.checked)}
+                disabled={isUpdating || isSaving}
               />
             }
             label="Source Names"
@@ -170,6 +175,7 @@ const Settings = () => {
               <Switch
                 checked={userSettings.showSharedExpenses}
                 onChange={(e) => handleSettingChange('showSharedExpenses', e.target.checked)}
+                disabled={isUpdating || isSaving}
               />
             }
             label="Shared Expenses"
@@ -180,6 +186,7 @@ const Settings = () => {
               <Switch
                 checked={userSettings.showSharedCategories}
                 onChange={(e) => handleSettingChange('showSharedCategories', e.target.checked)}
+                disabled={isUpdating || isSaving}
               />
             }
             label="Shared Categories"
@@ -190,14 +197,12 @@ const Settings = () => {
               <Switch
                 checked={userSettings.showSharedSources}
                 onChange={(e) => handleSettingChange('showSharedSources', e.target.checked)}
+                disabled={isUpdating || isSaving}
               />
             }
             label="Shared Sources"
           />
         </Box>
-        <Button onClick={handleSave} fullWidth variant="outlined" disabled={isUpdating || isSaving} endIcon={<Save />}>
-          Save
-        </Button>
       </Box>
     </Paper>
   );
