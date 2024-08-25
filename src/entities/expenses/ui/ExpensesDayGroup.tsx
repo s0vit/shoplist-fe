@@ -9,6 +9,7 @@ import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePa
 import { TExpense } from 'src/shared/api/expenseApi.ts';
 import { currencies, CURRENCIES } from 'src/shared/constants/currencies';
 import calculateTotalAmount from 'src/utils/helpers/calculateTotalAmmount';
+import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 
 type TExpensesDayGroupProps = {
   date: string;
@@ -17,7 +18,8 @@ type TExpensesDayGroupProps = {
 };
 
 const ExpensesDayGroup = ({ date, expenses, deleteExpense }: TExpensesDayGroupProps) => {
-  const [currency, setCurrency] = useState<CURRENCIES>(CURRENCIES.EUR);
+  const defaultCurrency = useUserSettingsStore.use.config().currency;
+  const [currency, setCurrency] = useState<CURRENCIES>(defaultCurrency ?? CURRENCIES.EUR);
   const userCategories = useCategoryStore.use.userCategories();
   const userPaymentSources = usePaymentSourcesStore(selectUserPaymentSources);
 
