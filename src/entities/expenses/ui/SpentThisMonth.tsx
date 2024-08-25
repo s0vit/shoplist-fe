@@ -3,18 +3,20 @@ import { useState } from 'react';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies';
 import calculateTotalAmount from 'src/utils/helpers/calculateTotalAmmount';
+import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 
 const SpentThisMonth = () => {
-  const [currency, setCurrency] = useState<CURRENCIES>(CURRENCIES.EUR);
+  const defaultCurrency = useUserSettingsStore.use.config().currency;
+  const [currency, setCurrency] = useState<CURRENCIES>(defaultCurrency ?? CURRENCIES.EUR);
   const { userExpenses } = useLoadExpenses({ shouldFetchOnLoad: true });
 
   const currentMonth = new Date().getMonth();
-  const curentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
 
   const filteredExpenses = userExpenses.filter(
     (expense) =>
       new Date(expense.createdAt).getMonth() === currentMonth &&
-      new Date(expense.createdAt).getFullYear() === curentYear,
+      new Date(expense.createdAt).getFullYear() === currentYear,
   );
 
   return (

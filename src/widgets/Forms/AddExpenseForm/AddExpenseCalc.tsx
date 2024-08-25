@@ -37,6 +37,7 @@ import CategoryList from '../../../entities/category/ui/CategoryList';
 import PaymentSourceList from '../../../entities/paymentSource/ui/PaymentSourceList';
 import CommentModal from '../../Modal/CommentModal';
 import CalculatorButtons from './CalculatorButtons';
+import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
@@ -48,8 +49,9 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const currentExpense = useExpensesStore.use.currentEditExpense?.();
   const setCurrentEditExpense = useExpensesStore.use.setCurrentEditExpense?.();
   const theme = useTheme();
+  const defaultCurrency = useUserSettingsStore.use.config().currency;
   const [amount, setAmount] = useState<string>('0');
-  const [currency, setCurrency] = useState<CURRENCIES>(CURRENCIES.EUR);
+  const [currency, setCurrency] = useState<CURRENCIES>(defaultCurrency ?? CURRENCIES.EUR);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedPaymentSource, setSelectedPaymentSource] = useState<string>('');
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
