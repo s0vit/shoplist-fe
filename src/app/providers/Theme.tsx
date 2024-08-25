@@ -1,6 +1,9 @@
 import { createTheme, CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { createContext, PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
+import { THEME_ENUM } from 'src/shared/api/userConfigApi.ts';
+import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 
 export const ColorModeContext = createContext({
   toggleColorMode: () => {},
@@ -8,8 +11,28 @@ export const ColorModeContext = createContext({
 
 const ThemeProviderWithToggle = ({ children }: PropsWithChildren) => {
   // get current browser color mode
+  const defaultTheme = useUserSettingsStore.use.config().theme;
   const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [mode, setMode] = useState<'light' | 'dark'>(prefersDarkMode ? 'dark' : 'light');
+
+  const getInitialTheme = useStableCallback(() => {
+    switch (defaultTheme) {
+      case THEME_ENUM.DARK:
+        return 'dark';
+      case THEME_ENUM.LIGHT:
+        return 'light';
+      case THEME_ENUM.SYSTEM:
+        if (prefersDarkMode) return 'dark';
+        else return 'light';
+      default:
+        return 'light';
+    }
+  });
+
+  useEffect(() => {
+    setMode(getInitialTheme());
+  }, [getInitialTheme, defaultTheme]);
+
+  const [mode, setMode] = useState<'light' | 'dark'>(getInitialTheme());
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
