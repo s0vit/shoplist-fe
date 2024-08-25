@@ -18,7 +18,7 @@ const processQueue = (error: AxiosError | null, token: string | null = null) => 
 };
 
 export const apiInstance: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://shoplist-be.vercel.app/api/',
+  baseURL: import.meta.env.VITE_BACKEND_SERVER || 'https://shoplist-be.vercel.app/api/',
   timeout: 5000,
   withCredentials: true,
 });
@@ -34,8 +34,7 @@ apiInstance.interceptors.request.use((config: TExtendedInternalAxiosRequestConfi
   return config;
 });
 apiInstance.interceptors.request.use((config) => {
-  const requestId = Math.random().toString(36).substring(7);
-  config.headers['x-request-id'] = requestId;
+  config.headers['x-request-id'] = Math.random().toString(36).substring(7);
 
   return config;
 });

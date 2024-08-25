@@ -1,0 +1,31 @@
+name: copy-to-vps.yml
+
+on:
+  workflow_run:
+    workflows: ["Create Production Deployment"]
+    types:
+      - completed
+
+jobs:
+  Deploy-to-Production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Build Local Artefacts
+        env:
+          VITE_BACKEND_SERVER: ${{ secrets.VPS_BACKEND_SERVER }}
+        run: pnpm install && pnpm build
+
+      - name: Copy Build Artefacts
+        env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass
+          sshpass -p "${SSH_PASSWORD}" rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./dist ${SSH_USER}@${SSH_HOST}:/var/www/budgy-app
