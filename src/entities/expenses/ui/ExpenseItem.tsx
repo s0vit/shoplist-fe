@@ -23,7 +23,7 @@ import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
-import ExpenseItemMenu from './ExpenseItemMenu.tsx';
+import ItemMenu from 'src/widgets/ItemMenu/ItemMenu.tsx';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -187,8 +187,8 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
           </Stack>
         </SwipeableListItem>
       </SwipeableList>
-      <ExpenseItemMenu
-        expense={expense}
+      <ItemMenu
+        itemId={expense._id}
         handleRemove={handleRemove}
         contextMenuCoordinates={contextMenuCoordinates}
         handleCloseMenu={handleCloseMenu}
