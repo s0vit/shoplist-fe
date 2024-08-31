@@ -15,12 +15,17 @@ import { CURRENCIES } from 'src/shared/constants/currencies';
 import { LANGUAGES_ENUM } from 'src/shared/constants/Locales';
 import handleError from 'src/utils/errorHandler';
 import useUserSettingsStore from '../model/store/useUserSettingsStore';
+import i18n from 'src/shared/api/i18nConfig';
 
 const Settings = () => {
   const userSettings = useUserSettingsStore.use.config();
   const setUserConfig = useUserSettingsStore.use.setConfig();
 
   const theme = useTheme();
+
+  const setNewLanguage = async (newLanguage: LANGUAGES_ENUM) => {
+    await i18n.changeLanguage(newLanguage);
+  };
 
   const { mutate: updateSettings, isPending: isUpdating } = useMutation({
     mutationFn: () => updateMyConfig({ ...userSettings, _id: userSettings._id! }),
@@ -78,7 +83,10 @@ const Settings = () => {
             labelId="language-label"
             id="language"
             value={userSettings.language}
-            onChange={(e) => handleSettingChange('language', e.target.value as LANGUAGES_ENUM)}
+            onChange={(e) => {
+              handleSettingChange('language', e.target.value as LANGUAGES_ENUM);
+              setNewLanguage(e.target.value as LANGUAGES_ENUM);
+            }}
             disabled={isUpdating || isSaving}
             label="Language"
           >

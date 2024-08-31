@@ -4,11 +4,13 @@ import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies';
 import calculateTotalAmount from 'src/utils/helpers/calculateTotalAmmount';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
+import { useTranslation } from 'react-i18next';
 
 const SpentThisMonth = () => {
   const defaultCurrency = useUserSettingsStore.use.config().currency;
   const [currency, setCurrency] = useState<CURRENCIES>(defaultCurrency ?? CURRENCIES.EUR);
   const { userExpenses } = useLoadExpenses({ shouldFetchOnLoad: true });
+  const { t } = useTranslation('homePage');
 
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
@@ -22,7 +24,7 @@ const SpentThisMonth = () => {
   return (
     <Paper>
       <Typography variant="h6" textAlign="center">
-        Spent this month:
+        {t('Spent this month:')}
       </Typography>
       <Stack textAlign="center" direction="row" spacing={2} justifyContent="center">
         <Typography variant="h3" color="primary">
