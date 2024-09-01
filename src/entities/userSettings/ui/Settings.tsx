@@ -16,10 +16,12 @@ import { LANGUAGES_ENUM } from 'src/shared/constants/Locales';
 import handleError from 'src/utils/errorHandler';
 import useUserSettingsStore from '../model/store/useUserSettingsStore';
 import i18n from 'src/shared/api/i18nConfig';
+import { useTranslation } from 'react-i18next';
 
 const Settings = () => {
   const userSettings = useUserSettingsStore.use.config();
   const setUserConfig = useUserSettingsStore.use.setConfig();
+  const { t } = useTranslation('profile');
 
   const theme = useTheme();
 
@@ -58,7 +60,7 @@ const Settings = () => {
     <Paper elevation={2} style={{ padding: '16px', margin: '0 auto' }}>
       <Box display="flex" flexDirection="column" gap="16px">
         <FormControl fullWidth variant="outlined">
-          <InputLabel id="currency-label">Currency</InputLabel>
+          <InputLabel id="currency-label">{t('Currency')}</InputLabel>
           <Select
             size="small"
             labelId="currency-label"
@@ -66,7 +68,7 @@ const Settings = () => {
             value={userSettings.currency}
             onChange={(e) => handleSettingChange('currency', e.target.value as CURRENCIES)}
             disabled={isUpdating || isSaving}
-            label="Currency"
+            label={t('Currency')}
           >
             {Object.values(CURRENCIES).map((currency) => (
               <MenuItem key={currency} value={currency}>
@@ -77,7 +79,7 @@ const Settings = () => {
         </FormControl>
 
         <FormControl fullWidth variant="outlined">
-          <InputLabel id="language-label">Language</InputLabel>
+          <InputLabel id="language-label">{t('Language')}</InputLabel>
           <Select
             size="small"
             labelId="language-label"
@@ -88,7 +90,7 @@ const Settings = () => {
               setNewLanguage(e.target.value as LANGUAGES_ENUM);
             }}
             disabled={isUpdating || isSaving}
-            label="Language"
+            label={t('Language')}
           >
             {Object.values(LANGUAGES_ENUM).map((language) => (
               <MenuItem key={language} value={language}>
@@ -99,7 +101,7 @@ const Settings = () => {
         </FormControl>
 
         <FormControl fullWidth variant="outlined">
-          <InputLabel id="theme-label">Theme</InputLabel>
+          <InputLabel id="theme-label">{t('Theme')}</InputLabel>
           <Select
             size="small"
             labelId="theme-label"
@@ -107,11 +109,11 @@ const Settings = () => {
             value={userSettings.theme}
             onChange={(e) => handleSettingChange('theme', e.target.value as THEME_ENUM)}
             disabled={isUpdating || isSaving}
-            label="Theme"
+            label={t('Theme')}
           >
             {Object.values(THEME_ENUM).map((theme) => (
               <MenuItem key={theme} value={theme}>
-                {theme}
+                {t(theme)}
               </MenuItem>
             ))}
           </Select>
@@ -133,7 +135,7 @@ const Settings = () => {
                 disabled={isUpdating || isSaving}
               />
             }
-            label="Category Colours"
+            label={t('Category Colours')}
           />
 
           <FormControlLabel
@@ -144,7 +146,7 @@ const Settings = () => {
                 disabled={isUpdating || isSaving}
               />
             }
-            label="Source Colours"
+            label={t('Source Colours')}
           />
 
           <FormControlLabel
@@ -155,7 +157,7 @@ const Settings = () => {
                 disabled={isUpdating || isSaving}
               />
             }
-            label="Category Names"
+            label={t('Category Names')}
           />
 
           <FormControlLabel
@@ -166,7 +168,7 @@ const Settings = () => {
                 disabled={isUpdating || isSaving}
               />
             }
-            label="Source Names"
+            label={t('Source Names')}
           />
         </Box>
 
@@ -186,7 +188,7 @@ const Settings = () => {
                 disabled={isUpdating || isSaving}
               />
             }
-            label="Shared Expenses"
+            label={t('Shared Expenses')}
           />
 
           <FormControlLabel
@@ -197,7 +199,7 @@ const Settings = () => {
                 disabled={isUpdating || isSaving}
               />
             }
-            label="Shared Categories"
+            label={t('Shared Categories')}
           />
 
           <FormControlLabel
@@ -208,7 +210,7 @@ const Settings = () => {
                 disabled={isUpdating || isSaving}
               />
             }
-            label="Shared Sources"
+            label={t('Shared Sources')}
           />
         </Box>
       </Box>

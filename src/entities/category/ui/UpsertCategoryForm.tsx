@@ -10,6 +10,7 @@ import handleError from 'src/utils/errorHandler.ts';
 import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
+import { useTranslation } from 'react-i18next';
 
 type TUpsertCategoryFormProps = {
   setSelectedCategory?: (categoryId: string) => void;
@@ -25,6 +26,7 @@ const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) =
   const [comments, setComments] = useState(category?.comments || '');
   const { fetchCategories } = useLoadCategories();
   const theme = useTheme();
+  const { t } = useTranslation('categories');
 
   const closeModal = () => {
     setIsCategoryModalOpen(false);
@@ -78,7 +80,7 @@ const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) =
   return (
     <FormWrapper>
       <Typography variant="h5" textAlign="center">
-        Save category
+        {t('Save category')}
       </Typography>
       <FormGroup>
         <Stack gap={1} paddingY={2}>
@@ -89,18 +91,18 @@ const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) =
             sx={{ backgroundColor: color, color: theme.palette.getContrastText(color) }}
             onClick={() => setColor(getRandomHexColor())}
           >
-            Random Color
+            {t('Random Color')}
           </Button>
           <FormControl disabled={isPending}>
-            <InputLabel size="small">Title</InputLabel>
-            <OutlinedInput size="small" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <InputLabel size="small">{t('Title')}</InputLabel>
+            <OutlinedInput size="small" type="text" value={t(title)} onChange={(e) => setTitle(e.target.value)} />
           </FormControl>
           <FormControl disabled={isPending}>
-            <InputLabel size="small">Comments</InputLabel>
+            <InputLabel size="small">{t('Comments')}</InputLabel>
             <OutlinedInput size="small" type="text" value={comments} onChange={(e) => setComments(e.target.value)} />
           </FormControl>
           <Button variant="outlined" type="submit" onClick={upsertCategory} disabled={isPending}>
-            {category?._id ? 'Update' : 'Create'}
+            {category?._id ? `${t('Update')}` : `${t('Create')}`}
           </Button>
         </Stack>
       </FormGroup>

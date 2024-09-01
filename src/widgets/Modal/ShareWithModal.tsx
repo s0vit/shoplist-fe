@@ -22,6 +22,7 @@ import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import { toast } from 'react-toastify';
 import emailToHexColor from 'src/utils/helpers/emailToHexColor.ts';
 import { TUser } from 'src/shared/api/authApi.ts';
+import { useTranslation } from 'react-i18next';
 
 type TShareWithModalProps = {
   expenseIds?: string[];
@@ -37,6 +38,7 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
   const [selectedUser, setSelectedUser] = useState<TUser | null>(null);
   const debounceEmail = useDebouncedValue(email);
   const theme = useTheme();
+  const { t } = useTranslation('shareWith');
 
   const {
     isLoading: isUsersLoading,
@@ -90,7 +92,7 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
       <Paper sx={{ position: 'relative', zIndex: 1 }}>
         <Stack gap={2} justifyContent="stretch" padding={2}>
           <Typography variant="h5" gutterBottom>
-            Share with
+            {t('Share with')}
           </Typography>
           <TextField
             disabled={isLoading}
@@ -99,7 +101,7 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <FormHelperText>Enter email to share with</FormHelperText>
+          <FormHelperText>{t('Enter email to share with')}</FormHelperText>
           <Stack>
             {foundUsers &&
               foundUsers?.map((user) => {
@@ -132,7 +134,7 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
               })}
           </Stack>
           <Button variant="outlined" fullWidth onClick={handleShare} disabled={isLoading || !selectedUser}>
-            Share
+            {t('Share')}
           </Button>
         </Stack>
       </Paper>

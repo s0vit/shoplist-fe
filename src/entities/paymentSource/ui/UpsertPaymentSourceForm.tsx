@@ -14,6 +14,7 @@ import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPayme
 import { Colorful } from '@uiw/react-color';
 import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
+import { useTranslation } from 'react-i18next';
 
 type TUpsertPaymentSourceFormProps = {
   setSelectedPaymentSource?: (paymentSource: string) => void;
@@ -29,6 +30,7 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
   const [comments, setComments] = useState(paymentSource?.comments || '');
   const { fetchPaymentSources } = useLoadPaymentSources();
   const theme = useTheme();
+  const { t } = useTranslation('accounts');
 
   const closeModal = () => {
     setIsPaymentSourcesModalOpen(false);
@@ -73,7 +75,7 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
   return (
     <FormWrapper>
       <Typography variant="h5" textAlign="center">
-        Save payment source
+        {t('Save payment source')}
       </Typography>
       <FormGroup>
         <Stack gap={1} paddingY={2}>
@@ -86,18 +88,18 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
               setColor('#' + Math.floor(Math.random() * 16777215).toString(16));
             }}
           >
-            Random Color
+            {t('Random Color')}
           </Button>
           <FormControl disabled={isPending}>
-            <InputLabel size="small">Title</InputLabel>
-            <OutlinedInput size="small" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <InputLabel size="small">{t('Title')}</InputLabel>
+            <OutlinedInput size="small" type="text" value={t(title)} onChange={(e) => setTitle(e.target.value)} />
           </FormControl>
           <FormControl disabled={isPending}>
-            <InputLabel size="small">Comments</InputLabel>
+            <InputLabel size="small">{t('Comments')}</InputLabel>
             <OutlinedInput size="small" type="text" value={comments} onChange={(e) => setComments(e.target.value)} />
           </FormControl>
           <Button variant="outlined" type="submit" onClick={upsertPaymentSource} disabled={isPending}>
-            {paymentSource?._id ? 'Update' : 'Create'}
+            {paymentSource?._id ? `${t('Update')}` : `${t('Create')}`}
           </Button>
         </Stack>
       </FormGroup>

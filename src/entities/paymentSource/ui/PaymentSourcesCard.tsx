@@ -16,6 +16,7 @@ import { MouseEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import { FaPencilAlt } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 type TPaymentSourcesCardProps = {
   paymentSource: TPaymentSource;
@@ -30,6 +31,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
   const [isShareWithModalOpen, setIsShareWithModalOpen] = useState(false);
   const setCurrentEditingPaymentSource = usePaymentSourcesStore.use.setCurrentEditingPaymentSource();
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
+  const { t } = useTranslation('accounts');
 
   const theme = useTheme();
   const { isDesktopWidth } = useWindowWidth();
@@ -118,11 +120,11 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
             <CardContent sx={{ p: 1 }} style={{ paddingBottom: '16px' }}>
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="h5" component="div" color={paymentSourceTextColor}>
-                  {paymentSource.title}
+                  {t(paymentSource.title)}
                 </Typography>
                 <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
                   <Typography variant="body2" color={paymentSourceTextColor}>
-                    Created: {new Date(paymentSource.createdAt).toLocaleDateString()}
+                    {t(`Created: `) + `${new Date(paymentSource.createdAt).toLocaleDateString()}`}
                   </Typography>
                   <IconButton
                     aria-label="edit"

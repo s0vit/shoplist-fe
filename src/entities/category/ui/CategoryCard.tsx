@@ -16,6 +16,7 @@ import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal.tsx';
 import { FaPencilAlt } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 type TCategoriesProps = {
   category: TCategory;
@@ -35,6 +36,7 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
   const { isDesktopWidth } = useWindowWidth();
   const categoryTextColor = theme.palette.text.primary;
   const categoryBackgroundColor = alpha(category.color || theme.palette.primary.main, 0.05);
+  const { t } = useTranslation('categories');
 
   const handleEdit = () => {
     setCategoryModalOpen(true);
@@ -118,11 +120,11 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
             <CardContent sx={{ p: 1 }} style={{ paddingBottom: '16px' }}>
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="h5" component="div" color={categoryTextColor}>
-                  {category.title}
+                  {t(category.title)}
                 </Typography>
                 <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
                   <Typography variant="body2" color={categoryTextColor}>
-                    Created: {new Date(category.createdAt).toLocaleDateString()}
+                    {t(`Created: `) + `${new Date(category.createdAt).toLocaleDateString()}`}
                   </Typography>
                   <IconButton
                     aria-label="edit"

@@ -7,6 +7,7 @@ import { getRefreshToken } from 'src/shared/api/authApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { uploadAvatar } from 'src/shared/api/userApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
+import { useTranslation } from 'react-i18next';
 
 type TProfilePhotoUploaderProps = {
   file: File | null;
@@ -17,6 +18,7 @@ type TProfilePhotoUploaderProps = {
 const ProfilePhotoUploader = ({ file, onClose, isOpen }: TProfilePhotoUploaderProps) => {
   const [scale, setScale] = useState(1);
   const editorRef = useRef<AvatarEditor | null>(null);
+  const { t } = useTranslation('profile');
 
   const userData = useUserStore.use.user?.();
   const setUserData = useUserStore.use.setUser();
@@ -59,7 +61,7 @@ const ProfilePhotoUploader = ({ file, onClose, isOpen }: TProfilePhotoUploaderPr
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <DialogTitle>Adjust your photo</DialogTitle>
+      <DialogTitle>{t('Adjust your photo')}</DialogTitle>
       <DialogContent>
         <Box display="flex" flexDirection="column" alignItems="center">
           {file && (
@@ -87,10 +89,10 @@ const ProfilePhotoUploader = ({ file, onClose, isOpen }: TProfilePhotoUploaderPr
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          Cancel
+          {t('Cancel')}
         </Button>
         <Button onClick={handleSave} color="primary" variant="contained">
-          Save
+          {t('Save')}
         </Button>
       </DialogActions>
     </Dialog>

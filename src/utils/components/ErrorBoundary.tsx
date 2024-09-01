@@ -3,6 +3,7 @@ import { Box, Button, ButtonGroup, Paper, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import ErrorWrapper from 'src/utils/components/ErrorWrapper.tsx';
 import { HomeOutlined, Refresh, ReportGmailerrorred } from '@mui/icons-material';
+import { withTranslation } from 'react-i18next';
 
 class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> {
   constructor(props: TErrorBoundaryProps) {
@@ -28,20 +29,20 @@ class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> 
             <Box padding={2}>
               <ReportGmailerrorred color="error" sx={{ fontSize: 80 }} />
               <Typography variant="h4" gutterBottom>
-                Something went wrong.
+                {this.props.t('Something went wrong.')}
               </Typography>
               <Typography variant="body1" gutterBottom>
-                An unexpected error has occurred.
+                {this.props.t('An unexpected error has occurred.')}
               </Typography>
               <Typography variant="body2" gutterBottom>
-                Please try reloading the page or go back to the home page.
+                {this.props.t('Please try reloading the page or go back to the home page.')}
               </Typography>
               <ButtonGroup fullWidth>
                 <Button variant="contained" color="primary" onClick={this.handleReload} startIcon={<Refresh />}>
-                  Reload
+                  {this.props.t('Reload')}
                 </Button>
                 <Button variant="outlined" color="primary" component={RouterLink} to="/" startIcon={<HomeOutlined />}>
-                  Home
+                  {this.props.t('Home')}
                 </Button>
               </ButtonGroup>
             </Box>
@@ -56,10 +57,11 @@ class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> 
 
 type TErrorBoundaryProps = {
   children: ReactNode;
+  t: (key: string) => string;
 };
 
 type TErrorBoundaryState = {
   hasError: boolean;
 };
 
-export default ErrorBoundary;
+export default withTranslation('errorBoundary')(ErrorBoundary);

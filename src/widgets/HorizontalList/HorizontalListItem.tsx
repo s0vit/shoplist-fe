@@ -26,7 +26,7 @@ const HorizontalListItem = ({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const theme = useTheme();
-  const { t } = useTranslation('homePage');
+  const { t } = useTranslation(['homePage', 'tools'], { nsMode: 'fallback' });
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement> | TouchEvent, itemId: string) => {
     event.preventDefault();
@@ -91,7 +91,7 @@ const HorizontalListItem = ({
         >
           <Edit fontSize="small" />
           <Typography variant="body2" sx={{ ml: 1 }}>
-            Edit
+            {t('Edit')}
           </Typography>
         </MenuItem>
         <MenuItem
@@ -102,7 +102,7 @@ const HorizontalListItem = ({
         >
           <Share fontSize="small" />
           <Typography variant="body2" sx={{ ml: 1 }}>
-            Share with
+            {t('Share with')}
           </Typography>
         </MenuItem>
         <MenuItem
@@ -112,7 +112,7 @@ const HorizontalListItem = ({
         >
           <Delete fontSize="small" />
           <Typography variant="body2" sx={{ ml: 1 }}>
-            Delete
+            {t('Delete')}
           </Typography>
         </MenuItem>
       </Menu>

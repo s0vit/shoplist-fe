@@ -20,6 +20,7 @@ import { login, resetPassword, TLoginRequest, TUser } from 'src/shared/api/authA
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
+import { useTranslation } from 'react-i18next';
 
 type TSetNewPasswordFormProps = {
   token: string;
@@ -33,6 +34,7 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
   const { email } = jwtDecode<{ email: string }>(token);
   const navigate = useNavigate();
   const setUser = useUserStore.use.setUser();
+  const { t } = useTranslation('loginPage');
 
   const { mutate: sendLoginRequest } = useMutation<TUser, TErrorResponse, TLoginRequest>({
     mutationFn: ({ email, password }: TLoginRequest) => {
@@ -70,16 +72,16 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
         <Form onSubmit={() => requestSetNewPassword()}>
           <Stack spacing={1}>
             <Typography variant="h6" align="center">
-              Set new password
+              {t('Set new password')}
             </Typography>
             <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-password">{t('Password')}</InputLabel>
               <OutlinedInput
                 disabled={isPendingSetNewPassword}
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 type={showPassword ? 'text' : 'password'}
-                label="Password"
+                label={t('Password')}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -94,7 +96,7 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
               />
             </FormControl>
             <Button type="submit" variant="outlined" disabled={isPendingSetNewPassword}>
-              Reset password
+              {t('Reset password')}
             </Button>
           </Stack>
         </Form>

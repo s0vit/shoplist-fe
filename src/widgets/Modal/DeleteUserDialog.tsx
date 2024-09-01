@@ -1,5 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import { TUser } from 'src/shared/api/authApi';
+import { useTranslation } from 'react-i18next';
 
 type TDeleteUserDialogProps = {
   openDeleteDialog: boolean;
@@ -18,24 +19,26 @@ const DeleteUserDialog = ({
   handleConfirmDelete,
   userData,
 }: TDeleteUserDialogProps) => {
+  const { t } = useTranslation('profile');
+
   return (
     <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
-      <DialogTitle>Confirm Profile Deletion</DialogTitle>
+      <DialogTitle>{t('Confirm Profile Deletion')}</DialogTitle>
       <DialogContent>
         <Typography variant="body1" gutterBottom>
-          Please enter your email address to confirm deletion:
+          {t('Please enter your email address to confirm deletion:')}
         </Typography>
         <TextField
           fullWidth
           variant="outlined"
-          label="Email"
+          label={t('Email')}
           value={emailInput}
           onChange={(e) => setEmailInput(e.target.value)}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={() => setOpenDeleteDialog(false)} color="primary">
-          Cancel
+          {t('Cancel')}
         </Button>
         <Button
           onClick={handleConfirmDelete}
@@ -43,7 +46,7 @@ const DeleteUserDialog = ({
           variant="contained"
           disabled={userData?.email !== emailInput}
         >
-          Delete
+          {t('Delete')}
         </Button>
       </DialogActions>
     </Dialog>

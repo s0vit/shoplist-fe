@@ -5,6 +5,7 @@ import { Stack, Tab } from '@mui/material';
 import CenteredTabsWrapper from 'src/widgets/Forms/Login/CenteredTabsWrapper.tsx';
 import RequestPasswordRecoveryForm from 'src/widgets/Forms/RequestPasswordRecovery/RequestPasswordRecoveryForm.tsx';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import { useTranslation } from 'react-i18next';
 
 type TTab = {
   label: string;
@@ -18,10 +19,11 @@ enum TabValuesEnum {
 }
 
 const LoginPage = () => {
+  const { t } = useTranslation('loginPage');
   const tabs: TTab[] = [
-    { label: 'login', value: TabValuesEnum.Login },
-    { label: 'register', value: TabValuesEnum.Register },
-    { label: 'password recovery', value: TabValuesEnum.RequestPassRecover },
+    { label: `${t('login')}`, value: TabValuesEnum.Login },
+    { label: `${t('register')}`, value: TabValuesEnum.Register },
+    { label: `${t('password recovery')}`, value: TabValuesEnum.RequestPassRecover },
   ];
   const [currentTab, setCurrentTab] = useState<(typeof tabs)[number]>(tabs[0]);
 

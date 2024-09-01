@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import { useTranslation } from 'react-i18next';
 
 type TConfirmEmailComponentProps = {
   token: string;
@@ -14,6 +15,7 @@ type TConfirmEmailComponentProps = {
 const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
   const toastIdRef = useRef<Id>();
   const navigate = useNavigate();
+  const { t } = useTranslation('loginPage');
   const {
     isPending: isConfirmPending,
     isSuccess: isConfirmSuccess,
@@ -44,7 +46,7 @@ const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
     return (
       <Box padding={2}>
         <Paper>
-          <Typography variant="h4">Confirming email...</Typography>
+          <Typography variant="h4">{t('Confirming email...')}</Typography>
         </Paper>
       </Box>
     );
@@ -57,8 +59,8 @@ const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
       <Box padding={2}>
         <Paper>
           <Stack spacing={1}>
-            <Typography variant="h4">Email confirmed</Typography>
-            <Typography variant="body1">Redirecting to login page...</Typography>
+            <Typography variant="h4">{t('Email confirmed')}</Typography>
+            <Typography variant="body1">{t('Redirecting to login page...')}</Typography>
           </Stack>
         </Paper>
       </Box>
@@ -71,7 +73,7 @@ const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
     return (
       <Box padding={2}>
         <Paper>
-          <Typography variant="h4">Error confirming email</Typography>
+          <Typography variant="h4">{t('Error confirming email')}</Typography>
         </Paper>
       </Box>
     );

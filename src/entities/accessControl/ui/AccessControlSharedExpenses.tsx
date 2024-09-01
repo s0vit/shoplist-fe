@@ -5,6 +5,7 @@ import { TExpense } from 'src/shared/api/expenseApi.ts';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { TAccessControl, TCreateAccessControlRequest } from 'src/shared/api/accessControlApi.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
+import { useTranslation } from 'react-i18next';
 
 type TAccessControlSharedExpensesProps = {
   expenses: TExpense[];
@@ -21,10 +22,12 @@ const AccessControlSharedExpenses = ({
   paymentSources,
   updateAccessControlMutate,
 }: TAccessControlSharedExpensesProps) => {
+  const { t } = useTranslation('accessControl');
+
   return (
     <Accordion disableGutters>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        Shared expenses: {accessControl.expenseIds.length}
+        {t('Shared expenses: ')} {accessControl.expenseIds.length}
       </AccordionSummary>
       <AccordionDetails>
         <Box>

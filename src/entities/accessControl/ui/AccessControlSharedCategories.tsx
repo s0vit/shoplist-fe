@@ -3,6 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CategoryCard from 'src/entities/category/ui/CategoryCard.tsx';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import { TAccessControl, TCreateAccessControlRequest } from 'src/shared/api/accessControlApi.ts';
+import { useTranslation } from 'react-i18next';
 
 type TAccessControlItemProps = {
   accessControl: TAccessControl;
@@ -15,10 +16,12 @@ const AccessControlSharedCategories = ({
   categories,
   updateAccessControlMutate,
 }: TAccessControlItemProps) => {
+  const { t } = useTranslation('accessControl');
+
   return (
     <Accordion disableGutters>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        Shared categories: {accessControl.expenseIds.length}
+        {t('Shared categories: ')} {accessControl.expenseIds.length}
       </AccordionSummary>
       <AccordionDetails>
         <Box>
