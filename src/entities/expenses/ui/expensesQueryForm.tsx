@@ -12,12 +12,14 @@ import useFiltersStoreForExpenses from 'src/entities/filters/models/store/Filter
 import { TGetExpenseQuery } from 'src/shared/api/expenseApi.ts';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import { TFilterForQueryTypes } from 'src/entities/filters/models/types/types.ts';
+import { useTranslation } from 'react-i18next';
 
 const ExpenseQueryForm = () => {
   const { fetchExpenses, isExpensesLoading } = useLoadExpenses({ shouldFetchOnLoad: false });
   const filters = useFiltersStoreForExpenses.use.filter();
   const setFilter = useFiltersStoreForExpenses.use.setFilter();
   const debouncedQuery = useDebouncedValue(filters, 300);
+  const { t } = useTranslation('homePage');
 
   const handleFetchExpenses = useStableCallback((value: TGetExpenseQuery | undefined) => {
     fetchExpenses(value);
@@ -55,7 +57,7 @@ const ExpenseQueryForm = () => {
 
   return (
     <Accordion disableGutters>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>Filter</AccordionSummary>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>{t('Filter')}</AccordionSummary>
       <AccordionDetails>
         <Box>
           <Grid container spacing={2}>
@@ -77,7 +79,7 @@ const ExpenseQueryForm = () => {
               <Grid item xs={12} sm={4} key={field.name}>
                 <TextField
                   name={field.name}
-                  label={field.label}
+                  label={t(field.label)}
                   type={field.type}
                   fullWidth
                   size="small"

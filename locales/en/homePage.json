@@ -10,5 +10,15 @@
   "Rent": "Rent",
   "Other": "Other",
   "Clear": "Clear",
-  "Save": "Save"
+  "Save": "Save",
+  "Date and time": "Date and time",
+  "Filter": "Filter",
+  "Category": "Category",
+  "Payment source": "Payment source",
+  "Created Start Date": "Created Start Date",
+  "Created End Date": "Created End Date",
+  "Amount Start": "Amount Start",
+  "Amount End": "Amount End",
+  "Skip": "Skip",
+  "Limit": "Limit"
 }

@@ -6,6 +6,7 @@ import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePa
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import UpsertPaymentSourceModal from 'src/widgets/Modal/UpsertPaymentSourceModal';
+import { useTranslation } from 'react-i18next';
 
 type TPaymentSourcesSelectProps = {
   selectedPaymentSourceId: string;
@@ -20,6 +21,7 @@ const PaymentSourcesSelect = ({
 }: TPaymentSourcesSelectProps) => {
   const paymentSources = usePaymentSourcesStore(selectUserPaymentSources);
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
+  const { t } = useTranslation('homePage');
 
   const onAutocompleteChange = useStableCallback((_e: SyntheticEvent, value: TPaymentSource | null) => {
     if (value === null || paymentSources?.some((source) => source._id === value._id)) {
@@ -40,10 +42,12 @@ const PaymentSourcesSelect = ({
           disabled={isCreateExpensePending}
           disablePortal
           options={paymentSources || []}
-          renderInput={(params) => <TextField {...params} label="Payment source" InputLabelProps={{ shrink: true }} />}
+          renderInput={(params) => (
+            <TextField {...params} label={t('Payment source')} InputLabelProps={{ shrink: true }} />
+          )}
           value={selectedPaymentSource}
           onChange={onAutocompleteChange}
-          getOptionLabel={(option) => option.title}
+          getOptionLabel={(option) => `${t(option.title)}`}
         />
         <IconButton
           aria-label="add"

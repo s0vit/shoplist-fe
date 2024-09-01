@@ -10,5 +10,15 @@
   "Rent": "Квартплата",
   "Other": "Другое",
   "Clear": "Отчистить",
-  "Save": "Сохранить"
+  "Save": "Сохранить",
+  "Date and time": "Дата и время",
+  "Filter": "Фильтр",
+  "Category": "Категория",
+  "Payment source": "Счет оплаты",
+  "Created Start Date": "Начало периода",
+  "Created End Date": "Конец периода",
+  "Amount Start": "Сумма не менее",
+  "Amount End": "Сумма не более",
+  "Skip": "Пропустить",
+  "Limit": "Количество записей"
 }

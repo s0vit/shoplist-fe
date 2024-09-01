@@ -5,6 +5,7 @@ import useCategoryStore from 'src/entities/category/model/store/useCategoryStore
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import UpsertCategoryModal from 'src/widgets/Modal/UpsertCategoryModal';
+import { useTranslation } from 'react-i18next';
 
 type TCategoriesSelectProps = {
   selectedCategoryId: string;
@@ -19,6 +20,7 @@ const CategoriesSelect = ({
 }: TCategoriesSelectProps) => {
   const categories = useCategoryStore.use.userCategories();
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
+  const { t } = useTranslation('homePage');
 
   const onAutocompleteChange = useStableCallback((_e: SyntheticEvent, value: TCategory | null) => {
     if (value === null || categories?.some((category) => category._id === value._id)) {
@@ -39,10 +41,10 @@ const CategoriesSelect = ({
           disabled={isCreateExpensePending}
           disablePortal
           options={categories || []}
-          renderInput={(params) => <TextField {...params} label="Category" InputLabelProps={{ shrink: true }} />}
+          renderInput={(params) => <TextField {...params} label={t('Category')} InputLabelProps={{ shrink: true }} />}
           value={selectedCategory}
           onChange={onAutocompleteChange}
-          getOptionLabel={(option) => option.title}
+          getOptionLabel={(option) => `${t(option.title)}`}
         />
         <IconButton aria-label="add" disabled={isCreateExpensePending} onClick={() => setIsCategoryModalOpen(true)}>
           <AddCircle />

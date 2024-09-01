@@ -303,7 +303,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
         />
         <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 2 }}>
           <DateTimePicker
-            label="Date and time"
+            label={t('Date and time')}
             disableFuture
             value={selectedDate}
             onChange={setSelectedDate}
