@@ -36,6 +36,6 @@
   "Adjust your photo": "Добавьте вашу фотографию",
   "Confirm Profile Deletion": "Подтвердите удаление пользователя",
   "Please enter your email address to confirm deletion:": "Введите ваш электронный адрес, чтобы подтвердить удаление:",
-  "email:": "email:",
-  "isVerified:": "isVerified:"
+  "email: ": "email: ",
+  "isVerified: ": "isVerified: "
 }
