@@ -8,6 +8,7 @@ import esllintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import stylisticJs from '@stylistic/eslint-plugin-js';
 import { fixupPluginRules } from '@eslint/compat';
+import i18next from 'eslint-plugin-i18next';
 
 export default [
   pluginJs.configs.recommended,
@@ -41,6 +42,7 @@ export default [
       react: react,
       'react-hooks': fixupPluginRules(hooksPlugin),
       stylisticJs: stylisticJs,
+      i18next: i18next,
     },
     rules: {
       ...hooksPlugin.configs.recommended.rules,
@@ -91,6 +93,7 @@ export default [
         { blankLine: 'always', prev: '*', next: 'import' },
         { blankLine: 'any', prev: 'import', next: 'import' },
       ],
+      'i18next/no-literal-string': 1,
     },
   },
 ];
