@@ -5,7 +5,7 @@ import notFoundImage from 'src/assets/404notfound.png';
 import { useTranslation } from 'react-i18next';
 
 const NotFoundPage = () => {
-  const { t } = useTranslation('tools');
+  const { t } = useTranslation('translation');
 
   return (
     <Card sx={{ maxWidth: 345, margin: 'auto' }}>

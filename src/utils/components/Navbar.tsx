@@ -20,7 +20,7 @@ const Navbar = () => {
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
   const { isDesktopWidth } = useWindowWidth();
-  const { t } = useTranslation('tools');
+  const { t } = useTranslation('translation');
 
   useLoadExpenses({ shouldFetchOnLoad: isVerified });
   useLoadCategories(isVerified);

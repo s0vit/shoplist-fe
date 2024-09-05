@@ -21,9 +21,9 @@ enum TabValuesEnum {
 const LoginPage = () => {
   const { t } = useTranslation('loginPage');
   const tabs: TTab[] = [
-    { label: `${t('login')}`, value: TabValuesEnum.Login },
-    { label: `${t('register')}`, value: TabValuesEnum.Register },
-    { label: `${t('password recovery')}`, value: TabValuesEnum.RequestPassRecover },
+    { label: t('login'), value: TabValuesEnum.Login },
+    { label: t('register'), value: TabValuesEnum.Register },
+    { label: t('password recovery'), value: TabValuesEnum.RequestPassRecover },
   ];
   const [currentTab, setCurrentTab] = useState<(typeof tabs)[number]>(tabs[0]);
 

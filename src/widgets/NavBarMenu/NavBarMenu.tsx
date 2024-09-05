@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 const NavBarMenu = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation('tools');
+  const { t } = useTranslation('translation');
 
   const userData = _useUserStore.use.user?.();
 

@@ -24,7 +24,6 @@ import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu.tsx';
-import { useTranslation } from 'react-i18next';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -40,7 +39,6 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   } | null>(null);
   const [isShareWithModalOpen, setIsShareWithModalOpen] = useState(false);
   const { isDesktopWidth } = useWindowWidth();
-  const { t } = useTranslation('homePage');
 
   const setCurrentEditExpense = useExpensesStore.use.setCurrentEditExpense();
   const setIsEditExpenseModalOpen = useExpensesStore.use.setIsEditExpenseModalOpen();
@@ -145,7 +143,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
             }}
           >
             <Box>
-              {showCategoryNames && <Typography variant="subtitle2">{t(category?.title ?? 'Deleted')}</Typography>}
+              {showCategoryNames && <Typography variant="subtitle2">{category?.title}</Typography>}
               <Typography variant="body2">
                 {new Intl.DateTimeFormat(browserLocale, {
                   hour: '2-digit',
@@ -168,7 +166,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
                 />
                 {showSourceNames && (
                   <Typography variant="body2" mr={1}>
-                    {t(paymentSource?.title || 'Deleted')}
+                    {paymentSource?.title || 'Deleted'}
                   </Typography>
                 )}
               </Box>

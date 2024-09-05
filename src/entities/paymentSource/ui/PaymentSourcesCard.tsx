@@ -120,7 +120,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
             <CardContent sx={{ p: 1 }} style={{ paddingBottom: '16px' }}>
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="h5" component="div" color={paymentSourceTextColor}>
-                  {t(paymentSource.title)}
+                  {paymentSource.title}
                 </Typography>
                 <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
                   <Typography variant="body2" color={paymentSourceTextColor}>

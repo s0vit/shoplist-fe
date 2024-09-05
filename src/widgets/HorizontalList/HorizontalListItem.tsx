@@ -26,7 +26,7 @@ const HorizontalListItem = ({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const theme = useTheme();
-  const { t } = useTranslation(['homePage', 'tools'], { nsMode: 'fallback' });
+  const { t } = useTranslation(['homePage', 'translation'], { nsMode: 'fallback' });
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement> | TouchEvent, itemId: string) => {
     event.preventDefault();
@@ -63,7 +63,7 @@ const HorizontalListItem = ({
         }
         style={{ marginRight: '8px', flexShrink: 0 }}
       >
-        {t(item.title)}
+        {item.title}
       </Button>
       <Menu
         variant="selectedMenu"

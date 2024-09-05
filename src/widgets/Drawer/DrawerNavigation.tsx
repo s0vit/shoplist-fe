@@ -31,7 +31,7 @@ const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationPr
   const { isDesktopWidth } = useWindowWidth();
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useTranslation('tools');
+  const { t } = useTranslation('translation');
 
   const isRouteActive = (link: string) => {
     return matchPath(location.pathname, link) !== null;

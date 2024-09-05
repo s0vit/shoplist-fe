@@ -1,3 +1,14 @@
 {
-  
+  "Profile": "Профиль",
+  "Shared": "Поделиться",
+  "Logout": "Выйти",
+  "Home": "Домой",
+  "Categories": "Категории",
+  "Accounts": "Счета",
+  "Edit": "Редактировать",
+  "Share with": "Поделиться",
+  "Delete": "Удалить",
+  "Shoplist": "Shoplist",
+  "The page you are looking for does not exist": "Страница, которую вы запрашиваете, не существует",
+  "Go to Home": "Вернуться домой"
 }

@@ -92,7 +92,7 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
           </Button>
           <FormControl disabled={isPending}>
             <InputLabel size="small">{t('Title')}</InputLabel>
-            <OutlinedInput size="small" type="text" value={t(title)} onChange={(e) => setTitle(e.target.value)} />
+            <OutlinedInput size="small" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
           </FormControl>
           <FormControl disabled={isPending}>
             <InputLabel size="small">{t('Comments')}</InputLabel>

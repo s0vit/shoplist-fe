@@ -352,7 +352,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           </Grid>
           <Grid xs={6} item>
             <Button disabled={isPending} variant="contained" color="success" fullWidth onClick={handleSave}>
-              {isPending ? <CircularProgress size={24} /> : `${t('Save')}`}
+              {isPending ? <CircularProgress size={24} /> : t('Save')}
             </Button>
           </Grid>
         </Grid>

@@ -47,7 +47,7 @@ const PaymentSourcesSelect = ({
           )}
           value={selectedPaymentSource}
           onChange={onAutocompleteChange}
-          getOptionLabel={(option) => `${t(option.title)}`}
+          getOptionLabel={(option) => option.title}
         />
         <IconButton
           aria-label="add"

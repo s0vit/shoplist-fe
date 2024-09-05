@@ -20,7 +20,7 @@ const ExpenseItemMenu = ({
   setIsShareWithModalOpen,
 }: TExpenseItemMenuProps) => {
   const theme = useTheme();
-  const { t } = useTranslation('tools');
+  const { t } = useTranslation('translation');
 
   return (
     <Menu

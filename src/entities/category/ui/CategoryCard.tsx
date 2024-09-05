@@ -120,7 +120,7 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
             <CardContent sx={{ p: 1 }} style={{ paddingBottom: '16px' }}>
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="h5" component="div" color={categoryTextColor}>
-                  {t(category.title)}
+                  {category.title}
                 </Typography>
                 <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
                   <Typography variant="body2" color={categoryTextColor}>
