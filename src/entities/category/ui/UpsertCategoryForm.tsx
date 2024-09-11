@@ -102,7 +102,7 @@ const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) =
             <OutlinedInput size="small" type="text" value={comments} onChange={(e) => setComments(e.target.value)} />
           </FormControl>
           <Button variant="outlined" type="submit" onClick={upsertCategory} disabled={isPending}>
-            {category?._id ? `${t('Update')}` : `${t('Create')}`}
+            {category?._id ? t('Update') : t('Create')}
           </Button>
         </Stack>
       </FormGroup>

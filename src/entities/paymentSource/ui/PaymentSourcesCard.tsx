@@ -124,7 +124,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
                 </Typography>
                 <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
                   <Typography variant="body2" color={paymentSourceTextColor}>
-                    {t(`Created: `) + `${new Date(paymentSource.createdAt).toLocaleDateString()}`}
+                    {t('Created: ') + `${new Date(paymentSource.createdAt).toLocaleDateString()}`}
                   </Typography>
                   <IconButton
                     aria-label="edit"

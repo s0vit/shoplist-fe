@@ -44,7 +44,7 @@ const CategoriesSelect = ({
           renderInput={(params) => <TextField {...params} label={t('Category')} InputLabelProps={{ shrink: true }} />}
           value={selectedCategory}
           onChange={onAutocompleteChange}
-          getOptionLabel={(option) => `${t(option.title)}`}
+          getOptionLabel={(option) => option.title}
         />
         <IconButton aria-label="add" disabled={isCreateExpensePending} onClick={() => setIsCategoryModalOpen(true)}>
           <AddCircle />

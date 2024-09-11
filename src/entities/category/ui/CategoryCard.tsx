@@ -124,7 +124,7 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
                 </Typography>
                 <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
                   <Typography variant="body2" color={categoryTextColor}>
-                    {t(`Created: `) + `${new Date(category.createdAt).toLocaleDateString()}`}
+                    {t('Created: ') + `${new Date(category.createdAt).toLocaleDateString()}`}
                   </Typography>
                   <IconButton
                     aria-label="edit"
