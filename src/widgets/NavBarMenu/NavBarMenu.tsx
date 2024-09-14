@@ -6,9 +6,11 @@ import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import useLogout from 'src/utils/hooks/useLogout.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
+import { useTranslation } from 'react-i18next';
 
 const NavBarMenu = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation('translation');
 
   const userData = _useUserStore.use.user?.();
 
@@ -47,20 +49,20 @@ const NavBarMenu = () => {
           <ListItemIcon>
             <Person fontSize="small" />
           </ListItemIcon>
-          Profile
+          {t('Profile')}
         </MenuItem>
         <MenuItem onClick={() => navigate(RoutesEnum.ACCESS_CONTROL)}>
           <ListItemIcon>
             <ShareSharp fontSize="small" />
           </ListItemIcon>
-          Shared
+          {t('Shared')}
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleLoginClick}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          Logout
+          {t('Logout')}
         </MenuItem>
       </Menu>
     </>

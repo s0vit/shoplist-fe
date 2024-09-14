@@ -12,6 +12,7 @@ import useLoadConfigs from 'src/entities/userSettings/hooks/useLoadConfig';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import DrawerNavigation from 'src/widgets/Drawer/DrawerNavigation';
 import NavBarMenu from 'src/widgets/NavBarMenu/NavBarMenu.tsx';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
   const isLoggedIn = useUserStore.use.user?.() !== undefined;
@@ -19,6 +20,7 @@ const Navbar = () => {
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
   const { isDesktopWidth } = useWindowWidth();
+  const { t } = useTranslation('translation');
 
   useLoadExpenses({ shouldFetchOnLoad: isVerified });
   useLoadCategories(isVerified);
@@ -45,7 +47,7 @@ const Navbar = () => {
               </IconButton>
             )}
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              Shoplist {`${import.meta.env.PACKAGE_VERSION}`}
+              {t('Shoplist')} {`${import.meta.env.PACKAGE_VERSION}`}
             </Typography>
             <IconButton onClick={colorMode.toggleColorMode} color="inherit">
               {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}

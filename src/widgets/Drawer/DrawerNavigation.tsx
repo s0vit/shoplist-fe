@@ -7,6 +7,7 @@ import { ReactElement, useEffect } from 'react';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import { Money, Payments } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 type TDrawerNavigationProps = {
   isDrawerOpen: boolean;
@@ -30,6 +31,7 @@ const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationPr
   const { isDesktopWidth } = useWindowWidth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation('translation');
 
   const isRouteActive = (link: string) => {
     return matchPath(location.pathname, link) !== null;
@@ -54,7 +56,7 @@ const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationPr
               <ListItemButton onClick={() => navigate(route.link)}>
                 <ListItemIcon>{route.icon}</ListItemIcon>
                 <ListItemText
-                  primary={route.title}
+                  primary={t(route.title)}
                   primaryTypographyProps={isRouteActive(route.link) ? { fontWeight: 'bold' } : {}}
                 />
               </ListItemButton>

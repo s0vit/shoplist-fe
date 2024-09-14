@@ -2,6 +2,7 @@ import { Delete, Edit, Share } from '@mui/icons-material';
 import { alpha, Button, Menu, MenuItem, Typography, useTheme } from '@mui/material';
 import { Fragment, MouseEvent, TouchEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
+import { useTranslation } from 'react-i18next';
 
 type THorizontalListItemProps = {
   item: { _id: string; title: string; color?: string };
@@ -25,6 +26,7 @@ const HorizontalListItem = ({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const theme = useTheme();
+  const { t } = useTranslation(['homePage', 'translation'], { nsMode: 'fallback' });
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement> | TouchEvent, itemId: string) => {
     event.preventDefault();
@@ -89,7 +91,7 @@ const HorizontalListItem = ({
         >
           <Edit fontSize="small" />
           <Typography variant="body2" sx={{ ml: 1 }}>
-            Edit
+            {t('Edit')}
           </Typography>
         </MenuItem>
         <MenuItem
@@ -100,7 +102,7 @@ const HorizontalListItem = ({
         >
           <Share fontSize="small" />
           <Typography variant="body2" sx={{ ml: 1 }}>
-            Share with
+            {t('Share with')}
           </Typography>
         </MenuItem>
         <MenuItem
@@ -110,7 +112,7 @@ const HorizontalListItem = ({
         >
           <Delete fontSize="small" />
           <Typography variant="body2" sx={{ ml: 1 }}>
-            Delete
+            {t('Delete')}
           </Typography>
         </MenuItem>
       </Menu>

@@ -3,6 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PaymentSourcesCard from 'src/entities/paymentSource/ui/PaymentSourcesCard.tsx';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { TAccessControl, TCreateAccessControlRequest } from 'src/shared/api/accessControlApi.ts';
+import { useTranslation } from 'react-i18next';
 
 type TAccessControlSharedPaymentSourcesProps = {
   accessControl: TAccessControl;
@@ -15,10 +16,12 @@ const AccessControlSharedPaymentSources = ({
   paymentSources,
   updateAccessControlMutate,
 }: TAccessControlSharedPaymentSourcesProps) => {
+  const { t } = useTranslation('accessControl');
+
   return (
     <Accordion disableGutters>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        Shared payment sources: {accessControl.paymentSourceIds.length}
+        {t('Shared payment sources: ')} {accessControl.paymentSourceIds.length}
       </AccordionSummary>
       <AccordionDetails>
         <Box>

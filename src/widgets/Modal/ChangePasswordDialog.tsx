@@ -18,6 +18,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import { TPasswordChangeRequest } from 'src/shared/api/authApi';
 import passwordValidate from 'src/utils/helpers/passwordValidate.ts';
+import { useTranslation } from 'react-i18next';
 
 type TChangePasswordDialogProps = {
   openResetPasswordDialog: boolean;
@@ -52,6 +53,7 @@ const ChangePasswordDialog = ({
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formError, setFormError] = useState<TFormError>(initialFormError);
+  const { t } = useTranslation('profile');
 
   const handleAbortReset = () => {
     setOpenResetPasswordDialog(false);
@@ -108,14 +110,14 @@ const ChangePasswordDialog = ({
 
   return (
     <Dialog open={openResetPasswordDialog} onClose={handleAbortReset}>
-      <DialogTitle>Change you password</DialogTitle>
+      <DialogTitle>{t('Change you password')}</DialogTitle>
       <DialogContent>
         <FormControl fullWidth variant="outlined" margin="dense">
           <InputLabel
             htmlFor="current-password-input"
             error={!!formError.currentPasswordError || !!formError.differentPasswordsError}
           >
-            Current password
+            {t('Current password')}
           </InputLabel>
           <OutlinedInput
             id="current-password-input"
@@ -137,11 +139,11 @@ const ChangePasswordDialog = ({
                 </IconButton>
               </InputAdornment>
             }
-            label="Current password"
+            label={t('Current password')}
           />
           {(formError.currentPasswordError || formError.differentPasswordsError) && (
             <FormHelperText error id="current-password-error-text">
-              {formError.currentPasswordError || formError.differentPasswordsError}
+              {t(formError.currentPasswordError) || t(formError.differentPasswordsError)}
             </FormHelperText>
           )}
         </FormControl>
@@ -152,7 +154,7 @@ const ChangePasswordDialog = ({
               !!formError.newPasswordError || !!formError.equalPasswordsError || !!formError.differentPasswordsError
             }
           >
-            New password
+            {t('New password')}
           </InputLabel>
           <OutlinedInput
             id="new-password-input"
@@ -176,11 +178,13 @@ const ChangePasswordDialog = ({
                 </IconButton>
               </InputAdornment>
             }
-            label="New password"
+            label={t('New password')}
           />
           {(formError.newPasswordError || formError.equalPasswordsError || formError.differentPasswordsError) && (
             <FormHelperText error id="new-password-error-text">
-              {formError.newPasswordError || formError.equalPasswordsError || formError.differentPasswordsError}
+              {t(formError.newPasswordError) ||
+                t(formError.equalPasswordsError) ||
+                t(formError.differentPasswordsError)}
             </FormHelperText>
           )}
         </FormControl>
@@ -189,7 +193,7 @@ const ChangePasswordDialog = ({
             htmlFor="confirm-password-input"
             error={!!formError.confirmPasswordError || !!formError.equalPasswordsError}
           >
-            Confirm password
+            {t('Confirm password')}
           </InputLabel>
           <OutlinedInput
             id="confirm-password-input"
@@ -211,22 +215,22 @@ const ChangePasswordDialog = ({
                 </IconButton>
               </InputAdornment>
             }
-            label="Confirm password"
+            label={t('Confirm password')}
           />
           {(formError.confirmPasswordError || formError.equalPasswordsError) && (
             <FormHelperText error id="confirm-password-error-text">
-              {formError.confirmPasswordError || formError.equalPasswordsError}
+              {t(formError.confirmPasswordError) || t(formError.equalPasswordsError)}
             </FormHelperText>
           )}
         </FormControl>
         <Alert severity="warning" variant="outlined" style={{ marginTop: '10px' }}>
-          <AlertTitle>Warning: </AlertTitle>
-          After changing you will sign out.
+          <AlertTitle>{t('Warning: ')}</AlertTitle>
+          {t('After changing you will sign out.')}
         </Alert>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleAbortReset} color="primary">
-          Cancel
+          {t('Cancel')}
         </Button>
         <Button
           onClick={handleSubmitForm}
@@ -241,7 +245,7 @@ const ChangePasswordDialog = ({
             confirmPasswordInput.length < 5
           }
         >
-          Apply
+          {t('Apply')}
         </Button>
       </DialogActions>
     </Dialog>

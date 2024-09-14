@@ -26,6 +26,7 @@ import DeleteUserDialog from 'src/widgets/Modal/DeleteUserDialog';
 import ProfilePhotoUploader from './ProfilePhotoUploader';
 import ChangePasswordDialog from 'src/widgets/Modal/ChangePasswordDialog.tsx';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const Profile = () => {
   const [openUploader, setOpenUploader] = useState(false);
@@ -36,6 +37,7 @@ const Profile = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const theme = useTheme();
   const userData = useUserStore.use.user?.();
+  const { t } = useTranslation('profile');
 
   const { mutate: getNewLinkMutate } = useMutation({
     mutationFn: getNewLink,
@@ -135,20 +137,20 @@ const Profile = () => {
             onChange={handleFileChange}
           />
           <Typography variant="body1" gutterBottom>
-            email: {userData?.email}
+            {t('email: ')} {userData?.email}
             <br />
-            isVerified: {`${userData?.isVerified}`}
+            {t('isVerified: ')} {`${userData?.isVerified}`}
           </Typography>
           {!userData?.isVerified && (
             <Button variant="contained" onClick={() => getNewLinkMutate()} sx={{ marginBottom: 2 }}>
-              New verification link
+              {t('New verification link')}
             </Button>
           )}
         </Box>
 
         <Accordion sx={{ marginTop: 4 }} elevation={2}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>Settings</Typography>
+            <Typography>{t('Settings')}</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ p: 0 }}>
             <Settings />
@@ -162,10 +164,10 @@ const Profile = () => {
             }}
             sx={{ marginRight: 5, marginTop: 2 }}
           >
-            Change password
+            {t('Change password')}
           </Button>
           <Button variant="contained" color="error" onClick={handleDeleteClick} sx={{ marginTop: 2 }}>
-            Delete Profile
+            {t('Delete Profile')}
           </Button>
         </ButtonGroup>
         <ProfilePhotoUploader file={selectedFile} onClose={() => setOpenUploader(false)} isOpen={openUploader} />

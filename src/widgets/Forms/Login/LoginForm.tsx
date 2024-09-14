@@ -20,6 +20,7 @@ import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
+import { useTranslation } from 'react-i18next';
 
 type TLoginFormProps = {
   setCurrentTabToRecovery: () => void;
@@ -33,6 +34,7 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
   const theme = useTheme();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { t } = useTranslation('loginPage');
 
   const setUser = useUserStore((state) => state.setUser);
 
@@ -75,20 +77,20 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
       <Form onSubmit={handleLoginClick}>
         <Stack spacing={1}>
           <Typography variant="h4" align="center">
-            Login
+            {t('Login-frame')}
           </Typography>
           <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-email">{t('Email')}</InputLabel>
             <OutlinedInput
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isLoginPending}
               type="text"
-              label="Email"
+              label={t('Email')}
             />
           </FormControl>
           <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-password">{t('Password')}</InputLabel>
             <OutlinedInput
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -105,14 +107,14 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
                   </IconButton>
                 </InputAdornment>
               }
-              label="Password"
+              label={t('Password')}
             />
           </FormControl>
           <Button type="submit" disabled={isLoginPending} variant="outlined">
-            Login
+            {t('Login')}
           </Button>
           <Typography variant="body1" align="center" paddingTop={5}>
-            Forgot password?
+            {t('Forgot password?')}
           </Typography>
           <Typography
             variant="body2"
@@ -120,7 +122,7 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
             color={theme.palette.primary.main}
             onClick={setCurrentTabToRecovery}
           >
-            Click here to recover password
+            {t('Click here to recover password')}
           </Typography>
         </Stack>
       </Form>

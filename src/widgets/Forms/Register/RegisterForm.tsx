@@ -19,6 +19,7 @@ import { confirmEmail, login, register, TConfirmEmailResponse, TLoginRequest, TU
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
+import { useTranslation } from 'react-i18next';
 
 const RegisterForm = () => {
   const [isRegistered, setIsRegistered] = useState(false);
@@ -28,6 +29,7 @@ const RegisterForm = () => {
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const { t } = useTranslation('loginPage');
 
   const toastId = useRef<Id>();
   const navigate = useNavigate();
@@ -99,17 +101,17 @@ const RegisterForm = () => {
         isConfirmed ? (
           <Stack spacing={1}>
             <Typography variant="h4" align="center">
-              Registration finished!
+              {t('Registration finished!')}
             </Typography>
-            <Typography>You now will be redirected</Typography>
+            <Typography>{t('You now will be redirected')}</Typography>
           </Stack>
         ) : (
           <Form onSubmit={() => confirmMutate()}>
             <Stack spacing={1}>
               <Typography variant="h4" align="center">
-                Registration successful!
+                {t('Registration successful!')}
               </Typography>
-              <Typography>Confirm your email. Enter code from letter</Typography>
+              <Typography>{t('Confirm your email. Enter code from letter')}</Typography>
               <TextField
                 disabled={isConfirmPending}
                 type="text"
@@ -118,7 +120,7 @@ const RegisterForm = () => {
                 placeholder="Code"
               />
               <Button disabled={isConfirmPending} type="submit" variant="outlined">
-                Confirm
+                {t('Confirm')}
               </Button>
             </Stack>
           </Form>
@@ -127,22 +129,22 @@ const RegisterForm = () => {
         <Form onSubmit={handleRegisterSubmit}>
           <Stack spacing={1}>
             <Typography variant="h4" align="center">
-              Register
+              {t('Register')}
             </Typography>
             <TextField
               disabled={isRegisterPending}
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
+              placeholder={t('Email')}
             />
             <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-password">{t('Password')}</InputLabel>
               <OutlinedInput
                 disabled={isRegisterPending}
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
-                label="Password"
+                label={t('Password')}
                 type={showPassword ? 'text' : 'password'}
                 endAdornment={
                   <InputAdornment position="end">
@@ -162,11 +164,11 @@ const RegisterForm = () => {
               value={confirmPassword}
               disabled={isRegisterPending}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm Password"
-              helperText="Password should contain 1 number and 1 capital letter"
+              placeholder={t('Confirm Password')}
+              helperText={t('Password should contain 1 number and 1 capital letter')}
             />
             <Button disabled={isRegisterPending} type="submit" variant="outlined">
-              Register
+              {t('Register')}
             </Button>
           </Stack>
         </Form>

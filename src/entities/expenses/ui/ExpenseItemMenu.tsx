@@ -1,5 +1,6 @@
 import { Delete, Edit, Share } from '@mui/icons-material';
 import { alpha, Menu, MenuItem, Typography, useTheme } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 type TExpenseItemMenuProps = {
   contextMenuCoordinates: { mouseX: number; mouseY: number } | null;
@@ -19,6 +20,7 @@ const ExpenseItemMenu = ({
   setIsShareWithModalOpen,
 }: TExpenseItemMenuProps) => {
   const theme = useTheme();
+  const { t } = useTranslation('translation');
 
   return (
     <Menu
@@ -50,7 +52,7 @@ const ExpenseItemMenu = ({
       >
         <Edit fontSize="small" />
         <Typography variant="body2" sx={{ ml: 1 }}>
-          Edit
+          {t('Edit')}
         </Typography>
       </MenuItem>
       <MenuItem
@@ -62,7 +64,7 @@ const ExpenseItemMenu = ({
       >
         <Share fontSize="small" />
         <Typography variant="body2" sx={{ ml: 1 }}>
-          Share with
+          {t('Share with')}
         </Typography>
       </MenuItem>
       <MenuItem
@@ -73,7 +75,7 @@ const ExpenseItemMenu = ({
       >
         <Delete fontSize="small" />
         <Typography variant="body2" sx={{ ml: 1 }}>
-          Delete
+          {t('Delete')}
         </Typography>
       </MenuItem>
     </Menu>

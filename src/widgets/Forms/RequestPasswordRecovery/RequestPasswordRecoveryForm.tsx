@@ -8,9 +8,11 @@ import { forgotPassword } from 'src/shared/api/authApi.ts';
 import { toast } from 'react-toastify';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
+import { useTranslation } from 'react-i18next';
 
 const RequestPasswordRecoveryForm = () => {
   const [email, setEmail] = useState('');
+  const { t } = useTranslation('loginPage');
 
   const {
     isSuccess,
@@ -42,18 +44,18 @@ const RequestPasswordRecoveryForm = () => {
       <Form onSubmit={handleRecoveryClick}>
         <Stack spacing={1}>
           <Typography variant="h4" align="center">
-            Password recovery
+            {t('Password recovery')}
           </Typography>
-          <Typography variant="body2">Enter your email to recover password</Typography>
+          <Typography variant="body2">{t('Enter your email to recover password')}</Typography>
           <TextField
             disabled={isConfirmPending}
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
+            placeholder={t('Email')}
           />
           <Button disabled={isConfirmPending} type="submit" variant="outlined">
-            Send recovery link
+            {t('Send recovery link')}
           </Button>
         </Stack>
       </Form>
