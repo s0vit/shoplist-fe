@@ -9,6 +9,7 @@ import ExpenseQueryForm from 'src/entities/expenses/ui/expensesQueryForm.tsx';
 
 const HomePage = () => {
   const { isDesktopWidth, windowHeight } = useWindowWidth();
+  const isBigScreen = windowHeight > 740;
 
   useLoadPaymentSources(true);
   useLoadCategories(true);
@@ -33,8 +34,8 @@ const HomePage = () => {
     </Stack>
   ) : (
     <>
-      {windowHeight > 680 && <SpentThisMonth />}
-      <Box position="fixed" bottom={0} right={0} maxWidth="100%">
+      <SpentThisMonth />
+      <Box position={isBigScreen ? 'fixed' : undefined} bottom={0} right={0} maxWidth="100%">
         <AddExpenseCalculator />
       </Box>
     </>
