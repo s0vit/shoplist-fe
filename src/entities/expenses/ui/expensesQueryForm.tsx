@@ -17,7 +17,7 @@ import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
 const ExpenseQueryForm = () => {
   const isVerified = _useUserStore.use.user?.()?.isVerified;
-  const { fetchExpenses, isExpensesLoading } = useLoadExpenses({ shouldFetchOnLoad: isVerified });
+  const { fetchExpenses, isExpensesLoading } = useLoadExpenses({ shouldFetchOnLoad: false });
   const filters = useFiltersStoreForExpenses.use.filter();
   const setFilter = useFiltersStoreForExpenses.use.setFilter();
   const debouncedQuery = useDebouncedValue(filters, 300);
