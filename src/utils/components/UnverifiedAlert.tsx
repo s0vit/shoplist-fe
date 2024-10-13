@@ -11,11 +11,7 @@ export const UnverifiedAlert = () => {
 
   if (!isVerified && isLoggedIn) {
     return (
-      <Alert
-        severity="warning"
-        variant="outlined"
-        sx={{ margin: '10px 15px', background: theme.palette.background || 'black' }}
-      >
+      <Alert severity="warning" variant="outlined" sx={{ margin: '10px 15px', ...theme.palette.background }}>
         <AlertTitle>{t('Warning: ')}</AlertTitle>
         {t('To get full functionality you should to confirm your email. Please check your email.')}
       </Alert>
