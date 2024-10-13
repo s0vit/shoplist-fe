@@ -3,6 +3,7 @@ import { alpha, Button, Menu, MenuItem, Typography, useTheme } from '@mui/materi
 import { Fragment, MouseEvent, TouchEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import { useTranslation } from 'react-i18next';
+import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
 type THorizontalListItemProps = {
   item: { _id: string; title: string; color?: string };
@@ -26,6 +27,7 @@ const HorizontalListItem = ({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const theme = useTheme();
+  const isVerified = _useUserStore.use.user?.()?.isVerified;
   const { t } = useTranslation(['homePage', 'translation'], { nsMode: 'fallback' });
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement> | TouchEvent, itemId: string) => {
@@ -72,7 +74,7 @@ const HorizontalListItem = ({
           vertical: 'bottom',
           horizontal: 'center',
         }}
-        open={Boolean(anchorEl) && item._id === selectedItemId}
+        open={Boolean(anchorEl) && item._id === selectedItemId && !!isVerified}
         onClose={handleCloseMenu}
         slotProps={{
           paper: {

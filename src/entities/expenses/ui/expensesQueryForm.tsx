@@ -13,17 +13,23 @@ import { TGetExpenseQuery } from 'src/shared/api/expenseApi.ts';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import { TFilterForQueryTypes } from 'src/entities/filters/models/types/types.ts';
 import { useTranslation } from 'react-i18next';
+import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
 const ExpenseQueryForm = () => {
-  const { fetchExpenses, isExpensesLoading } = useLoadExpenses({ shouldFetchOnLoad: false });
+  const isVerified = _useUserStore.use.user?.()?.isVerified;
+  const { fetchExpenses, isExpensesLoading } = useLoadExpenses({ shouldFetchOnLoad: isVerified });
   const filters = useFiltersStoreForExpenses.use.filter();
   const setFilter = useFiltersStoreForExpenses.use.setFilter();
   const debouncedQuery = useDebouncedValue(filters, 300);
   const { t } = useTranslation('homePage');
 
-  const handleFetchExpenses = useStableCallback((value: TGetExpenseQuery | undefined) => {
-    fetchExpenses(value);
-  });
+  const handleFetchExpenses = useStableCallback(
+    isVerified
+      ? (value: TGetExpenseQuery | undefined) => {
+          fetchExpenses(value);
+        }
+      : () => {},
+  );
 
   const handleChange = useStableCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

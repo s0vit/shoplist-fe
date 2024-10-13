@@ -1,6 +1,7 @@
 import { AddCircle } from '@mui/icons-material';
 import { Box, IconButton } from '@mui/material';
 import HorizontalListItem from 'src/widgets/HorizontalList/HorizontalListItem.tsx';
+import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
 type THorizontalListProps = {
   items: { _id: string; title: string; color?: string }[];
@@ -23,6 +24,8 @@ const HorizontalList = ({
   handleShare,
   handleEdit,
 }: THorizontalListProps) => {
+  const isVerified = _useUserStore.use.user?.()?.isVerified;
+
   return (
     <Box pt={1} pb={0.5} sx={{ overflowX: 'auto', display: 'flex' }}>
       {items.map((item) => {
@@ -39,7 +42,7 @@ const HorizontalList = ({
           />
         );
       })}
-      <IconButton size="small" disabled={disabled} color="primary" onClick={openModal}>
+      <IconButton size="small" disabled={disabled || !isVerified} color="primary" onClick={openModal}>
         <AddCircle />
       </IconButton>
     </Box>

@@ -4,7 +4,8 @@ const ContentContainer = styled(Box)<BoxProps>(({ theme }) => {
   const toolbarHeight = useMediaQuery(theme.breakpoints.up('sm')) ? 64 : 56;
 
   return {
-    height: `calc(100vh - ${toolbarHeight}px)`,
+    //TODO: add dynamic height value for UnverifiedAlert block
+    height: `calc(100vh - 98px - ${toolbarHeight}px)`,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(2),
     overflowY: 'auto',

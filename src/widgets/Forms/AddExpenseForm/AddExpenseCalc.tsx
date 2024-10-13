@@ -39,6 +39,7 @@ import CommentModal from '../../Modal/CommentModal';
 import CalculatorButtons from './CalculatorButtons';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 import { useTranslation } from 'react-i18next';
+import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
@@ -60,6 +61,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const [comments, setComments] = useState<string>('');
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
+  const isVerified = _useUserStore.use.user?.()?.isVerified;
   const { t } = useTranslation('homePage');
 
   const { fetchExpenses } = useLoadExpenses();
@@ -351,7 +353,13 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             </Button>
           </Grid>
           <Grid xs={6} item>
-            <Button disabled={isPending} variant="contained" color="success" fullWidth onClick={handleSave}>
+            <Button
+              disabled={isPending || !isVerified}
+              variant="contained"
+              color="success"
+              fullWidth
+              onClick={handleSave}
+            >
               {isPending ? <CircularProgress size={24} /> : t('Save')}
             </Button>
           </Grid>

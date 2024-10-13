@@ -6,16 +6,18 @@ import AddExpenseCalculator from 'src/widgets/Forms/AddExpenseForm/AddExpenseCal
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import SpentThisMonth from 'src/entities/expenses/ui/SpentThisMonth.tsx';
 import ExpenseQueryForm from 'src/entities/expenses/ui/expensesQueryForm.tsx';
+import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
 const HomePage = () => {
   const { isDesktopWidth, windowHeight } = useWindowWidth();
+  const isVerified = _useUserStore.use.user?.()?.isVerified;
 
   useLoadPaymentSources(true);
   useLoadCategories(true);
 
   return isDesktopWidth ? (
     <Stack spacing={1} maxHeight="100%" overflow="auto">
-      <ExpenseQueryForm />
+      {isVerified && <ExpenseQueryForm />}
       <Stack
         gap={1}
         direction="row"

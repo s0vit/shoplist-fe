@@ -17,6 +17,7 @@ import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal.tsx';
 import { FaPencilAlt } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
 type TCategoriesProps = {
   category: TCategory;
@@ -37,6 +38,7 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
   const categoryTextColor = theme.palette.text.primary;
   const categoryBackgroundColor = alpha(category.color || theme.palette.primary.main, 0.05);
   const { t } = useTranslation('categories');
+  const isVerified = _useUserStore.use.user?.()?.isVerified;
 
   const handleEdit = () => {
     setCategoryModalOpen(true);
@@ -135,6 +137,7 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
                       ml: '5px',
                       border: `1px solid ${theme.palette.text.primary}`,
                     }}
+                    disabled={!isVerified}
                     onClick={handleEdit}
                   >
                     <FaPencilAlt size={20} color={theme.palette.text.primary} />
