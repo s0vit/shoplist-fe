@@ -25,7 +25,6 @@ const DeleteCategoryDialog = <T extends { _id: string; title: string; color?: st
           <Typography variant="body1" gutterBottom>
             {t('A you sure to delete ')}
             <span style={{ color: 'red' }}>{item.title}</span>
-            {t(' item?')}
           </Typography>
         </DialogContent>
       )}
