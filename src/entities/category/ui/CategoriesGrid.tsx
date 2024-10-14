@@ -8,7 +8,6 @@ type TCategoriesProps = {
 };
 
 const Categories = ({ categories, handleOpenDeleteDialog }: TCategoriesProps) => {
-
   return (
     <Grid container spacing={2}>
       {categories.map((category) => (
