@@ -23,13 +23,9 @@ const ExpenseQueryForm = () => {
   const debouncedQuery = useDebouncedValue(filters, 300);
   const { t } = useTranslation('homePage');
 
-  const handleFetchExpenses = useStableCallback(
-    isVerified
-      ? (value: TGetExpenseQuery | undefined) => {
-          fetchExpenses(value);
-        }
-      : () => {},
-  );
+  const handleFetchExpenses = useStableCallback((value: TGetExpenseQuery | undefined) => {
+    fetchExpenses(value);
+  });
 
   const handleChange = useStableCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -49,8 +45,11 @@ const ExpenseQueryForm = () => {
       skip: debouncedQuery?.skip ? parseInt(debouncedQuery.skip, 10) : undefined,
       limit: debouncedQuery?.limit ? parseInt(debouncedQuery.limit, 10) : undefined,
     };
-    handleFetchExpenses(formattedQuery);
-  }, [debouncedQuery, handleFetchExpenses]);
+
+    if (isVerified) {
+      handleFetchExpenses(formattedQuery);
+    }
+  }, [debouncedQuery, handleFetchExpenses, isVerified]);
 
   const filtersArray = [
     { name: 'createdStartDate', label: 'Created Start Date', type: 'datetime-local' },
