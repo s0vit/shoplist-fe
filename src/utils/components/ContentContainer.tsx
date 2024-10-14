@@ -15,6 +15,10 @@ const ContentContainer = styled(Box)<BoxProps>(({ theme }) => {
         paddingBottom: theme.spacing(7),
       },
     },
+
+    '@media (max-height: 740px)': {
+      padding: theme.spacing(1),
+    },
   };
 });
 

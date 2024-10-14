@@ -6,6 +6,7 @@ import calculateTotalAmount from 'src/utils/helpers/calculateTotalAmmount';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 
 const SpentThisMonth = () => {
   const isVerified = _useUserStore.use.user?.()?.isVerified;
@@ -13,6 +14,9 @@ const SpentThisMonth = () => {
   const [currency, setCurrency] = useState<CURRENCIES>(defaultCurrency ?? CURRENCIES.EUR);
   const { userExpenses } = useLoadExpenses({ shouldFetchOnLoad: isVerified });
   const { t } = useTranslation('homePage');
+  const { windowHeight } = useWindowWidth();
+
+  const isBigScreen = windowHeight > 740;
 
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
@@ -24,18 +28,18 @@ const SpentThisMonth = () => {
   );
 
   return (
-    <Paper>
+    <Paper sx={{ pb: 2, mb: 1 }}>
       <Typography variant="h6" textAlign="center">
         {t('Spent this month:')}
       </Typography>
       <Stack textAlign="center" direction="row" spacing={2} justifyContent="center">
-        <Typography variant="h3" color="primary">
+        <Typography variant={isBigScreen ? 'h3' : 'h4'} color="primary">
           {calculateTotalAmount(filteredExpenses, currency)}
         </Typography>
         <FormControl>
           <Select
             autoWidth
-            sx={{ fontSize: '2rem' }}
+            sx={{ fontSize: isBigScreen ? '2rem' : '1.5rem' }}
             variant="standard"
             value={currency}
             onChange={(e) => setCurrency(e.target.value as CURRENCIES)}

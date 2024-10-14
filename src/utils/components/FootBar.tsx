@@ -5,7 +5,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
-import { BottomNavigation, BottomNavigationAction, Fab, useTheme, Box } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Box, Fab, useTheme } from '@mui/material';
 
 const FootBar = () => {
   const isLoggedIn = useUserStore.use.user?.() !== undefined;
@@ -38,7 +38,7 @@ const FootBar = () => {
 
   return (
     isLoggedIn && (
-      <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+      <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1 }}>
         <BottomNavigation showLabels>
           {navigationItems.map((item) => (
             <BottomNavigationAction
