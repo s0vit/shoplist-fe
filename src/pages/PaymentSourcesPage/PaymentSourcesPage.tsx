@@ -11,7 +11,7 @@ import handleError from 'src/utils/errorHandler';
 const PaymentSourcesPage = () => {
   const { userPaymentSources, isPaymentSourcesLoading, fetchPaymentSources } = useLoadPaymentSources();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [deletingPaymentSource, setDeletingPaymentSource] = useState<TPaymentSource>({} as TPaymentSource);
+  const [deletingPaymentSource, setDeletingPaymentSource] = useState<TPaymentSource>();
   const { t } = useTranslation('accounts');
 
   const handleOpenDeleteDialog = (paymentSource: TPaymentSource) => {
@@ -25,7 +25,7 @@ const PaymentSourcesPage = () => {
     onSuccess: async () => {
       await fetchPaymentSources();
       setOpenDeleteDialog(false);
-      setDeletingPaymentSource({} as TPaymentSource);
+      setDeletingPaymentSource(undefined);
     },
   });
 

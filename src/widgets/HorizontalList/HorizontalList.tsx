@@ -28,7 +28,7 @@ const HorizontalList = ({
   handleEdit,
 }: THorizontalListProps) => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [deletingItem, setDeletingItem] = useState<TItem>({} as TItem);
+  const [deletingItem, setDeletingItem] = useState<TItem>();
 
   const handleOpenDeleteDialog = (item: TItem) => {
     setOpenDeleteDialog(true);
@@ -38,7 +38,7 @@ const HorizontalList = ({
   const handleConfirmDelete = (itemId: string) => {
     handleDelete(itemId);
     setOpenDeleteDialog(false);
-    setDeletingItem({} as TItem);
+    setDeletingItem(undefined);
   };
 
   return (
@@ -60,7 +60,7 @@ const HorizontalList = ({
       <IconButton size="small" disabled={disabled} color="primary" onClick={openModal}>
         <AddCircle />
       </IconButton>
-      <DeleteCategoryDialog
+      <DeleteCategoryDialog<TItem>
         openDeleteDialog={openDeleteDialog}
         setOpenDeleteDialog={setOpenDeleteDialog}
         handleConfirmDelete={handleConfirmDelete}

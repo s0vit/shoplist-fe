@@ -11,7 +11,7 @@ import handleError from 'src/utils/errorHandler.ts';
 const CategoryPage = () => {
   const { userCategories, isCategoriesLoading, fetchCategories } = useLoadCategories();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [deletingCategory, setDeletingCategory] = useState<TCategory>({} as TCategory);
+  const [deletingCategory, setDeletingCategory] = useState<TCategory>();
   const { t } = useTranslation('categories');
 
   const handleOpenDeleteDialog = (category: TCategory) => {
@@ -25,7 +25,7 @@ const CategoryPage = () => {
     onSuccess: async () => {
       await fetchCategories();
       setOpenDeleteDialog(false);
-      setDeletingCategory({} as TCategory);
+      setDeletingCategory(undefined);
     },
   });
 
