@@ -1,21 +1,21 @@
 import { Button, Dialog, DialogActions, DialogContent, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-type TDeleteCategoryDialog<T> = {
+type TDeleteCategoryDialog = {
   openDeleteDialog: boolean;
   setOpenDeleteDialog: (value: boolean) => void;
   handleConfirmDelete: (itemId: string) => void;
   isUpdating: boolean;
-  item?: T;
+  item?: { _id: string; title: string; color?: string };
 };
 
-const DeleteCategoryDialog = <T extends { _id: string; title: string; color?: string }>({
+const DeleteCategoryDialog = ({
   setOpenDeleteDialog,
   openDeleteDialog,
   handleConfirmDelete,
   isUpdating,
   item,
-}: TDeleteCategoryDialog<T>) => {
+}: TDeleteCategoryDialog) => {
   const { t } = useTranslation('translation');
 
   return (

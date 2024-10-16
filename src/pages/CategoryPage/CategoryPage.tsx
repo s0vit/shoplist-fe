@@ -39,7 +39,7 @@ const CategoryPage = () => {
         {userCategories && (
           <CategoriesGrid categories={userCategories} handleOpenDeleteDialog={handleOpenDeleteDialog} />
         )}
-        <DeleteCategoryDialog<TCategory>
+        <DeleteCategoryDialog
           openDeleteDialog={openDeleteDialog}
           setOpenDeleteDialog={setOpenDeleteDialog}
           handleConfirmDelete={requestDeleteCategory}

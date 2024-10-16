@@ -60,7 +60,7 @@ const HorizontalList = ({
       <IconButton size="small" disabled={disabled} color="primary" onClick={openModal}>
         <AddCircle />
       </IconButton>
-      <DeleteCategoryDialog<TItem>
+      <DeleteCategoryDialog
         openDeleteDialog={openDeleteDialog}
         setOpenDeleteDialog={setOpenDeleteDialog}
         handleConfirmDelete={handleConfirmDelete}

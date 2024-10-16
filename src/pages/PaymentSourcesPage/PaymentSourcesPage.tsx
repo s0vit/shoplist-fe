@@ -39,7 +39,7 @@ const PaymentSourcesPage = () => {
         {userPaymentSources && (
           <PaymentSourcesGrid paymentSources={userPaymentSources} handleOpenDeleteDialog={handleOpenDeleteDialog} />
         )}
-        <DeleteCategoryDialog<TPaymentSource>
+        <DeleteCategoryDialog
           openDeleteDialog={openDeleteDialog}
           setOpenDeleteDialog={setOpenDeleteDialog}
           handleConfirmDelete={requestDeletePaymentSource}
