@@ -51,7 +51,7 @@ const NavBarMenu = () => {
           </ListItemIcon>
           {t('Profile')}
         </MenuItem>
-        <MenuItem onClick={() => navigate(RoutesEnum.ACCESS_CONTROL)}>
+        <MenuItem onClick={() => navigate(RoutesEnum.ACCESS_CONTROL)} disabled={!userData?.isVerified}>
           <ListItemIcon>
             <ShareSharp fontSize="small" />
           </ListItemIcon>

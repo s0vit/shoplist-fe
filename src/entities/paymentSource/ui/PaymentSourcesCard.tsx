@@ -17,6 +17,7 @@ import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import { FaPencilAlt } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
 type TPaymentSourcesCardProps = {
   paymentSource: TPaymentSource;
@@ -32,7 +33,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
   const setCurrentEditingPaymentSource = usePaymentSourcesStore.use.setCurrentEditingPaymentSource();
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
   const { t } = useTranslation('accounts');
-
+  const isVerified = _useUserStore.use.user?.()?.isVerified;
   const theme = useTheme();
   const { isDesktopWidth } = useWindowWidth();
   const paymentSourceTextColor = theme.palette.text.primary;
@@ -67,7 +68,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
 
   const leadingActions = () => (
     <LeadingActions>
-      <SwipeAction onClick={handleEdit}>
+      <SwipeAction onClick={isVerified ? handleEdit : () => {}}>
         <Stack
           alignItems="center"
           justifyContent="center"
@@ -87,7 +88,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
 
   const trailingActions = () => (
     <TrailingActions>
-      <SwipeAction destructive={true} onClick={handleRemove}>
+      <SwipeAction destructive={isVerified} onClick={isVerified ? handleRemove : () => {}}>
         <Stack
           alignItems="center"
           height="100%"
@@ -136,6 +137,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
                       border: `1px solid ${theme.palette.text.primary}`,
                     }}
                     onClick={handleEdit}
+                    disabled={!isVerified}
                   >
                     <FaPencilAlt size={20} color={theme.palette.text.primary} />
                   </IconButton>

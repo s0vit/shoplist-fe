@@ -8,6 +8,7 @@ import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ExpenseModal from 'src/widgets/Modal/ExpenseModal';
 import UpsertCategoryModal from 'src/widgets/Modal/UpsertCategoryModal';
 import UpsertPaymentSourceModal from 'src/widgets/Modal/UpsertPaymentSourceModal';
+import { UnverifiedAlert } from 'src/utils/components/UnverifiedAlert.tsx';
 
 const Layout = () => {
   const theme = useTheme();
@@ -19,6 +20,7 @@ const Layout = () => {
   return (
     <Box>
       <Navbar />
+      <UnverifiedAlert />
       <ContentContainer>
         <Outlet />
       </ContentContainer>
