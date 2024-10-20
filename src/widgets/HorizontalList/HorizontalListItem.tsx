@@ -5,19 +5,21 @@ import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
+type TItem = { _id: string; title: string; color?: string };
+
 type THorizontalListItemProps = {
-  item: { _id: string; title: string; color?: string };
+  item: TItem;
   disabled: boolean;
   selectedItem: string;
   setSelectedItem: (id: string) => void;
-  handleDelete: (id: string) => void;
+  handleOpenDeleteDialog: (item: TItem) => void;
   handleEdit: (item: { _id: string; title: string; color?: string }) => void;
   handleShare: (id: string) => void;
 };
 
 const HorizontalListItem = ({
   item,
-  handleDelete,
+  handleOpenDeleteDialog,
   handleShare,
   selectedItem,
   setSelectedItem,
@@ -109,7 +111,8 @@ const HorizontalListItem = ({
         </MenuItem>
         <MenuItem
           onClick={() => {
-            handleDelete(item._id);
+            handleOpenDeleteDialog(item);
+            handleCloseMenu();
           }}
         >
           <Delete fontSize="small" />
