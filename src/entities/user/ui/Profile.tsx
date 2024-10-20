@@ -108,7 +108,7 @@ const Profile = () => {
             <Avatar
               src={userData?.avatar}
               alt="User Avatar"
-              sx={{ width: 100, height: 100, cursor: 'pointer' }}
+              sx={{ width: 100, height: 100, cursor: userData?.isVerified ? 'pointer' : 'not-allowed' }}
               onClick={handleAvatarClick}
             />
             <IconButton
@@ -124,6 +124,7 @@ const Profile = () => {
                   backgroundColor: alpha(theme.palette.background.paper, 0.6),
                 },
               }}
+              disabled={!userData?.isVerified}
               onClick={handleAvatarClick}
             >
               <PhotoCamera />
@@ -134,6 +135,7 @@ const Profile = () => {
             accept="image/*"
             style={{ display: 'none' }}
             ref={fileInputRef}
+            disabled={!userData?.isVerified}
             onChange={handleFileChange}
           />
           <Typography variant="body1" gutterBottom>
@@ -149,7 +151,7 @@ const Profile = () => {
         </Box>
 
         <Accordion sx={{ marginTop: 4 }} elevation={2}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} disabled={!userData?.isVerified}>
             <Typography>{t('Settings')}</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ p: 0 }}>
@@ -162,11 +164,18 @@ const Profile = () => {
             onClick={() => {
               setOpenResetPasswordDialog(true);
             }}
+            disabled={!userData?.isVerified}
             sx={{ marginRight: 5, marginTop: 2 }}
           >
             {t('Change password')}
           </Button>
-          <Button variant="contained" color="error" onClick={handleDeleteClick} sx={{ marginTop: 2 }}>
+          <Button
+            variant="contained"
+            color="error"
+            disabled={!userData?.isVerified}
+            onClick={handleDeleteClick}
+            sx={{ marginTop: 2 }}
+          >
             {t('Delete Profile')}
           </Button>
         </ButtonGroup>

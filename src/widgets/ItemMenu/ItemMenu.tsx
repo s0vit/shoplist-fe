@@ -1,6 +1,7 @@
 import { Delete, Edit, Share } from '@mui/icons-material';
 import { alpha, Menu, MenuItem, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
 type TItemMenuProps = {
   contextMenuCoordinates: { mouseX: number; mouseY: number } | null;
@@ -21,6 +22,7 @@ const ItemMenu = ({
 }: TItemMenuProps) => {
   const theme = useTheme();
   const { t } = useTranslation('translation');
+  const isVerified = _useUserStore.use.user?.()?.isVerified;
 
   return (
     <Menu
@@ -33,7 +35,7 @@ const ItemMenu = ({
         vertical: 'bottom',
         horizontal: 'center',
       }}
-      open={!!contextMenuCoordinates}
+      open={!!contextMenuCoordinates && !!isVerified}
       onClose={handleCloseMenu}
       slotProps={{
         paper: {
