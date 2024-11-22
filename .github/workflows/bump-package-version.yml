@@ -7,14 +7,15 @@ on:
 
 jobs:
   bump-version:
-    name: 'Bump Version on main'
+    name: 'Bump Version on master'
     runs-on: ubuntu-latest
 
     steps:
       - name: 'Checkout source code'
         uses: 'actions/checkout@v4'
         with:
-          token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+          ref: ${{ github.ref }}
+          token: ${{ secrets.MERGE_TOKEN }}
       - name: 'cat package.json'
         run: cat ./package.json
       - name: 'Automated Version Bump'
@@ -26,7 +27,7 @@ jobs:
           patch-wording: 'patch,fixes'
           rc-wording: 'RELEASE,alpha'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
       - name: 'cat package.json'
         run: cat ./package.json
       - name: 'Output Step'
