@@ -4,7 +4,7 @@ import {
   Box,
   Button,
   FormControl,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   MenuItem,
   Paper,
@@ -23,9 +23,9 @@ import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
-import { deleteCategory } from 'src/shared/api/categoryApi.ts';
+import { deleteCategory, updateOrderCategory } from 'src/shared/api/categoryApi.ts';
 import { createExpense, TCreateExpenseInput, TExpense, updateExpense } from 'src/shared/api/expenseApi.ts';
-import { deletePaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
+import { deletePaymentSource, updateOrderPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies.ts';
 import handleError from 'src/utils/errorHandler.ts';
@@ -122,8 +122,27 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     },
   });
 
+  const { mutate: handleUpdateOrderPaymentSource, isPending: isUpdateOrderPaymentSourcePending } = useMutation({
+    mutationFn: updateOrderPaymentSource,
+    onError: (error) => {
+      handleError(error);
+    },
+  });
+
+  const { mutate: handleUpdateOrderCategory, isPending: isUpdateOrderCategoryPending } = useMutation({
+    mutationFn: updateOrderCategory,
+    onError: (error) => {
+      handleError(error);
+    },
+  });
+
   const isPending =
-    isCreateExpensePending || isUpdateExpensePending || isDeleteCategoryPending || isDeletePaymentSourcePending;
+    isCreateExpensePending ||
+    isUpdateExpensePending ||
+    isDeleteCategoryPending ||
+    isDeletePaymentSourcePending ||
+    isUpdateOrderPaymentSourcePending ||
+    isUpdateOrderCategoryPending;
 
   const handleButtonClick = (value: string) => {
     setAmount((prevValue) => {
@@ -293,6 +312,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           openModal={() => setIsCategoryModalOpen(true)}
           handleDelete={deleteCategoryMutate}
           isLoading={isCategoriesLoading}
+          updateOrder={handleUpdateOrderCategory}
         />
         <PaymentSourceList
           paymentSources={paymentSources}
@@ -302,6 +322,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           openModal={() => setIsPaymentSourceModalOpen(true)}
           handleDelete={deletePaymentSourceMutate}
           isLoading={isPaymentSourcesLoading}
+          updateOrder={handleUpdateOrderPaymentSource}
         />
         <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 2 }}>
           <DateTimePicker
@@ -341,7 +362,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           </IconButton>
         </Stack>
         <Grid container spacing={1} sx={{ mt: 1 }}>
-          <Grid xs={6} item>
+          <Grid size={6}>
             <Button
               disabled={isPending}
               variant="contained"
@@ -352,7 +373,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
               {t('Clear')}
             </Button>
           </Grid>
-          <Grid xs={6} item>
+          <Grid size={6}>
             <Button
               disabled={isPending || !isVerified}
               variant="contained"

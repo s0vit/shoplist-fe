@@ -24,7 +24,6 @@ const Layout = () => {
       <ContentContainer>
         <Outlet />
       </ContentContainer>
-      {/*modals that are called from different pages*/}
       <ExpenseModal />
       <UpsertPaymentSourceModal />
       <UpsertCategoryModal />

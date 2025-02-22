@@ -1,6 +1,7 @@
 import { TCategory } from 'src/shared/api/categoryApi';
 import SkeletonForCalc from 'src/utils/components/Skeleton.tsx';
 import HorizontalList from 'src/widgets/HorizontalList/HorizontalList.tsx';
+import { useEffect, useState } from 'react';
 
 type TCategoryListProps = {
   categories: TCategory[];
@@ -10,6 +11,7 @@ type TCategoryListProps = {
   openModal: () => void;
   handleDelete: (id: string) => void;
   isLoading: boolean;
+  updateOrder: (data: { _id: string; order: number }) => void;
 };
 
 const CategoryList = ({
@@ -20,12 +22,20 @@ const CategoryList = ({
   openModal,
   handleDelete,
   isLoading,
+  updateOrder,
 }: TCategoryListProps) => {
+  const [categoriesList, setCategoriesList] = useState(categories);
+  useEffect(() => {
+    setCategoriesList(categories);
+  }, [categories]);
+
   return isLoading ? (
     <SkeletonForCalc />
   ) : (
     <HorizontalList
-      items={categories}
+      setItems={setCategoriesList}
+      updateOrder={updateOrder}
+      items={categoriesList}
       disabled={isPending}
       selectedItem={selectedCategory}
       setSelectedItem={setSelectedCategory}

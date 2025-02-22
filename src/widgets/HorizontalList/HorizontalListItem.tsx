@@ -1,11 +1,11 @@
 import { Delete, Edit, Share } from '@mui/icons-material';
 import { alpha, Button, Menu, MenuItem, Typography, useTheme } from '@mui/material';
-import { Fragment, MouseEvent, TouchEvent, useState } from 'react';
+import { MouseEvent, TouchEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
-
-type TItem = { _id: string; title: string; color?: string };
+import { TItem } from 'src/widgets/HorizontalList/HorizontalList.tsx';
+import { SortableItem } from 'react-easy-sort';
 
 type THorizontalListItemProps = {
   item: TItem;
@@ -13,7 +13,7 @@ type THorizontalListItemProps = {
   selectedItem: string;
   setSelectedItem: (id: string) => void;
   handleOpenDeleteDialog: (item: TItem) => void;
-  handleEdit: (item: { _id: string; title: string; color?: string }) => void;
+  handleEdit: (item: TItem) => void;
   handleShare: (id: string) => void;
 };
 
@@ -43,32 +43,42 @@ const HorizontalListItem = ({
   };
 
   return (
-    <Fragment key={item._id}>
-      <Button
-        onContextMenu={(e) => handleOpenMenu(e, item._id)}
-        {...useLongPress((e) => handleOpenMenu(e, item._id), 500)}
-        size="small"
-        disabled={disabled}
-        variant={selectedItem === item._id ? 'contained' : 'outlined'}
-        color="primary"
-        onClick={() => setSelectedItem(selectedItem === item._id ? '' : item._id)}
-        sx={
-          selectedItem === item._id
-            ? {
-                backgroundColor: disabled
-                  ? `${theme.palette.action.disabled}!important`
-                  : `${alpha(item.color || '', 0.7)}!important`,
-                color: `${theme.palette.getContrastText(item.color || '')}!important`,
-              }
-            : {
-                borderColor: disabled ? `${theme.palette.action.disabled}!important` : `${item.color}!important`,
-                color: theme.palette.text.secondary,
-              }
-        }
-        style={{ marginRight: '8px', flexShrink: 0 }}
-      >
-        {item.title}
-      </Button>
+    <>
+      <SortableItem key={item._id}>
+        <Button
+          onContextMenu={(e) => handleOpenMenu(e, item._id)}
+          {...useLongPress((e) => handleOpenMenu(e, item._id), 500)}
+          size="small"
+          disabled={disabled}
+          variant={selectedItem === item._id ? 'contained' : 'outlined'}
+          color="primary"
+          onClick={() => setSelectedItem(selectedItem === item._id ? '' : item._id)}
+          sx={
+            selectedItem === item._id
+              ? {
+                  backgroundColor: disabled
+                    ? `${theme.palette.action.disabled}!important`
+                    : `${alpha(item.color || '', 0.7)}!important`,
+                  color: `${theme.palette.getContrastText(item.color || '')}!important`,
+                  '&.dragged-item': {
+                    opacity: 0.5,
+                    zIndex: 1000,
+                  },
+                }
+              : {
+                  borderColor: disabled ? `${theme.palette.action.disabled}!important` : `${item.color}!important`,
+                  color: theme.palette.text.secondary,
+                  '&.dragged-item': {
+                    opacity: 0.5,
+                    zIndex: 1000,
+                  },
+                }
+          }
+          style={{ marginRight: '8px', flexShrink: 0 }}
+        >
+          {item.title}
+        </Button>
+      </SortableItem>
       <Menu
         variant="selectedMenu"
         anchorEl={anchorEl}
@@ -121,7 +131,7 @@ const HorizontalListItem = ({
           </Typography>
         </MenuItem>
       </Menu>
-    </Fragment>
+    </>
   );
 };
 
