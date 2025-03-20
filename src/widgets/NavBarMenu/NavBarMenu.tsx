@@ -39,6 +39,7 @@ const NavBarMenu = () => {
         </IconButton>
       </Tooltip>
       <Menu
+        key={location.pathname}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
