@@ -24,7 +24,7 @@ pnpm install
 To start the development server, run the following command:
 
 ```bash
-pnpm start
+pnpm run dev
 ```
 
 ### Technologies
