@@ -5,7 +5,7 @@ const ContentContainer = styled(Box)<BoxProps>(({ theme }) => {
 
   return {
     //TODO: add dynamic height value for UnverifiedAlert block
-    height: `calc(100vh - 98px - ${toolbarHeight}px)`,
+    height: `calc(100vh - ${toolbarHeight}px)`,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(2),
     overflowY: 'auto',
