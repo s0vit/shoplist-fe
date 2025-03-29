@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`basic snapshot test 1`] = `
+<div>
+  <div>
+    Hello Snapshot
+  </div>
+</div>
+`;
+
+exports[`renders correctly 1`] = `[Function]`;

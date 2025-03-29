@@ -20,9 +20,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "src/*": ["./src/*"]
+      "src/*": ["./src/*"],
+      "tests/*": ["./tests/*"],
+      ".storybook/*": ["./.storybook/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "tests", ".storybook"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
