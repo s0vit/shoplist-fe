@@ -35,15 +35,13 @@ const ExpensesTable = () => {
 
   const groupedExpenses = groupExpensesByDate(expenses);
 
-  return (
+  return isExpensesLoading ? (
+    <Skeleton variant="rounded" animation="wave" width="100%" sx={{ minHeight: '130px' }} />
+  ) : (
     <Box width="100%" maxHeight="100%" overflow="auto">
-      {Object.entries(groupedExpenses).map(([date, expenses]) =>
-        isExpensesLoading ? (
-          <Skeleton key={date} variant="rounded" animation="wave" sx={{ marginBottom: '10px', minHeight: 65 }} />
-        ) : (
-          <ExpensesDayGroup key={date} date={date} expenses={expenses} deleteExpense={handleDeleteExpense} />
-        ),
-      )}
+      {Object.entries(groupedExpenses).map(([date, expenses]) => (
+        <ExpensesDayGroup key={date} date={date} expenses={expenses} deleteExpense={handleDeleteExpense} />
+      ))}
     </Box>
   );
 };
