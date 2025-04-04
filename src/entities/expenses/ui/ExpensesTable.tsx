@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
@@ -26,7 +26,7 @@ const groupExpensesByDate = (expenses: TExpense[]) => {
 
 const ExpensesTable = () => {
   const isVerified = _useUserStore.use.user?.()?.isVerified;
-  const { fetchExpenses } = useLoadExpenses({ shouldFetchOnLoad: isVerified });
+  const { fetchExpenses, isExpensesLoading } = useLoadExpenses({ shouldFetchOnLoad: isVerified });
   const expenses = useExpensesStore.use.userExpenses();
   const { mutate: handleDeleteExpense } = useMutation({
     mutationFn: deleteExpense,
@@ -35,7 +35,9 @@ const ExpensesTable = () => {
 
   const groupedExpenses = groupExpensesByDate(expenses);
 
-  return (
+  return isExpensesLoading ? (
+    <Skeleton variant="rounded" animation="wave" width="100%" sx={{ minHeight: '130px' }} />
+  ) : (
     <Box width="100%" maxHeight="100%" overflow="auto">
       {Object.entries(groupedExpenses).map(([date, expenses]) => (
         <ExpensesDayGroup key={date} date={date} expenses={expenses} deleteExpense={handleDeleteExpense} />
