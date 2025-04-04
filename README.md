@@ -133,6 +133,7 @@ pnpm run format:fix
 - **[Playwright](https://playwright.dev/)**: End-to-end testing
 - **[Vitest](https://vitest.dev/)**: Unit testing
 - **[Storybook](https://storybook.js.org/)**: Component development and testing
+- **[Loki](https://loki.js.org/)**: Screenshot testing
 
 ## Contributing
 
