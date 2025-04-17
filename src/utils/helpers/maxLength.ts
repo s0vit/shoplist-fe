@@ -1,1 +1,1 @@
-export const maxLength = 100;
+export const maxLengthCommentSymbols = 100;

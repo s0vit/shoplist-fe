@@ -3,7 +3,7 @@ import ModalWrapper from 'src/widgets/Modal/ModalWrapper';
 import FormWrapper from '../Forms/FormWrapper';
 import { useTranslation } from 'react-i18next';
 import { ChangeEvent } from 'react';
-import { maxLength } from 'src/utils/helpers/maxLength';
+import { maxLengthCommentSymbols } from 'src/utils/helpers/maxLength';
 
 type TCommentModalProps = {
   isCommentModalOpen: boolean;
@@ -16,7 +16,7 @@ const CommentModal = ({ isCommentModalOpen, setIsCommentModalOpen, comment, setC
   const { t } = useTranslation('homePage');
 
   const handleCommentChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const newComment = e.target.value.slice(0, maxLength);
+    const newComment = e.target.value.slice(0, maxLengthCommentSymbols);
     setComment(newComment);
   };
 
@@ -36,10 +36,10 @@ const CommentModal = ({ isCommentModalOpen, setIsCommentModalOpen, comment, setC
             variant="outlined"
             value={comment}
             onChange={handleCommentChange}
-            error={comment.length >= maxLength}
+            error={comment.length >= maxLengthCommentSymbols}
           />
           <FormHelperText sx={{ textAlign: 'left' }}>
-            {`${t('Maximum number of characters:')} ${comment.length} / ${maxLength}`}
+            {`${t('Maximum number of characters:')} ${comment.length} / ${maxLengthCommentSymbols}`}
           </FormHelperText>
           <Stack spacing={2} direction="row" justifyContent="flex-end">
             <Button fullWidth variant="contained" onClick={() => setComment('')} color="warning">
