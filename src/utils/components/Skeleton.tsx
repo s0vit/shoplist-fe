@@ -1,22 +1,28 @@
-import { Skeleton, Stack } from '@mui/material';
+import { Skeleton, Stack, SxProps, Theme } from '@mui/material';
 
-const SkeletonForCalc = () => {
+type TDimensionsProps = {
+  width?: number | string;
+  height?: number | string;
+  direction?: 'row' | 'column';
+};
+
+type TSkeletonProps = {
+  count?: number;
+  dimensions?: TDimensionsProps;
+  styles?: SxProps<Theme>;
+  variant?: 'rectangular' | 'rounded' | 'text' | 'circular';
+};
+
+const SkeletonGroup = ({ dimensions = {}, count = 3, styles = {}, variant = 'rectangular' }: TSkeletonProps) => {
+  const { width, height, direction = 'row' } = dimensions;
+
   return (
-    <Stack direction="row">
-      {Array(3)
-        .fill(0)
-        .map((_, index) => (
-          <Skeleton
-            key={index}
-            variant="rectangular"
-            animation="wave"
-            width={85}
-            height={36}
-            style={{ marginTop: '10px', marginLeft: '10px' }}
-          />
-        ))}
+    <Stack direction={direction}>
+      {[...Array(count)].map((_, index) => (
+        <Skeleton key={index} variant={variant} animation="wave" width={width} height={height} sx={styles} />
+      ))}
     </Stack>
   );
 };
 
-export default SkeletonForCalc;
+export default SkeletonGroup;

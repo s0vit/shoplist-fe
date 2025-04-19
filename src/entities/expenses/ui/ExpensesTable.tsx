@@ -1,4 +1,4 @@
-import { Box, Skeleton } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
@@ -6,6 +6,7 @@ import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore
 import { deleteExpense, TExpense } from 'src/shared/api/expenseApi.ts';
 import ExpensesDayGroup from './ExpensesDayGroup';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import SkeletonGroup from 'src/utils/components/Skeleton.tsx';
 
 const groupExpensesByDate = (expenses: TExpense[]) => {
   return expenses.reduce(
@@ -36,7 +37,13 @@ const ExpensesTable = () => {
   const groupedExpenses = groupExpensesByDate(expenses);
 
   return isExpensesLoading ? (
-    <Skeleton variant="rounded" animation="wave" width="100%" sx={{ minHeight: '130px' }} />
+    <Stack width="100%">
+      <SkeletonGroup
+        variant="rounded"
+        styles={{ minHeight: '130px', marginBottom: '15px' }}
+        dimensions={{ direction: 'column' }}
+      />
+    </Stack>
   ) : (
     <Box width="100%" maxHeight="100%" overflow="auto">
       {Object.entries(groupedExpenses).map(([date, expenses]) => (
