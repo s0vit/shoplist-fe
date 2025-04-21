@@ -1,6 +1,6 @@
 # 🦜 BUDGY
 
-![Version](https://img.shields.io/badge/version-0.1.6-blue)
+![Version](https://img.shields.io/badge/version-0.4.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Last Commit](https://img.shields.io/github/last-commit/s0vit/shoplist-fe)
 ![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)
@@ -115,6 +115,7 @@ pnpm run format:fix
 
 ### UI
 - **[Material-UI](https://material-ui.com/)**: Component library
+- **[Styled-components](https://styled-components.com/)**: CSS-in-JS styling
 - **[React Icons](https://react-icons.github.io/react-icons/)**: Icon library
 - **[React Toastify](https://fkhadra.github.io/react-toastify/introduction)**: Toast notifications
 
@@ -133,15 +134,16 @@ pnpm run format:fix
 - **[Playwright](https://playwright.dev/)**: End-to-end testing
 - **[Vitest](https://vitest.dev/)**: Unit testing
 - **[Storybook](https://storybook.js.org/)**: Component development and testing
+- **[Loki](https://loki.js.org/)**: Screenshot testing
 
 ## Contributing
 
 We welcome contributions to BUDGY! Here's how you can help:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create your feature branch (`git checkout -b issueID-short-description`)
+3. Commit your changes (`git commit -m 'Add short description of your feature'`)
+4. Push to the branch (`git push origin issueID-short-description`)
 5. Open a Pull Request
 
 ### Guidelines
@@ -182,7 +184,6 @@ This project is currently in active development. New features are being added re
 - Send user language information to the backend upon registration
 - Make categories and accounts draggable
 - Move filters to the side when opening the desktop version
-- Add a skeleton for requests
 - Don't reset filters when entering expenses
 - Add Storybook deployment
 
