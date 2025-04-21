@@ -1,6 +1,6 @@
 import { MouseEvent, useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   LeadingActions,
   SwipeableList,
@@ -124,6 +124,12 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
     </TrailingActions>
   );
 
+  const navigate = useNavigate();
+
+  const handleSingleExpense = () => {
+    navigate(`/expense/${expense._id}`);
+  };
+
   return (
     <div onContextMenu={handleOpenMenu} {...longPressEvents}>
       <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto', cursor: 'pointer', userSelect: 'none' }}>
@@ -144,7 +150,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
           >
             <Box>
               {showCategoryNames && <Typography variant="subtitle2">{category?.title}</Typography>}
-              <Typography variant="body2">
+              <Typography variant="body2" onClick={handleSingleExpense}>
                 {new Intl.DateTimeFormat(browserLocale, {
                   hour: '2-digit',
                   minute: '2-digit',
