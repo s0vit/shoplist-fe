@@ -6,7 +6,7 @@ import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePa
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useTranslation } from 'react-i18next';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
-import getCurrencyLabel from 'src/utils/helpers/getCurrencyLabel.tsx';
+import getCurrencyLabel from 'src/utils/helpers/getCurrencyLabel.ts';
 import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectUserPaymentSources.ts';
 
 const Container = styled.div`

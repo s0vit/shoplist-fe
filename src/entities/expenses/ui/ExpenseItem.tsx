@@ -23,7 +23,7 @@ import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu.tsx';
-import getCurrencyLabel from 'src/utils/helpers/getCurrencyLabel.tsx';
+import getCurrencyLabel from 'src/utils/helpers/getCurrencyLabel.ts';
 
 type TExpenseItemProps = {
   expense: TExpense;
