@@ -14,7 +14,7 @@ import CategoryPage from 'src/pages/CategoryPage/CategoryPage.tsx';
 import PaymentSourcesPage from 'src/pages/PaymentSourcesPage/PaymentSourcesPage.tsx';
 import ExpensesListMobilePage from 'src/pages/ExpensesMobilePage/ExpensesListMobilePage.tsx';
 import AccessControlPage from 'src/pages/AccessControlPage/AccessControlPage.tsx';
-import ExpensePage from 'src/pages/ExpensePage/ExpensePage.tsx';
+import SingleExpensePage from 'src/pages/SingleExpensePage/SingleExpensePage.tsx';
 
 const routes: RouteObject[] = [
   {
@@ -52,7 +52,7 @@ const routes: RouteObject[] = [
           },
           {
             path: RoutesEnum.EXPENSE_PAGE,
-            element: <ExpensePage />,
+            element: <SingleExpensePage />,
           },
           {
             path: RoutesEnum.ACCESS_CONTROL,
