@@ -73,7 +73,7 @@ const CurrencyList = styled.div`
 
 const CurrencyRow = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-bottom: 5px;
 `;
 
