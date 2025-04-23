@@ -6,14 +6,15 @@ import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePa
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useTranslation } from 'react-i18next';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
-import { currencies } from 'src/shared/constants/currencies.ts';
+import getCurrencyLabel from 'src/utils/helpers/getCurrencyLabel.tsx';
+import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectUserPaymentSources.ts';
 
 const Container = styled.div`
   background-color: #1c1c1e;
   color: white;
   font-family: sans-serif;
   padding: 40px;
-  max-width: 500px;
+  max-width: 600px;
   margin: auto;
   border-radius: 16px;
 `;
@@ -35,7 +36,7 @@ const Row = styled.div`
   align-items: center;
 `;
 
-const CategoryLabel = styled.div<{ color?: string}>`
+const CategoryLabel = styled.div<{ color?: string }>`
   color: ${({ color }) => (color ? color : 'white')};
 `;
 
@@ -50,14 +51,14 @@ const Comment = styled.div`
   border: none;
   color: white;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   resize: none;
   height: 60px;
   font-family: sans-serif;
 `;
 
 const CurrencySection = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 
 const CurrencyTitle = styled.div`
@@ -104,21 +105,10 @@ const SingleExpensePage = () => {
   const categoryList = useCategoryStore.use.userCategories();
   const currentCategory = categoryList.find((category) => category._id === currentExpense?.categoryId);
 
-  const paymentSourceList = usePaymentSourcesStore.use.userPaymentSources();
+  const paymentSourceList = usePaymentSourcesStore(selectUserPaymentSources);
   const currentPaymentSource = paymentSourceList.find((source) => currentExpense?.paymentSourceId === source._id);
 
   const user = _useUserStore.use.user?.();
-  console.log(user);
-
-  console.log(currentExpense);
-  console.log(currentCategory);
-  console.log(currentPaymentSource);
-
-  /**
-   * TODO:
-   * selectors payment source,
-   * loader,
-   */
 
   const handleBackClick = () => {
     navigate(RoutesEnum.ROOT);
@@ -126,12 +116,6 @@ const SingleExpensePage = () => {
 
   const handleEditClick = () => {
     alert(t('In process'));
-  };
-
-  const getCurrencyLabel = (symbol: string) => {
-    const currency = currencies.find((c) => c.value === symbol);
-
-    return currency?.label;
   };
 
   return (

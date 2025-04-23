@@ -17,13 +17,13 @@ import { TCategory } from 'src/shared/api/categoryApi.ts';
 import { TExpense } from 'src/shared/api/expenseApi.ts';
 import { Delete, Edit } from '@mui/icons-material';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
-import { currencies } from 'src/shared/constants/currencies.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu.tsx';
+import getCurrencyLabel from 'src/utils/helpers/getCurrencyLabel.tsx';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -51,8 +51,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   const categoryColor = category?.color || theme.palette.primary.main;
   const paymentSourceColor = paymentSource?.color || theme.palette.primary.main;
 
-  const expenseCurrency = currencies.find((currency) => currency.value === expense.currency)?.label || '';
-  const amountWithCurrency = expense.amount + ' ' + expenseCurrency;
+  const amountWithCurrency = expense.amount + ' ' + getCurrencyLabel(expense.currency);
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
