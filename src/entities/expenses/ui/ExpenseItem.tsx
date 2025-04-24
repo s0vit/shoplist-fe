@@ -1,6 +1,6 @@
 import { MouseEvent, useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   LeadingActions,
   SwipeableList,
@@ -17,13 +17,13 @@ import { TCategory } from 'src/shared/api/categoryApi.ts';
 import { TExpense } from 'src/shared/api/expenseApi.ts';
 import { Delete, Edit } from '@mui/icons-material';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
-import { currencies } from 'src/shared/constants/currencies.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu.tsx';
+import getCurrencyLabel from 'src/utils/helpers/getCurrencyLabel.ts';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -44,6 +44,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   const setIsEditExpenseModalOpen = useExpensesStore.use.setIsEditExpenseModalOpen();
   const theme = useTheme();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const browserLocale = navigator.language;
   const { showCategoryColours, showSourceColours, showCategoryNames, showSourceNames } =
@@ -51,8 +52,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   const categoryColor = category?.color || theme.palette.primary.main;
   const paymentSourceColor = paymentSource?.color || theme.palette.primary.main;
 
-  const expenseCurrency = currencies.find((currency) => currency.value === expense.currency)?.label || '';
-  const amountWithCurrency = expense.amount + ' ' + expenseCurrency;
+  const amountWithCurrency = expense.amount + ' ' + getCurrencyLabel(expense.currency);
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -83,6 +83,15 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
       setIsEditExpenseModalOpen(true);
     }
   });
+
+  const handleEditClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    handleEdit();
+  };
+
+  const handleSingleExpense = () => {
+    navigate(`/expense/${expense._id}`);
+  };
 
   const leadingActions = () => (
     <LeadingActions>
@@ -132,6 +141,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
             direction="row"
             justifyContent="space-between"
             alignItems="center"
+            onClick={handleSingleExpense}
             sx={{
               backgroundColor: showCategoryColours ? alpha(categoryColor, 0.05) : 'null',
               padding: theme.spacing(0.5),
@@ -179,7 +189,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
                   ml: '5px',
                   border: `1px solid ${theme.palette.text.primary}`,
                 }}
-                onClick={handleEdit}
+                onClick={(event) => handleEditClick(event)}
               >
                 <FaPencilAlt size={20} color={theme.palette.text.primary} />
               </IconButton>
