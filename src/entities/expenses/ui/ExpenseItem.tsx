@@ -44,6 +44,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   const setIsEditExpenseModalOpen = useExpensesStore.use.setIsEditExpenseModalOpen();
   const theme = useTheme();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const browserLocale = navigator.language;
   const { showCategoryColours, showSourceColours, showCategoryNames, showSourceNames } =
@@ -82,6 +83,15 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
       setIsEditExpenseModalOpen(true);
     }
   });
+
+  const handleEditClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    handleEdit();
+  };
+
+  const handleSingleExpense = () => {
+    navigate(`/expense/${expense._id}`);
+  };
 
   const leadingActions = () => (
     <LeadingActions>
@@ -123,12 +133,6 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
     </TrailingActions>
   );
 
-  const navigate = useNavigate();
-
-  const handleSingleExpense = () => {
-    navigate(`/expense/${expense._id}`);
-  };
-
   return (
     <div onContextMenu={handleOpenMenu} {...longPressEvents}>
       <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto', cursor: 'pointer', userSelect: 'none' }}>
@@ -137,6 +141,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
             direction="row"
             justifyContent="space-between"
             alignItems="center"
+            onClick={handleSingleExpense}
             sx={{
               backgroundColor: showCategoryColours ? alpha(categoryColor, 0.05) : 'null',
               padding: theme.spacing(0.5),
@@ -149,7 +154,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
           >
             <Box>
               {showCategoryNames && <Typography variant="subtitle2">{category?.title}</Typography>}
-              <Typography variant="body2" onClick={handleSingleExpense}>
+              <Typography variant="body2">
                 {new Intl.DateTimeFormat(browserLocale, {
                   hour: '2-digit',
                   minute: '2-digit',
@@ -184,7 +189,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
                   ml: '5px',
                   border: `1px solid ${theme.palette.text.primary}`,
                 }}
-                onClick={handleEdit}
+                onClick={(event) => handleEditClick(event)}
               >
                 <FaPencilAlt size={20} color={theme.palette.text.primary} />
               </IconButton>
