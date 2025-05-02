@@ -123,11 +123,17 @@ jobs:
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
+      - name: List available artifacts
+        run: ls -la
+
       - name: Download storybook build
         uses: actions/download-artifact@v4
         with:
           name: storybook-build
           path: storybook-static
+
+      - name: Debug downloaded artifact
+        run: ls -la storybook-static
 
       - name: Deploy to Vercel and set custom alias
         env:

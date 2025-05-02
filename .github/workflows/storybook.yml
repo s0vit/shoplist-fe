@@ -1,0 +1,124 @@
+name: Storybook Deployment
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  PROJECTS_ROOT: 'itbalis-projects'
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+  push:
+    branches:
+      - main
+      - '**'
+
+jobs:
+  Build-Storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      - name: Archive storybook build
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-build
+          path: storybook-static
+
+  Deploy-Storybook-Preview:
+    needs: Build-Storybook
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install Vercel CLI
+        run: pnpm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Download storybook build
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook-build
+          path: storybook-static
+
+      - name: Deploy to Vercel and set custom alias
+        env:
+          META_TAG: ${{ github.sha }}-${{ github.run_number }}
+        run: |
+          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
+          unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
+          final_name="${sanitized_ref_name}-${unique_suffix}"
+          
+          vercel deploy storybook-static --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} \
+            --meta base_hash=${{ env.META_TAG }} >> vercel_output.txt 2>&1
+          
+          alias="storybook-ui-${final_name}.${PROJECTS_ROOT}.vercel.app"
+          vercel alias set $(grep -oP 'Preview: \K(https://[^\s]+)' vercel_output.txt) $alias \
+            --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Extract URLs and add to summary
+        run: |
+          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
+          unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
+          final_name="${sanitized_ref_name}-${unique_suffix}"
+          alias="https://storybook-${final_name}.${PROJECTS_ROOT}.vercel.app"
+          INSPECT_URL=$(grep -oP 'Inspect: \K(https://[^\s]+)' vercel_output.txt || echo "Not Found")
+          echo "Storybook Preview deployed :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo ":white_check_mark: Storybook URL: $alias" >> $GITHUB_STEP_SUMMARY
+          echo "Inspect URL: $INSPECT_URL" >> $GITHUB_STEP_SUMMARY
+
+  Deploy-Storybook-Production:
+    needs: Build-Storybook
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install Vercel CLI
+        run: pnpm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Download storybook build
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook-build
+          path: storybook-static
+
+      - name: Deploy to Production
+        run: |
+          vercel deploy storybook-static --prod --token=${{ secrets.VERCEL_TOKEN }} > vercel_output.txt 2>&1
+
+      - name: Extract URLs and add to summary
+        run: |
+          INSPECT_URL=$(grep -oP 'Inspect: \K(https://[^\s]+)' vercel_output.txt || echo "Not Found")
+          echo "Storybook Production deployed :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "Inspect URL: $INSPECT_URL" >> $GITHUB_STEP_SUMMARY
+          echo "Production URL: https://storybook-ui.${PROJECTS_ROOT}.vercel.app" >> $GITHUB_STEP_SUMMARY
