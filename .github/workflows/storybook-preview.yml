@@ -1,9 +1,7 @@
-name: Storybook Preview
-description: Deploy Storybook to Vercel for preview and production environments
+name: Deploy Preview
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  VERCEL_STORYBOOK_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
   PROJECTS_ROOT: 'itbalis-projects'
 
 on:
@@ -35,23 +33,28 @@ jobs:
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
 
-      - name: Build App and Storybook
+      - name: Build App
+        run: pnpm build
+
+      - name: Create Storybook Build Config
         run: |
-          pnpm build
-          pnpm build-storybook
+          cat > .storybook/vercel.json << EOF
+          {
+            "\$schema": "https://openapi.vercel.sh/vercel.json",
+            "buildCommand": "pnpm build-storybook",
+            "outputDirectory": "storybook-static",
+            "framework": null
+          }
+          EOF
 
       - name: Pull Vercel Environment Information
         run: |
           # Pull main project environment
           vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           
-          # Create temporary directory for Storybook project
-          mkdir -p .vercel-storybook
-          cd storybook-static
-          
-          # Initialize and pull Storybook project environment
-          vercel link --confirm --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }} --project=budgy-vercel
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          # Link Storybook project
+          cd .storybook
+          vercel link --yes --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }} --project=budgy-vercel
 
       - name: Deploy to Vercel
         run: |
@@ -61,13 +64,13 @@ jobs:
           final_name="${sanitized_ref_name}-${unique_suffix}"
           
           # Deploy main app
-          DEPLOY_URL=$(vercel deploy --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --confirm)
+          DEPLOY_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }})
           app_alias="${final_name}.${PROJECTS_ROOT}.vercel.app"
           vercel alias set "$DEPLOY_URL" "$app_alias" --token=${{ secrets.VERCEL_TOKEN }}
           
-          # Deploy Storybook
-          cd storybook-static
-          STORYBOOK_DEPLOY_URL=$(vercel deploy --name=${final_name}-storybook --token=${{ secrets.VERCEL_TOKEN }} --confirm)
+          # Deploy Storybook directly from .storybook directory
+          cd .storybook
+          STORYBOOK_DEPLOY_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }})
           storybook_alias="storybook.${final_name}.${PROJECTS_ROOT}.vercel.app"
           vercel alias set "$STORYBOOK_DEPLOY_URL" "$storybook_alias" --token=${{ secrets.VERCEL_TOKEN }}
           
