@@ -33,17 +33,21 @@ jobs:
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
 
-      - name: Build App
-        run: pnpm build
-
-      - name: Create Storybook Build Config
+      - name: Build App and Storybook
         run: |
-          cat > .storybook/vercel.json << EOF
+          pnpm build
+          pnpm build-storybook
+          
+          # Создаем временную директорию для деплоя Storybook
+          mkdir -p .vercel-storybook
+          cp -r storybook-static/* .vercel-storybook/
+          
+          # Создаем vercel.json для Storybook
+          cat > .vercel-storybook/vercel.json << EOF
           {
             "\$schema": "https://openapi.vercel.sh/vercel.json",
-            "buildCommand": "pnpm build-storybook",
-            "outputDirectory": "storybook-static",
-            "framework": null
+            "framework": null,
+            "outputDirectory": "."
           }
           EOF
 
@@ -53,7 +57,7 @@ jobs:
           vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           
           # Link Storybook project
-          cd .storybook
+          cd .vercel-storybook
           vercel link --yes --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }} --project=budgy-vercel
 
       - name: Deploy to Vercel
@@ -68,8 +72,8 @@ jobs:
           app_alias="${final_name}.${PROJECTS_ROOT}.vercel.app"
           vercel alias set "$DEPLOY_URL" "$app_alias" --token=${{ secrets.VERCEL_TOKEN }}
           
-          # Deploy Storybook directly from .storybook directory
-          cd .storybook
+          # Deploy Storybook
+          cd .vercel-storybook
           STORYBOOK_DEPLOY_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }})
           storybook_alias="storybook.${final_name}.${PROJECTS_ROOT}.vercel.app"
           vercel alias set "$STORYBOOK_DEPLOY_URL" "$storybook_alias" --token=${{ secrets.VERCEL_TOKEN }}
