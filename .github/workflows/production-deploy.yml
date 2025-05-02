@@ -1,23 +1,20 @@
-name: Storybook Deployment
+name: Production Deploy
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   PROJECTS_ROOT: 'itbalis-projects'
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, edited]
   push:
     branches:
       - main
-      - '**'
 
 jobs:
-  Build-Storybook:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      
       - uses: pnpm/action-setup@v4
         with:
           version: 9
@@ -31,19 +28,22 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build Storybook
-        run: pnpm build-storybook
+      - name: Build App and Storybook
+        run: |
+          pnpm build
+          pnpm build-storybook
 
-      - name: Archive storybook build
+      - name: Archive build
         uses: actions/upload-artifact@v4
         with:
-          name: storybook-build
-          path: storybook-static
+          name: build
+          path: |
+            dist
+            storybook-static
 
-  Deploy-Storybook-Production:
-    needs: Build-Storybook
+  deploy-production:
+    needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
 
@@ -57,16 +57,17 @@ jobs:
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Download storybook build
+      - name: Download build
         uses: actions/download-artifact@v4
         with:
-          name: storybook-build
-          path: storybook-static
+          name: build
+          path: .
 
       - name: Deploy to Production
-        run: vercel deploy storybook-static --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Add deployment info to summary
         run: |
-          echo "Storybook Production deployed :rocket:" >> $GITHUB_STEP_SUMMARY
-          echo "Production URL: https://storybook-ui.${PROJECTS_ROOT}.vercel.app" >> $GITHUB_STEP_SUMMARY
+          # Deploy to Vercel
+          vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm
+          
+          echo "🚀 Production deployed" >> $GITHUB_STEP_SUMMARY
+          echo "App URL: https://${PROJECTS_ROOT}.vercel.app" >> $GITHUB_STEP_SUMMARY
+          echo "Storybook URL: https://${PROJECTS_ROOT}.vercel.app/storybook" >> $GITHUB_STEP_SUMMARY
