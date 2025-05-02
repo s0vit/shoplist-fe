@@ -135,6 +135,18 @@ jobs:
       - name: Debug downloaded artifact
         run: ls -la storybook-static
 
+      - name: Add Vercel config
+        run: |
+          echo '{
+            "version": 2,
+            "builds": [
+              {
+                "src": "**",
+                "use": "@vercel/static"
+              }
+            ]
+          }' > storybook-static/vercel.json
+
       - name: Deploy to Vercel and set custom alias
         env:
           META_TAG: ${{ github.sha }}-${{ github.run_number }}
@@ -143,12 +155,27 @@ jobs:
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           final_name="${sanitized_ref_name}-${unique_suffix}"
           
-          vercel deploy storybook-static --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} \
-            --meta base_hash=${{ env.META_TAG }} >> vercel_output.txt 2>&1
+          # Deploy to Vercel
+          echo "Current directory: $(pwd)"
+          echo "Contents of storybook-static:"
+          ls -la storybook-static
           
+          echo "Deploying to Vercel..."
+          DEPLOY_URL=$(vercel deploy --cwd storybook-static --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --meta base_hash=${{ env.META_TAG }} --confirm)
+          echo "Deploy URL: $DEPLOY_URL"
+          
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "Error: Deploy URL is empty"
+            exit 1
+          fi
+          
+          # Set alias
           alias="storybook-ui-${final_name}.${PROJECTS_ROOT}.vercel.app"
-          vercel alias set $(grep -oP 'Preview: \K(https://[^\s]+)' vercel_output.txt) $alias \
-            --token=${{ secrets.VERCEL_TOKEN }}
+          echo "Setting alias to: $alias"
+          vercel alias set $DEPLOY_URL $alias --token=${{ secrets.VERCEL_TOKEN }}
+          
+          # Save output for later use
+          echo $DEPLOY_URL > vercel_output.txt
 
       - name: Send Telegram notification
         if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
