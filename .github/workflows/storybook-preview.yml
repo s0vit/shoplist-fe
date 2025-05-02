@@ -2,6 +2,7 @@ name: Deploy Preview
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_STORYBOOK_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
   PROJECTS_ROOT: 'itbalis-projects'
 
 on:
@@ -12,11 +13,11 @@ on:
       - main
 
 jobs:
-  build:
+  deploy-preview:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: pnpm/action-setup@v4
         with:
           version: 9
@@ -30,40 +31,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Install Vercel CLI
+        run: pnpm install --global vercel@latest
+
       - name: Build App and Storybook
         run: |
           pnpm build
           pnpm build-storybook
 
-      - name: Archive build
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: |
-            dist
-            storybook-static
-
-  deploy-preview:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Install Vercel CLI
-        run: pnpm install --global vercel@latest
-
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Download build
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: .
+        run: |
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }} --project-id=${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
 
       - name: Deploy to Vercel
         run: |
@@ -72,13 +51,16 @@ jobs:
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           final_name="${sanitized_ref_name}-${unique_suffix}"
           
-          # Deploy to Vercel
+          # Deploy main app
           DEPLOY_URL=$(vercel deploy --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --confirm)
+          app_alias="${final_name}.${PROJECTS_ROOT}.vercel.app"
+          vercel alias set "$DEPLOY_URL" "$app_alias" --token=${{ secrets.VERCEL_TOKEN }}
           
-          # Set alias
-          alias="${final_name}.${PROJECTS_ROOT}.vercel.app"
-          vercel alias set "$DEPLOY_URL" "$alias" --token=${{ secrets.VERCEL_TOKEN }}
+          # Deploy Storybook as a separate project
+          STORYBOOK_DEPLOY_URL=$(vercel deploy ./storybook-static --name=${final_name}-storybook --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }} --project-id=${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }} --confirm)
+          storybook_alias="storybook.${final_name}.${PROJECTS_ROOT}.vercel.app"
+          vercel alias set "$STORYBOOK_DEPLOY_URL" "$storybook_alias" --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }}
           
           echo "🚀 Preview deployed" >> $GITHUB_STEP_SUMMARY
-          echo "App URL: https://${alias}" >> $GITHUB_STEP_SUMMARY
-          echo "Storybook URL: https://${alias}/storybook" >> $GITHUB_STEP_SUMMARY
+          echo "App URL: https://${app_alias}" >> $GITHUB_STEP_SUMMARY
+          echo "Storybook URL: https://${storybook_alias}" >> $GITHUB_STEP_SUMMARY

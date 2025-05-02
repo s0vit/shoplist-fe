@@ -1,14 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "pnpm run build && pnpm run build-storybook",
+  "buildCommand": "pnpm run build",
   "devCommand": "pnpm run dev",
   "framework": "vite",
   "outputDirectory": "dist",
   "rewrites": [
-    {
-      "source": "/storybook/(.*)",
-      "destination": "/storybook-static/$1"
-    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
