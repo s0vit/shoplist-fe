@@ -1,4 +1,5 @@
-name: Deploy Preview
+name: Storybook Preview
+description: Deploy Storybook to Vercel for preview and production environments
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -41,8 +42,16 @@ jobs:
 
       - name: Pull Vercel Environment Information
         run: |
+          # Pull main project environment
           vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }} --project-id=${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
+          
+          # Create temporary directory for Storybook project
+          mkdir -p .vercel-storybook
+          cd storybook-static
+          
+          # Initialize and pull Storybook project environment
+          vercel link --confirm --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }} --project=budgy-vercel
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel
         run: |
@@ -56,10 +65,11 @@ jobs:
           app_alias="${final_name}.${PROJECTS_ROOT}.vercel.app"
           vercel alias set "$DEPLOY_URL" "$app_alias" --token=${{ secrets.VERCEL_TOKEN }}
           
-          # Deploy Storybook as a separate project
-          STORYBOOK_DEPLOY_URL=$(vercel deploy ./storybook-static --name=${final_name}-storybook --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }} --project-id=${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }} --confirm)
+          # Deploy Storybook
+          cd storybook-static
+          STORYBOOK_DEPLOY_URL=$(vercel deploy --name=${final_name}-storybook --token=${{ secrets.VERCEL_TOKEN }} --confirm)
           storybook_alias="storybook.${final_name}.${PROJECTS_ROOT}.vercel.app"
-          vercel alias set "$STORYBOOK_DEPLOY_URL" "$storybook_alias" --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }}
+          vercel alias set "$STORYBOOK_DEPLOY_URL" "$storybook_alias" --token=${{ secrets.VERCEL_TOKEN }}
           
           echo "🚀 Preview deployed" >> $GITHUB_STEP_SUMMARY
           echo "App URL: https://${app_alias}" >> $GITHUB_STEP_SUMMARY
