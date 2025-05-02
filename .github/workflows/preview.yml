@@ -85,7 +85,9 @@ jobs:
         run: pnpm format
 
       - name: Build project
-        run: pnpm build
+        run: |
+          pnpm build
+          pnpm build-storybook
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
@@ -138,7 +140,13 @@ jobs:
         run: pnpm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          # Pull main project environment
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          
+          # Link Storybook project
+          cd storybook-static
+          vercel link --yes --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }} --project=budgy-vercel
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -153,23 +161,37 @@ jobs:
         env:
           META_TAG: ${{ github.sha }}-${{ github.run_number }}
         run: |
+          # Prepare deployment names
           sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           final_name="${sanitized_ref_name}-${unique_suffix}"
-          vercel deploy --prebuilt --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --meta base_hash=${{ env.META_TAG }} >> vercel_output.txt 2>&1
-          alias="ui-${final_name}.${PROJECTS_ROOT}.vercel.app"
-          vercel alias set $(grep -oP 'Preview: \K(https://[^\s]+)' vercel_output.txt) $alias --token=${{ secrets.VERCEL_TOKEN }}
+
+          # Deploy main app
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --meta base_hash=${{ env.META_TAG }} >> vercel_output.txt 2>&1
+          app_alias="ui-${final_name}.${PROJECTS_ROOT}.vercel.app"
+          vercel alias set $(grep -oP 'Preview: \K(https://[^\s]+)' vercel_output.txt) $app_alias --token=${{ secrets.VERCEL_TOKEN }}
+
+          # Deploy Storybook
+          cd storybook-static
+          STORYBOOK_DEPLOY_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }})
+          storybook_alias="storybook.ui-${final_name}.${PROJECTS_ROOT}.vercel.app"
+          vercel alias set "$STORYBOOK_DEPLOY_URL" "$storybook_alias" --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Extract URLs and add to summary
         run: |
           sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           final_name="${sanitized_ref_name}-${unique_suffix}"
-          alias="https://ui-${final_name}.${PROJECTS_ROOT}.vercel.app"
+          
+          app_alias="https://ui-${final_name}.${PROJECTS_ROOT}.vercel.app"
+          storybook_alias="https://storybook.ui-${final_name}.${PROJECTS_ROOT}.vercel.app"
+          
           INSPECT_URL=$(grep -oP 'Inspect: \K(https://[^\s]+)' vercel_output.txt || echo "Not Found")
           PREVIEW_URL=$(grep -oP 'Preview: \K(https://[^\s]+)' vercel_output.txt || echo "Not Found")
+          
           echo "Preview deployed :rocket:" >> $GITHUB_STEP_SUMMARY
-          echo ":white_check_mark: Alias URL: $alias" >> $GITHUB_STEP_SUMMARY
+          echo ":white_check_mark: App URL: $app_alias" >> $GITHUB_STEP_SUMMARY
+          echo ":white_check_mark: Storybook URL: $storybook_alias" >> $GITHUB_STEP_SUMMARY
           echo "Tech links: =========================================================" >> $GITHUB_STEP_SUMMARY 
           echo "Inspect URL: $INSPECT_URL" >> $GITHUB_STEP_SUMMARY
           echo "Preview URL: $PREVIEW_URL" >> $GITHUB_STEP_SUMMARY
