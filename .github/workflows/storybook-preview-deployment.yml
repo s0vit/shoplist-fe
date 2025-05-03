@@ -76,6 +76,24 @@ jobs:
       - name: Build Storybook
         run: pnpm build-storybook
 
+      # Create a Storybook-specific vercel.json
+      - name: Create Storybook vercel.json
+        run: |
+          cat > storybook-static/vercel.json << 'EOL'
+          {
+            "$schema": "https://openapi.vercel.sh/vercel.json",
+            "buildCommand": false,
+            "devCommand": false,
+            "outputDirectory": ".",
+            "rewrites": [
+              {
+                "source": "/(.*)",
+                "destination": "/index.html"
+              }
+            ]
+          }
+          EOL
+
       - name: Archive Storybook artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -170,10 +188,6 @@ jobs:
           echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
           echo "INSPECT_URL=$(echo "$DEPLOY_OUTPUT" | grep -oP 'Inspect: \K(https://[^\s]+)' || echo "Not Found")" >> $GITHUB_ENV
           echo "ALIAS_URL=https://$alias" >> $GITHUB_ENV
-          
-          # Print debug info
-          echo "Preview URL: $PREVIEW_URL"
-          echo "Alias: $alias"
 
       - name: Extract Storybook URLs and add to summary
         run: |
