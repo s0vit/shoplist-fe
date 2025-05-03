@@ -82,25 +82,20 @@ jobs:
           cat > storybook-static/vercel.json << 'EOL'
           {
             "$schema": "https://openapi.vercel.sh/vercel.json",
-            "buildCommand": "echo 'Build step skipped - using pre-built Storybook files'",
-            "devCommand": null,
+            "buildCommand": false,
+            "devCommand": false,
             "framework": null,
-            "installCommand": null,
+            "installCommand": false,
             "outputDirectory": "."
           }
           EOL
-
-      # Create a simple package.json to ensure Vercel doesn't try to run anything from the parent directory
-      - name: Create Storybook package.json
-        run: |
+          
+          # Create a minimal package.json for storybook deployment
           cat > storybook-static/package.json << 'EOL'
           {
             "name": "shoplist-storybook",
             "version": "1.0.0",
-            "private": true,
-            "scripts": {
-              "build": "echo 'Build step skipped - using pre-built Storybook files'"
-            }
+            "private": true
           }
           EOL
 
@@ -156,88 +151,52 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Install Vercel CLI
-        run: pnpm install --global vercel@latest
-
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
       - name: Download Storybook artifacts
         uses: actions/download-artifact@v4
         with:
           name: storybook-artifacts
           path: ./storybook-static
 
-      - name: Deploy Storybook to Vercel
-        env:
-          META_TAG: ${{ github.sha }}-${{ github.run_number }}-storybook
+      # Generate a unique name for this deployment
+      - name: Generate deployment name
+        id: deployment-name
         run: |
-          # Keep full sanitized ref name without cutting it
           sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g')
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
-          final_name="storybook-${sanitized_ref_name}-${unique_suffix}"
-          
-          # Add a .vercelignore file to ensure Vercel only deploys what we want
-          echo "*" > .vercelignore
-          echo "!storybook-static/**" >> .vercelignore
-          
-          # Navigate to the storybook-static directory and deploy from there
-          cd storybook-static
-          
-          # Deploy using explicit flags
-          DEPLOY_OUTPUT=$(vercel deploy \
-            --name=${final_name} \
-            --token=${{ secrets.VERCEL_TOKEN }} \
-            --meta base_hash=${{ env.META_TAG }} \
-            --prod \
-            --yes \
-            --force)
-          
-          echo "Vercel deploy output:"
-          echo "$DEPLOY_OUTPUT"
-          
-          # Updated extraction patterns for both "Preview:" and "Production:" URLs
-          PREVIEW_URL=$(echo "$DEPLOY_OUTPUT" | grep -oP '(Preview|Production): \K(https://[^\s]+)' || echo "Not Found")
-          INSPECT_URL=$(echo "$DEPLOY_OUTPUT" | grep -oP 'Inspect: \K(https://[^\s]+)' || echo "Not Found")
-          
-          echo "Extracted URL: $PREVIEW_URL"
-          echo "Inspect URL: $INSPECT_URL"
-          
-          # If we couldn't extract it with grep, try finding the last https:// URL in the output as a fallback
-          if [ "$PREVIEW_URL" = "Not Found" ]; then
-            PREVIEW_URL=$(echo "$DEPLOY_OUTPUT" | grep -o 'https://[^ ]*' | tail -1)
-            echo "Fallback URL extraction: $PREVIEW_URL"
-          fi
-          
-          # Use a shortened alias for the URL (limited to 40 chars)
-          short_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
-          alias="storybook-${short_ref_name}-${unique_suffix}.${PROJECTS_ROOT}.vercel.app"
-          
-          if [ -n "$PREVIEW_URL" ] && [ "$PREVIEW_URL" != "Not Found" ]; then
-            echo "Setting alias $alias for $PREVIEW_URL"
-            vercel alias set "$PREVIEW_URL" "$alias" --token=${{ secrets.VERCEL_TOKEN }}
-            
-            # Save variables for the next step
-            echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
-            echo "INSPECT_URL=$INSPECT_URL" >> $GITHUB_ENV
-            echo "ALIAS_URL=https://$alias" >> $GITHUB_ENV
-          else
-            echo "Warning: Could not extract Preview URL from Vercel deployment output"
-            # Don't fail the build, use whatever URL we have
-            LAST_URL=$(echo "$DEPLOY_OUTPUT" | grep -o 'https://[^ ]*' | tail -1)
-            if [ -n "$LAST_URL" ]; then
-              echo "Using last URL found: $LAST_URL"
-              echo "PREVIEW_URL=$LAST_URL" >> $GITHUB_ENV
-              echo "ALIAS_URL=https://$alias" >> $GITHUB_ENV
-              
-              # Try to set alias even with this URL
-              vercel alias set "$LAST_URL" "$alias" --token=${{ secrets.VERCEL_TOKEN }}
-            fi
-          fi
+          echo "name=storybook-${sanitized_ref_name}-${unique_suffix}" >> $GITHUB_OUTPUT
+          echo "alias=storybook-${sanitized_ref_name}-${unique_suffix}.${PROJECTS_ROOT}.vercel.app" >> $GITHUB_OUTPUT
+
+      # Deploy to Vercel using the correct action
+      - name: Deploy to Vercel
+        id: vercel-deployment
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./storybook-static
+          vercel-args: '--prod'
+
+      # Use the Vercel deployment URL for subsequent steps
+      - name: Set deployment URL
+        run: |
+          echo "Vercel deployment URL: ${{ steps.vercel-deployment.outputs.preview-url }}"
+          echo "PREVIEW_URL=${{ steps.vercel-deployment.outputs.preview-url }}" >> $GITHUB_ENV
+          echo "ALIAS_URL=https://${{ steps.deployment-name.outputs.alias }}" >> $GITHUB_ENV
+
+      # Install CLI for alias setting
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install Vercel CLI for alias setting
+        run: pnpm install --global vercel@latest
+
+      # Set an alias for the deployment if needed
+      - name: Set Vercel alias
+        if: steps.vercel-deployment.outputs.preview-url != ''
+        run: |
+          vercel alias set ${{ steps.vercel-deployment.outputs.preview-url }} ${{ steps.deployment-name.outputs.alias }} --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Extract Storybook URLs and add to summary
         run: |
@@ -248,14 +207,8 @@ jobs:
             echo ":white_check_mark: Storybook Alias URL: $ALIAS_URL" >> $GITHUB_STEP_SUMMARY
           fi
           
-          echo "Storybook Tech links: =========================================================" >> $GITHUB_STEP_SUMMARY
-          
-          if [ -n "$INSPECT_URL" ]; then
-            echo "Storybook Inspect URL: $INSPECT_URL" >> $GITHUB_STEP_SUMMARY
-          fi
-          
           if [ -n "$PREVIEW_URL" ]; then
-            echo "Storybook Preview URL: $PREVIEW_URL" >> $GITHUB_STEP_SUMMARY
+            echo ":white_check_mark: Storybook Original URL: $PREVIEW_URL" >> $GITHUB_STEP_SUMMARY
           fi
           
           # Add comment to PR if this is a PR
