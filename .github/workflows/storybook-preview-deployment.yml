@@ -76,17 +76,31 @@ jobs:
       - name: Build Storybook
         run: pnpm build-storybook
 
-      # Create a Storybook-specific vercel.json
+      # Create a Storybook-specific vercel.json with simple build command that always succeeds
       - name: Create Storybook vercel.json
         run: |
           cat > storybook-static/vercel.json << 'EOL'
           {
             "$schema": "https://openapi.vercel.sh/vercel.json",
-            "buildCommand": null,
+            "buildCommand": "echo 'Build step skipped - using pre-built Storybook files'",
             "devCommand": null,
             "framework": null,
             "installCommand": null,
             "outputDirectory": "."
+          }
+          EOL
+
+      # Create a simple package.json to ensure Vercel doesn't try to run anything from the parent directory
+      - name: Create Storybook package.json
+        run: |
+          cat > storybook-static/package.json << 'EOL'
+          {
+            "name": "shoplist-storybook",
+            "version": "1.0.0",
+            "private": true,
+            "scripts": {
+              "build": "echo 'Build step skipped - using pre-built Storybook files'"
+            }
           }
           EOL
 
@@ -171,15 +185,17 @@ jobs:
           echo "*" > .vercelignore
           echo "!storybook-static/**" >> .vercelignore
           
-          # Deploy using more explicit flags
-          DEPLOY_OUTPUT=$(vercel deploy ./storybook-static \
+          # Navigate to the storybook-static directory and deploy from there
+          cd storybook-static
+          
+          # Deploy using explicit flags
+          DEPLOY_OUTPUT=$(vercel deploy \
             --name=${final_name} \
             --token=${{ secrets.VERCEL_TOKEN }} \
             --meta base_hash=${{ env.META_TAG }} \
             --prod \
             --yes \
-            --force \
-            --no-build)
+            --force)
           
           echo "$DEPLOY_OUTPUT"
           
