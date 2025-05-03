@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - main
-      - 163-fix-storybook-deploy
 
 jobs:
   Deploy-Storybook-to-Production:
