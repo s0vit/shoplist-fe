@@ -88,10 +88,6 @@ jobs:
       - name: Build project
         run: pnpm build
 
-      # Build Storybook
-      - name: Build Storybook
-        run: pnpm build-storybook
-
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -178,53 +174,3 @@ jobs:
           echo "Tech links: =========================================================" >> $GITHUB_STEP_SUMMARY 
           echo "Inspect URL: $INSPECT_URL" >> $GITHUB_STEP_SUMMARY
           echo "Preview URL: $PREVIEW_URL" >> $GITHUB_STEP_SUMMARY
-
-  Deploy-Storybook:
-    needs: [build-and-cache, remove-previous-deployments]
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Install Vercel CLI
-        run: pnpm install --global vercel@latest
-
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-          path: .
-
-      - name: Deploy Storybook to Vercel
-        env:
-          META_TAG: ${{ github.sha }}-${{ github.run_number }}-storybook
-        run: |
-          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
-          unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
-          final_name="${sanitized_ref_name}-storybook-${unique_suffix}"
-          
-          # Deploy using storybook-static directory
-          vercel deploy ./storybook-static --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --meta base_hash=${{ env.META_TAG }} >> storybook_output.txt 2>&1
-          alias="storybook-${final_name}.${PROJECTS_ROOT}.vercel.app"
-          vercel alias set $(grep -oP 'Preview: \K(https://[^\s]+)' storybook_output.txt) $alias --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Extract Storybook URLs and add to summary
-        run: |
-          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
-          unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
-          final_name="${sanitized_ref_name}-storybook-${unique_suffix}"
-          alias="https://storybook-${final_name}.${PROJECTS_ROOT}.vercel.app"
-          STORYBOOK_INSPECT_URL=$(grep -oP 'Inspect: \K(https://[^\s]+)' storybook_output.txt || echo "Not Found")
-          STORYBOOK_PREVIEW_URL=$(grep -oP 'Preview: \K(https://[^\s]+)' storybook_output.txt || echo "Not Found")
-          echo "Storybook deployed :book:" >> $GITHUB_STEP_SUMMARY
-          echo ":white_check_mark: Storybook Alias URL: $alias" >> $GITHUB_STEP_SUMMARY
-          echo "Storybook Tech links: =========================================================" >> $GITHUB_STEP_SUMMARY 
-          echo "Storybook Inspect URL: $STORYBOOK_INSPECT_URL" >> $GITHUB_STEP_SUMMARY
-          echo "Storybook Preview URL: $STORYBOOK_PREVIEW_URL" >> $GITHUB_STEP_SUMMARY

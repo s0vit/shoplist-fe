@@ -1,0 +1,195 @@
+name: Storybook Preview Deployment
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  PROJECTS_ROOT: 'itbalis-projects'
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  build-storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check PR Description for Issue Link
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_BODY=$(curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} | jq -r .body)
+          ISSUE_NUMBER=$(echo "$PR_BODY" | grep -oP '#\K[0-9]+' || echo "")
+
+          echo "Issue Number: $ISSUE_NUMBER"
+          if [ -z "$ISSUE_NUMBER" ]; then
+            echo ":name_badge: Pull request description must contain a link to an issue (e.g., #123)." >> $GITHUB_STEP_SUMMARY
+            echo "Error: Pull request description must contain a link to an issue (e.g., #123)." >&2
+            exit 1
+          fi
+
+          ISSUE_DATA=$(curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER)
+          ISSUE_HTML_URL=$(echo "$ISSUE_DATA" | jq -r .html_url)
+          EXPECTED_URL="https://github.com/${{ github.repository }}/issues/$ISSUE_NUMBER"
+
+          if [ "$ISSUE_HTML_URL" != "$EXPECTED_URL" ]; then
+            echo ":name_badge: The issue linked in the pull request description does not belong to this repository." >> $GITHUB_STEP_SUMMARY
+            echo "Error: The issue linked in the pull request description does not belong to this repository." >&2
+            exit 1
+          fi
+
+          ISSUE_STATE=$(echo "$ISSUE_DATA" | jq -r .state)
+          if [ "$ISSUE_STATE" == "closed" ]; then
+            echo ":name_badge: The issue linked in the pull request description is closed." >> $GITHUB_STEP_SUMMARY
+            echo "Error: The issue linked in the pull request description is closed." >&2
+            exit 1
+          fi
+
+          echo "Pull request description contains a valid link to an open issue in this repository."
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: pnpm-store-20-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-20-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      # Build only Storybook
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      - name: Archive Storybook artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-artifacts
+          path: storybook-static
+
+  remove-previous-storybook-deployments:
+    runs-on: ubuntu-latest
+    needs: build-storybook
+    if: github.event_name != 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install Vercel CLI
+        run: pnpm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Check and Remove Previous Storybook Deployments
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          sanitized_ref_name="storybook-$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g')"
+          META_TAG=$(echo -n $sanitized_ref_name | md5sum | awk '{print $1}')
+          
+          # Get list of deployments with the same META_TAG
+          DEPLOYMENTS=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v6/deployments?projectId=$VERCEL_PROJECT_ID&meta-base_hash=$META_TAG")
+          
+          # Extract deployment IDs
+          DEPLOYMENT_IDS=$(echo $DEPLOYMENTS | jq -r '.deployments[].uid')
+          
+          # Delete each deployment
+          for ID in $DEPLOYMENT_IDS; do
+            echo "Removing storybook deployment: $ID"
+            curl -s -X DELETE -H "Authorization: Bearer $VERCEL_TOKEN" \
+              "https://api.vercel.com/v12/deployments/$ID"
+          done
+
+  deploy-storybook-preview:
+    needs: [build-storybook, remove-previous-storybook-deployments]
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install Vercel CLI
+        run: pnpm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Download Storybook artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook-artifacts
+          path: ./storybook-static
+
+      - name: Deploy Storybook to Vercel
+        env:
+          META_TAG: ${{ github.sha }}-${{ github.run_number }}-storybook
+        run: |
+          # Keep full sanitized ref name without cutting it
+          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g')
+          unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
+          final_name="storybook-${sanitized_ref_name}-${unique_suffix}"
+          
+          # Store deployment output directly in a variable instead of a file
+          DEPLOY_OUTPUT=$(vercel deploy ./storybook-static --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --meta base_hash=${{ env.META_TAG }})
+          
+          # Extract preview URL directly
+          PREVIEW_URL=$(echo "$DEPLOY_OUTPUT" | grep -oP 'Preview: \K(https://[^\s]+)' || echo "Not Found")
+          
+          # Use a shortened alias for the URL (limited to 40 chars)
+          short_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
+          alias="storybook-${short_ref_name}-${unique_suffix}.${PROJECTS_ROOT}.vercel.app"
+          
+          # Set the alias
+          vercel alias set $PREVIEW_URL $alias --token=${{ secrets.VERCEL_TOKEN }}
+          
+          # Save variables for the next step
+          echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
+          echo "INSPECT_URL=$(echo "$DEPLOY_OUTPUT" | grep -oP 'Inspect: \K(https://[^\s]+)' || echo "Not Found")" >> $GITHUB_ENV
+          echo "ALIAS_URL=https://$alias" >> $GITHUB_ENV
+          
+          # Print debug info
+          echo "Preview URL: $PREVIEW_URL"
+          echo "Alias: $alias"
+
+      - name: Extract Storybook URLs and add to summary
+        run: |
+          # Use variables from previous step
+          echo "Storybook deployed :book:" >> $GITHUB_STEP_SUMMARY
+          echo ":white_check_mark: Storybook Alias URL: $ALIAS_URL" >> $GITHUB_STEP_SUMMARY
+          echo "Storybook Tech links: =========================================================" >> $GITHUB_STEP_SUMMARY 
+          echo "Storybook Inspect URL: $INSPECT_URL" >> $GITHUB_STEP_SUMMARY
+          echo "Storybook Preview URL: $PREVIEW_URL" >> $GITHUB_STEP_SUMMARY
+          
+          # Add comment to PR if this is a PR
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            PR_COMMENT="## 📚 Storybook Preview\n\nStorybook preview is available at: [${ALIAS_URL}](${ALIAS_URL})\n\n---\n\n*Storybook Inspect URL: ${INSPECT_URL}*"
+            curl -s -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              -d "{\"body\":\"$PR_COMMENT\"}" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+          fi
