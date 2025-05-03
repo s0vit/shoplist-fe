@@ -1,7 +1,7 @@
 name: Storybook Preview Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
   PROJECTS_ROOT: 'itbalis-projects'
 
 on:
@@ -86,7 +86,7 @@ jobs:
 
       - name: Check and Remove Previous Storybook Deployments
         env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           sanitized_ref_name="storybook-$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g')"
@@ -136,7 +136,7 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
           working-directory: ./storybook-static
 
       # Use the Vercel deployment URL for subsequent steps
@@ -186,11 +186,12 @@ jobs:
 
             ### 📚 Storybook
             - Preview URL: [${{ env.ALIAS_URL }}](${{ env.ALIAS_URL }})
-            - Production URL: [https://shoplist-storybook.vercel.app](https://shoplist-storybook.vercel.app)
+            - Visit [Production Storybook](https://shoplist-storybook.vercel.app) to see the live version
 
             ### 🌐 Application UI
             - Preview URL: [${{ env.UI_ALIAS_URL }}](${{ env.UI_ALIAS_URL }})
+            - Visit [Production App](https://shoplist-fe.vercel.app) to see the live version
 
             ---
 
-            _Previews are automatically generated for every PR update_
+            _These preview deployments are automatically generated for every PR update_
