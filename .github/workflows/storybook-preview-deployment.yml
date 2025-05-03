@@ -179,7 +179,6 @@ jobs:
           echo "UI_ALIAS_URL=https://ui-${sanitized_ref_name}-${unique_suffix}.${PROJECTS_ROOT}.vercel.app" >> $GITHUB_ENV
 
       - name: Add PR Comment
-        if: github.event_name == 'pull_request'
         uses: mshick/add-pr-comment@v2
         with:
           message: |
