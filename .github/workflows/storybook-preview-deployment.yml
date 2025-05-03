@@ -109,6 +109,8 @@ jobs:
   deploy-storybook-preview:
     needs: [build-storybook, remove-previous-storybook-deployments]
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
@@ -158,9 +160,9 @@ jobs:
         run: |
           vercel alias set ${{ steps.vercel-deployment.outputs.preview-url }} ${{ steps.deployment-name.outputs.alias }} --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Extract Storybook URLs and add to summary
+      - name: Add URLs to summary
         run: |
-          # Use variables from previous step
+          # Add to workflow summary
           echo "Storybook deployed :book:" >> $GITHUB_STEP_SUMMARY
           
           if [ -n "$ALIAS_URL" ]; then
@@ -170,13 +172,26 @@ jobs:
           if [ -n "$PREVIEW_URL" ]; then
             echo ":white_check_mark: Storybook Original URL: $PREVIEW_URL" >> $GITHUB_STEP_SUMMARY
           fi
-          
-          # Add comment to PR if this is a PR
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            PR_COMMENT="## 📚 Storybook Preview\n\nStorybook preview is available at: [${ALIAS_URL}](${ALIAS_URL})\n\n---\n\n*Storybook Inspect URL: ${INSPECT_URL}*"
-            curl -s -X POST \
-              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              -d "{\"body\":\"$PR_COMMENT\"}" \
-              "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
-          fi
+
+          # Calculate sanitized UI URL components
+          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
+          unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
+          echo "UI_ALIAS_URL=https://ui-${sanitized_ref_name}-${unique_suffix}.${PROJECTS_ROOT}.vercel.app" >> $GITHUB_ENV
+
+      - name: Add PR Comment
+        if: github.event_name == 'pull_request'
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            ## 🚀 Preview URLs
+
+            ### 📚 Storybook
+            - Preview URL: [${{ env.ALIAS_URL }}](${{ env.ALIAS_URL }})
+            - Inspect URL: [${{ env.INSPECT_URL }}](${{ env.INSPECT_URL }})
+
+            ### 🌐 Application UI
+            - Preview URL: [${{ env.UI_ALIAS_URL }}](${{ env.UI_ALIAS_URL }})
+
+            ---
+
+            _Previews are automatically generated for every PR update_
