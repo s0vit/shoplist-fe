@@ -186,7 +186,7 @@ jobs:
 
             ### 📚 Storybook
             - Preview URL: [${{ env.ALIAS_URL }}](${{ env.ALIAS_URL }})
-            - Inspect URL: [${{ env.INSPECT_URL }}](${{ env.INSPECT_URL }})
+            - Production URL: [https://shoplist-storybook.vercel.app](https://shoplist-storybook.vercel.app)
 
             ### 🌐 Application UI
             - Preview URL: [${{ env.UI_ALIAS_URL }}](${{ env.UI_ALIAS_URL }})
