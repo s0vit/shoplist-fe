@@ -1,0 +1,202 @@
+name: Storybook Preview Deployment
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
+  PROJECTS_ROOT: 'itbalis-projects'
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  build-storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: pnpm-store-20-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-20-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      # Build only Storybook
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      # Create a Storybook-specific vercel.json with correct null values instead of false
+      - name: Create Storybook vercel.json
+        run: |
+          cat > storybook-static/vercel.json << 'EOL'
+          {
+            "$schema": "https://openapi.vercel.sh/vercel.json",
+            "buildCommand": null,
+            "devCommand": null,
+            "framework": null,
+            "installCommand": null,
+            "outputDirectory": "."
+          }
+          EOL
+          
+          # Create a minimal package.json for storybook deployment
+          cat > storybook-static/package.json << 'EOL'
+          {
+            "name": "shoplist-storybook",
+            "version": "1.0.0",
+            "private": true
+          }
+          EOL
+
+      - name: Archive Storybook artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-artifacts
+          path: storybook-static
+
+  remove-previous-storybook-deployments:
+    runs-on: ubuntu-latest
+    needs: build-storybook
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install Vercel CLI
+        run: pnpm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Check and Remove Previous Storybook Deployments
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          # Extract branch name from GITHUB_HEAD_REF (PR source branch) or GITHUB_REF_NAME (fallback)
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name="storybook-$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)"
+          META_TAG=$(echo -n $sanitized_ref_name | md5sum | awk '{print $1}')
+          
+          # Get list of deployments with the same META_TAG
+          DEPLOYMENTS=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v6/deployments?projectId=$VERCEL_PROJECT_ID&meta-base_hash=$META_TAG")
+          
+          # Extract deployment IDs
+          DEPLOYMENT_IDS=$(echo $DEPLOYMENTS | jq -r '.deployments[].uid')
+          
+          # Delete each deployment
+          for ID in $DEPLOYMENT_IDS; do
+            echo "Removing storybook deployment: $ID"
+            curl -s -X DELETE -H "Authorization: Bearer $VERCEL_TOKEN" \
+              "https://api.vercel.com/v12/deployments/$ID"
+          done
+
+  deploy-storybook-preview:
+    needs: [build-storybook, remove-previous-storybook-deployments]
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Storybook artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook-artifacts
+          path: ./storybook-static
+
+      # Generate a unique name for this deployment
+      - name: Generate deployment name
+        id: deployment-name
+        run: |
+          # Extract branch name from GITHUB_HEAD_REF (PR source branch) or GITHUB_REF_NAME (fallback)
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name=$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
+          unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
+          echo "name=storybook-${sanitized_ref_name}-${unique_suffix}" >> $GITHUB_OUTPUT
+          echo "alias=storybook-${sanitized_ref_name}-${unique_suffix}.${PROJECTS_ROOT}.vercel.app" >> $GITHUB_OUTPUT
+
+      # Deploy to Vercel using the correct action
+      - name: Deploy to Vercel
+        id: vercel-deployment
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
+          working-directory: ./storybook-static
+
+      # Use the Vercel deployment URL for subsequent steps
+      - name: Set deployment URL
+        run: |
+          echo "Vercel deployment URL: ${{ steps.vercel-deployment.outputs.preview-url }}"
+          echo "PREVIEW_URL=${{ steps.vercel-deployment.outputs.preview-url }}" >> $GITHUB_ENV
+          echo "ALIAS_URL=https://${{ steps.deployment-name.outputs.alias }}" >> $GITHUB_ENV
+
+      # Install CLI for alias setting
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install Vercel CLI for alias setting
+        run: pnpm install --global vercel@latest
+
+      # Set an alias for the deployment if needed
+      - name: Set Vercel alias
+        if: steps.vercel-deployment.outputs.preview-url != ''
+        run: |
+          vercel alias set ${{ steps.vercel-deployment.outputs.preview-url }} ${{ steps.deployment-name.outputs.alias }} --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Add URLs to summary
+        run: |
+          # Add to workflow summary
+          echo "Storybook deployed :book:" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -n "$ALIAS_URL" ]; then
+            echo ":white_check_mark: Storybook Alias URL: $ALIAS_URL" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ -n "$PREVIEW_URL" ]; then
+            echo ":white_check_mark: Storybook Original URL: $PREVIEW_URL" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Calculate sanitized UI URL components
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name=$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
+          unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
+          echo "UI_ALIAS_URL=https://ui-${sanitized_ref_name}-${unique_suffix}.${PROJECTS_ROOT}.vercel.app" >> $GITHUB_ENV
+
+      - name: Add PR Comment
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            ## 🚀 Preview URLs
+
+            ### 📚 Storybook
+            - Preview URL: [${{ env.ALIAS_URL }}](${{ env.ALIAS_URL }})
+            - Visit [Production Storybook](https://shoplist-storybook.vercel.app) to see the live version
+
+            ### 🌐 Application UI
+            - Preview URL: [${{ env.UI_ALIAS_URL }}](${{ env.UI_ALIAS_URL }})
+            - Visit [Production App](https://shoplist-fe.vercel.app) to see the live version
+
+            ---
+
+            _These preview deployments are automatically generated for every PR update_

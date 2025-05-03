@@ -1,0 +1,72 @@
+name: Create Storybook Production Deployment
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Deploy-Storybook-to-Production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install Vercel CLI
+        run: pnpm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Install Dependencies and Build Storybook
+        run: |
+          pnpm install
+          pnpm build-storybook
+
+      # Create a Storybook-specific vercel.json with correct null values instead of false
+      - name: Create Storybook vercel.json
+        run: |
+          cat > storybook-static/vercel.json << 'EOL'
+          {
+            "$schema": "https://openapi.vercel.sh/vercel.json",
+            "buildCommand": null,
+            "devCommand": null,
+            "framework": null,
+            "installCommand": null,
+            "outputDirectory": "."
+          }
+          EOL
+          
+          # Create a minimal package.json for storybook deployment
+          cat > storybook-static/package.json << 'EOL'
+          {
+            "name": "shoplist-storybook",
+            "version": "1.0.0",
+            "private": true
+          }
+          EOL
+
+      - name: Build Project Artifacts
+        run: |
+          cd storybook-static
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel and get Preview URL
+        id: deploy
+        run: |
+          cd storybook-static
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} > vercel_output.txt 2>&1
+
+      - name: Extract URLs and add to summary
+        run: |
+          cd storybook-static
+          INSPECT_URL=$(grep -oP 'Inspect: \K(https://[^\s]+)' vercel_output.txt || echo "Not Found")
+          echo "Storybook Production deployed :book:" >> $GITHUB_STEP_SUMMARY
+          echo "Inspect URL: $INSPECT_URL" >> $GITHUB_STEP_SUMMARY
+          echo "Production URL: https://shoplist-storybook.vercel.app" >> $GITHUB_STEP_SUMMARY

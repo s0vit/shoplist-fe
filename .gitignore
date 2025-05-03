@@ -39,3 +39,7 @@ dist-ssr
 /playwright/.cache/
 
 *storybook.log
+
+
+# storybook static files
+storybook-static
