@@ -89,7 +89,9 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          sanitized_ref_name="storybook-$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g')"
+          # Extract branch name from GITHUB_HEAD_REF (PR source branch) or GITHUB_REF_NAME (fallback)
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name="storybook-$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)"
           META_TAG=$(echo -n $sanitized_ref_name | md5sum | awk '{print $1}')
           
           # Get list of deployments with the same META_TAG
@@ -124,7 +126,9 @@ jobs:
       - name: Generate deployment name
         id: deployment-name
         run: |
-          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g')
+          # Extract branch name from GITHUB_HEAD_REF (PR source branch) or GITHUB_REF_NAME (fallback)
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name=$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           echo "name=storybook-${sanitized_ref_name}-${unique_suffix}" >> $GITHUB_OUTPUT
           echo "alias=storybook-${sanitized_ref_name}-${unique_suffix}.${PROJECTS_ROOT}.vercel.app" >> $GITHUB_OUTPUT
@@ -174,7 +178,8 @@ jobs:
           fi
 
           # Calculate sanitized UI URL components
-          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name=$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           echo "UI_ALIAS_URL=https://ui-${sanitized_ref_name}-${unique_suffix}.${PROJECTS_ROOT}.vercel.app" >> $GITHUB_ENV
 
