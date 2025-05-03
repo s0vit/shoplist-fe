@@ -76,16 +76,16 @@ jobs:
       - name: Build Storybook
         run: pnpm build-storybook
 
-      # Create a Storybook-specific vercel.json with simple build command that always succeeds
+      # Create a Storybook-specific vercel.json with correct null values instead of false
       - name: Create Storybook vercel.json
         run: |
           cat > storybook-static/vercel.json << 'EOL'
           {
             "$schema": "https://openapi.vercel.sh/vercel.json",
-            "buildCommand": false,
-            "devCommand": false,
+            "buildCommand": null,
+            "devCommand": null,
             "framework": null,
-            "installCommand": false,
+            "installCommand": null,
             "outputDirectory": "."
           }
           EOL
