@@ -78,7 +78,9 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-60)
+          # Extract branch name from GITHUB_HEAD_REF (PR source branch) or GITHUB_REF_NAME (fallback)
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name=$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
           META_TAG=$(echo -n $sanitized_ref_name | md5sum | awk '{print $1}')
           bash ./scripts/delete-deployment-preview.sh
 
@@ -111,7 +113,9 @@ jobs:
         env:
           META_TAG: ${{ github.sha }}-${{ github.run_number }}
         run: |
-          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
+          # Extract branch name from GITHUB_HEAD_REF (PR source branch) or GITHUB_REF_NAME (fallback)
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name=$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           final_name="${sanitized_ref_name}-${unique_suffix}"
           vercel deploy --prebuilt --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --meta base_hash=${{ env.META_TAG }} >> vercel_output.txt 2>&1
@@ -120,7 +124,9 @@ jobs:
 
       - name: Extract URLs and add to summary
         run: |
-          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
+          # Extract branch name from GITHUB_HEAD_REF (PR source branch) or GITHUB_REF_NAME (fallback)
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name=$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           final_name="${sanitized_ref_name}-${unique_suffix}"
           alias="https://ui-${final_name}.${PROJECTS_ROOT}.vercel.app"

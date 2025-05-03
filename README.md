@@ -1,6 +1,6 @@
 # 🦜 BUDGY
 
-![Version](https://img.shields.io/badge/version-0.4.0-blue)
+![Version](https://img.shields.io/badge/version-0.7.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Last Commit](https://img.shields.io/github/last-commit/s0vit/shoplist-fe)
 ![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)
