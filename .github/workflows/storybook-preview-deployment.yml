@@ -82,15 +82,11 @@ jobs:
           cat > storybook-static/vercel.json << 'EOL'
           {
             "$schema": "https://openapi.vercel.sh/vercel.json",
-            "buildCommand": false,
-            "devCommand": false,
-            "outputDirectory": ".",
-            "rewrites": [
-              {
-                "source": "/(.*)",
-                "destination": "/index.html"
-              }
-            ]
+            "buildCommand": null,
+            "devCommand": null,
+            "framework": null,
+            "installCommand": null,
+            "outputDirectory": "."
           }
           EOL
 
@@ -171,8 +167,21 @@ jobs:
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           final_name="storybook-${sanitized_ref_name}-${unique_suffix}"
           
-          # Store deployment output directly in a variable instead of a file
-          DEPLOY_OUTPUT=$(vercel deploy ./storybook-static --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --meta base_hash=${{ env.META_TAG }})
+          # Add a .vercelignore file to ensure Vercel only deploys what we want
+          echo "*" > .vercelignore
+          echo "!storybook-static/**" >> .vercelignore
+          
+          # Deploy using more explicit flags
+          DEPLOY_OUTPUT=$(vercel deploy ./storybook-static \
+            --name=${final_name} \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --meta base_hash=${{ env.META_TAG }} \
+            --prod \
+            --yes \
+            --force \
+            --no-build)
+          
+          echo "$DEPLOY_OUTPUT"
           
           # Extract preview URL directly
           PREVIEW_URL=$(echo "$DEPLOY_OUTPUT" | grep -oP 'Preview: \K(https://[^\s]+)' || echo "Not Found")
@@ -181,13 +190,20 @@ jobs:
           short_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
           alias="storybook-${short_ref_name}-${unique_suffix}.${PROJECTS_ROOT}.vercel.app"
           
-          # Set the alias
-          vercel alias set $PREVIEW_URL $alias --token=${{ secrets.VERCEL_TOKEN }}
+          echo "Preview URL: $PREVIEW_URL"
           
-          # Save variables for the next step
-          echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
-          echo "INSPECT_URL=$(echo "$DEPLOY_OUTPUT" | grep -oP 'Inspect: \K(https://[^\s]+)' || echo "Not Found")" >> $GITHUB_ENV
-          echo "ALIAS_URL=https://$alias" >> $GITHUB_ENV
+          # Set the alias
+          if [ "$PREVIEW_URL" != "Not Found" ]; then
+            vercel alias set $PREVIEW_URL $alias --token=${{ secrets.VERCEL_TOKEN }}
+            
+            # Save variables for the next step
+            echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
+            echo "INSPECT_URL=$(echo "$DEPLOY_OUTPUT" | grep -oP 'Inspect: \K(https://[^\s]+)' || echo "Not Found")" >> $GITHUB_ENV
+            echo "ALIAS_URL=https://$alias" >> $GITHUB_ENV
+          else
+            echo "Failed to extract Preview URL from Vercel deployment output"
+            exit 1
+          fi
 
       - name: Extract Storybook URLs and add to summary
         run: |
