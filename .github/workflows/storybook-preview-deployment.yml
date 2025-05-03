@@ -7,9 +7,6 @@ env:
 on:
   pull_request:
     types: [opened, synchronize, reopened, edited]
-  push:
-    branches-ignore:
-      - main
 
 jobs:
   build-storybook:
@@ -175,7 +172,6 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: ./storybook-static
-          vercel-args: '--prod'
 
       # Use the Vercel deployment URL for subsequent steps
       - name: Set deployment URL
