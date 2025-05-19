@@ -18,15 +18,19 @@ type TUseLoadExpensesArgs =
     }
   | undefined;
 
-const formatFiltersToQuery = (filters: TFilterForQueryTypes): TGetExpenseQuery => ({
-  ...filters,
-  createdStartDate: filters.createdStartDate ? new Date(filters.createdStartDate) : undefined,
-  createdEndDate: filters.createdEndDate ? new Date(filters.createdEndDate) : undefined,
-  amountStart: filters.amountStart ? parseFloat(filters.amountStart) : undefined,
-  amountEnd: filters.amountEnd ? parseFloat(filters.amountEnd) : undefined,
-  skip: filters.skip ? parseInt(filters.skip, 10) : undefined,
-  limit: filters.limit ? parseInt(filters.limit, 10) : undefined,
-});
+const formatFiltersToQuery = (filters?: TFilterForQueryTypes): TGetExpenseQuery => {
+  if (!filters) return {};
+
+  return {
+    ...filters,
+    createdStartDate: filters.createdStartDate ? new Date(filters.createdStartDate) : undefined,
+    createdEndDate: filters.createdEndDate ? new Date(filters.createdEndDate) : undefined,
+    amountStart: filters.amountStart ? parseFloat(filters.amountStart) : undefined,
+    amountEnd: filters.amountEnd ? parseFloat(filters.amountEnd) : undefined,
+    skip: filters.skip ? parseInt(filters.skip, 10) : undefined,
+    limit: filters.limit ? parseInt(filters.limit, 10) : undefined,
+  };
+};
 
 const useLoadExpenses = ({ shouldFetchOnLoad = false, onFetchFinish, withShared }: TUseLoadExpensesArgs = {}) => {
   const setUserExpenses = useExpensesStore.use.setUserExpenses();
@@ -41,7 +45,7 @@ const useLoadExpenses = ({ shouldFetchOnLoad = false, onFetchFinish, withShared 
     error: expensesError,
   } = useQuery<TGetExpensesResponse, TErrorResponse>({
     queryKey: ['expenses', debouncedQuery],
-    queryFn: () => getExpenses(formatFiltersToQuery(debouncedQuery)),
+    queryFn: () => getExpenses(formatFiltersToQuery(filters)),
     enabled: shouldFetchOnLoad && isVerified,
   });
 
