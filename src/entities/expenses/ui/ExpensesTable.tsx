@@ -31,7 +31,7 @@ const ExpensesTable = () => {
   const expenses = useExpensesStore.use.userExpenses();
   const { mutate: handleDeleteExpense } = useMutation({
     mutationFn: deleteExpense,
-    onSuccess: () => fetchExpenses({}),
+    onSuccess: () => fetchExpenses(),
   });
 
   const groupedExpenses = groupExpensesByDate(expenses);
