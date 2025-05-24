@@ -8,6 +8,7 @@ enum RoutesEnum {
   PAYMENT_SOURCE = '/payment-source',
   EXPENSES_LIST = '/expenses',
   ACCESS_CONTROL = '/access-control',
+  EXPENSE_PAGE = '/expense/:_id',
 }
 
 export default RoutesEnum;

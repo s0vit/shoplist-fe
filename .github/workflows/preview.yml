@@ -7,53 +7,12 @@ env:
 on:
   pull_request:
     types: [opened, synchronize, reopened, edited]
-  push:
-    branches-ignore:
-      - main
 
 jobs:
   build-and-cache:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Check PR Description for Issue Link
-        if: github.event_name == 'pull_request'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          PR_BODY=$(curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} | jq -r .body)
-          ISSUE_NUMBER=$(echo "$PR_BODY" | grep -oP '#\K[0-9]+' || echo "")
-
-          echo "Issue Number: $ISSUE_NUMBER"
-          if [ -z "$ISSUE_NUMBER" ]; then
-            echo ":name_badge: Pull request description must contain a link to an issue (e.g., #123)." >> $GITHUB_STEP_SUMMARY
-            echo "Error: Pull request description must contain a link to an issue (e.g., #123)." >&2
-            exit 1
-          fi
-
-          ISSUE_DATA=$(curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER)
-          ISSUE_HTML_URL=$(echo "$ISSUE_DATA" | jq -r .html_url)
-          EXPECTED_URL="https://github.com/${{ github.repository }}/issues/$ISSUE_NUMBER"
-
-          echo "Issue number: $ISSUE_NUMBER"
-          echo "Issue HTML URL: $ISSUE_HTML_URL"
-          echo "Expected URL: $EXPECTED_URL"
-
-          if [ "$ISSUE_HTML_URL" != "$EXPECTED_URL" ]; then
-            echo ":name_badge: The issue linked in the pull request description does not belong to this repository." >> $GITHUB_STEP_SUMMARY
-            echo "Error: The issue linked in the pull request description does not belong to this repository." >&2
-            exit 1
-          fi
-
-          ISSUE_STATE=$(echo "$ISSUE_DATA" | jq -r .state)
-          if [ "$ISSUE_STATE" == "closed" ]; then
-            echo ":name_badge: The issue linked in the pull request description is closed." >> $GITHUB_STEP_SUMMARY
-            echo "Error: The issue linked in the pull request description is closed." >&2
-            exit 1
-          fi
-
-          echo "Pull request description contains a valid link to an open issue in this repository."
 
       - uses: pnpm/action-setup@v4
         with:
@@ -101,7 +60,6 @@ jobs:
   remove-previous-deployments:
     runs-on: ubuntu-latest
     needs: build-and-cache
-    if: github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v4
 
@@ -120,14 +78,15 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-60)
+          # Extract branch name from GITHUB_HEAD_REF (PR source branch) or GITHUB_REF_NAME (fallback)
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name=$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
           META_TAG=$(echo -n $sanitized_ref_name | md5sum | awk '{print $1}')
           bash ./scripts/delete-deployment-preview.sh
 
   Deploy-Preview:
     needs: [build-and-cache, remove-previous-deployments]
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v4
 
@@ -154,7 +113,9 @@ jobs:
         env:
           META_TAG: ${{ github.sha }}-${{ github.run_number }}
         run: |
-          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
+          # Extract branch name from GITHUB_HEAD_REF (PR source branch) or GITHUB_REF_NAME (fallback)
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name=$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           final_name="${sanitized_ref_name}-${unique_suffix}"
           vercel deploy --prebuilt --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --meta base_hash=${{ env.META_TAG }} >> vercel_output.txt 2>&1
@@ -163,7 +124,9 @@ jobs:
 
       - name: Extract URLs and add to summary
         run: |
-          sanitized_ref_name=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-40)
+          # Extract branch name from GITHUB_HEAD_REF (PR source branch) or GITHUB_REF_NAME (fallback)
+          branch_name="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          sanitized_ref_name=$(echo "$branch_name" | sed 's/[^a-zA-Z0-9-]//g' | cut -c1-35)
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           final_name="${sanitized_ref_name}-${unique_suffix}"
           alias="https://ui-${final_name}.${PROJECTS_ROOT}.vercel.app"

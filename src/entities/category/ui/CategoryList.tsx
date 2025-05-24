@@ -1,6 +1,6 @@
 import { TCategory } from 'src/shared/api/categoryApi';
-import SkeletonForCalc from 'src/utils/components/Skeleton.tsx';
 import HorizontalList from 'src/widgets/HorizontalList/HorizontalList.tsx';
+import SkeletonGroup from 'src/utils/components/Skeleton.tsx';
 
 type TCategoryListProps = {
   categories: TCategory[];
@@ -22,7 +22,10 @@ const CategoryList = ({
   isLoading,
 }: TCategoryListProps) => {
   return isLoading ? (
-    <SkeletonForCalc />
+    <SkeletonGroup
+      dimensions={{ direction: 'row', width: 85, height: 36 }}
+      styles={{ marginTop: '10px', marginLeft: '10px' }}
+    />
   ) : (
     <HorizontalList
       items={categories}
