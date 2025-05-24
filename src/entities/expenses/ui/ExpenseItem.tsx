@@ -9,7 +9,19 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
-import { alpha, Chip, FormHelperText, Box, IconButton, Stack, Typography, useTheme } from '@mui/material';
+import {
+  alpha,
+  Chip,
+  FormHelperText,
+  Box,
+  IconButton,
+  Stack,
+  Typography,
+  useTheme,
+  SelectChangeEvent,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
@@ -17,7 +29,7 @@ import { TCategory } from 'src/shared/api/categoryApi.ts';
 import { TExpense } from 'src/shared/api/expenseApi.ts';
 import { Delete, Edit } from '@mui/icons-material';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
-import { currencies } from 'src/shared/constants/currencies.ts';
+import { CURRENCIES, currencies } from 'src/shared/constants/currencies.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
@@ -39,7 +51,6 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
   } | null>(null);
   const [isShareWithModalOpen, setIsShareWithModalOpen] = useState(false);
   const { isDesktopWidth } = useWindowWidth();
-
   const setCurrentEditExpense = useExpensesStore.use.setCurrentEditExpense();
   const setIsEditExpenseModalOpen = useExpensesStore.use.setIsEditExpenseModalOpen();
   const theme = useTheme();
@@ -50,9 +61,6 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
     useUserSettingsStore.use.config();
   const categoryColor = category?.color || theme.palette.primary.main;
   const paymentSourceColor = paymentSource?.color || theme.palette.primary.main;
-
-  const expenseCurrency = currencies.find((currency) => currency.value === expense.currency)?.label || '';
-  const amountWithCurrency = expense.amount + ' ' + expenseCurrency;
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -124,6 +132,21 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
     </TrailingActions>
   );
 
+  const convertAmount = (expense: TExpense, to: CURRENCIES): number => {
+    const rate = expense.exchangeRates[to] ?? 1;
+
+    return expense.amount * rate;
+  };
+
+  const [localCurrency, setLocalCurrency] = useState<CURRENCIES>(useExpensesStore.getState().selectedCurrency);
+  const convertedAmount = convertAmount(expense, localCurrency);
+  const localCurrencySymbol = currencies.find((c) => c.value === localCurrency)?.label || localCurrency;
+  const displayAmount = `${convertedAmount.toFixed(2)} ${localCurrencySymbol}`;
+
+  const handleCurrencyChange = (event: SelectChangeEvent) => {
+    setLocalCurrency(event.target.value as CURRENCIES);
+  };
+
   return (
     <div onContextMenu={handleOpenMenu} {...longPressEvents}>
       <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto', cursor: 'pointer', userSelect: 'none' }}>
@@ -155,7 +178,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
             <Stack direction="row">
               <Box sx={{ textAlign: 'right' }}>
                 <Chip
-                  label={amountWithCurrency}
+                  label={displayAmount}
                   sx={{
                     backgroundColor: showSourceColours ? alpha(paymentSourceColor, 0.9) : 'null',
                     border: `1px solid ${alpha(theme.palette.getContrastText(paymentSourceColor), 0.8)}`,
@@ -164,6 +187,13 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
                     padding: theme.spacing(0.5),
                   }}
                 />
+                <Select value={localCurrency} onChange={handleCurrencyChange} size="small" sx={{ minWidth: 90 }}>
+                  {currencies.map((currency) => (
+                    <MenuItem key={currency.value} value={currency.value}>
+                      {currency.value}
+                    </MenuItem>
+                  ))}
+                </Select>
                 {showSourceNames && (
                   <Typography variant="body2" mr={1}>
                     {paymentSource?.title || 'Deleted'}

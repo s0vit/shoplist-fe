@@ -3,7 +3,6 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Box, IconButton, Toolbar, Typography, useTheme } from '@mui/material';
 import { useContext, useState } from 'react';
-import { ColorModeContext } from 'src/app/providers/Theme.tsx';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
@@ -13,6 +12,7 @@ import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import DrawerNavigation from 'src/widgets/Drawer/DrawerNavigation';
 import NavBarMenu from 'src/widgets/NavBarMenu/NavBarMenu.tsx';
 import { useTranslation } from 'react-i18next';
+import { ColorModeContext } from 'src/app/providers/Theme.tsx';
 
 const Navbar = () => {
   const isLoggedIn = useUserStore.use.user?.() !== undefined;
