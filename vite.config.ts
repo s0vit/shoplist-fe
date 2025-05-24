@@ -10,6 +10,7 @@ export default defineConfig({
   // @ts-expect-error
   test: {
     exclude: ['**/tests/playwright/**', '**/node_modules/**'],
+    environment: 'happy-dom',
   },
   plugins: [
     react(),

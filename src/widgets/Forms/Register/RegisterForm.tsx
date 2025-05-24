@@ -31,19 +31,19 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation('loginPage');
 
-  const toastId = useRef<Id>();
+  const toastId = useRef<Id>(undefined);
   const navigate = useNavigate();
   const setUser = useUserStore.use.setUser();
 
   const { isPending: isRegisterPending, mutate: registerMutate } = useMutation<void, TErrorResponse>({
     mutationFn: () => register({ email, password }),
     onSuccess: () => {
-      toast.dismiss(toastId.current);
+      toast.dismiss(toastId.current!);
       toastId.current = toast('Check your email to confirm registration', { type: 'warning', autoClose: false });
       setIsRegistered(true);
     },
     onError: (error) => {
-      toast.dismiss(toastId.current);
+      toast.dismiss(toastId.current!);
       toastId.current = handleError(error);
     },
   });

@@ -11,16 +11,16 @@ import {
 } from 'react-swipeable-list';
 import {
   alpha,
+  Box,
   Chip,
   FormHelperText,
-  Box,
   IconButton,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   Stack,
   Typography,
   useTheme,
-  SelectChangeEvent,
-  MenuItem,
-  Select,
 } from '@mui/material';
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
@@ -98,7 +98,8 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
     handleEdit();
   };
 
-  const handleSingleExpense = () => {
+  const handleSingleExpense = (event: MouseEvent<HTMLElement>) => {
+    if ('id' in event.target && event.target.id !== expense._id) return;
     navigate(`/expense/${expense._id}`);
   };
 
@@ -166,6 +167,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
             justifyContent="space-between"
             alignItems="center"
             onClick={handleSingleExpense}
+            id={expense._id}
             sx={{
               backgroundColor: showCategoryColours ? alpha(categoryColor, 0.05) : 'null',
               padding: theme.spacing(0.5),
