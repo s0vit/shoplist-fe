@@ -6,6 +6,12 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  test: {
+    exclude: ['**/tests/playwright/**', '**/node_modules/**'],
+    environment: 'happy-dom',
+  },
   plugins: [
     react(),
     version(),

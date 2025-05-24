@@ -13,7 +13,7 @@ type TConfirmEmailComponentProps = {
 };
 
 const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
-  const toastIdRef = useRef<Id>();
+  const toastIdRef = useRef<Id>(undefined);
   const navigate = useNavigate();
   const { t } = useTranslation('loginPage');
   const {

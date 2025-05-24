@@ -1,0 +1,88 @@
+:root {
+  /**
+   * @tokens Basic-Colors
+   * @presenter Color
+   */
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  /**
+   * @tokens Light-Colors
+   * @presenter Color
+   */
+  --color-light-background: #fbfbfb;
+  --color-light-surface: #f2f2f2;
+  --color-light-surface-variant: #ededed;
+  --color-light-text-primary: #262626;
+  --color-light-text-secondary: #a6a6a6;
+  --color-light-text-disabled: #808080;
+  --color-light-primary: #000000;
+  --color-light-border: rgba(0, 0, 0, 0.1);
+  --color-light-border-active: #9747ff;
+
+  /**
+   * @tokens Dark-Colors
+   * @presenter Color
+   */
+  --color-dark-background: #000000;
+  --color-dark-surface: #1c1c1e;
+  --color-dark-surface-variant: #0e0e10;
+  --color-dark-text-primary: #ffffff;
+  --color-dark-text-secondary: #808080;
+  --color-dark-text-disabled: #4d4d4f;
+  --color-dark-primary: #ffffff;
+  --color-dark-border: rgba(255, 255, 255, 0.1);
+
+  /**
+   * @tokens Status-Colors
+   * @presenter Color
+   */
+  --color-error: #ed5145;
+  --color-success: #72d52c;
+  --color-warning: #ffbb00;
+
+  /**
+   * @tokens Expenses
+   * @presenter Color
+   */
+  --color-red: #ee0101;
+  --color-light-red: #ff7878;
+  --color-brown: #9a4d00;
+  --color-orange: #ee7f01;
+  --color-yellow: #ffcc00;
+  --color-green: #93ee01;
+  --color-bright-green: #c3ee01;
+  --color-turquoise: #05ffcd;
+  --color-dark-blue: #0144ee;
+  --color-blue: #53b1ff;
+  --color-dark-purple: #430059;
+  --color-purple: #ab01ee;
+  --color-pink: #ee01a7;
+  --color-graphite: #494949;
+
+  /**
+   * @tokens Light-Categories
+   * @presenter Color
+   */
+  --color-category-light-green: #ddfecf;
+  --color-category-light-blue: #cfeaff;
+  --color-category-light-red: #fdcfcf;
+  --color-category-light-yellow: #fef9cf;
+  --color-category-light-orange: #fee3cf;
+  --color-category-light-turquoise: #cffdf9;
+  --color-category-light-purple: #d9cffe;
+  --color-category-light-pink: #fecff5;
+
+  /**
+   * @tokens Dark-Categories
+   * @presenter Color
+   */
+  --color-category-dark-green: #264b0b;
+  --color-category-dark-blue: #154651;
+  --color-category-dark-red: #48160d;
+  --color-category-dark-yellow: #4b4004;
+  --color-category-dark-orange: #4b2204;
+  --color-category-dark-turquoise: #044b46;
+  --color-category-dark-purple: #2d044b;
+  --color-category-dark-pink: #4b0440;
+}
