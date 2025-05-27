@@ -36,7 +36,7 @@ const ExpensesTable = () => {
 
   const groupedExpenses = groupExpensesByDate(expenses);
 
-  return isExpensesLoading ? (
+  return isVerified && isExpensesLoading ? (
     <Stack width="100%">
       <SkeletonGroup
         variant="rounded"
