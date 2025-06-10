@@ -24,6 +24,12 @@ export const updatePaymentSource = async (id: string, data: TCreatePaymentSource
   return response.data;
 };
 
+export const updatePaymentSourceOrder = async (id: string, order: number): Promise<TPaymentSource> => {
+  const response = await apiInstance.put<TPaymentSource>(`payment-source/${id}/order`, { order });
+
+  return response.data;
+};
+
 export const deletePaymentSource = async (id: string): Promise<TPaymentSource> => {
   const response = await apiInstance.delete<TPaymentSource>(`payment-source/${id}`);
 
@@ -35,6 +41,7 @@ export type TPaymentSource = TCreatePaymentSourceInput & {
   _id: string;
   userId: string;
   createdAt: Date;
+  order: number;
 };
 export type TCreatePaymentSourceInput = {
   title: string;
