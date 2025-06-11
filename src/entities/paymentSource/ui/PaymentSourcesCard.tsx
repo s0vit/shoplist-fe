@@ -116,7 +116,16 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
   );
 
   return (
-    <Grid item xs={12} onContextMenu={handleOpenMenu} {...longPressEvents}>
+    <Grid
+      item
+      xs={12}
+      onContextMenu={handleOpenMenu}
+      {...longPressEvents}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
           <Card
@@ -126,10 +135,6 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
               borderRadius: theme.spacing(1),
               border: `1px solid ${paymentSource.color || theme.palette.primary.main}`,
             }}
-            ref={setNodeRef}
-            style={style}
-            {...attributes}
-            {...listeners}
           >
             <CardContent sx={{ p: 1 }} style={{ paddingBottom: '16px' }}>
               <Box display="flex" justifyContent="space-between">
