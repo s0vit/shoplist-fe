@@ -24,6 +24,12 @@ export const updateCategory = async (id: string, data: TCreateCategoryInput): Pr
   return response.data;
 };
 
+export const updateCategoryOrder = async (id: string, order: number): Promise<TCategory> => {
+  const response = await apiInstance.put<TCategory>(`category/${id}/order`, { order });
+
+  return response.data;
+};
+
 export const deleteCategory = async (id: string): Promise<TCategory> => {
   const response = await apiInstance.delete<TCategory>(`category/${id}`);
 
