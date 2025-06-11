@@ -8,7 +8,7 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 type TPaymentSourcesProps = {
   paymentSources: TPaymentSource[];
   handleOpenDeleteDialog: (paymentSource: TPaymentSource) => void;
-  onReorder: (reorderedSources: TPaymentSource[]) => void;
+  onReorder: (reorderedSources: TPaymentSource[], movedId: string, newIndex: number) => void;
 };
 
 const PaymentSources = ({ paymentSources, handleOpenDeleteDialog, onReorder }: TPaymentSourcesProps) => {
@@ -26,7 +26,7 @@ const PaymentSources = ({ paymentSources, handleOpenDeleteDialog, onReorder }: T
         order: i,
       }));
 
-      onReorder(reorderedSources);
+      onReorder(reorderedSources, active.id as string, newIndex);
     }
   };
 

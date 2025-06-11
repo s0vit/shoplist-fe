@@ -9,7 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import handleError from 'src/utils/errorHandler';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
-import useUpdatePaymentSourcesOrder from 'src/entities/paymentSource/hooks/useUpdatePaymentSourcesOrder.ts';
+import useUpdateSinglePaymentSourceOrder from 'src/entities/paymentSource/hooks/useUpdatePaymentSourcesOrder.ts';
 
 const PaymentSourcesPage = () => {
   const { userPaymentSources, isPaymentSourcesLoading, fetchPaymentSources } = useLoadPaymentSources();
@@ -30,18 +30,11 @@ const PaymentSourcesPage = () => {
     }
   }, [userPaymentSources]);
 
-  const { mutate: updateOrder } = useUpdatePaymentSourcesOrder((updatedSources) => {
-    setDisplayPaymentSources((prev) =>
-      prev.map((source) => updatedSources.find((u) => u._id === source._id) || source),
-    );
-  });
+  const { mutate: updateOrder } = useUpdateSinglePaymentSourceOrder();
 
-  const handleReorder = (reorderedSources: TPaymentSource[]) => {
-    const originalSources = [...displayPaymentSources];
-
+  const handleReorder = (reorderedSources: TPaymentSource[], movedId: string, newIndex: number) => {
     setDisplayPaymentSources(reorderedSources);
-
-    updateOrder({ updatedSources: reorderedSources, originalSources });
+    updateOrder({ id: movedId, newIndex });
   };
 
   const { mutate: requestDeletePaymentSource, isPending: isUpdating } = useMutation({
