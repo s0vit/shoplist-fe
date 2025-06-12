@@ -40,13 +40,15 @@ const Categories = ({ categories, handleOpenDeleteDialog, onReorder }: TCategori
     >
       <SortableContext items={categories.map((category) => category._id)} strategy={verticalListSortingStrategy}>
         <Grid container spacing={2}>
-          {categories.map((category) => (
-            <CategoryCard
-              key={category._id}
-              category={category}
-              handleRemove={() => handleOpenDeleteDialog(category)}
-            />
-          ))}
+          {categories
+            .sort((a, b) => a.order - b.order)
+            .map((category) => (
+              <CategoryCard
+                key={category._id}
+                category={category}
+                handleRemove={() => handleOpenDeleteDialog(category)}
+              />
+            ))}
         </Grid>
       </SortableContext>
     </DndContext>

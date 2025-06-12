@@ -41,6 +41,7 @@ export type TCategory = TCreateCategoryInput & {
   _id: string;
   userId: string;
   createdAt: Date;
+  order: number;
 };
 
 export type TCreateCategoryInput = {
