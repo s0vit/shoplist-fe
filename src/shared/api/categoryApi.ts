@@ -3,7 +3,7 @@ import { apiInstance } from 'src/shared/api/rootApi.ts';
 export const getCategories = async (): Promise<TGetCategoriesResponse> => {
   const response = await apiInstance.get<TGetCategoriesResponse>('category');
 
-  return response.data;
+  return response.data.sort((a, b) => a.order - b.order);
 };
 
 export const getCategoryById = async (id: string): Promise<TCategory> => {
