@@ -3,23 +3,38 @@ import { Box, Divider, IconButton, Paper, Typography } from '@mui/material';
 import PaymentSourcesGrid from 'src/entities/paymentSource/ui/PaymentSourcesGrid.tsx';
 import { useTranslation } from 'react-i18next';
 import DeleteCategoryDialog from 'src/widgets/Modal/DeleteCategoryDialog.tsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { deletePaymentSource, TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { useMutation } from '@tanstack/react-query';
 import handleError from 'src/utils/errorHandler';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
+import useUpdateSinglePaymentSourceOrder from 'src/entities/paymentSource/hooks/useUpdatePaymentSourcesOrder.ts';
 
 const PaymentSourcesPage = () => {
   const { userPaymentSources, isPaymentSourcesLoading, fetchPaymentSources } = useLoadPaymentSources();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [deletingPaymentSource, setDeletingPaymentSource] = useState<TPaymentSource>();
+  const [displayPaymentSources, setDisplayPaymentSources] = useState<TPaymentSource[]>([]);
   const { t } = useTranslation('accounts');
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
 
   const handleOpenDeleteDialog = (paymentSource: TPaymentSource) => {
     setOpenDeleteDialog(true);
     setDeletingPaymentSource(paymentSource);
+  };
+
+  useEffect(() => {
+    if (userPaymentSources) {
+      setDisplayPaymentSources(userPaymentSources);
+    }
+  }, [userPaymentSources]);
+
+  const { mutate: updateOrder } = useUpdateSinglePaymentSourceOrder();
+
+  const handleReorder = (reorderedSources: TPaymentSource[], movedId: string, newIndex: number) => {
+    setDisplayPaymentSources(reorderedSources);
+    updateOrder({ id: movedId, newIndex });
   };
 
   const { mutate: requestDeletePaymentSource, isPending: isUpdating } = useMutation({
@@ -51,7 +66,11 @@ const PaymentSourcesPage = () => {
         <br />
         {isPaymentSourcesLoading && <Typography>Loading...</Typography>}
         {userPaymentSources && (
-          <PaymentSourcesGrid paymentSources={userPaymentSources} handleOpenDeleteDialog={handleOpenDeleteDialog} />
+          <PaymentSourcesGrid
+            paymentSources={displayPaymentSources}
+            handleOpenDeleteDialog={handleOpenDeleteDialog}
+            onReorder={handleReorder}
+          />
         )}
         <DeleteCategoryDialog
           openDeleteDialog={openDeleteDialog}

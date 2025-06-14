@@ -18,6 +18,8 @@ import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import { FaPencilAlt } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 type TPaymentSourcesCardProps = {
   paymentSource: TPaymentSource;
@@ -38,6 +40,13 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
   const { isDesktopWidth } = useWindowWidth();
   const paymentSourceTextColor = theme.palette.text.primary;
   const paymentSourceBackgroundColor = alpha(paymentSource.color || theme.palette.primary.main, 0.05);
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id: paymentSource._id,
+  });
+  const style = {
+    transition,
+    transform: CSS.Translate.toString(transform),
+  };
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -107,7 +116,16 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
   );
 
   return (
-    <Grid item xs={12} onContextMenu={handleOpenMenu} {...longPressEvents}>
+    <Grid
+      item
+      xs={12}
+      onContextMenu={handleOpenMenu}
+      {...longPressEvents}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
           <Card

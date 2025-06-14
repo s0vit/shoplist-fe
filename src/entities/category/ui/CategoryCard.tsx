@@ -18,6 +18,8 @@ import ShareWithModal from 'src/widgets/Modal/ShareWithModal.tsx';
 import { FaPencilAlt } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 type TCategoriesProps = {
   category: TCategory;
@@ -39,6 +41,13 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
   const categoryBackgroundColor = alpha(category.color || theme.palette.primary.main, 0.05);
   const { t } = useTranslation('categories');
   const isVerified = _useUserStore.use.user?.()?.isVerified;
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id: category._id,
+  });
+  const style = {
+    transition,
+    transform: CSS.Translate.toString(transform),
+  };
 
   const handleEdit = () => {
     setCategoryModalOpen(true);
@@ -108,7 +117,16 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
   );
 
   return (
-    <Grid item xs={12} onContextMenu={handleOpenMenu} {...longPressEvents}>
+    <Grid
+      item
+      xs={12}
+      onContextMenu={handleOpenMenu}
+      {...longPressEvents}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
           <Card

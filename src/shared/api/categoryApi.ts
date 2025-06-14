@@ -3,7 +3,7 @@ import { apiInstance } from 'src/shared/api/rootApi.ts';
 export const getCategories = async (): Promise<TGetCategoriesResponse> => {
   const response = await apiInstance.get<TGetCategoriesResponse>('category');
 
-  return response.data;
+  return response.data.sort((a, b) => a.order - b.order);
 };
 
 export const getCategoryById = async (id: string): Promise<TCategory> => {
@@ -24,6 +24,12 @@ export const updateCategory = async (id: string, data: TCreateCategoryInput): Pr
   return response.data;
 };
 
+export const updateCategoryOrder = async (id: string, order: number): Promise<TCategory> => {
+  const response = await apiInstance.put<TCategory>(`category/${id}/order`, { order });
+
+  return response.data;
+};
+
 export const deleteCategory = async (id: string): Promise<TCategory> => {
   const response = await apiInstance.delete<TCategory>(`category/${id}`);
 
@@ -35,6 +41,7 @@ export type TCategory = TCreateCategoryInput & {
   _id: string;
   userId: string;
   createdAt: Date;
+  order: number;
 };
 
 export type TCreateCategoryInput = {
