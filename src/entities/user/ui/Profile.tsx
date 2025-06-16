@@ -141,7 +141,7 @@ const Profile = () => {
           <Typography variant="body1" gutterBottom>
             {t('email: ')} {userData?.email}
             <br />
-            {t('isVerified: ')} {`${userData?.isVerified}`}
+            {t('isVerified: ')} {userData?.isVerified ? t('Yes') : t('No')}
           </Typography>
           {!userData?.isVerified && (
             <Button variant="contained" onClick={() => getNewLinkMutate()} sx={{ marginBottom: 2 }}>
