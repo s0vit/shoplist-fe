@@ -22,8 +22,7 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
       "eslint --report-unused-disable-directives --max-warnings 0 --fix",
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ],
     "*.{ts,tsx}": [
       "tsc --noEmit --skipLibCheck"
