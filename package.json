@@ -20,13 +20,11 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
+    "src/**/*.{ts,tsx,js,jsx}": [
       "eslint --report-unused-disable-directives --max-warnings 0 --fix",
       "prettier --write"
     ],
-    "*.{ts,tsx}": [
-      "tsc --noEmit --skipLibCheck"
-    ]
+    "*.(ts|tsx)": "npm run typecheck"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
