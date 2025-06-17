@@ -43,7 +43,7 @@ const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationPr
 
   useEffect(() => {
     if (!isDesktopWidth && !navigationList.some((route) => route.link === RoutesEnum.EXPENSES_LIST)) {
-      navigationList.push({ title: 'Expenses', link: RoutesEnum.EXPENSES_LIST, icon: <Money /> });
+      navigationList.push({ title: t('Expenses'), link: RoutesEnum.EXPENSES_LIST, icon: <Money /> });
     }
   }, [isDesktopWidth]);
 
