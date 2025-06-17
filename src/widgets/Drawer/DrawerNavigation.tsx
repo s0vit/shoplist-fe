@@ -45,7 +45,7 @@ const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationPr
     if (!isDesktopWidth && !navigationList.some((route) => route.link === RoutesEnum.EXPENSES_LIST)) {
       navigationList.push({ title: t('Expenses'), link: RoutesEnum.EXPENSES_LIST, icon: <Money /> });
     }
-  }, [isDesktopWidth]);
+  }, [isDesktopWidth, t]);
 
   return (
     <Drawer anchor="left" open={isDrawerOpen} onClose={closeDrawer}>
