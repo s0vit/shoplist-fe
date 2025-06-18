@@ -1,1 +1,0 @@
-pnpm exec tsc --project tsconfig.json --noEmit --skipLibCheck

@@ -1,0 +1,20 @@
+{
+  "path": "cz-conventional-changelog",
+  "maxHeaderWidth": 100,
+  "maxLineWidth": 100,
+  "types": [
+    { "value": "feat",     "name": "feat:     A new feature" },
+    { "value": "fix",      "name": "fix:      A bug fix" },
+    { "value": "refactor", "name": "refactor: A code change that neither fixes a bug nor adds a feature" },
+    { "value": "test",     "name": "test:     Adding missing tests or correcting existing tests" },
+    { "value": "docs",     "name": "docs:     Documentation only changes" },
+    { "value": "style",    "name": "style:    Changes that do not affect code semantics (formatting, etc.)" },
+    { "value": "chore",    "name": "chore:    Changes to the build process or auxiliary tools" },
+    { "value": "build",    "name": "build:    Changes that affect the build system or external dependencies" }
+  ],
+  "scopes": [],
+  "allowCustomScopes": true,
+  "allowBreakingChanges": ["feat", "fix"],
+  "skipQuestions": ["body", "footer"],
+  "subjectLimit": 100
+}
