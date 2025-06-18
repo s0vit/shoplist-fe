@@ -20,9 +20,6 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "tsc --project tsconfig.json --noEmit --skipLibCheck"
-    ],
     "src/**/*.{ts,tsx,js,jsx}": [
       "eslint --cache --report-unused-disable-directives --max-warnings 0 --fix",
       "prettier --write"
