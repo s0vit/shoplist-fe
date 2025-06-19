@@ -1,34 +1,34 @@
 {
   "commitizen": {
-    "name": "cz_customize",
+    "path": "cz-customizable",
     "version_scheme": "semver",
-    "update_changelog_on_bump": true,
-    "customize": {
-      "message_template": "{{change_type}}:{% if show_message %} {{message}}{% endif %}",
-      "example": "feat: this feature enable customize through config file",
-      "schema": "<type>: <body>",
-      "schema_pattern": "^(build|chore|docs|feat|fix|refactor|style|test){1}(\\([\\w\\-\\.]+\\))?(!)?: ([\\w \\-'])+([\\s\\S]*)",
-      "change_type_order": [
-        "Breaking Changes",
-        "Added",
-        "Fixed",
-        "Performance",
-        "Reverted",
-        "Maintenance",
-        "Documentation"
-      ],
-      "commit_parser": "^((?P<change_type>chore|docs|feat|fix|refactor|style|test|BREAKING CHANGE)(?:\\((?P<scope>[^()\r\n]*)\\)|\\()?(?P<breaking>!)?|\\w+!):\\s(?P<message>.*)?",
-      "changelog_pattern": "^(.+!|BREAKING CHANGE|chore|docs|feat|fix|refactor|style|test)(\\([\\w\\-\\.]+\\))?:",
-      "change_type_map": {
-        "BREAKING CHANGE": "Breaking Changes",
-        "chore": "Maintenance",
-        "docs": "Documentation",
-        "feat": "Added",
-        "fix": "Fixed",
-        "refactor": "Maintenance",
-        "style": "Maintenance",
-        "test": "Maintenance"
-      }
-    }
+    "update_changelog_on_bump": false,
+
+
+    "types": [
+      { "value": "feat",     "name": "feat:     A new feature" },
+      { "value": "fix",      "name": "fix:      A bug fix" },
+      { "value": "refactor", "name": "refactor: A code change that neither fixes a bug nor adds a feature" },
+      { "value": "test",     "name": "test:     Adding missing tests or correcting existing tests" },
+      { "value": "docs",     "name": "docs:     Documentation only changes" },
+      { "value": "style",    "name": "style:    Changes that do not affect code semantics (formatting, etc.)" },
+      { "value": "chore",    "name": "chore:    Changes to the build process or auxiliary tools" },
+      { "value": "build",    "name": "build:    Changes that affect the build system or external dependencies" }
+    ],
+
+    "scopes": [],
+    "allowCustomScopes": true,
+
+
+    "skipQuestions": ["body", "footer"],
+
+
+    "subjectLimit": 100,
+
+    "messageTemplate": "{{type}}({{scope}}): {{subject}}",
+
+    "schemaPattern": "^(feat|fix|refactor|test|docs|style|chore|build)\\([^\\)]+\\): .+",
+
+    "commitParser": "^((?P<type>feat|fix|refactor|test|docs|style|chore|build)\\((?P<scope>[^\\)]+)\\): (?P<subject>.+))$"
   }
 }
