@@ -14,8 +14,9 @@ module.exports = {
   subjectLimit: 72,
   messages: {
     type: "Select the type of change that you're committing:",
-    scope: "Denote the scope of this change (e.g., component or file name):",
-    subject: "Write a short, imperative tense description of the change:",
-    confirmCommit: "Are you sure you want to proceed with the commit above?"
-  }
+    scope: 'Denote the scope of this change (e.g., auth, settings, ui):',
+    subject: "Write a short, imperative tense description (e.g., 'исправить таймаут входа'):",
+    confirmCommit: 'Are you sure you want to proceed with the commit above?',
+  },
+  format: ({ type, scope, subject }) => `${type}${scope ? `(${scope})` : ''}: ${subject}`,
 };

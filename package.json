@@ -18,7 +18,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepare": "husky",
-    "cm": "CZ_CUSTOMIZABLE_CONFIG=./cz-config.cjs cz"
+    "cm": "cz"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": [
@@ -28,9 +28,12 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-customizable"
-    }
-  },
+   "path": "./node_modules/cz-customizable"
+    },
+   "cz-customizable": {
+     "config": "./cz-config.cjs"
+   }
+ },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/modifiers": "^9.0.0",
