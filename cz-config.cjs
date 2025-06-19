@@ -7,7 +7,7 @@ module.exports = {
     { value: 'docs', name: 'docs:     Documentation only changes' },
     { value: 'style', name: 'style:    Changes that do not affect code semantics (formatting, etc.)' },
     { value: 'chore', name: 'chore:    Changes to the build process or auxiliary tools' },
-    { value: 'build', name: 'build:    Changes that affect the build system or external dependencies' }
+    { value: 'build', name: 'build:    Changes that affect the build system or external dependencies' },
   ],
   allowCustomScopes: true,
   skipQuestions: ['body', 'footer'],
