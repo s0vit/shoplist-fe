@@ -3,15 +3,9 @@
     "name": "cz_customize",
     "customize": {
       "message_template": "{{change_type}}({{scope}}): {{message}}",
-      "example": "feat(core): add new authentication strategies",
+      "example": "feat(core): add new authentication strategy",
       "schema": "<type>(<scope>): <subject>",
       "schema_pattern": "^(feat|fix|refactor|test|docs|style|chore|build)\\(([^)]+)\\):\\s(.+)",
-      "bump_pattern": "^(feat|fix|hotfix)",
-      "bump_map": {
-        "feat": "MINOR",
-        "fix": "PATCH",
-        "hotfix": "PATCH"
-      },
       "change_type_order": [
         "feat", "fix", "refactor", "test", "docs", "style", "chore", "build"
       ],
