@@ -3,7 +3,7 @@
     "name": "cz_customize",
     "customize": {
       "message_template": "{{change_type}}({{scope}}): {{message}}",
-      "example": "feat(core): add new authentication strategy",
+      "example": "feat(core): add new authentication strategies",
       "schema": "<type>(<scope>): <subject>",
       "schema_pattern": "^(feat|fix|refactor|test|docs|style|chore|build)\\(([^)]+)\\):\\s(.+)",
       "bump_pattern": "^(feat|fix|hotfix)",
