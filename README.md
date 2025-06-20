@@ -133,13 +133,13 @@ pnpm cm
 
 The wizard will ask for:
 
-- **type** – feat / fix / refactor / test / docs / style / chore / build
+- **type** – feat / fix / refactor / test / docs / style / chore / build (required)
 
-- **scope** – scope of this change
+- **scope** – scope of this change (required)
 
-- **description** – short imperative summary
+- **description** – short imperative summary (required)
 
-- **details** - longer description of the change
+- **details** - longer description of the change (optional)
 
 _Example: fix(auth): change login timeout_
 

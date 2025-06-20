@@ -1,43 +1,100 @@
-// commitlint.config.js
-module.exports = {
-  extends: ['@commitlint/config-conventional'],
-  parserPreset: {
-    parserOpts: {
-      headerPattern: /^(feat|fix|refactor|test|docs|style|chore|build)\(([^)]+)\): (.+)$/,
-      headerCorrespondence: ['type', 'scope', 'subject']
+{
+  "extends": [
+    "@commitlint/config-conventional"
+  ],
+  "parserPreset": {
+    "parserOpts": {
+      "headerPattern": "^(feat|fix|refactor|test|docs|style|chore|build)\\(([^)]+)\\): (.+)$",
+      "headerCorrespondence": [
+        "type",
+        "scope",
+        "subject"
+      ]
     }
   },
-  rules: {
-    'type-enum':   [2, 'always', ['feat','fix','refactor','test','docs','style','chore','build']],
-    'type-empty':  [2, 'never'],
-    'scope-empty': [2, 'never'],
-    'subject-empty': [2, 'never']
+  "rules": {
+    "type-enum": [
+      2,
+      "always",
+      [
+        "feat",
+        "fix",
+        "refactor",
+        "test",
+        "docs",
+        "style",
+        "chore",
+        "build"
+      ]
+    ],
+    "type-empty": [
+      2,
+      "never"
+    ],
+    "scope-empty": [
+      2,
+      "never"
+    ],
+    "subject-empty": [
+      2,
+      "never"
+    ]
   },
-  prompt: {
-    /*  
-      Здесь мы **полностью** описываем только те шаги, которые хотим видеть.
-      Всё, что не описано — просто не будет запрошено. 
-    */
-    questions: {
-      type: {
-        description: "Select the type of change that you're committing:",
-        enum: {
-          feat:     { description: 'A new feature',                                 title: 'Features'     },
-          fix:      { description: 'A bug fix',                                     title: 'Bug Fixes'    },
-          refactor: { description: 'A code change that neither fixes nor adds...',   title: 'Refactors'    },
-          test:     { description: 'Adding or correcting tests',                    title: 'Tests'        },
-          docs:     { description: 'Documentation only changes',                     title: 'Documentation'},
-          style:    { description: 'Code style changes (formatting, etc)',           title: 'Styles'       },
-          chore:    { description: "Other changes that don't modify src or tests",   title: 'Chores'       },
-          build:    { description: 'Changes to build system or external deps',       title: 'Builds'       }
+  "prompt": {
+    "skipQuestions": [
+      "isBreaking",
+      "breakingBody",
+      "breaking",
+      "issues",
+      "footer"
+    ],
+    "questions": {
+      "type": {
+        "description": "Select the type of change that you're committing",
+        "enum": {
+          "feat": {
+            "description": "A new feature",
+            "title": "Features"
+          },
+          "fix": {
+            "description": "A bug fix",
+            "title": "Bug Fixes"
+          },
+          "refactor": {
+            "description": "A code change that neither fixes a bug nor adds a feature",
+            "title": "Code Refactoring"
+          },
+          "test": {
+            "description": "Adding missing tests or correcting existing tests",
+            "title": "Tests"
+          },
+          "docs": {
+            "description": "Documentation only changes",
+            "title": "Documentation"
+          },
+          "style": {
+            "description": "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)",
+            "title": "Styles"
+          },
+          "chore": {
+            "description": "Other changes that don't modify src or test files",
+            "title": "Chores"
+          },
+          "build": {
+            "description": "Changes that affect the build system or external dependencies",
+            "title": "Builds"
+          }
         }
       },
-      scope: {
-        description: "What is the scope of this change (e.g. component or file name):"
+      "scope": {
+        "description": "What is the scope of this change (e.g. component or file name)"
       },
-      subject: {
-        description: "Write a short, imperative‐tense description of the change:"
+      "subject": {
+        "description": "Write a short, imperative tense description of the change"
+      },
+      "body": {
+        "description": "Provide a longer description of the change (optional)"
       }
     }
   }
-};
+}
