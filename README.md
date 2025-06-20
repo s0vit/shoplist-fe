@@ -1,6 +1,6 @@
 # 🦜 BUDGY
 
-![Version](https://img.shields.io/badge/version-0.7.0-blue)
+![Version](https://img.shields.io/badge/version-0.12.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Last Commit](https://img.shields.io/github/last-commit/s0vit/shoplist-fe)
 ![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)
@@ -88,7 +88,25 @@ pnpm run test:e2e:debug
 pnpm run test:unit
 ```
 
+### Storybook
+```bash
+# Storybook will be available at http://localhost:6006
+pnpm run storybook   
+ 
+# Static Storybook build
+pnpm run build-storybook 
+```
+
 ### Linting and Formatting
+
+The project enforces a clean commit history and consistent code style out‑of‑the‑box.
+
+| Stage          | Tooling           | Command run by Husky               |
+| -------------- | ----------------- | ---------------------------------- |
+| **pre‑commit** | ESLint + Prettier | `pnpm lint:fix && pnpm format:fix` |
+| **commit‑msg** | Commitlint        | `pnpm commitlint --edit $1`        |
+
+Manual commands:
 
 ```bash
 # Run linter
@@ -103,6 +121,29 @@ pnpm run format
 # Fix formatting issues
 pnpm run format:fix
 ```
+
+### Conventional Commits
+
+We follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) spec; commit messages are validated by Commitlint.
+
+Instead of git commit, run Commitizen’s interactive wizard:
+```bash
+pnpm cm   
+```
+
+The wizard will ask for:
+
+- **type** – feat / fix / refactor / test / docs / style / chore / build
+
+- **scope** – scope of this change
+
+- **description** – short imperative summary
+
+- **details** - longer description of the change
+
+_Example: fix(auth): change login timeout_
+
+Hooks ensure that commits failing the spec are rejected.
 
 ## Technologies
 
@@ -129,6 +170,8 @@ pnpm run format:fix
 - **[Vite](https://vitejs.dev/)**: Build tool and dev server
 - **[ESLint](https://eslint.org/)**: Code linting
 - **[Prettier](https://prettier.io/)**: Code formatting
+- **[Husky](https://typicode.github.io/husky/)**: Git hooks
+- **[Commitizen](https://commitizen.github.io/cz-cli/) / [Commitlint](https://commitlint.js.org/)**: Commit‑message tooling
 
 ### Testing
 - **[Playwright](https://playwright.dev/)**: End-to-end testing
@@ -142,7 +185,7 @@ We welcome contributions to BUDGY! Here's how you can help:
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b issueID-short-description`)
-3. Commit your changes (`git commit -m 'Add short description of your feature'`)
+3. Commit your changes using commit format(`pnpm cm`)
 4. Push to the branch (`git push origin issueID-short-description`)
 5. Open a Pull Request
 
@@ -164,7 +207,7 @@ This project is currently in active development. New features are being added re
 ### Ongoings
 
 - Share expanses with multiple users
-- Single expense view
+- ~~Single expense view~~
 - Add the ability to display expenses separately in different currencies
 - Add the ability to create recurring payments
 - Deferred/upcoming payments
@@ -182,10 +225,10 @@ This project is currently in active development. New features are being added re
 - Add infinite scrolling to the expense list
 - Edit and "share" accounts and categories from the calculator
 - Send user language information to the backend upon registration
-- Make categories and accounts draggable
+- ~~Make categories and accounts draggable~~
 - Move filters to the side when opening the desktop version
-- Don't reset filters when entering expenses
-- Add Storybook deployment
+- ~~Don't reset filters when entering expenses~~
+- ~~Add Storybook deployment~~
 
 
 
