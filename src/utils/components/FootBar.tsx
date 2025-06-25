@@ -6,21 +6,23 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { BottomNavigation, BottomNavigationAction, Box, Fab, useTheme } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const FootBar = () => {
   const isLoggedIn = useUserStore.use.user?.() !== undefined;
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
+  const { t } = useTranslation('translation');
 
   const navigationItems = [
     {
-      label: 'Sources',
+      label: 'Accounts',
       icon: <Payments />,
       route: RoutesEnum.PAYMENT_SOURCE,
     },
     {
-      label: 'List',
+      label: 'Expenses',
       icon: <Money />,
       route: RoutesEnum.EXPENSES_LIST,
     },
@@ -44,7 +46,7 @@ const FootBar = () => {
             <BottomNavigationAction
               disabled={location.pathname === item.route}
               key={item.label}
-              label={item.label}
+              label={t(item.label)}
               icon={item.icon}
               onClick={() => navigate(item.route)}
               sx={{

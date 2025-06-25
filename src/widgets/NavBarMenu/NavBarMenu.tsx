@@ -33,7 +33,7 @@ const NavBarMenu = () => {
 
   return (
     <>
-      <Tooltip title="Account settings">
+      <Tooltip title={t('Account settings')}>
         <IconButton onClick={handleClick} size="small">
           <Avatar src={userData?.avatar} sx={{ width: 32, height: 32 }}></Avatar>
         </IconButton>
