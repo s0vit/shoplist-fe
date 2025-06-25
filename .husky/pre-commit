@@ -1,0 +1,12 @@
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+pattern='^[0-9]+-[a-z]+(-[a-z]+)*$'
+
+if ! echo "$branch" | grep -Eq "$pattern"; then
+  echo "❌  Неверное имя ветки: '$branch'"
+  echo "    Имя должно быть формата issueID-short-description,"
+  echo "    например: 185-integration-husky-commitlint-commitizen"
+  exit 1
+fi
+
+pnpm exec lint-staged
