@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { TExpense } from 'src/shared/api/expenseApi.ts';
 import createSelectors from 'src/utils/helpers/createSelectors.ts';
 import { CURRENCIES } from 'src/shared/constants/currencies';
+import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 
 const LOCAL_STORAGE_KEY = 'selectedCurrency';
 
@@ -18,8 +19,10 @@ export type TExpensesStore = {
 };
 
 const getInitialCurrency = (): CURRENCIES => {
+  const defaultCurrency = useUserSettingsStore.getState().config.currency;
+
   if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('selectedCurrency');
+    const saved = defaultCurrency;
 
     if (saved && Object.values(CURRENCIES).includes(saved as CURRENCIES)) {
       return saved as CURRENCIES;
