@@ -155,7 +155,9 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
   );
 
   useEffect(() => {
-    setLocalCurrency(currency);
+    if (currency) {
+      setLocalCurrency(currency);
+    }
   }, [currency]);
 
   const convertedAmount = convertAmount(expense, localCurrency);
