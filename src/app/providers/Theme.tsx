@@ -1,5 +1,4 @@
-import { CssBaseline } from '@mui/material';
-import { default as createTheme } from '@mui/material/styles/createTheme';
+import { CssBaseline, createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { createContext, PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
