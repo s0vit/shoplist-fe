@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -42,9 +42,10 @@ type TExpenseItemProps = {
   category?: TCategory;
   paymentSource?: TPaymentSource;
   handleRemove: (id: string) => void;
+  currency?: CURRENCIES;
 };
 
-const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpenseItemProps) => {
+const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency }: TExpenseItemProps) => {
   const [contextMenuCoordinates, setContextMenuCoordinates] = useState<{
     mouseX: number;
     mouseY: number;
@@ -149,7 +150,16 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove }: TExpens
     return expense.amount * rate;
   };
 
-  const [localCurrency, setLocalCurrency] = useState<CURRENCIES>(useExpensesStore.getState().selectedCurrency);
+  const [localCurrency, setLocalCurrency] = useState<CURRENCIES>(
+    currency ?? useExpensesStore.getState().selectedCurrency,
+  );
+
+  useEffect(() => {
+    if (currency) {
+      setLocalCurrency(currency);
+    }
+  }, [currency]);
+
   const convertedAmount = convertAmount(expense, localCurrency);
   const localCurrencySymbol = currencies.find((c) => c.value === localCurrency)?.label || localCurrency;
   const displayAmount = `${convertedAmount.toFixed(2)} ${localCurrencySymbol}`;
