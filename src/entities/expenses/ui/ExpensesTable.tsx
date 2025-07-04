@@ -28,12 +28,12 @@ const groupExpensesByDate = (expenses: TExpense[]) => {
 const ExpensesTable = () => {
   const isVerified = _useUserStore.use.user?.()?.isVerified;
   const { fetchExpenses, isExpensesLoading } = useLoadExpenses({ shouldFetchOnLoad: isVerified });
+  // console.log('isExpensesLoading', isExpensesLoading, useLoadExpenses().userExpenses);
   const expenses = useExpensesStore.use.userExpenses();
   const { mutate: handleDeleteExpense } = useMutation({
     mutationFn: deleteExpense,
     onSuccess: () => fetchExpenses(),
   });
-
   const groupedExpenses = groupExpensesByDate(expenses);
 
   return isVerified && isExpensesLoading ? (
@@ -45,6 +45,7 @@ const ExpensesTable = () => {
       />
     </Stack>
   ) : (
+    //вывод всех элементов
     <Box width="100%" maxHeight="100%" overflow="auto">
       {Object.entries(groupedExpenses).map(([date, expenses]) => (
         <ExpensesDayGroup key={date} date={date} expenses={expenses} deleteExpense={handleDeleteExpense} />
