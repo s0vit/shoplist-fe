@@ -4,6 +4,7 @@ import useUserStore from 'src/entities/user/model/store/useUserStore';
 import { getMyConfig } from 'src/shared/api/userConfigApi';
 import useUserSettingsStore from '../model/store/useUserSettingsStore';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import i18n from 'i18next';
 
 export const useLoadConfigs = () => {
   const setUserConfig = useUserSettingsStore.use.setConfig();
@@ -19,6 +20,8 @@ export const useLoadConfigs = () => {
   useEffect(() => {
     if (userConfig) {
       setUserConfig(userConfig);
+
+      i18n.changeLanguage(userConfig.language);
     }
   }, [userConfig, setUserConfig]);
 };
