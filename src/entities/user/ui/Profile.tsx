@@ -18,7 +18,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useRef, useState } from 'react';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import Settings from 'src/entities/userSettings/ui/Settings';
-import { changePassword, getNewLink, TPasswordChangeRequest } from 'src/shared/api/authApi';
+import { changePassword, TPasswordChangeRequest } from 'src/shared/api/authApi';
 import { deleteMe } from 'src/shared/api/userApi';
 import handleError from 'src/utils/errorHandler.ts';
 import useLogout from 'src/utils/hooks/useLogout';
@@ -39,10 +39,6 @@ const Profile = () => {
   const userData = useUserStore.use.user?.();
   const { t } = useTranslation('profile');
 
-  const { mutate: getNewLinkMutate } = useMutation({
-    mutationFn: getNewLink,
-    onError: (error) => handleError(error),
-  });
   const { handleLogout } = useLogout();
 
   const { mutate: deleteUserMutate } = useMutation({
@@ -143,11 +139,6 @@ const Profile = () => {
             <br />
             {t('isVerified: ')} {userData?.isVerified ? t('Yes') : t('No')}
           </Typography>
-          {!userData?.isVerified && (
-            <Button variant="contained" onClick={() => getNewLinkMutate()} sx={{ marginBottom: 2 }}>
-              {t('New verification link')}
-            </Button>
-          )}
         </Box>
 
         <Accordion sx={{ marginTop: 4 }} elevation={2}>
