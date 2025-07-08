@@ -1,67 +1,7 @@
-// import { useInfiniteQuery } from '@tanstack/react-query';
-// import { getExpenses, TGetExpenseQuery, TGetExpensesResponse } from 'src/shared/api/expenseApi.ts';
-// import { TErrorResponse } from 'src/shared/api/rootApi.ts';
-// import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
-// import { TFilterForQueryTypes } from 'src/entities/filters/models/types/types.ts';
-//
-// function getMonthRange(date: Date) {
-//   const start = new Date(date.getFullYear(), date.getMonth(), 1);
-//   const end = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-//   end.setHours(23, 59, 59, 999);
-//
-//   return {
-//     start,
-//     end,
-//   };
-// }
-//
-// function useInfiniteExpenses() {
-//   const filters = useFiltersStoreForExpenses.use.filter();
-//
-//   return useInfiniteQuery<TGetExpensesResponse, TErrorResponse>({
-//     queryKey: ['expenses-infinite', filters],
-//     initialPageParam: new Date(),
-//     queryFn: async ({ pageParam }) => {
-//       const anchorDate = pageParam as Date;
-//       const { start, end } = getMonthRange(anchorDate);
-//
-//       const query: TFilterForQueryTypes = {
-//         ...transformFiltersToApiQuery(filters),
-//         createdStartDate: start.toISOString(),
-//         createdEndDate: end.toISOString(),
-//       };
-//
-//       return await getExpenses(query);
-//     },
-//     getNextPageParam: (_lastPage, allPages) => {
-//       const date = new Date();
-//       date.setMonth(date.getMonth() - allPages.length, 1);
-//
-//       return date;
-//     },
-//   });
-// }
-//
-// function transformFiltersToApiQuery(
-//   filters: TFilterForQueryTypes,
-// ): Omit<TGetExpenseQuery, 'createdStartDate' | 'createdEndDate'> {
-//   return {
-//     categoryId: filters.categoryId || '',
-//     paymentSourceId: filters.paymentSourceId || undefined,
-//     amountStart: filters.amountStart ? Number(filters.amountStart) : undefined,
-//     amountEnd: filters.amountEnd ? Number(filters.amountEnd) : undefined,
-//     skip: filters.skip ? Number(filters.skip) : undefined,
-//     limit: filters.limit ? Number(filters.limit) : undefined,
-//   };
-// }
-//
-// export default useInfiniteExpenses;
-
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getExpenses, TGetExpensesResponse } from 'src/shared/api/expenseApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
-import { TFilterForQueryTypes } from 'src/entities/filters/models/types/types.ts';
 
 function getMonthRange(date: Date) {
   const start = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -69,8 +9,8 @@ function getMonthRange(date: Date) {
   end.setHours(23, 59, 59, 999);
 
   return {
-    start: start.toISOString(),
-    end: end.toISOString(),
+    start: start,
+    end: end,
   };
 }
 
@@ -84,17 +24,28 @@ function useInfiniteExpenses() {
       const anchorDate = pageParam as Date;
       const { start, end } = getMonthRange(anchorDate);
 
-      const query: TFilterForQueryTypes = {
+      const query: {
+        categoryId: string;
+        paymentSourceId: string;
+        createdStartDate: Date;
+        createdEndDate: Date;
+        amountStart: string;
+        amountEnd: string;
+        skip: string;
+        limit: string;
+      } = {
         ...filters,
         createdStartDate: start,
         createdEndDate: end,
       };
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       return await getExpenses(query);
     },
     getNextPageParam: (_lastPage, allPages) => {
       const date = new Date();
-      date.setMonth(date.getMonth() - allPages.length, 1);
+      date.setMonth(date.getMonth() - allPages.length);
 
       return date;
     },

@@ -33,6 +33,7 @@ dist-ssr
 
 #others
 .notes
+.eslintcache
 /test-results/
 /playwright-report/
 /blob-report/
