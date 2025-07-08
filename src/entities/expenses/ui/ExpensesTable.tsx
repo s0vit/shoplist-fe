@@ -24,7 +24,7 @@ const groupExpensesByDate = (expenses: TExpense[]) => {
 const ExpensesTable = () => {
   const isVerified = _useUserStore.use.user?.()?.isVerified;
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteExpenses();
-  const allExpenses = data?.pages.flatMap((page) => page) ?? [];
+  const allExpenses = data?.pages.flat() ?? [];
   const groupedExpenses = groupExpensesByDate(allExpenses);
 
   const { mutate: handleDeleteExpense } = useMutation({
