@@ -17,23 +17,35 @@ const HomePage = () => {
   useLoadCategories(true);
 
   return isDesktopWidth ? (
-    <Stack spacing={1} maxHeight="100%" overflow="auto">
-      {isVerified && <ExpenseQueryForm />}
-      <Stack
-        gap={1}
-        direction="row"
-        divider={isDesktopWidth && <Divider orientation="vertical" flexItem />}
-        maxHeight="100%"
-        overflow="auto"
-      >
-        <ExpensesTable />
+    <Box display="flex" height="100%">
+      {isVerified && (
+        <Box sx={{ width: 250, borderRight: '1px solid #ddd', p: 1 }}>
+          <ExpenseQueryForm />
+        </Box>
+      )}
 
-        <Stack gap={1} divider={<Divider flexItem />}>
-          <SpentThisMonth />
-          <AddExpenseCalculator />
+      <Stack gap={1} flexGrow={1} overflow="auto" p={1}>
+        <SpentThisMonth />
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="flex-start"
+          gap={2}
+          divider={<Divider orientation="vertical" flexItem />}
+          sx={{ width: '100%' }}
+        >
+          <Box sx={{ flex: 1 }}>
+            {' '}
+            <ExpensesTable />
+          </Box>
+          <Box sx={{ width: 350 }}>
+            {' '}
+            <AddExpenseCalculator />
+          </Box>
         </Stack>
       </Stack>
-    </Stack>
+    </Box>
   ) : (
     <>
       <SpentThisMonth />
