@@ -60,6 +60,7 @@ const ExpensesDayGroup = ({ date, expenses, deleteExpense }: TExpensesDayGroupPr
             category={category}
             paymentSource={paymentSource}
             handleRemove={deleteExpense}
+            currency={currency}
           />
         );
       })}
