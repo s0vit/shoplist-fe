@@ -1,68 +1,53 @@
 /* Применяем темную тему только при наличии класса */
 .theme-dark {
-    /**
+  /**
      * @tokens Dark-Theme-Colors
      * @presenter Color
      */
-    --color-primary: var(--color-dark-primary);
-    --color-background: var(--color-dark-background);
-    --color-surface: var(--color-dark-surface);
-    --color-surface-variant: var(--color-dark-surface-variant);
-    --color-text-primary: var(--color-dark-text-primary);
-    --color-text-secondary: var(--color-dark-text-secondary);
-    --color-text-disabled: var(--color-dark-text-disabled);
-    --color-button-primary: var(--color-dark-primary);
-    --color-button-secondary: var(--color-dark-surface);
-    --color-button-disabled: var(--color-dark-surface-variant);
-    --color-border: var(--color-dark-border);
+  --color-primary: var(--color-dark-primary);
+  --color-background: var(--color-dark-background);
+  --color-surface: var(--color-dark-surface);
+  --color-surface-variant: var(--color-dark-surface-variant);
+  --color-text-primary: var(--color-dark-text-primary);
+  --color-text-secondary: var(--color-dark-text-secondary);
+  --color-text-disabled: var(--color-dark-text-disabled);
+  --color-button-primary: var(--color-dark-primary);
+  --color-button-secondary: var(--color-dark-surface);
+  --color-button-disabled: var(--color-dark-surface-variant);
+  --color-border: var(--color-dark-border);
 
-    /**
+  /**
      * @tokens Status-Colors
      * @presenter Color
      */
-    --color-error: var(--color-error);
-    --color-success: var(--color-success);
-    --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
 
-    /**
+  /**
      * @tokens Dark-Categories
      * @presenter Color
      */
-    --color-category-food: var(--color-category-dark-green);
-    --color-category-transport: var(--color-category-dark-blue);
-    --color-category-house: var(--color-category-dark-red);
+  --color-category-food: var(--color-category-dark-green);
+  --color-category-transport: var(--color-category-dark-blue);
+  --color-category-house: var(--color-category-dark-red);
 
-    /**
+  /**
      * @tokens Button-Colors
      * @presenter Color
      */
-    /* Primary Contained */
-    --color-button-primary-contained-bg: var(--color-dark-primary); /* White background */
-    --color-button-primary-contained-color: var(--color-light-primary); /* Black text */
-    --color-button-primary-contained-hover: var(--color-dark-surface-variant);
-    --color-button-primary-contained-active: var(--color-dark-surface-variant);
-    --color-button-primary-contained-disabled: var(--color-dark-surface-variant);
+  /*  Contained */
+  --color-button-contained-bg: var(--color-dark-primary); /* White background */
+  --color-button-contained-color: var(--color-light-primary); /* Black text */
+  --color-button-contained-hover: var(--color-dark-surface-variant);
+  --color-button-contained-active: var(--color-dark-surface-variant);
+  --color-button-contained-disabled: var(--color-dark-surface-variant);
 
-    /* Primary Outlined */
-    --color-button-primary-outlined-bg: var(--color-dark-background); /* Black background */
-    --color-button-primary-outlined-color: var(--color-dark-text-primary); /* White text */
-    --color-button-primary-outlined-border: var(--color-dark-primary); /* White border */
-    --color-button-primary-outlined-hover: var(--color-dark-surface-variant);
-    --color-button-primary-outlined-active: var(--color-dark-surface-variant);
-    --color-button-primary-outlined-disabled: var(--color-dark-text-disabled);
-
-    /* Secondary Contained */
-    --color-button-secondary-contained-bg: var(--color-graphite); /* Dark surface background */
-    --color-button-secondary-contained-color: var(--color-light-primary); /* Black text */
-    --color-button-secondary-contained-hover: var(--color-dark-surface-variant);
-    --color-button-secondary-contained-active: var(--color-dark-surface-variant);
-    --color-button-secondary-contained-disabled: var(--color-dark-surface-variant);
-
-    /* Secondary Outlined */
-    --color-button-secondary-outlined-bg: var(--color-dark-background); /* Black background */
-    --color-button-secondary-outlined-color: var(--color-dark-text-primary); /* White text */
-    --color-button-secondary-outlined-border: var(--color-dark-primary); /* White border */
-    --color-button-secondary-outlined-hover: var(--color-dark-surface-variant);
-    --color-button-secondary-outlined-active: var(--color-dark-surface-variant);
-    --color-button-secondary-outlined-disabled: var(--color-dark-text-disabled);
+  /*  Outlined */
+  --color-button-outlined-bg: var(--color-dark-background); /* Black background */
+  --color-button-outlined-color: var(--color-dark-text-primary); /* White text */
+  --color-button-outlined-border: var(--color-dark-primary); /* White border */
+  --color-button-outlined-hover: var(--color-dark-surface-variant);
+  --color-button-outlined-active: var(--color-dark-surface-variant);
+  --color-button-outlined-disabled: var(--color-dark-text-disabled);
 }

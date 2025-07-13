@@ -39,32 +39,17 @@
    * @presenter Color
    */
   /* Primary Contained */
-  --color-button-primary-contained-bg: var(--color-light-primary); /* Black background */
-  --color-button-primary-contained-color: var(--color-dark-primary); /* White text */
-  --color-button-primary-contained-hover: var(--color-graphite);
-  --color-button-primary-contained-active: var(--color-light-surface-variant);
-  --color-button-primary-contained-disabled: var(--color-graphite);
+  --color-button-contained-bg: var(--color-light-primary); /* Black background */
+  --color-button-contained-color: var(--color-dark-primary); /* White text */
+  --color-button-contained-hover: var(--color-graphite);
+  --color-button-contained-active: var(--color-light-surface-variant);
+  --color-button-contained-disabled: var(--color-graphite);
 
   /* Primary Outlined */
-  --color-button-primary-outlined-bg: var(--color-light-background); /* White background */
-  --color-button-primary-outlined-color: var(--color-light-text-primary); /* Black text */
-  --color-button-primary-outlined-border: var(--color-light-primary); /* Black border */
-  --color-button-primary-outlined-hover: var(--color-light-surface-variant);
-  --color-button-primary-outlined-active: var(--color-light-surface-variant);
-  --color-button-primary-outlined-disabled: var(--color-light-text-disabled);
-
-  /* Secondary Contained */
-  --color-button-secondary-contained-bg: var(--color-graphite); /* Light surface background */
-  --color-button-secondary-contained-color: var(--color-dark-primary); /* White text */
-  --color-button-secondary-contained-hover: var(--color-text-disabled);
-  --color-button-secondary-contained-active: var(--color-light-surface-variant);
-  --color-button-secondary-contained-disabled: var(--color-light-text-disabled);
-
-  /* Secondary Outlined */
-  --color-button-secondary-outlined-bg: var(--color-light-background); /* White background */
-  --color-button-secondary-outlined-color: var(--color-light-text-primary); /* Black text */
-  --color-button-secondary-outlined-border: var(--color-light-primary); /* Black border */
-  --color-button-secondary-outlined-hover: var(--color-light-surface-variant);
-  --color-button-secondary-outlined-active: var(--color-light-surface-variant);
-  --color-button-secondary-outlined-disabled: var(--color-light-text-disabled);
+  --color-button-outlined-bg: var(--color-light-background); /* White background */
+  --color-button-outlined-color: var(--color-light-text-primary); /* Black text */
+  --color-button-outlined-border: var(--color-light-primary); /* Black border */
+  --color-button-outlined-hover: var(--color-light-surface-variant);
+  --color-button-outlined-active: var(--color-light-surface-variant);
+  --color-button-outlined-disabled: var(--color-light-text-disabled);
 }

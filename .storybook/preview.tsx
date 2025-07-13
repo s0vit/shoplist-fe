@@ -1,10 +1,10 @@
 import type { Preview } from '@storybook/react';
+import { useEffect } from 'react';
 import 'src/shared/themes/colors.css';
 import 'src/shared/themes/typography.css';
 import 'src/shared/themes/spacing.css';
 import 'src/shared/themes/lightTheme.css';
 import 'src/shared/themes/darkTheme.css';
-import { useEffect } from 'react';
 
 const preview: Preview = {
   decorators: [
