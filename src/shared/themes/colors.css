@@ -10,28 +10,15 @@
    * @tokens Light-Colors
    * @presenter Color
    */
-  --color-light-background: #fbfbfb;
-  --color-light-surface: #f2f2f2;
-  --color-light-surface-variant: #ededed;
-  --color-light-text-primary: #262626;
-  --color-light-text-secondary: #a6a6a6;
   --color-light-text-disabled: #808080;
-  --color-light-primary: #000000;
-  --color-light-border: rgba(0, 0, 0, 0.1);
-  --color-light-border-active: #9747ff;
 
   /**
    * @tokens Dark-Colors
    * @presenter Color
    */
-  --color-dark-background: #000000;
   --color-dark-surface: #1c1c1e;
   --color-dark-surface-variant: #0e0e10;
-  --color-dark-text-primary: #ffffff;
-  --color-dark-text-secondary: #808080;
   --color-dark-text-disabled: #4d4d4f;
-  --color-dark-primary: #ffffff;
-  --color-dark-border: rgba(255, 255, 255, 0.1);
 
   /**
    * @tokens Status-Colors

@@ -6,27 +6,39 @@
   --color-category-food: var(--color-category-light-green);
   --color-category-transport: var(--color-category-light-blue);
   --color-category-house: var(--color-category-light-red);
+
+  /**
+   * @tokens App-Colors
+   * @presenter Color
+   */
   --color-app-bg: rgba(251, 251, 251, 1);
 
   /**
-   * @tokens Button-Colors
+   * @tokens Light-Colors
+   * @presenter Color
+  /**
+   * @tokens Button-Colors-Contained
    * @presenter Color
    */
-  /* Primary Contained */
+  /* Contained */
   --color-button-contained-bg: var(--color-black); /* Black background for contained button */
   --color-button-contained-color: var(--color-white); /* White text for contained button */
-  --color-button-contained-hover: var(--color-graphite);
-  --color-button-contained-active: var(--color-light-surface-variant);
   --color-button-contained-disabled: var(--color-graphite);
 
-  /* Primary Outlined */
+  /**
+     * @tokens Button-Colors-Outlined
+     * @presenter Color
+     */
+  /* Outlined */
   --color-button-outlined-bg: var(--color-white); /* White background for outlined button */
   --color-button-outlined-color: var(--color-black); /* Black text */
   --color-button-outlined-border: var(--color-black); /* Black border */
-  --color-button-outlined-hover: var(--color-light-surface-variant);
-  --color-button-outlined-active: var(--color-light-surface-variant);
   --color-button-outlined-disabled: var(--color-light-text-disabled);
 
+  /**
+     * @tokens Card-Colors
+     * @presenter Color
+     */
   --color-card-bg: var(--color-white);
   --color-card-shadow: 0 0 24px 0 rgba(14, 15, 18, 0.05);
 }

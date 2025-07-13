@@ -8,24 +8,28 @@
   --color-category-house: var(--color-category-dark-red);
 
   /**
-     * @tokens Button-Colors
+     * @tokens Button-Colors-Contained
      * @presenter Color
      */
   /*  Contained */
   --color-button-contained-bg: var(--color-white); /* White background for contained button */
   --color-button-contained-color: var(--color-black); /* Black text for contained button */
-  --color-button-contained-hover: var(--color-dark-surface-variant);
-  --color-button-contained-active: var(--color-dark-surface-variant);
   --color-button-contained-disabled: var(--color-dark-surface-variant);
 
+  /**
+     * @tokens Button-Colors-Outlined
+     * @presenter Color
+     */
   /*  Outlined */
   --color-button-outlined-bg: var(--color-black); /* Black background for outlined button */
   --color-button-outlined-color: var(--color-white); /* White text */
   --color-button-outlined-border: var(--color-white); /* White border */
-  --color-button-outlined-hover: var(--color-dark-surface-variant);
-  --color-button-outlined-active: var(--color-dark-surface-variant);
   --color-button-outlined-disabled: var(--color-dark-text-disabled);
 
+  /**
+     * @tokens Card-Colors
+     * @presenter Color
+     */
   --color-card-bg: rgba(21, 21, 22, 1);
   --color-card-shadow: none;
 }
