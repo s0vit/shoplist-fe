@@ -21,6 +21,13 @@ const preview: Preview = {
         rootElement.classList.remove('theme-light', 'theme-dark');
         rootElement.classList.add(`theme-${currentTheme}`);
         rootElement.setAttribute('data-theme', currentTheme);
+
+        // Устанавливаем фон приложения для светлой темы
+        if (currentTheme === 'light') {
+          rootElement.style.background = 'var(--color-app-bg)';
+        } else {
+          rootElement.style.background = '';
+        }
       }, [currentTheme]);
 
       return (

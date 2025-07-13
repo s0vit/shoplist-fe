@@ -25,4 +25,7 @@
   --color-button-outlined-hover: var(--color-dark-surface-variant);
   --color-button-outlined-active: var(--color-dark-surface-variant);
   --color-button-outlined-disabled: var(--color-dark-text-disabled);
+
+  --color-card-bg: rgba(21, 21, 22, 1);
+  --color-card-shadow: none;
 }

@@ -22,7 +22,7 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": [
-      "eslint --cache --report-unused-disable-directives --max-warnings 0 --fix",
+      "eslint --report-unused-disable-directives --max-warnings 0 --fix",
       "prettier --write"
     ]
   },
