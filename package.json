@@ -18,7 +18,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepare": "husky",
-    "cm": "cz"
+    "cm": "cz",
+    "prestorybook": "node scripts/generateColorPalette.cjs"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": [
@@ -114,6 +115,8 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "playwright": "^1.51.1",
+    "postcss": "^8.5.6",
+    "postcss-safe-parser": "^7.0.1",
     "prettier": "^3.3.3",
     "prettier-eslint": "^16.3.0",
     "storybook": "^8.6.14",
