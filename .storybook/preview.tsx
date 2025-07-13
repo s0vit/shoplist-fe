@@ -12,7 +12,7 @@ const preview: Preview = {
       let currentTheme = context.globals.theme;
 
       if (!currentTheme) {
-        currentTheme = context.globals.backgrounds?.value === '#000000' ? 'light' : 'dark';
+        currentTheme = context.globals.backgrounds?.value === '#000000' ? 'dark' : 'light';
       }
 
       useEffect(() => {
@@ -24,7 +24,7 @@ const preview: Preview = {
       }, [currentTheme]);
 
       return (
-        <div id="storybook-preview" style={{ backgroundColor: 'var(--color-background)', padding: '20px' }}>
+        <div id="storybook-preview" style={{ padding: '20px' }}>
           <Story />
         </div>
       );

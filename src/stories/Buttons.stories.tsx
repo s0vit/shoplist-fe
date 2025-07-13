@@ -17,7 +17,6 @@ const meta: Meta<typeof PrimaryButton> = {
 export default meta;
 type TStory = StoryObj<typeof PrimaryButton>;
 
-// Dark Theme Stories
 export const PrimaryContained: TStory = {
   args: {
     label: 'Сохранить',

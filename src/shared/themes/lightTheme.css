@@ -1,31 +1,4 @@
-/* Применяем светлую тему по умолчанию и при явном указании класса */
-:root,
 .theme-light {
-  /**
-   * @tokens Light-Theme-Colors
-   * @presenter Color
-   */
-  --color-primary: var(--color-light-primary);
-  --color-background: var(--color-light-background);
-  --color-surface: var(--color-light-surface);
-  --color-surface-variant: var(--color-light-surface-variant);
-  --color-text-primary: var(--color-light-text-primary);
-  --color-text-secondary: var(--color-light-text-secondary);
-  --color-text-disabled: var(--color-light-text-disabled);
-  --color-button-primary: var(--color-light-primary);
-  --color-button-secondary: var(--color-light-surface);
-  --color-button-disabled: var(--color-light-text-disabled);
-  --color-border: var(--color-light-border);
-  --color-border-active: var(--color-light-border-active);
-
-  /**
-   * @tokens Status-Colors
-   * @presenter Color
-   */
-  --color-error: var(--color-error);
-  --color-success: var(--color-success);
-  --color-warning: var(--color-warning);
-
   /**
    * @tokens Light-Categories
    * @presenter Color
@@ -39,16 +12,16 @@
    * @presenter Color
    */
   /* Primary Contained */
-  --color-button-contained-bg: var(--color-light-primary); /* Black background */
-  --color-button-contained-color: var(--color-dark-primary); /* White text */
+  --color-button-contained-bg: var(--color-black); /* Black background for contained button */
+  --color-button-contained-color: var(--color-white); /* White text for contained button */
   --color-button-contained-hover: var(--color-graphite);
   --color-button-contained-active: var(--color-light-surface-variant);
   --color-button-contained-disabled: var(--color-graphite);
 
   /* Primary Outlined */
-  --color-button-outlined-bg: var(--color-light-background); /* White background */
-  --color-button-outlined-color: var(--color-light-text-primary); /* Black text */
-  --color-button-outlined-border: var(--color-light-primary); /* Black border */
+  --color-button-outlined-bg: var(--color-white); /* White background for outlined button */
+  --color-button-outlined-color: var(--color-black); /* Black text */
+  --color-button-outlined-border: var(--color-black); /* Black border */
   --color-button-outlined-hover: var(--color-light-surface-variant);
   --color-button-outlined-active: var(--color-light-surface-variant);
   --color-button-outlined-disabled: var(--color-light-text-disabled);
