@@ -4,7 +4,7 @@ pattern='^(feature|bug|hotfix|rc)/[0-9]+-[a-z]+(-[a-z]+)*$'
 
 if ! echo "$branch" | grep -Eq "$pattern"; then
   echo "❌  Неверное имя ветки: '$branch'"
-  echo "    Имя должно быть формата type/issueID-short-description,"
+  echo "    Имя должно быть формата feature|bug|hotfix|rc/issueID-short-description,"
   echo "    например: feature/185-integration-husky-commitlint-commitizen"
   exit 1
 fi
