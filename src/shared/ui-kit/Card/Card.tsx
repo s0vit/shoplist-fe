@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { ReactNode } from 'react';
-import Typography, { TTypographyVariant, TypographyWeight } from '../Typography/Typography';
+import Typography, { TTypographyVariant, TTypographyWeight } from '../Typography/Typography';
 
 export type TCardProps = {
   children: ReactNode;
@@ -9,7 +9,7 @@ export type TCardProps = {
   style?: React.CSSProperties;
   className?: string;
   typographyVariant?: TTypographyVariant;
-  typographyWeight?: TypographyWeight;
+  typographyWeight?: TTypographyWeight;
   typographyAlign?: 'left' | 'center' | 'right';
   typographyColor?: string;
 };
