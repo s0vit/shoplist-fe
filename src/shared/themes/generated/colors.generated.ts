@@ -5,6 +5,9 @@ export const colorGroups = {
   },
   'Light-Colors': {
     '--color-light-text-disabled': '#808080',
+    '--color-button-contained-bg': 'var(--color-black)',
+    '--color-button-contained-color': 'var(--color-white)',
+    '--color-button-contained-disabled': 'var(--color-graphite)',
   },
   'Dark-Colors': {
     '--color-dark-surface': '#1c1c1e',
@@ -44,7 +47,6 @@ export const colorGroups = {
     '--color-category-food': 'var(--color-category-light-green)',
     '--color-category-transport': 'var(--color-category-light-blue)',
     '--color-category-house': 'var(--color-category-light-red)',
-    '--color-app-bg': 'rgba(251, 251, 251, 1)',
   },
   'Dark-Categories': {
     '--color-category-dark-green': '#264b0b',
@@ -60,9 +62,9 @@ export const colorGroups = {
     '--color-category-house': 'var(--color-category-dark-red)',
   },
   'Button-Colors-Contained': {
-    '--color-button-contained-bg': 'var(--color-black)',
-    '--color-button-contained-color': 'var(--color-white)',
-    '--color-button-contained-disabled': 'var(--color-graphite)',
+    '--color-button-contained-bg': 'var(--color-white)',
+    '--color-button-contained-color': 'var(--color-black)',
+    '--color-button-contained-disabled': 'var(--color-dark-surface-variant)',
   },
   'Button-Colors-Outlined': {
     '--color-button-outlined-bg': 'var(--color-white)',
@@ -73,5 +75,11 @@ export const colorGroups = {
   'Card-Colors': {
     '--color-card-bg': 'var(--color-white)',
     '--color-card-shadow': '0 0 24px 0 rgba(14, 15, 18, 0.05)',
+  },
+  'Text-Colors': {
+    '--color-text-primary': '#111111',
+  },
+  'App-Colors': {
+    '--color-app-bg': 'rgba(251, 251, 251, 1)',
   },
 };

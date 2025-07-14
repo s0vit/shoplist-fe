@@ -70,6 +70,14 @@ export default [
       '@typescript-eslint/naming-convention': [
         'warn',
         { selector: 'typeAlias', format: ['PascalCase'], prefix: ['T'] },
+        {
+          selector: 'typeAlias',
+          format: ['PascalCase', 'camelCase'],
+          filter: {
+            regex: '^(TypographyVariant|TypographyWeight)$',
+            match: true,
+          },
+        },
       ],
       'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'never' }],
       'unicorn/filename-case': 'off',

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ReactNode } from 'react';
+import Typography, { TypographyVariant, TypographyWeight } from '../Typography/Typography';
 
 export type TCardProps = {
   children: ReactNode;
@@ -7,6 +8,10 @@ export type TCardProps = {
   height?: string;
   style?: React.CSSProperties;
   className?: string;
+  typographyVariant?: TypographyVariant;
+  typographyWeight?: TypographyWeight;
+  typographyAlign?: 'left' | 'center' | 'right';
+  typographyColor?: string;
 };
 
 const CardWrapper = styled.div<{
@@ -29,9 +34,25 @@ const CardWrapper = styled.div<{
     box-shadow 0.2s;
 `;
 
-const Card = ({ children, width, height, style, className }: TCardProps) => (
+const Card = ({
+  children,
+  width,
+  height,
+  style,
+  className,
+  typographyVariant = 'body1',
+  typographyWeight = 'regular',
+  typographyAlign = 'center',
+  typographyColor,
+}: TCardProps) => (
   <CardWrapper width={width} height={height} style={style} className={className}>
-    {children}
+    {typeof children === 'string' ? (
+      <Typography variant={typographyVariant} weight={typographyWeight} align={typographyAlign} color={typographyColor}>
+        {children}
+      </Typography>
+    ) : (
+      children
+    )}
   </CardWrapper>
 );
 

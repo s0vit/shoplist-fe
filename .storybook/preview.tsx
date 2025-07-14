@@ -6,6 +6,17 @@ import 'src/shared/themes/spacing.css';
 import 'src/shared/themes/lightTheme.css';
 import 'src/shared/themes/darkTheme.css';
 
+if (typeof window !== 'undefined') {
+  const id = 'storybook-inter-font';
+  if (!document.getElementById(id)) {
+    const link = document.createElement('link');
+    link.id = id;
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap';
+    document.head.appendChild(link);
+  }
+}
+
 const preview: Preview = {
   decorators: [
     (Story, context) => {

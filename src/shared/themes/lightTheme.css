@@ -41,4 +41,9 @@
      */
   --color-card-bg: var(--color-white);
   --color-card-shadow: 0 0 24px 0 rgba(14, 15, 18, 0.05);
+  /**
+   * @tokens Text-Colors
+   * @presenter Color
+   */
+  --color-text-primary: #111111;
 }

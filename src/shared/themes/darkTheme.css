@@ -32,4 +32,9 @@
      */
   --color-card-bg: rgba(21, 21, 22, 1);
   --color-card-shadow: none;
+  /**
+   * @tokens Text-Colors
+   * @presenter Color
+   */
+  --color-text-primary: #fff;
 }
