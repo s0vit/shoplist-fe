@@ -6,17 +6,6 @@ import 'src/shared/themes/spacing.css';
 import 'src/shared/themes/lightTheme.css';
 import 'src/shared/themes/darkTheme.css';
 
-if (typeof window !== 'undefined') {
-  const id = 'storybook-inter-font';
-  if (!document.getElementById(id)) {
-    const link = document.createElement('link');
-    link.id = id;
-    link.rel = 'stylesheet';
-    link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap';
-    document.head.appendChild(link);
-  }
-}
-
 const preview: Preview = {
   decorators: [
     (Story, context) => {
@@ -27,13 +16,23 @@ const preview: Preview = {
       }
 
       useEffect(() => {
+        if (typeof window !== 'undefined') {
+          const id = 'storybook-inter-font';
+          if (!document.getElementById(id)) {
+            const link = document.createElement('link');
+            link.id = id;
+            link.rel = 'stylesheet';
+            link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap';
+            document.head.appendChild(link);
+          }
+        }
+
         const rootElement = document.documentElement;
 
         rootElement.classList.remove('theme-light', 'theme-dark');
         rootElement.classList.add(`theme-${currentTheme}`);
         rootElement.setAttribute('data-theme', currentTheme);
 
-        // Устанавливаем фон приложения для светлой темы
         if (currentTheme === 'light') {
           rootElement.style.background = 'var(--color-app-bg)';
         } else {

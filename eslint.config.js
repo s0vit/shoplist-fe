@@ -34,7 +34,7 @@ export default [
       },
     },
   },
-  { ignores: ['dist', '.eslintrc.cjs', 'public', 'playwright-report', 'node_modules'] },
+  { ignores: ['dist', '.eslintrc.cjs', 'public', 'playwright-report', 'node_modules', 'scripts'] },
 
   {
     plugins: {
@@ -70,14 +70,7 @@ export default [
       '@typescript-eslint/naming-convention': [
         'warn',
         { selector: 'typeAlias', format: ['PascalCase'], prefix: ['T'] },
-        {
-          selector: 'typeAlias',
-          format: ['PascalCase', 'camelCase'],
-          filter: {
-            regex: '^(TypographyVariant|TypographyWeight)$',
-            match: true,
-          },
-        },
+        { selector: 'typeAlias', format: ['PascalCase', 'camelCase'], filter: { regex: '^T', match: false } },
       ],
       'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'never' }],
       'unicorn/filename-case': 'off',
@@ -92,11 +85,7 @@ export default [
       'stylisticJs/padding-line-between-statements': [
         'error',
         { blankLine: 'always', prev: '*', next: 'return' },
-        { blankLine: 'always', prev: '*', next: 'block-like' },
         { blankLine: 'always', prev: 'block-like', next: '*' },
-        { blankLine: 'always', prev: '*', next: 'block-like' },
-        { blankLine: 'always', prev: 'block-like', next: '*' },
-        { blankLine: 'always', prev: 'block-like', next: 'block-like' },
         { blankLine: 'always', prev: 'import', next: '*' },
         { blankLine: 'always', prev: '*', next: 'import' },
         { blankLine: 'any', prev: 'import', next: 'import' },

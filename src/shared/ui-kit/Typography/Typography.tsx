@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { ReactNode } from 'react';
 
-export type TypographyVariant = 'h1' | 'h2' | 'h3' | 'body1' | 'body2' | 'button';
-export type TypographyWeight = 'regular' | 'medium' | 'bold';
+export type TTypographyVariant = 'h1' | 'h2' | 'h3' | 'body1' | 'body2' | 'button';
+export type TTypographyWeight = 'regular' | 'medium' | 'bold';
 
 export type TTypographyProps = {
   children: ReactNode;
-  variant?: TypographyVariant;
-  weight?: TypographyWeight;
+  variant?: TTypographyVariant;
+  weight?: TTypographyWeight;
   align?: 'left' | 'center' | 'right';
   color?: string;
   style?: React.CSSProperties;
@@ -37,8 +37,8 @@ const weightToFontWeight = {
 };
 
 const StyledTypography = styled.span<{
-  $variant: TypographyVariant;
-  $weight: TypographyWeight;
+  $variant: TTypographyVariant;
+  $weight: TTypographyWeight;
   $align?: 'left' | 'center' | 'right';
   $color?: string;
 }>`
