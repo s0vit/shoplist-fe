@@ -1,5 +1,7 @@
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
-import { Button, FormControl, FormGroup, InputLabel, OutlinedInput, Stack, Typography, useTheme } from '@mui/material';
+import { FormControl, FormGroup, InputLabel, OutlinedInput, Stack } from '@mui/material';
+import Typography from 'src/shared/ui-kit/Typography/Typography';
+import Button from 'src/shared/ui-kit/Button/Button';
 import { useMutation } from '@tanstack/react-query';
 import {
   createPaymentSource,
@@ -29,7 +31,6 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
   const [color, setColor] = useState(paymentSource?.color || getRandomHexColor());
   const [comments, setComments] = useState(paymentSource?.comments || '');
   const { fetchPaymentSources } = useLoadPaymentSources();
-  const theme = useTheme();
   const { t } = useTranslation('accounts');
 
   const closeModal = () => {
@@ -74,22 +75,21 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
 
   return (
     <FormWrapper>
-      <Typography variant="h5" textAlign="center">
+      <Typography variant="h3" align="center">
         {t('Save payment source')}
       </Typography>
       <FormGroup>
         <Stack gap={1} paddingY={2}>
           <Colorful color={color} onChange={(color) => setColor(color.hex)} disableAlpha style={{ width: '100%' }} />{' '}
           <Button
+            label={t('Random Color')}
             variant="contained"
-            size="small"
-            sx={{ backgroundColor: color, color: theme.palette.getContrastText(color) }}
+            width="100%"
             onClick={() => {
               setColor('#' + Math.floor(Math.random() * 16777215).toString(16));
             }}
-          >
-            {t('Random Color')}
-          </Button>
+            disabled={isPending}
+          />
           <FormControl disabled={isPending}>
             <InputLabel size="small">{t('Title')}</InputLabel>
             <OutlinedInput size="small" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -98,9 +98,13 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
             <InputLabel size="small">{t('Comments')}</InputLabel>
             <OutlinedInput size="small" type="text" value={comments} onChange={(e) => setComments(e.target.value)} />
           </FormControl>
-          <Button variant="outlined" type="submit" onClick={upsertPaymentSource} disabled={isPending}>
-            {paymentSource?._id ? `${t('Update')}` : `${t('Create')}`}
-          </Button>
+          <Button
+            label={paymentSource?._id ? `${t('Update')}` : `${t('Create')}`}
+            variant="outlined"
+            width="100%"
+            onClick={upsertPaymentSource}
+            disabled={isPending}
+          />
         </Stack>
       </FormGroup>
     </FormWrapper>

@@ -1,4 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, Typography } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, Typography } from '@mui/material';
+import Button from 'src/shared/ui-kit/Button/Button';
 import { useTranslation } from 'react-i18next';
 
 type TDeleteCategoryDialog = {
@@ -29,17 +30,20 @@ const DeleteCategoryDialog = ({
         </DialogContent>
       )}
       <DialogActions>
-        <Button onClick={() => setOpenDeleteDialog(false)} color="primary" disabled={isUpdating}>
-          {t('Cancel')}
-        </Button>
+        <Button
+          onClick={() => setOpenDeleteDialog(false)}
+          variant="outlined"
+          label={t('Cancel')}
+          width="100%"
+          disabled={isUpdating}
+        />
         <Button
           onClick={() => item && handleConfirmDelete(item._id)}
-          color="error"
           variant="contained"
+          label={t('Delete')}
+          width="100%"
           disabled={isUpdating}
-        >
-          {t('Delete')}
-        </Button>
+        />
       </DialogActions>
     </Dialog>
   );

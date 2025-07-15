@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 
-type TPrimaryButtonProps = {
-  label?: string;
+export type TPrimaryButtonProps = {
+  label?: React.ReactNode;
   width?: string;
   height?: string;
   variant?: 'contained' | 'outlined';
   disabled?: boolean;
   onClick?: () => void;
+  style?: React.CSSProperties;
+  type?: 'button' | 'submit' | 'reset';
 };
 
 type TStyledButtonProps = {
@@ -41,9 +43,19 @@ const PrimaryButton = ({
   height = '53px',
   disabled = false,
   onClick,
+  style,
+  type = 'button',
 }: TPrimaryButtonProps) => {
   return (
-    <Button $variant={variant} width={width} height={height} disabled={disabled} onClick={onClick}>
+    <Button
+      $variant={variant}
+      width={width}
+      height={height}
+      disabled={disabled}
+      onClick={onClick}
+      style={style}
+      type={type}
+    >
       {label}
     </Button>
   );

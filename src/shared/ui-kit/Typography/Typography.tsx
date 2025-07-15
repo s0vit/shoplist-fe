@@ -12,6 +12,8 @@ export type TTypographyProps = {
   color?: string;
   style?: React.CSSProperties;
   className?: string;
+  gutterBottom?: boolean;
+  onClick?: React.MouseEventHandler<HTMLSpanElement>;
 };
 
 const variantToFontSize = {
@@ -58,14 +60,20 @@ const Typography = ({
   color,
   style,
   className,
+  gutterBottom = false,
+  onClick,
 }: TTypographyProps) => (
   <StyledTypography
     $variant={variant}
     $weight={weight}
     $align={align}
     $color={color}
-    style={style}
+    style={{
+      ...style,
+      ...(gutterBottom ? { marginBottom: '0.35em' } : {}),
+    }}
     className={className}
+    onClick={onClick}
   >
     {children}
   </StyledTypography>

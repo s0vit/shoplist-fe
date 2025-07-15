@@ -1,15 +1,6 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import {
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack, TextField } from '@mui/material';
+import Typography from 'src/shared/ui-kit/Typography/Typography';
 import { useMutation } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
@@ -20,6 +11,7 @@ import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useTranslation } from 'react-i18next';
+import Button from 'src/shared/ui-kit/Button/Button';
 
 const RegisterForm = () => {
   const [isRegistered, setIsRegistered] = useState(false);
@@ -100,7 +92,7 @@ const RegisterForm = () => {
       {isRegistered ? (
         isConfirmed ? (
           <Stack spacing={1}>
-            <Typography variant="h4" align="center">
+            <Typography variant="h3" align="center">
               {t('Registration finished!')}
             </Typography>
             <Typography>{t('You now will be redirected')}</Typography>
@@ -108,7 +100,7 @@ const RegisterForm = () => {
         ) : (
           <Form onSubmit={() => confirmMutate()}>
             <Stack spacing={1}>
-              <Typography variant="h4" align="center">
+              <Typography variant="h3" align="center">
                 {t('Registration successful!')}
               </Typography>
               <Typography>{t('Confirm your email. Enter code from letter')}</Typography>
@@ -119,16 +111,14 @@ const RegisterForm = () => {
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="Code"
               />
-              <Button disabled={isConfirmPending} type="submit" variant="outlined">
-                {t('Confirm')}
-              </Button>
+              <Button disabled={isConfirmPending} variant="outlined" type="submit" label={t('Confirm')} width="100%" />
             </Stack>
           </Form>
         )
       ) : (
         <Form onSubmit={handleRegisterSubmit}>
           <Stack spacing={1}>
-            <Typography variant="h4" align="center">
+            <Typography variant="h3" align="center">
               {t('Register')}
             </Typography>
             <TextField
@@ -167,9 +157,13 @@ const RegisterForm = () => {
               placeholder={t('Confirm Password')}
               helperText={t('Password should contain 1 number and 1 capital letter')}
             />
-            <Button disabled={isRegisterPending} type="submit" variant="outlined">
-              {t('Register')}
-            </Button>
+            <Button
+              disabled={isRegisterPending}
+              variant="outlined"
+              label={t('Register')}
+              width="100%"
+              onClick={handleRegisterSubmit}
+            />
           </Stack>
         </Form>
       )}

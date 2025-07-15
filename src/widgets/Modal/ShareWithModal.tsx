@@ -4,18 +4,7 @@ import { findUserByEmail, TFindUserByEmailResponse } from 'src/shared/api/userAp
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { useEffect, useState } from 'react';
 import useDebouncedValue from 'src/utils/hooks/useDebouncedValue.ts';
-import {
-  alpha,
-  Avatar,
-  Box,
-  Button,
-  FormHelperText,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { alpha, Avatar, Box, FormHelperText, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
 import handleError from 'src/utils/errorHandler.ts';
 import { shareWith } from 'src/shared/api/accessControlApi.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
@@ -23,6 +12,7 @@ import { toast } from 'react-toastify';
 import emailToHexColor from 'src/utils/helpers/emailToHexColor.ts';
 import { TUser } from 'src/shared/api/authApi.ts';
 import { useTranslation } from 'react-i18next';
+import Button from 'src/shared/ui-kit/Button/Button';
 
 type TShareWithModalProps = {
   expenseIds?: string[];
@@ -133,9 +123,13 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
                 );
               })}
           </Stack>
-          <Button variant="outlined" fullWidth onClick={handleShare} disabled={isLoading || !selectedUser}>
-            {t('Share')}
-          </Button>
+          <Button
+            variant="outlined"
+            onClick={handleShare}
+            disabled={isLoading || !selectedUser}
+            label={t('Share')}
+            width="100%"
+          />
         </Stack>
       </Paper>
     </ModalWrapper>

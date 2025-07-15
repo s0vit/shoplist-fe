@@ -78,6 +78,13 @@ const ThemeProviderWithToggle = ({ children }: PropsWithChildren) => {
     };
   }, [theme]);
 
+  useEffect(() => {
+    const rootElement = document.documentElement;
+    rootElement.classList.remove('theme-light', 'theme-dark');
+    rootElement.classList.add(`theme-${mode}`);
+    rootElement.setAttribute('data-theme', mode);
+  }, [mode]);
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <CssBaseline />

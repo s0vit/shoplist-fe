@@ -1,4 +1,5 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Slider } from '@mui/material';
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Slider } from '@mui/material';
+import Button from 'src/shared/ui-kit/Button/Button';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
@@ -88,12 +89,8 @@ const ProfilePhotoUploader = ({ file, onClose, isOpen }: TProfilePhotoUploaderPr
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
-          {t('Cancel')}
-        </Button>
-        <Button onClick={handleSave} color="primary" variant="contained">
-          {t('Save')}
-        </Button>
+        <Button label={t('Cancel')} variant="outlined" onClick={onClose} />
+        <Button label={t('Save')} variant="contained" onClick={handleSave} />
       </DialogActions>
     </Dialog>
   );

@@ -1,15 +1,5 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import {
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Stack,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Form, useNavigate, useSearchParams } from 'react-router-dom';
@@ -21,6 +11,8 @@ import handleError from 'src/utils/errorHandler.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useTranslation } from 'react-i18next';
+import Button from 'src/shared/ui-kit/Button/Button';
+import Typography from 'src/shared/ui-kit/Typography/Typography';
 
 type TLoginFormProps = {
   setCurrentTabToRecovery: () => void;
@@ -31,7 +23,6 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const theme = useTheme();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { t } = useTranslation('loginPage');
@@ -76,7 +67,7 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
     <FormWrapper elevation={5}>
       <Form onSubmit={handleLoginClick}>
         <Stack spacing={1}>
-          <Typography variant="h4" align="center">
+          <Typography variant="h3" align="center">
             {t('Login-frame')}
           </Typography>
           <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
@@ -110,18 +101,11 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
               label={t('Password')}
             />
           </FormControl>
-          <Button type="submit" disabled={isLoginPending} variant="outlined">
-            {t('Login')}
-          </Button>
-          <Typography variant="body1" align="center" paddingTop={5}>
+          <Button disabled={isLoginPending} variant="outlined" label={t('Login')} width="100%" type="submit" />
+          <Typography variant="body1" align="center">
             {t('Forgot password?')}
           </Typography>
-          <Typography
-            variant="body2"
-            align="center"
-            color={theme.palette.primary.main}
-            onClick={setCurrentTabToRecovery}
-          >
+          <Typography variant="body2" align="center" onClick={setCurrentTabToRecovery}>
             {t('Click here to recover password')}
           </Typography>
         </Stack>

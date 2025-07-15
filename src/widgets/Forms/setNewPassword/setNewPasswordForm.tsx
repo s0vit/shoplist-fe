@@ -1,7 +1,6 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   Box,
-  Button,
   FormControl,
   IconButton,
   InputAdornment,
@@ -10,6 +9,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import Button from 'src/shared/ui-kit/Button/Button';
 import { useMutation } from '@tanstack/react-query';
 import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
@@ -95,9 +95,13 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
                 }
               />
             </FormControl>
-            <Button type="submit" variant="outlined" disabled={isPendingSetNewPassword}>
-              {t('Reset password')}
-            </Button>
+            <Button
+              variant="outlined"
+              type="submit"
+              disabled={isPendingSetNewPassword}
+              label={t('Reset password')}
+              width="100%"
+            />
           </Stack>
         </Form>
       </FormWrapper>

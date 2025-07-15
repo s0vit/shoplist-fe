@@ -1,7 +1,6 @@
 import {
   Alert,
   AlertTitle,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -13,6 +12,7 @@ import {
   InputLabel,
   OutlinedInput,
 } from '@mui/material';
+import Button from 'src/shared/ui-kit/Button/Button';
 import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
@@ -229,13 +229,12 @@ const ChangePasswordDialog = ({
         </Alert>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleAbortReset} color="primary">
-          {t('Cancel')}
-        </Button>
+        <Button onClick={handleAbortReset} variant="outlined" label={t('Cancel')} width="100%" />
         <Button
           onClick={handleSubmitForm}
-          color="success"
           variant="contained"
+          label={t('Apply')}
+          width="100%"
           disabled={
             !!formError.currentPasswordError ||
             !!formError.newPasswordError ||
@@ -244,9 +243,7 @@ const ChangePasswordDialog = ({
             newPasswordInput.length < 5 ||
             confirmPasswordInput.length < 5
           }
-        >
-          {t('Apply')}
-        </Button>
+        />
       </DialogActions>
     </Dialog>
   );

@@ -7,13 +7,13 @@ import {
   alpha,
   Avatar,
   Box,
-  Button,
-  ButtonGroup,
   IconButton,
   Paper,
-  Typography,
   useTheme,
 } from '@mui/material';
+import Typography from 'src/shared/ui-kit/Typography/Typography';
+import Button from 'src/shared/ui-kit/Button/Button';
+import ButtonGroup from 'src/shared/ui-kit/ButtonGroup/ButtonGroup';
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useRef, useState } from 'react';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
@@ -90,7 +90,7 @@ const Profile = () => {
     <Box>
       <Paper sx={{ padding: 4, maxWidth: 600, margin: 'auto', marginTop: 4, textAlign: 'center' }}>
         {userData?.login && (
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h3" gutterBottom>
             {userData.login}
           </Typography>
         )}
@@ -149,26 +149,22 @@ const Profile = () => {
             <Settings />
           </AccordionDetails>
         </Accordion>
-        <ButtonGroup>
+        <ButtonGroup joined fullWidth>
           <Button
             variant="contained"
             onClick={() => {
               setOpenResetPasswordDialog(true);
             }}
             disabled={!userData?.isVerified}
-            sx={{ marginRight: 5, marginTop: 2 }}
-          >
-            {t('Change password')}
-          </Button>
+            label={t('Change password')}
+          />
           <Button
             variant="contained"
-            color="error"
             disabled={!userData?.isVerified}
             onClick={handleDeleteClick}
-            sx={{ marginTop: 2 }}
-          >
-            {t('Delete Profile')}
-          </Button>
+            style={{ backgroundColor: '#ed5145', color: '#fff' }}
+            label={t('Delete Profile')}
+          />
         </ButtonGroup>
         <ProfilePhotoUploader file={selectedFile} onClose={() => setOpenUploader(false)} isOpen={openUploader} />
         <DeleteUserDialog

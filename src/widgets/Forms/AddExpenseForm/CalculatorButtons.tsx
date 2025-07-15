@@ -1,4 +1,5 @@
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
+import Button from 'src/shared/ui-kit/Button/Button';
 import React from 'react';
 import { BsDot } from 'react-icons/bs';
 import { FaBackspace } from 'react-icons/fa';
@@ -31,12 +32,11 @@ const CalculatorButtons = ({ isPending, handleButtonClick }: TCalculatorButtonsP
           <Button
             disabled={isPending}
             variant="contained"
-            fullWidth
+            width="100%"
+            label={typeof value.content === 'string' ? value.content : ''}
             onClick={() => handleButtonClick(value.title)}
-            sx={{ height: 50, fontSize: '24px' }}
-          >
-            {value.content}
-          </Button>
+            style={{ height: 50, fontSize: '24px' }}
+          />
         </Grid>
       ))}
     </Grid>

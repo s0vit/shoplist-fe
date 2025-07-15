@@ -93,4 +93,10 @@ export default [
       'i18next/no-literal-string': 1,
     },
   },
+  {
+    files: ['**/*.stories.tsx'],
+    rules: {
+      'i18next/no-literal-string': 'off',
+    },
+  },
 ];

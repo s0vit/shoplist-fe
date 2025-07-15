@@ -2,7 +2,6 @@ import { MapsUgc, Message } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
 import {
   Box,
-  Button,
   FormControl,
   Grid,
   IconButton,
@@ -40,6 +39,7 @@ import CalculatorButtons from './CalculatorButtons';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import Button from 'src/shared/ui-kit/Button/Button';
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
@@ -345,23 +345,17 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             <Button
               disabled={isPending}
               variant="contained"
-              color="warning"
-              fullWidth
+              label={t('Clear')}
               onClick={() => handleButtonClick('Clear')}
-            >
-              {t('Clear')}
-            </Button>
+            />
           </Grid>
           <Grid xs={6} item>
             <Button
               disabled={isPending || !isVerified}
               variant="contained"
-              color="success"
-              fullWidth
+              label={isPending ? <CircularProgress size={24} /> : t('Save')}
               onClick={handleSave}
-            >
-              {isPending ? <CircularProgress size={24} /> : t('Save')}
-            </Button>
+            />
           </Grid>
         </Grid>
       </Box>
