@@ -44,6 +44,9 @@ jobs:
       - name: Prettier check
         run: pnpm format
 
+      - name: Unit tests run
+        run: pnpm test:unit
+
       - name: Build project
         run: pnpm build
 

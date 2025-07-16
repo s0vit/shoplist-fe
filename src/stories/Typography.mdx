@@ -1,0 +1,77 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { typographyGroups } from '../shared/themes/generated/typography.generated';
+import { lineHeightGroups } from '../shared/themes/generated/lineHeight.generated';
+
+<Meta title="Typography" />
+
+### Typography Sizes
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Preview</th></tr>
+  </thead>
+  <tbody>
+    {Object.entries(typographyGroups["Typography-Sizes"]).map(([token, value]) => (
+      <tr key={token}>
+        <td><code>{token}</code></td>
+        <td>{value}</td>
+        <td>
+          <span style={{ fontSize: value }}>AaБбCc</span>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+### Typography Weights
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Preview</th></tr>
+  </thead>
+  <tbody>
+    {Object.entries(typographyGroups["Typography-Weights"]).map(([token, value]) => (
+      <tr key={token}>
+        <td><code>{token}</code></td>
+        <td>{value}</td>
+        <td>
+          <span style={{ fontWeight: value }}>AaБбCc</span>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+### Typography Family
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Preview</th></tr>
+  </thead>
+  <tbody>
+    {Object.entries(typographyGroups["Typography-Family"]).map(([token, value]) => (
+      <tr key={token}>
+        <td><code>{token}</code></td>
+        <td>{value}</td>
+        <td>
+          <span style={{ fontFamily: value }}>AaБбCc</span>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+### Line Height
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Preview</th></tr>
+  </thead>
+  <tbody>
+    {Object.entries(lineHeightGroups["Typography-LineHeight"]).map(([token, value]) => (
+      <tr key={token}>
+        <td><code>{token}</code></td>
+        <td>{value}</td>
+        <td>
+          <span style={{ lineHeight: value, background: '#eee' }}>AaБбCc<br/>AaБбCc</span>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table> 

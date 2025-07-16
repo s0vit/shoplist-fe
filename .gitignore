@@ -40,6 +40,5 @@ dist-ssr
 
 *storybook.log
 
-
 # storybook static files
 storybook-static
