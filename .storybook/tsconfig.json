@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "../src/**/*",
+    "../stories/**/*",
+    "./**/*"
+  ],
+  "exclude": [
+    "../node_modules",
+    "../dist",
+    "../storybook-static"
+  ]
+} 

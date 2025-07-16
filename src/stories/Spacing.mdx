@@ -1,0 +1,41 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { spacingGroups } from '../shared/themes/generated/spacing.generated';
+import { borderRadiusGroups } from '../shared/themes/generated/borderRadius.generated';
+
+<Meta title="Spacing & Border Radius" />
+
+### Spacing
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Preview</th></tr>
+  </thead>
+  <tbody>
+    {Object.entries(spacingGroups["Spacing"]).map(([token, value]) => (
+      <tr key={token}>
+        <td><code>{token}</code></td>
+        <td>{value}</td>
+        <td>
+          <div style={{ width: value, height: '24px', background: '#eee', display: 'inline-block' }} />
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+### Border Radius
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Preview</th></tr>
+  </thead>
+  <tbody>
+    {Object.entries(borderRadiusGroups["Border-Radius"]).map(([token, value]) => (
+      <tr key={token}>
+        <td><code>{token}</code></td>
+        <td>{value}</td>
+        <td>
+          <div style={{ width: '48px', height: '24px', background: '#eee', borderRadius: value, display: 'inline-block' }} />
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table> 

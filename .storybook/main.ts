@@ -13,6 +13,14 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
+  typescript: {
+    check: true,
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
+    },
+  },
   docs: {
     autodocs: 'tag',
   },
@@ -23,6 +31,9 @@ const config: StorybookConfig = {
       define: {
         ...config.define,
         global: 'window',
+      },
+      esbuild: {
+        jsx: 'automatic',
       },
     });
   },
