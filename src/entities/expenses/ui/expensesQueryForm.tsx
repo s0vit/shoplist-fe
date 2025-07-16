@@ -2,8 +2,7 @@ import { ChangeEvent } from 'react';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Accordion, AccordionDetails } from '@mui/material';
 import CategoriesSelect from 'src/entities/category/ui/CategoriesSelect.tsx';
 import PaymentSourcesSelect from 'src/entities/paymentSource/ui/PaymentSourcesSelect.tsx';
 import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
@@ -35,44 +34,45 @@ const ExpenseQueryForm = () => {
   ];
 
   return (
-    <Accordion disableGutters>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>{t('Filter')}</AccordionSummary>
-      <AccordionDetails>
-        <Box>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <CategoriesSelect
-                selectedCategoryId={filters.categoryId}
-                setSelectedCategoryId={(value) => setFilter({ ...filters, categoryId: value })}
-                isCreateExpensePending={isExpensesLoading}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <PaymentSourcesSelect
-                selectedPaymentSourceId={filters.paymentSourceId}
-                setSelectedPaymentSourceId={(value) => setFilter({ ...filters, paymentSourceId: value })}
-                isCreateExpensePending={isExpensesLoading}
-              />
-            </Grid>
-            {filtersArray.map((field) => (
-              <Grid item xs={12} sm={4} key={field.name}>
-                <TextField
-                  name={field.name}
-                  label={t(field.label)}
-                  type={field.type}
-                  fullWidth
-                  size="small"
-                  value={filters[field.name as keyof TFilterForQueryTypes] || ''}
-                  onChange={handleChange}
-                  disabled={isExpensesLoading}
-                  InputLabelProps={{ shrink: true }}
+    <Box sx={{ alignSelf: 'flex-start' }}>
+      <Accordion disableGutters>
+        <AccordionDetails>
+          <Box>
+            <Grid container direction="column" spacing={2}>
+              <Grid item xs={12} sm={4}>
+                <CategoriesSelect
+                  selectedCategoryId={filters.categoryId}
+                  setSelectedCategoryId={(value) => setFilter({ ...filters, categoryId: value })}
+                  isCreateExpensePending={isExpensesLoading}
                 />
               </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </AccordionDetails>
-    </Accordion>
+              <Grid item xs={12} sm={4}>
+                <PaymentSourcesSelect
+                  selectedPaymentSourceId={filters.paymentSourceId}
+                  setSelectedPaymentSourceId={(value) => setFilter({ ...filters, paymentSourceId: value })}
+                  isCreateExpensePending={isExpensesLoading}
+                />
+              </Grid>
+              {filtersArray.map((field) => (
+                <Grid item xs={12} sm={4} key={field.name}>
+                  <TextField
+                    name={field.name}
+                    label={t(field.label)}
+                    type={field.type}
+                    fullWidth
+                    size="small"
+                    value={filters[field.name as keyof TFilterForQueryTypes] || ''}
+                    onChange={handleChange}
+                    disabled={isExpensesLoading}
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+    </Box>
   );
 };
 
