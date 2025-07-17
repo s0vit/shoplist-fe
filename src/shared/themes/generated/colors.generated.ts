@@ -5,6 +5,7 @@ export const colorGroups = {
   },
   'Light-Colors': {
     '--color-light-text-disabled': '#808080',
+    '--color-light-grey': 'rgba(242, 242, 242, 1)',
     '--color-button-contained-bg': 'var(--color-black)',
     '--color-button-contained-color': 'var(--color-white)',
     '--color-button-contained-disabled': 'var(--color-graphite)',
@@ -13,6 +14,7 @@ export const colorGroups = {
     '--color-dark-surface': '#1c1c1e',
     '--color-dark-surface-variant': '#0e0e10',
     '--color-dark-text-disabled': '#4d4d4f',
+    '--color-dark-grey': 'rgba(28, 28, 30, 1)',
   },
   'Status-Colors': {
     '--color-error': '#ed5145',
@@ -78,6 +80,16 @@ export const colorGroups = {
   },
   'Text-Colors': {
     '--color-text-primary': '#111111',
+  },
+  'ButtonDropdown-Colors': {
+    '--color-dropdown-bg': 'var(--color-light-grey)',
+    '--color-dropdown-text': 'var(--color-black)',
+    '--color-dropdown-icon': 'var(--color-black)',
+    '--color-dropdown-hover-bg': 'rgba(0, 0, 0, 0.05)',
+  },
+  'Toggle-Colors': {
+    '--color-toggle-bg': 'var(--color-white)',
+    '--color-toggle-icon': 'var(--color-black)',
   },
   'App-Colors': {
     '--color-app-bg': 'rgba(251, 251, 251, 1)',
