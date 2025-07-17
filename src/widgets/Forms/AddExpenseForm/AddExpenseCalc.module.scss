@@ -1,0 +1,29 @@
+// Styles for AddExpenseCalc
+
+.rootBox {
+  padding: 16px;
+  border: 1px solid grey;
+  border-radius: 8px;
+}
+
+.topRow {
+  margin-bottom: 8px;
+}
+
+.dateRow {
+  margin-top: 16px;
+}
+
+.buttonGrid {
+  width: calc(33% - 8px);
+}
+
+.calcButton {
+  height: 50px;
+  font-size: 24px;
+}
+
+.borderBox {
+  border: 1px solid grey;
+  border-radius: 8px;
+}

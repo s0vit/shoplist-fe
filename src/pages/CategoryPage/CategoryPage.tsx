@@ -1,4 +1,5 @@
-import { Box, Divider, IconButton, Paper, Typography } from '@mui/material';
+import { Divider, IconButton, Paper, Typography } from '@mui/material';
+import Box from 'src/shared/ui-kit/Box/Box';
 import CategoriesGrid from 'src/entities/category/ui/CategoriesGrid.tsx';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +12,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import useUpdateCategoryOrder from 'src/entities/category/hooks/useUpdateCategoryOrder.ts';
+import styles from './CategoryPage.module.scss';
 
 const CategoryPage = () => {
   const { userCategories, isCategoriesLoading, fetchCategories } = useLoadCategories();
@@ -50,7 +52,7 @@ const CategoryPage = () => {
 
   return (
     <Paper>
-      <Box padding={2} style={{ position: 'relative' }}>
+      <Box className={styles.rootBox}>
         <Typography variant="h3">{t('Categories')}</Typography>
         <IconButton
           size="small"
@@ -59,7 +61,7 @@ const CategoryPage = () => {
           onClick={() => {
             setIsCategoryModalOpen(true);
           }}
-          style={{ position: 'absolute', right: '20px', top: '26px' }}
+          className={styles.addButton}
         >
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>

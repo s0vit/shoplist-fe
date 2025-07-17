@@ -17,6 +17,7 @@ import { Colorful } from '@uiw/react-color';
 import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import { useTranslation } from 'react-i18next';
+import styles from './UpsertPaymentSourceForm.module.scss';
 
 type TUpsertPaymentSourceFormProps = {
   setSelectedPaymentSource?: (paymentSource: string) => void;
@@ -80,7 +81,12 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
       </Typography>
       <FormGroup>
         <Stack gap={1} paddingY={2}>
-          <Colorful color={color} onChange={(color) => setColor(color.hex)} disableAlpha style={{ width: '100%' }} />{' '}
+          <Colorful
+            color={color}
+            onChange={(color) => setColor(color.hex)}
+            disableAlpha
+            className={styles.colorfulFullWidth}
+          />{' '}
           <Button
             label={t('Random Color')}
             variant="contained"

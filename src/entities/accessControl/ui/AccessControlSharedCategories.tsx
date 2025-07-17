@@ -1,5 +1,6 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Box from 'src/shared/ui-kit/Box/Box';
 import CategoryCard from 'src/entities/category/ui/CategoryCard.tsx';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import { TAccessControl, TCreateAccessControlRequest } from 'src/shared/api/accessControlApi.ts';

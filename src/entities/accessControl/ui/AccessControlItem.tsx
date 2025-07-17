@@ -1,4 +1,5 @@
-import { Avatar, Button, Paper, Stack, Typography, useTheme } from '@mui/material';
+import { Avatar, Button, Paper, Typography, useTheme } from '@mui/material';
+import Stack from 'src/shared/ui-kit/Stack/Stack';
 import {
   deleteAccessControl,
   TAccessControl,
@@ -18,6 +19,7 @@ import AccessControlSharedExpenses from 'src/entities/accessControl/ui/AccessCon
 import { TExpense } from 'src/shared/api/expenseApi.ts';
 import AccessControlSharedCategories from 'src/entities/accessControl/ui/AccessControlSharedCategories.tsx';
 import AccessControlSharedPaymentSources from 'src/entities/accessControl/ui/AccessControlSharedPaymentSources.tsx';
+import styles from './AccessControlItem.module.scss';
 
 type TAccessControlItemProps = {
   accessControl: TAccessControl;
@@ -60,12 +62,12 @@ const AccessControlItem = ({ accessControl, paymentSources, categories, expenses
 
   return (
     <Paper key={accessControl._id}>
-      <Stack p={2} mt={2} gap={2}>
+      <Stack className={styles.root} gap={2}>
         {isUserLoading ? (
           <Typography>Loading...</Typography>
         ) : (
-          <Stack direction="row" gap={2} alignItems="center" justifyContent="space-between">
-            <Stack direction="row" gap={2} alignItems="center" maxWidth="calc(100% - 58px)">
+          <Stack className={styles.row} gap={2}>
+            <Stack className={styles.rowMax} gap={2}>
               <Avatar src={user?.avatar} alt={user?.login} />
               <Typography overflow="hidden" textOverflow="ellipsis">
                 {user?.login}

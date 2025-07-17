@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import Grid from 'src/shared/ui-kit/Grid/Grid';
+import Box from 'src/shared/ui-kit/Box/Box';
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CategoriesSelect from 'src/entities/category/ui/CategoriesSelect.tsx';
@@ -40,14 +40,14 @@ const ExpenseQueryForm = () => {
       <AccordionDetails>
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
+            <Grid item size={{ xs: 12, sm: 4 }}>
               <CategoriesSelect
                 selectedCategoryId={filters.categoryId}
                 setSelectedCategoryId={(value) => setFilter({ ...filters, categoryId: value })}
                 isCreateExpensePending={isExpensesLoading}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item size={{ xs: 12, sm: 4 }}>
               <PaymentSourcesSelect
                 selectedPaymentSourceId={filters.paymentSourceId}
                 setSelectedPaymentSourceId={(value) => setFilter({ ...filters, paymentSourceId: value })}
@@ -55,7 +55,7 @@ const ExpenseQueryForm = () => {
               />
             </Grid>
             {filtersArray.map((field) => (
-              <Grid item xs={12} sm={4} key={field.name}>
+              <Grid item size={{ xs: 12, sm: 4 }} key={field.name}>
                 <TextField
                   name={field.name}
                   label={t(field.label)}

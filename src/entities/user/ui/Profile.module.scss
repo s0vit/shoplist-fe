@@ -1,0 +1,16 @@
+.avatarBox {
+  position: relative;
+  border-radius: 16px;
+  display: inline-block;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none;
+}
+
+.deleteButton {
+  background-color: #ed5145;
+  color: #fff;
+}

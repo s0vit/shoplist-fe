@@ -4,6 +4,7 @@ import { Fragment, MouseEvent, TouchEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import styles from './HorizontalListItem.module.scss';
 
 type TItem = { _id: string; title: string; color?: string };
 
@@ -65,7 +66,7 @@ const HorizontalListItem = ({
                 color: theme.palette.text.secondary,
               }
         }
-        style={{ marginRight: '8px', flexShrink: 0 }}
+        className={styles.item}
       >
         {item.title}
       </Button>

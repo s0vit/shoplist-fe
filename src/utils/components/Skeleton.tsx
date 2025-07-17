@@ -1,4 +1,5 @@
-import { Skeleton, Stack, SxProps, Theme } from '@mui/material';
+import { Skeleton, SxProps, Theme } from '@mui/material';
+import Stack from 'src/shared/ui-kit/Stack/Stack';
 
 type TDimensionsProps = {
   width?: number | string;

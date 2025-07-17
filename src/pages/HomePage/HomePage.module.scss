@@ -1,0 +1,20 @@
+.rootStack {
+  max-height: 100%;
+  overflow: auto;
+}
+
+.rowStack {
+  max-height: 100%;
+  overflow: auto;
+}
+
+.addExpenseBox {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  max-width: 100%;
+}
+
+.addExpenseBoxRelative {
+  max-width: 100%;
+}

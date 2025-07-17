@@ -1,9 +1,11 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { Box, Button, ButtonGroup, Paper, Typography } from '@mui/material';
+import { Button, ButtonGroup, Paper, Typography } from '@mui/material';
+import Box from 'src/shared/ui-kit/Box/Box';
 import { Link as RouterLink } from 'react-router-dom';
 import ErrorWrapper from 'src/utils/components/ErrorWrapper.tsx';
 import { HomeOutlined, Refresh, ReportGmailerrorred } from '@mui/icons-material';
 import { withTranslation } from 'react-i18next';
+import styles from './ErrorBoundary.module.scss';
 
 class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> {
   constructor(props: TErrorBoundaryProps) {
@@ -26,7 +28,7 @@ class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> 
       return (
         <ErrorWrapper>
           <Paper>
-            <Box padding={2}>
+            <Box className={styles.errorBox}>
               <ReportGmailerrorred color="error" sx={{ fontSize: 80 }} />
               <Typography variant="h4" gutterBottom>
                 {this.props.t('Something went wrong.')}

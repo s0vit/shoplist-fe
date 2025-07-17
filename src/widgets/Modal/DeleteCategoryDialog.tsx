@@ -1,6 +1,7 @@
 import { Dialog, DialogActions, DialogContent, Typography } from '@mui/material';
 import Button from 'src/shared/ui-kit/Button/Button';
 import { useTranslation } from 'react-i18next';
+import styles from './DeleteCategoryDialog.module.scss';
 
 type TDeleteCategoryDialog = {
   openDeleteDialog: boolean;
@@ -25,7 +26,7 @@ const DeleteCategoryDialog = ({
         <DialogContent>
           <Typography variant="body1" gutterBottom>
             {t('A you sure to delete ')}
-            <span style={{ color: 'red' }}>{item.title}</span>
+            <span className={styles.dangerText}>{item.title}</span>
           </Typography>
         </DialogContent>
       )}

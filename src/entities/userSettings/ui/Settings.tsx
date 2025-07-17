@@ -17,6 +17,7 @@ import handleError from 'src/utils/errorHandler';
 import useUserSettingsStore from '../model/store/useUserSettingsStore';
 import i18n from 'src/shared/api/i18nConfig';
 import { useTranslation } from 'react-i18next';
+import styles from './Settings.module.scss';
 
 const Settings = () => {
   const userSettings = useUserSettingsStore.use.config();
@@ -57,7 +58,7 @@ const Settings = () => {
   };
 
   return (
-    <Paper elevation={2} style={{ padding: '16px', margin: '0 auto' }}>
+    <Paper elevation={2} className={styles.settingsPaper}>
       <Box display="flex" flexDirection="column" gap="16px">
         <FormControl fullWidth variant="outlined">
           <InputLabel id="currency-label">{t('Currency')}</InputLabel>

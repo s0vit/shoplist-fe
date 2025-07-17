@@ -9,6 +9,7 @@ export type TPrimaryButtonProps = {
   onClick?: () => void;
   style?: React.CSSProperties;
   type?: 'button' | 'submit' | 'reset';
+  className?: string;
 };
 
 type TStyledButtonProps = {
@@ -45,6 +46,7 @@ const PrimaryButton = ({
   onClick,
   style,
   type = 'button',
+  className,
 }: TPrimaryButtonProps) => {
   return (
     <Button
@@ -55,6 +57,7 @@ const PrimaryButton = ({
       onClick={onClick}
       style={style}
       type={type}
+      className={className}
     >
       {label}
     </Button>

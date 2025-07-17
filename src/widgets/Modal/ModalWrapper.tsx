@@ -1,5 +1,6 @@
 import { Backdrop, Fade, Modal } from '@mui/material';
 import { PropsWithChildren } from 'react';
+import styles from './ModalWrapper.module.scss';
 
 type TModelWrapperProps = {
   onClickAway: () => void;
@@ -18,7 +19,7 @@ const ModalWrapper = ({ onClickAway, children, isModalOpen = false }: PropsWithC
       slotProps={{ backdrop: { timeout: 500, sx: { zIndex: 998, backdropFilter: 'blur(10px)' } } }}
     >
       <Fade in={isModalOpen}>
-        <div style={{ zIndex: 999, position: 'relative' }}>{children}</div>
+        <div className={styles.modalWrapper}>{children}</div>
       </Fade>
     </Modal>
   );

@@ -1,17 +1,8 @@
 import { MapsUgc, Message } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
-import {
-  Box,
-  FormControl,
-  Grid,
-  IconButton,
-  MenuItem,
-  Paper,
-  Select,
-  Stack,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import Box from 'src/shared/ui-kit/Box/Box';
+import Stack from 'src/shared/ui-kit/Stack/Stack';
+import { FormControl, IconButton, MenuItem, Paper, Select, Typography, useTheme } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -40,6 +31,8 @@ import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserS
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import Button from 'src/shared/ui-kit/Button/Button';
+import styles from './AddExpenseCalc.module.scss';
+import ButtonGroup from 'src/shared/ui-kit/ButtonGroup/ButtonGroup';
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
@@ -243,26 +236,23 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
 
   return (
     <Paper
-      sx={{
+      style={{
         backgroundColor: theme.palette.background.paper,
         position: 'relative',
         zIndex: 1,
         maxWidth: isDesktopWidth ? '400px' : '100%',
       }}
     >
-      <Box sx={{ p: 2, border: '1px solid grey', borderRadius: '8px' }}>
-        <Stack spacing={1} direction="row" alignItems="center" justifyContent="space-between" mb={1}>
+      <Box className={`${styles.rootBox} ${styles.borderBox}`}>
+        <Stack direction="row" gap={1} align="center" justify="space-between" className={styles.topRow}>
           <Typography
-            sx={{
+            style={{
               display: 'flex',
               alignItems: 'center',
-              px: 1,
-              fontSize: '20px',
+              paddingLeft: 8,
+              paddingRight: 8,
+              fontSize: 20,
               fontWeight: 'bold',
-              border: `1px solid ${theme.palette.grey[700]}`,
-              height: '40px',
-              borderRadius: 1,
-              width: '75%',
             }}
           >
             {amount}
@@ -303,7 +293,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           handleDelete={deletePaymentSourceMutate}
           isLoading={isPaymentSourcesLoading}
         />
-        <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 2 }}>
+        <Stack direction="row" gap={1} align="center" className={styles.dateRow}>
           <DateTimePicker
             label={t('Date and time')}
             disableFuture
@@ -340,24 +330,20 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             )}
           </IconButton>
         </Stack>
-        <Grid container spacing={1} sx={{ mt: 1 }}>
-          <Grid xs={6} item>
-            <Button
-              disabled={isPending}
-              variant="contained"
-              label={t('Clear')}
-              onClick={() => handleButtonClick('Clear')}
-            />
-          </Grid>
-          <Grid xs={6} item>
-            <Button
-              disabled={isPending || !isVerified}
-              variant="contained"
-              label={isPending ? <CircularProgress size={24} /> : t('Save')}
-              onClick={handleSave}
-            />
-          </Grid>
-        </Grid>
+        <ButtonGroup fullWidth>
+          <Button
+            disabled={isPending}
+            variant="contained"
+            label={t('Clear')}
+            onClick={() => handleButtonClick('Clear')}
+          />
+          <Button
+            disabled={isPending || !isVerified}
+            variant="contained"
+            label={isPending ? <CircularProgress size={24} /> : t('Save')}
+            onClick={handleSave}
+          />
+        </ButtonGroup>
       </Box>
       <UpsertCategoryModal setSelectedCategory={setSelectedCategory} />
       <UpsertPaymentSourceModal setSelectedPaymentSource={setSelectedPaymentSource} />

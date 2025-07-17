@@ -1,4 +1,7 @@
-import { alpha, Box, Card, CardContent, Grid, IconButton, Stack, Typography, useTheme } from '@mui/material';
+import { alpha, Card, CardContent, IconButton, Typography, useTheme } from '@mui/material';
+import Box from 'src/shared/ui-kit/Box/Box';
+import Stack from 'src/shared/ui-kit/Stack/Stack';
+import Grid from 'src/shared/ui-kit/Grid/Grid';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import {
   LeadingActions,
@@ -20,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import styles from './PaymentSourcesCard.module.scss';
 
 type TPaymentSourcesCardProps = {
   paymentSource: TPaymentSource;
@@ -78,17 +82,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
   const leadingActions = () => (
     <LeadingActions>
       <SwipeAction onClick={isVerified ? handleEdit : () => {}}>
-        <Stack
-          alignItems="center"
-          justifyContent="center"
-          height="100%"
-          sx={{
-            backgroundColor: theme.palette.info.main,
-            color: theme.palette.info.contrastText,
-            padding: theme.spacing(2),
-            borderRadius: theme.spacing(1),
-          }}
-        >
+        <Stack className={styles.actionStack}>
           <Edit />
         </Stack>
       </SwipeAction>
@@ -98,17 +92,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
   const trailingActions = () => (
     <TrailingActions>
       <SwipeAction destructive={isVerified} onClick={isVerified ? handleRemove : () => {}}>
-        <Stack
-          alignItems="center"
-          height="100%"
-          justifyContent="center"
-          sx={{
-            backgroundColor: theme.palette.error.main,
-            color: theme.palette.error.contrastText,
-            padding: theme.spacing(2),
-            borderRadius: theme.spacing(1),
-          }}
-        >
+        <Stack className={styles.actionStack}>
           <Delete />
         </Stack>
       </SwipeAction>
@@ -117,16 +101,22 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
 
   return (
     <Grid
-      item
-      xs={12}
+      {...attributes}
+      {...listeners}
+      container
+      item={false}
+      className={`${styles.gridRoot} ${styles.sortable}`}
+      style={
+        {
+          '--sortable-transition': style.transition,
+          '--sortable-transform': style.transform,
+        } as React.CSSProperties
+      }
       onContextMenu={handleOpenMenu}
       {...longPressEvents}
       ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
     >
-      <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
+      <SwipeableList type={Type.IOS} fullSwipe className={styles.swipeList}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
           <Card
             sx={{
@@ -136,12 +126,12 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
               border: `1px solid ${paymentSource.color || theme.palette.primary.main}`,
             }}
           >
-            <CardContent sx={{ p: 1 }} style={{ paddingBottom: '16px' }}>
-              <Box display="flex" justifyContent="space-between">
+            <CardContent sx={{ p: 1 }} className={styles.cardContent}>
+              <Box className={styles.flexBetween}>
                 <Typography variant="h5" component="div" color={paymentSourceTextColor}>
                   {paymentSource.title}
                 </Typography>
-                <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
+                <Box className={styles.flexColumnEnd}>
                   <Typography variant="body2" color={paymentSourceTextColor}>
                     {t('Created: ') + `${new Date(paymentSource.createdAt).toLocaleDateString()}`}
                   </Typography>

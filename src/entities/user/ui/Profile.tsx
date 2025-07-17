@@ -1,16 +1,6 @@
 import { PhotoCamera } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  alpha,
-  Avatar,
-  Box,
-  IconButton,
-  Paper,
-  useTheme,
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, alpha, Avatar, Paper, useTheme } from '@mui/material';
 import Typography from 'src/shared/ui-kit/Typography/Typography';
 import Button from 'src/shared/ui-kit/Button/Button';
 import ButtonGroup from 'src/shared/ui-kit/ButtonGroup/ButtonGroup';
@@ -27,6 +17,8 @@ import ProfilePhotoUploader from './ProfilePhotoUploader';
 import ChangePasswordDialog from 'src/widgets/Modal/ChangePasswordDialog.tsx';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import Box from 'src/shared/ui-kit/Box/Box';
+import styles from './Profile.module.scss';
 
 const Profile = () => {
   const [openUploader, setOpenUploader] = useState(false);
@@ -95,12 +87,7 @@ const Profile = () => {
           </Typography>
         )}
         <Box display="flex" flexDirection="column" alignItems="center">
-          <Box
-            position="relative"
-            borderRadius={50}
-            display="inline-block"
-            sx={{ marginBottom: 2, overflow: 'hidden' }}
-          >
+          <Box className={styles.avatarBox}>
             <Avatar
               src={userData?.avatar}
               alt="User Avatar"
@@ -129,10 +116,9 @@ const Profile = () => {
           <input
             type="file"
             accept="image/*"
-            style={{ display: 'none' }}
             ref={fileInputRef}
-            disabled={!userData?.isVerified}
             onChange={handleFileChange}
+            className={styles.hidden}
           />
           <Typography variant="body1" gutterBottom>
             {t('email: ')} {userData?.email}
@@ -162,7 +148,7 @@ const Profile = () => {
             variant="contained"
             disabled={!userData?.isVerified}
             onClick={handleDeleteClick}
-            style={{ backgroundColor: '#ed5145', color: '#fff' }}
+            className={styles.deleteButton}
             label={t('Delete Profile')}
           />
         </ButtonGroup>

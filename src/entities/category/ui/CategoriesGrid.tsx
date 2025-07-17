@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import Grid from 'src/shared/ui-kit/Grid/Grid';
 import { TCategory, TGetCategoriesResponse } from 'src/shared/api/categoryApi.ts';
 import CategoryCard from 'src/entities/category/ui/CategoryCard.tsx';
 import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';

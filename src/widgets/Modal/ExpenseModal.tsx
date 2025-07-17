@@ -1,7 +1,8 @@
 import ModalWrapper from 'src/widgets/Modal/ModalWrapper.tsx';
 import AddExpenseCalculator from 'src/widgets/Forms/AddExpenseForm/AddExpenseCalc.tsx';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
-import { Box } from '@mui/material';
+import Box from 'src/shared/ui-kit/Box/Box';
+import styles from './ExpenseModal.module.scss';
 
 const ExpenseModal = () => {
   const isExpenseModalOpen = useExpensesStore.use.isEditExpenseModalOpen?.();
@@ -15,7 +16,7 @@ const ExpenseModal = () => {
 
   return (
     <ModalWrapper onClickAway={closeModal} isModalOpen={isExpenseModalOpen}>
-      <Box position="fixed" bottom={0} right={0} maxWidth="100%">
+      <Box className={styles.modalBox}>
         <AddExpenseCalculator closeModal={closeModal} />
       </Box>
     </ModalWrapper>

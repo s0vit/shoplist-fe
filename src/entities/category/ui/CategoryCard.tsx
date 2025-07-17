@@ -1,4 +1,7 @@
-import { alpha, Box, Card, CardContent, Grid, IconButton, Stack, Typography, useTheme } from '@mui/material';
+import { alpha, Card, CardContent, IconButton, Typography, useTheme } from '@mui/material';
+import Box from 'src/shared/ui-kit/Box/Box';
+import Grid from 'src/shared/ui-kit/Grid/Grid';
+import Stack from 'src/shared/ui-kit/Stack/Stack';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import {
   LeadingActions,
@@ -20,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import styles from './CategoryCard.module.scss';
 
 type TCategoriesProps = {
   category: TCategory;
@@ -80,15 +84,13 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
     <LeadingActions>
       <SwipeAction onClick={handleEdit}>
         <Stack
-          alignItems="center"
-          justifyContent="center"
-          height="100%"
-          sx={{
-            backgroundColor: theme.palette.info.main,
-            color: theme.palette.info.contrastText,
-            padding: theme.spacing(2),
-            borderRadius: theme.spacing(1),
-          }}
+          className={styles.editStack}
+          style={
+            {
+              '--edit-bg': theme.palette.info.main,
+              '--edit-color': theme.palette.info.contrastText,
+            } as React.CSSProperties
+          }
         >
           <Edit />
         </Stack>
@@ -100,15 +102,13 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
     <TrailingActions>
       <SwipeAction destructive={true} onClick={handleRemove}>
         <Stack
-          alignItems="center"
-          height="100%"
-          justifyContent="center"
-          sx={{
-            backgroundColor: theme.palette.error.main,
-            color: theme.palette.error.contrastText,
-            padding: theme.spacing(2),
-            borderRadius: theme.spacing(1),
-          }}
+          className={styles.deleteStack}
+          style={
+            {
+              '--delete-bg': theme.palette.error.main,
+              '--delete-color': theme.palette.error.contrastText,
+            } as React.CSSProperties
+          }
         >
           <Delete />
         </Stack>
@@ -119,11 +119,17 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
   return (
     <Grid
       item
-      xs={12}
+      size={{ xs: 12 }}
       onContextMenu={handleOpenMenu}
       {...longPressEvents}
       ref={setNodeRef}
-      style={style}
+      className={styles.sortable}
+      style={
+        {
+          '--sortable-transition': style.transition,
+          '--sortable-transform': style.transform,
+        } as React.CSSProperties
+      }
       {...attributes}
       {...listeners}
     >
@@ -137,12 +143,12 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
               borderRadius: theme.spacing(1),
             }}
           >
-            <CardContent sx={{ p: 1 }} style={{ paddingBottom: '16px' }}>
-              <Box display="flex" justifyContent="space-between">
+            <CardContent sx={{ p: 1 }} className={styles.cardContent}>
+              <Box className={styles.headerBox}>
                 <Typography variant="h5" component="div" color={categoryTextColor}>
                   {category.title}
                 </Typography>
-                <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
+                <Box className={styles.columnEndBox}>
                   <Typography variant="body2" color={categoryTextColor}>
                     {t('Created: ') + `${new Date(category.createdAt).toLocaleDateString()}`}
                   </Typography>

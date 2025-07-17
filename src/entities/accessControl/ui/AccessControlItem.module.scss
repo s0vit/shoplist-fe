@@ -1,0 +1,18 @@
+.root {
+  padding: 16px;
+  margin-top: 16px;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+.rowMax {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  max-width: calc(100% - 58px);
+}

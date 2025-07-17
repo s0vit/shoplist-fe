@@ -1,4 +1,5 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import Box from 'src/shared/ui-kit/Box/Box';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PaymentSourcesCard from 'src/entities/paymentSource/ui/PaymentSourcesCard.tsx';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';

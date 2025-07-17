@@ -1,5 +1,6 @@
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
-import { Box, Divider, IconButton, Paper, Typography } from '@mui/material';
+import { Divider, IconButton, Paper, Typography } from '@mui/material';
+import Box from 'src/shared/ui-kit/Box/Box';
 import PaymentSourcesGrid from 'src/entities/paymentSource/ui/PaymentSourcesGrid.tsx';
 import { useTranslation } from 'react-i18next';
 import DeleteCategoryDialog from 'src/widgets/Modal/DeleteCategoryDialog.tsx';
@@ -10,6 +11,7 @@ import handleError from 'src/utils/errorHandler';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import useUpdateSinglePaymentSourceOrder from 'src/entities/paymentSource/hooks/useUpdatePaymentSourcesOrder.ts';
+import styles from './PaymentSourcesPage.module.scss';
 
 const PaymentSourcesPage = () => {
   const { userPaymentSources, isPaymentSourcesLoading, fetchPaymentSources } = useLoadPaymentSources();
@@ -49,7 +51,7 @@ const PaymentSourcesPage = () => {
 
   return (
     <Paper>
-      <Box padding={2} style={{ position: 'relative' }}>
+      <Box className={styles.rootBox}>
         <Typography variant="h3">{t('Accounts')}</Typography>
         <IconButton
           size="small"
@@ -58,7 +60,7 @@ const PaymentSourcesPage = () => {
           onClick={() => {
             setIsPaymentSourceModalOpen(true);
           }}
-          style={{ position: 'absolute', right: '20px', top: '26px' }}
+          className={styles.addButton}
         >
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>

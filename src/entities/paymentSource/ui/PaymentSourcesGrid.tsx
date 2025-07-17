@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import Grid from 'src/shared/ui-kit/Grid/Grid';
 import PaymentSourcesCard from 'src/entities/paymentSource/ui/PaymentSourcesCard.tsx';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';

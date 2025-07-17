@@ -1,4 +1,5 @@
-import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Slider } from '@mui/material';
+import Box from 'src/shared/ui-kit/Box/Box';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Slider } from '@mui/material';
 import Button from 'src/shared/ui-kit/Button/Button';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
@@ -9,6 +10,7 @@ import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { uploadAvatar } from 'src/shared/api/userApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import { useTranslation } from 'react-i18next';
+import styles from './ProfilePhotoUploader.module.scss';
 
 type TProfilePhotoUploaderProps = {
   file: File | null;
@@ -64,7 +66,7 @@ const ProfilePhotoUploader = ({ file, onClose, isOpen }: TProfilePhotoUploaderPr
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>{t('Adjust your photo')}</DialogTitle>
       <DialogContent>
-        <Box display="flex" flexDirection="column" alignItems="center">
+        <Box className={styles.centerColumn}>
           {file && (
             <AvatarEditor
               ref={editorRef}

@@ -9,18 +9,18 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
+import Box from 'src/shared/ui-kit/Box/Box';
+import Stack from 'src/shared/ui-kit/Stack/Stack';
 import {
-  alpha,
-  Box,
+  Typography,
+  IconButton,
+  useTheme,
   Chip,
   FormHelperText,
-  IconButton,
-  MenuItem,
+  alpha,
   Select,
+  MenuItem as MuiMenuItem,
   SelectChangeEvent,
-  Stack,
-  Typography,
-  useTheme,
 } from '@mui/material';
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
@@ -36,6 +36,7 @@ import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu.tsx';
+import styles from './ExpenseItem.module.scss';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -108,15 +109,13 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
     <LeadingActions>
       <SwipeAction onClick={handleEdit}>
         <Stack
-          alignItems="center"
-          justifyContent="center"
-          sx={{
-            backgroundColor: theme.palette.info.main,
-            color: theme.palette.info.contrastText,
-            padding: theme.spacing(2),
-            marginBottom: theme.spacing(1),
-            borderRadius: theme.spacing(1),
-          }}
+          className={styles.actionStack}
+          style={
+            {
+              '--action-bg': theme.palette.info.main,
+              '--action-color': theme.palette.info.contrastText,
+            } as React.CSSProperties
+          }
         >
           <Edit />
         </Stack>
@@ -128,15 +127,13 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
     <TrailingActions>
       <SwipeAction destructive={true} onClick={() => handleRemove(expense._id)}>
         <Stack
-          alignItems="center"
-          justifyContent="center"
-          sx={{
-            backgroundColor: theme.palette.error.main,
-            color: theme.palette.error.contrastText,
-            padding: theme.spacing(2),
-            marginBottom: theme.spacing(1),
-            borderRadius: theme.spacing(1),
-          }}
+          className={styles.actionStack}
+          style={
+            {
+              '--action-bg': theme.palette.error.main,
+              '--action-color': theme.palette.error.contrastText,
+            } as React.CSSProperties
+          }
         >
           <Delete />
         </Stack>
@@ -170,23 +167,24 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
 
   return (
     <div onContextMenu={handleOpenMenu} {...longPressEvents}>
-      <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto', cursor: 'pointer', userSelect: 'none' }}>
-        <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
+      <SwipeableList type={Type.IOS} fullSwipe className={styles.swipeList}>
+        <SwipeableListItem
+          leadingActions={leadingActions()}
+          trailingActions={trailingActions()}
+          className={styles.swipeListItem}
+        >
           <Stack
+            justify="space-between"
             direction="row"
-            justifyContent="space-between"
-            alignItems="center"
+            className={styles.rootStack}
             onClick={handleSingleExpense}
             id={expense._id}
-            sx={{
-              backgroundColor: showCategoryColours ? alpha(categoryColor, 0.05) : 'null',
-              padding: theme.spacing(0.5),
-              borderRadius: theme.spacing(1),
-              marginBottom: theme.spacing(1),
-              width: '100%',
-              border: `1px solid`,
-              borderColor: showCategoryColours ? categoryColor : 'null',
-            }}
+            style={
+              {
+                '--root-bg': showCategoryColours ? alpha(categoryColor, 0.05) : undefined,
+                '--root-border': showCategoryColours ? categoryColor : undefined,
+              } as React.CSSProperties
+            }
           >
             <Box>
               {showCategoryNames && <Typography variant="subtitle2">{category?.title}</Typography>}
@@ -198,8 +196,8 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
               </Typography>
               {expense.comments && <FormHelperText>{expense.comments}</FormHelperText>}
             </Box>
-            <Stack direction="row">
-              <Box sx={{ textAlign: 'right' }}>
+            <Stack direction="row" align="center" gap={1}>
+              <Box className={styles.amountBox}>
                 <Chip
                   label={displayAmount}
                   sx={{
@@ -212,9 +210,9 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
                 />
                 <Select value={localCurrency} onChange={handleCurrencyChange} size="small" sx={{ minWidth: 90 }}>
                   {currencies.map((currency) => (
-                    <MenuItem key={currency.value} value={currency.value}>
+                    <MuiMenuItem key={currency.value} value={currency.value}>
                       {currency.value}
-                    </MenuItem>
+                    </MuiMenuItem>
                   ))}
                 </Select>
                 {showSourceNames && (

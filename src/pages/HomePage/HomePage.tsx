@@ -1,4 +1,5 @@
-import { Box, Divider, Stack } from '@mui/material';
+import Box from 'src/shared/ui-kit/Box/Box';
+import Stack from 'src/shared/ui-kit/Stack/Stack';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import ExpensesTable from 'src/entities/expenses/ui/ExpensesTable.tsx';
@@ -7,6 +8,7 @@ import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import SpentThisMonth from 'src/entities/expenses/ui/SpentThisMonth.tsx';
 import ExpenseQueryForm from 'src/entities/expenses/ui/expensesQueryForm.tsx';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import styles from './HomePage.module.scss';
 
 const HomePage = () => {
   const { isDesktopWidth, windowHeight } = useWindowWidth();
@@ -17,18 +19,12 @@ const HomePage = () => {
   useLoadCategories(true);
 
   return isDesktopWidth ? (
-    <Stack spacing={1} maxHeight="100%" overflow="auto">
+    <Stack gap={1} className={styles.rootStack}>
       {isVerified && <ExpenseQueryForm />}
-      <Stack
-        gap={1}
-        direction="row"
-        divider={isDesktopWidth && <Divider orientation="vertical" flexItem />}
-        maxHeight="100%"
-        overflow="auto"
-      >
+      <Stack gap={1} direction="row" className={styles.rowStack}>
         <ExpensesTable />
 
-        <Stack gap={1} divider={<Divider flexItem />}>
+        <Stack gap={1}>
           <SpentThisMonth />
           <AddExpenseCalculator />
         </Stack>
@@ -37,7 +33,7 @@ const HomePage = () => {
   ) : (
     <>
       <SpentThisMonth />
-      <Box position={isBigScreen ? 'fixed' : undefined} bottom={0} right={0} maxWidth="100%">
+      <Box className={isBigScreen ? styles.addExpenseBox : styles.addExpenseBoxRelative}>
         <AddExpenseCalculator />
       </Box>
     </>

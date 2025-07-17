@@ -1,8 +1,9 @@
-import { Grid } from '@mui/material';
+import Grid from 'src/shared/ui-kit/Grid/Grid';
 import Button from 'src/shared/ui-kit/Button/Button';
 import React from 'react';
 import { BsDot } from 'react-icons/bs';
 import { FaBackspace } from 'react-icons/fa';
+import styles from './AddExpenseCalc.module.scss';
 
 type TCalculatorButtonsProps = {
   isPending: boolean;
@@ -26,16 +27,17 @@ const CalculatorButtons = ({ isPending, handleButtonClick }: TCalculatorButtonsP
   ];
 
   return (
-    <Grid container gap={1} justifyContent="space-between">
+    <Grid container spacing={1} justifyContent="space-between">
       {calcButtons.map((value) => (
-        <Grid key={value.title} width="calc(33% - 8px)">
+        <Grid key={value.title} className={styles.buttonGrid}>
           <Button
-            disabled={isPending}
-            variant="contained"
+            key={value.title}
+            variant="outlined"
             width="100%"
             label={typeof value.content === 'string' ? value.content : ''}
             onClick={() => handleButtonClick(value.title)}
-            style={{ height: 50, fontSize: '24px' }}
+            disabled={isPending && value.title !== 'del'}
+            className={styles.calcButton}
           />
         </Grid>
       ))}

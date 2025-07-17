@@ -1,13 +1,15 @@
 import AccessControlsList from 'src/entities/accessControl/ui/AccessControlsList.tsx';
 import useLoadAccessControls from 'src/entities/accessControl/hooks/useLoadAccessControls.ts';
-import { Paper, Skeleton, Stack, Typography } from '@mui/material';
+import { Paper, Skeleton, Typography } from '@mui/material';
+import Stack from 'src/shared/ui-kit/Stack/Stack';
+import styles from './AccessControlPage.module.scss';
 
 const AccessControlPage = () => {
   const { myAccessControls, isCategoriesLoading } = useLoadAccessControls(true);
 
   if (isCategoriesLoading) {
     return (
-      <Stack gap={2} maxWidth="600px" m="auto">
+      <Stack gap={2} className={styles.centeredStack}>
         <Paper sx={{ p: 2, pb: 3 }}>
           <Skeleton variant="rectangular" width="100%" height={32} />
         </Paper>
