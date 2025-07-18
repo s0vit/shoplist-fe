@@ -26,8 +26,17 @@ const config: StorybookConfig = {
   },
   viteFinal: async (config) => {
     const { mergeConfig } = await import('vite');
+    const svgr = (await import('vite-plugin-svgr')).default;
 
     return mergeConfig(config, {
+      plugins: [
+        svgr({
+          svgrOptions: {
+            exportType: 'default',
+          },
+          include: '**/*.svg?react',
+        }),
+      ],
       define: {
         ...config.define,
         global: 'window',

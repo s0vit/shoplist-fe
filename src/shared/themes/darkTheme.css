@@ -67,4 +67,14 @@
   --color-calculator-button-active-bg: rgba(255, 255, 255, 0.1);
   --color-calculator-button-disabled-bg: transparent;
   --color-calculator-button-disabled-text: var(--color-dark-text-disabled);
+
+  /**
+   * @tokens Input-Colors
+   * @presenter Color
+   */
+  --color-input-bg: #1c1c1e;
+  --color-input-focus-bg: #0e0e10;
+  --color-input-disabled-bg: #1c1c1e;
+  --color-input-text: #ffffff;
+  --color-input-placeholder: #808080;
 }

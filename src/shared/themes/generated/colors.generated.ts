@@ -1,108 +1,115 @@
 export const colorGroups = {
-  'Basic-Colors': {
-    '--color-black': '#000000',
-    '--color-white': '#ffffff',
+  "Basic-Colors": {
+    "--color-black": "#000000",
+    "--color-white": "#ffffff"
   },
-  'Light-Colors': {
-    '--color-light-text-disabled': '#808080',
-    '--color-light-grey': 'rgba(242, 242, 242, 1)',
-    '--color-button-contained-bg': 'var(--color-black)',
-    '--color-button-contained-color': 'var(--color-white)',
-    '--color-button-contained-disabled': 'var(--color-graphite)',
+  "Light-Colors": {
+    "--color-light-text-disabled": "#808080",
+    "--color-light-grey": "rgba(242, 242, 242, 1)",
+    "--color-button-contained-bg": "var(--color-black)",
+    "--color-button-contained-color": "var(--color-white)",
+    "--color-button-contained-disabled": "var(--color-graphite)"
   },
-  'Dark-Colors': {
-    '--color-dark-surface': '#1c1c1e',
-    '--color-dark-surface-variant': '#0e0e10',
-    '--color-dark-text-disabled': '#4d4d4f',
-    '--color-dark-grey': 'rgba(28, 28, 30, 1)',
+  "Dark-Colors": {
+    "--color-dark-surface": "#1c1c1e",
+    "--color-dark-surface-variant": "#0e0e10",
+    "--color-dark-text-disabled": "#4d4d4f",
+    "--color-dark-grey": "rgba(28, 28, 30, 1)"
   },
-  'Status-Colors': {
-    '--color-error': '#ed5145',
-    '--color-success': '#72d52c',
-    '--color-warning': '#ffbb00',
+  "Status-Colors": {
+    "--color-error": "#ed5145",
+    "--color-success": "#72d52c",
+    "--color-warning": "#ffbb00"
   },
-  Expenses: {
-    '--color-red': '#ee0101',
-    '--color-light-red': '#ff7878',
-    '--color-brown': '#9a4d00',
-    '--color-orange': '#ee7f01',
-    '--color-yellow': '#ffcc00',
-    '--color-green': '#93ee01',
-    '--color-bright-green': '#c3ee01',
-    '--color-turquoise': '#05ffcd',
-    '--color-dark-blue': '#0144ee',
-    '--color-blue': '#53b1ff',
-    '--color-dark-purple': '#430059',
-    '--color-purple': '#ab01ee',
-    '--color-pink': '#ee01a7',
-    '--color-graphite': '#494949',
+  "Expenses": {
+    "--color-red": "#ee0101",
+    "--color-light-red": "#ff7878",
+    "--color-brown": "#9a4d00",
+    "--color-orange": "#ee7f01",
+    "--color-yellow": "#ffcc00",
+    "--color-green": "#93ee01",
+    "--color-bright-green": "#c3ee01",
+    "--color-turquoise": "#05ffcd",
+    "--color-dark-blue": "#0144ee",
+    "--color-blue": "#53b1ff",
+    "--color-dark-purple": "#430059",
+    "--color-purple": "#ab01ee",
+    "--color-pink": "#ee01a7",
+    "--color-graphite": "#494949"
   },
-  'Light-Categories': {
-    '--color-category-light-green': '#ddfecf',
-    '--color-category-light-blue': '#cfeaff',
-    '--color-category-light-red': '#fdcfcf',
-    '--color-category-light-yellow': '#fef9cf',
-    '--color-category-light-orange': '#fee3cf',
-    '--color-category-light-turquoise': '#cffdf9',
-    '--color-category-light-purple': '#d9cffe',
-    '--color-category-light-pink': '#fecff5',
-    '--color-category-food': 'var(--color-category-light-green)',
-    '--color-category-transport': 'var(--color-category-light-blue)',
-    '--color-category-house': 'var(--color-category-light-red)',
+  "Light-Categories": {
+    "--color-category-light-green": "#ddfecf",
+    "--color-category-light-blue": "#cfeaff",
+    "--color-category-light-red": "#fdcfcf",
+    "--color-category-light-yellow": "#fef9cf",
+    "--color-category-light-orange": "#fee3cf",
+    "--color-category-light-turquoise": "#cffdf9",
+    "--color-category-light-purple": "#d9cffe",
+    "--color-category-light-pink": "#fecff5",
+    "--color-category-food": "var(--color-category-light-green)",
+    "--color-category-transport": "var(--color-category-light-blue)",
+    "--color-category-house": "var(--color-category-light-red)"
   },
-  'Dark-Categories': {
-    '--color-category-dark-green': '#264b0b',
-    '--color-category-dark-blue': '#154651',
-    '--color-category-dark-red': '#48160d',
-    '--color-category-dark-yellow': '#4b4004',
-    '--color-category-dark-orange': '#4b2204',
-    '--color-category-dark-turquoise': '#044b46',
-    '--color-category-dark-purple': '#2d044b',
-    '--color-category-dark-pink': '#4b0440',
-    '--color-category-food': 'var(--color-category-dark-green)',
-    '--color-category-transport': 'var(--color-category-dark-blue)',
-    '--color-category-house': 'var(--color-category-dark-red)',
+  "Dark-Categories": {
+    "--color-category-dark-green": "#264b0b",
+    "--color-category-dark-blue": "#154651",
+    "--color-category-dark-red": "#48160d",
+    "--color-category-dark-yellow": "#4b4004",
+    "--color-category-dark-orange": "#4b2204",
+    "--color-category-dark-turquoise": "#044b46",
+    "--color-category-dark-purple": "#2d044b",
+    "--color-category-dark-pink": "#4b0440",
+    "--color-category-food": "var(--color-category-dark-green)",
+    "--color-category-transport": "var(--color-category-dark-blue)",
+    "--color-category-house": "var(--color-category-dark-red)"
   },
-  'Button-Colors-Contained': {
-    '--color-button-contained-bg': 'var(--color-white)',
-    '--color-button-contained-color': 'var(--color-black)',
-    '--color-button-contained-disabled': 'var(--color-dark-surface-variant)',
+  "Button-Colors-Contained": {
+    "--color-button-contained-bg": "var(--color-white)",
+    "--color-button-contained-color": "var(--color-black)",
+    "--color-button-contained-disabled": "var(--color-dark-surface-variant)"
   },
-  'Button-Colors-Outlined': {
-    '--color-button-outlined-bg': 'var(--color-white)',
-    '--color-button-outlined-color': 'var(--color-black)',
-    '--color-button-outlined-border': 'var(--color-black)',
-    '--color-button-outlined-disabled': 'var(--color-light-text-disabled)',
+  "Button-Colors-Outlined": {
+    "--color-button-outlined-bg": "var(--color-white)",
+    "--color-button-outlined-color": "var(--color-black)",
+    "--color-button-outlined-border": "var(--color-black)",
+    "--color-button-outlined-disabled": "var(--color-light-text-disabled)"
   },
-  'Card-Colors': {
-    '--color-card-bg': 'var(--color-white)',
-    '--color-card-shadow': '0 0 24px 0 rgba(14, 15, 18, 0.05)',
+  "Card-Colors": {
+    "--color-card-bg": "var(--color-white)",
+    "--color-card-shadow": "0 0 24px 0 rgba(14, 15, 18, 0.05)"
   },
-  'Text-Colors': {
-    '--color-text-primary': '#111111',
+  "Text-Colors": {
+    "--color-text-primary": "#111111"
   },
-  'Select-Colors': {
-    '--color-dropdown-bg': 'var(--color-light-grey)',
-    '--color-dropdown-text': 'var(--color-black)',
-    '--color-dropdown-icon': 'var(--color-black)',
-    '--color-dropdown-hover-bg': 'rgba(0, 0, 0, 0.05)',
+  "ButtonDropdown-Colors": {
+    "--color-dropdown-bg": "var(--color-light-grey)",
+    "--color-dropdown-text": "var(--color-black)",
+    "--color-dropdown-icon": "var(--color-black)",
+    "--color-dropdown-hover-bg": "rgba(0, 0, 0, 0.05)"
   },
-  'Toggle-Colors': {
-    '--color-toggle-bg-off': 'var(--color-white)',
-    '--color-toggle-bg-on': 'var(--color-black)',
-    '--color-toggle-border': 'var(--color-black)',
-    '--color-toggle-thumb': 'var(--color-white)',
-    '--color-toggle-thumb-border': 'var(--color-black)',
+  "Toggle-Colors": {
+    "--color-toggle-bg-off": "var(--color-white)",
+    "--color-toggle-bg-on": "var(--color-black)",
+    "--color-toggle-border": "var(--color-black)",
+    "--color-toggle-thumb": "var(--color-white)",
+    "--color-toggle-thumb-border": "var(--color-black)"
   },
-  'CalculatorButton-Colors': {
-    '--color-calculator-button-bg': 'transparent',
-    '--color-calculator-button-text': 'var(--color-black)',
-    '--color-calculator-button-hover-bg': 'rgba(0, 0, 0, 0.05)',
-    '--color-calculator-button-active-bg': 'rgba(0, 0, 0, 0.1)',
-    '--color-calculator-button-disabled-bg': 'transparent',
-    '--color-calculator-button-disabled-text': 'var(--color-light-text-disabled)',
+  "CalculatorButton-Colors": {
+    "--color-calculator-button-bg": "transparent",
+    "--color-calculator-button-text": "var(--color-black)",
+    "--color-calculator-button-hover-bg": "rgba(0, 0, 0, 0.05)",
+    "--color-calculator-button-active-bg": "rgba(0, 0, 0, 0.1)",
+    "--color-calculator-button-disabled-bg": "transparent",
+    "--color-calculator-button-disabled-text": "var(--color-light-text-disabled)"
   },
-  'App-Colors': {
-    '--color-app-bg': 'rgba(251, 251, 251, 1)',
+  "Input-Colors": {
+    "--color-input-bg": "var(--color-light-grey)",
+    "--color-input-focus-bg": "rgba(217, 217, 217, 1)",
+    "--color-input-disabled-bg": "rgba(242, 242, 242, 1)",
+    "--color-input-text": "rgba(38, 38, 38, 1)",
+    "--color-input-placeholder": "rgba(166, 166, 166, 1)"
   },
-};
+  "App-Colors": {
+    "--color-app-bg": "rgba(251, 251, 251, 1)"
+  }
+}
