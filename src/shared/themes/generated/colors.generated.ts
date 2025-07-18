@@ -81,15 +81,26 @@ export const colorGroups = {
   'Text-Colors': {
     '--color-text-primary': '#111111',
   },
-  'ButtonDropdown-Colors': {
+  'Select-Colors': {
     '--color-dropdown-bg': 'var(--color-light-grey)',
     '--color-dropdown-text': 'var(--color-black)',
     '--color-dropdown-icon': 'var(--color-black)',
     '--color-dropdown-hover-bg': 'rgba(0, 0, 0, 0.05)',
   },
   'Toggle-Colors': {
-    '--color-toggle-bg': 'var(--color-white)',
-    '--color-toggle-icon': 'var(--color-black)',
+    '--color-toggle-bg-off': 'var(--color-white)',
+    '--color-toggle-bg-on': 'var(--color-black)',
+    '--color-toggle-border': 'var(--color-black)',
+    '--color-toggle-thumb': 'var(--color-white)',
+    '--color-toggle-thumb-border': 'var(--color-black)',
+  },
+  'CalculatorButton-Colors': {
+    '--color-calculator-button-bg': 'transparent',
+    '--color-calculator-button-text': 'var(--color-black)',
+    '--color-calculator-button-hover-bg': 'rgba(0, 0, 0, 0.05)',
+    '--color-calculator-button-active-bg': 'rgba(0, 0, 0, 0.1)',
+    '--color-calculator-button-disabled-bg': 'transparent',
+    '--color-calculator-button-disabled-text': 'var(--color-light-text-disabled)',
   },
   'App-Colors': {
     '--color-app-bg': 'rgba(251, 251, 251, 1)',

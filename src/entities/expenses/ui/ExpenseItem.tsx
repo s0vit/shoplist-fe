@@ -18,9 +18,9 @@ import {
   Chip,
   FormHelperText,
   alpha,
-  Select,
-  MenuItem as MuiMenuItem,
-  SelectChangeEvent,
+  // Select,
+  // MenuItem as MuiMenuItem,
+  // SelectChangeEvent,
 } from '@mui/material';
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
@@ -37,6 +37,7 @@ import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu.tsx';
 import styles from './ExpenseItem.module.scss';
+import Select, { TOption } from 'src/shared/ui-kit/Select';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -161,8 +162,8 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
   const localCurrencySymbol = currencies.find((c) => c.value === localCurrency)?.label || localCurrency;
   const displayAmount = `${convertedAmount.toFixed(2)} ${localCurrencySymbol}`;
 
-  const handleCurrencyChange = (event: SelectChangeEvent) => {
-    setLocalCurrency(event.target.value as CURRENCIES);
+  const handleCurrencyChange = (value: string) => {
+    setLocalCurrency(value as CURRENCIES);
   };
 
   return (
@@ -208,13 +209,15 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
                     padding: theme.spacing(0.5),
                   }}
                 />
-                <Select value={localCurrency} onChange={handleCurrencyChange} size="small" sx={{ minWidth: 90 }}>
-                  {currencies.map((currency) => (
-                    <MuiMenuItem key={currency.value} value={currency.value}>
-                      {currency.value}
-                    </MuiMenuItem>
-                  ))}
-                </Select>
+                <Select
+                  options={
+                    currencies.map((currency) => ({ value: currency.value, label: currency.value })) as TOption[]
+                  }
+                  value={localCurrency}
+                  onChange={handleCurrencyChange}
+                  style={{ minWidth: 90 }}
+                  data-testid="expense-item-currency-select"
+                />
                 {showSourceNames && (
                   <Typography variant="body2" mr={1}>
                     {paymentSource?.title || 'Deleted'}

@@ -1,4 +1,4 @@
-import { FormControl, MenuItem, Paper, Select, Typography } from '@mui/material';
+import { FormControl, Paper, Typography } from '@mui/material';
 import Box from 'src/shared/ui-kit/Box/Box';
 import Stack from 'src/shared/ui-kit/Stack/Stack';
 import { UseMutateFunction } from '@tanstack/react-query';
@@ -13,6 +13,7 @@ import { currencies, CURRENCIES } from 'src/shared/constants/currencies';
 import calculateTotalAmount from 'src/utils/helpers/calculateTotalAmmount';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 import styles from './ExpensesDayGroup.module.scss';
+import Select, { TOption } from 'src/shared/ui-kit/Select';
 
 type TExpensesDayGroupProps = {
   date: string;
@@ -38,17 +39,11 @@ const ExpensesDayGroup = ({ date, expenses, deleteExpense }: TExpensesDayGroupPr
           </Typography>
           <FormControl>
             <Select
-              autoWidth
-              variant="standard"
+              options={currencies as TOption[]}
               value={currency}
-              onChange={(e) => setCurrency(e.target.value as CURRENCIES)}
-            >
-              {currencies.map((currency) => (
-                <MenuItem key={currency.value} value={currency.value}>
-                  {currency.label}
-                </MenuItem>
-              ))}
-            </Select>
+              onChange={(value) => setCurrency(value as CURRENCIES)}
+              data-testid="expenses-day-group-currency-select"
+            />
           </FormControl>
         </Stack>
       </Box>

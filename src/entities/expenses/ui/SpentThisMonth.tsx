@@ -1,4 +1,5 @@
-import { FormControl, MenuItem, Paper, Select, Stack, Typography } from '@mui/material';
+import { FormControl, Paper, Stack, Typography } from '@mui/material';
+import Select, { TOption } from 'src/shared/ui-kit/Select';
 import { useState } from 'react';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies';
@@ -38,18 +39,12 @@ const SpentThisMonth = () => {
         </Typography>
         <FormControl>
           <Select
-            autoWidth
-            sx={{ fontSize: isBigScreen ? '2rem' : '1.5rem' }}
-            variant="standard"
+            options={currencies as TOption[]}
             value={currency}
-            onChange={(e) => setCurrency(e.target.value as CURRENCIES)}
-          >
-            {currencies.map((currency) => (
-              <MenuItem key={currency.value} value={currency.value}>
-                {currency.label}
-              </MenuItem>
-            ))}
-          </Select>
+            onChange={(value) => setCurrency(value as CURRENCIES)}
+            style={{ fontSize: isBigScreen ? '2rem' : '1.5rem' }}
+            data-testid="spent-this-month-currency-select"
+          />
         </FormControl>
       </Stack>
     </Paper>

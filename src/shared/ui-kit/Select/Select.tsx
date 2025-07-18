@@ -6,7 +6,7 @@ export type TOption = {
   label: string;
 };
 
-export type TButtonDropdownProps = {
+export type TSelectProps = {
   options: TOption[];
   value?: string;
   onChange?: (value: string) => void;
@@ -17,7 +17,7 @@ export type TButtonDropdownProps = {
   'data-testid'?: string;
 };
 
-type TStyledButtonDropdownProps = {
+type TStyledSelectProps = {
   disabled?: boolean;
   $isOpen?: boolean;
 };
@@ -26,7 +26,7 @@ type TStyledDropdownListProps = {
   $isOpen: boolean;
 };
 
-const ButtonDropdown = styled.button<TStyledButtonDropdownProps>`
+const SelectButton = styled.button<TStyledSelectProps>`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -104,7 +104,7 @@ const DropdownContainer = styled.div`
   width: fit-content;
 `;
 
-const ButtonDropdownComponent = ({
+const SelectComponent = ({
   options,
   value,
   onChange,
@@ -113,7 +113,7 @@ const ButtonDropdownComponent = ({
   style,
   className,
   'data-testid': dataTestId,
-}: TButtonDropdownProps) => {
+}: TSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -147,7 +147,7 @@ const ButtonDropdownComponent = ({
 
   return (
     <DropdownContainer ref={dropdownRef}>
-      <ButtonDropdown
+      <SelectButton
         $isOpen={isOpen}
         disabled={disabled}
         onClick={handleToggle}
@@ -157,7 +157,7 @@ const ButtonDropdownComponent = ({
       >
         <span>{displayText}</span>
         <DropdownIcon $isOpen={isOpen} />
-      </ButtonDropdown>
+      </SelectButton>
 
       <DropdownList $isOpen={isOpen}>
         {options.map((option) => (
@@ -174,4 +174,4 @@ const ButtonDropdownComponent = ({
   );
 };
 
-export default ButtonDropdownComponent;
+export default SelectComponent;

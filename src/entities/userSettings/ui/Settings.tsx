@@ -1,14 +1,5 @@
-import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  Switch,
-  useTheme,
-} from '@mui/material';
+import { Box, FormControl, FormControlLabel, Paper, useTheme } from '@mui/material';
+import Toggle from 'src/shared/ui-kit/Toggle';
 import { useMutation } from '@tanstack/react-query';
 import { setMyConfig, TConfig, THEME_ENUM, updateMyConfig } from 'src/shared/api/userConfigApi';
 import { CURRENCIES } from 'src/shared/constants/currencies';
@@ -18,6 +9,7 @@ import useUserSettingsStore from '../model/store/useUserSettingsStore';
 import i18n from 'src/shared/api/i18nConfig';
 import { useTranslation } from 'react-i18next';
 import styles from './Settings.module.scss';
+import Select, { TOption } from 'src/shared/ui-kit/Select';
 
 const Settings = () => {
   const userSettings = useUserSettingsStore.use.config();
@@ -57,67 +49,53 @@ const Settings = () => {
     handleSave();
   };
 
+  const currencyOptions: TOption[] = Object.values(CURRENCIES).map((currency) => ({
+    value: currency,
+    label: currency,
+  }));
+  const languageOptions: TOption[] = Object.values(LANGUAGES_ENUM).map((language) => ({
+    value: language,
+    label: language,
+  }));
+  const themeOptions: TOption[] = Object.values(THEME_ENUM).map((theme) => ({ value: theme, label: t(theme) }));
+
   return (
     <Paper elevation={2} className={styles.settingsPaper}>
       <Box display="flex" flexDirection="column" gap="16px">
         <FormControl fullWidth variant="outlined">
-          <InputLabel id="currency-label">{t('Currency')}</InputLabel>
+          <label htmlFor="currency-select">{t('Currency')}</label>
           <Select
-            size="small"
-            labelId="currency-label"
-            id="currency"
+            options={currencyOptions}
             value={userSettings.currency}
-            onChange={(e) => handleSettingChange('currency', e.target.value as CURRENCIES)}
+            onChange={(value) => handleSettingChange('currency', value as CURRENCIES)}
             disabled={isUpdating || isSaving}
-            label={t('Currency')}
-          >
-            {Object.values(CURRENCIES).map((currency) => (
-              <MenuItem key={currency} value={currency}>
-                {currency}
-              </MenuItem>
-            ))}
-          </Select>
+            data-testid="currency-select"
+          />
         </FormControl>
 
         <FormControl fullWidth variant="outlined">
-          <InputLabel id="language-label">{t('Language')}</InputLabel>
+          <label htmlFor="language-select">{t('Language')}</label>
           <Select
-            size="small"
-            labelId="language-label"
-            id="language"
+            options={languageOptions}
             value={userSettings.language}
-            onChange={(e) => {
-              handleSettingChange('language', e.target.value as LANGUAGES_ENUM);
-              setNewLanguage(e.target.value as LANGUAGES_ENUM);
+            onChange={(value) => {
+              handleSettingChange('language', value as LANGUAGES_ENUM);
+              setNewLanguage(value as LANGUAGES_ENUM);
             }}
             disabled={isUpdating || isSaving}
-            label={t('Language')}
-          >
-            {Object.values(LANGUAGES_ENUM).map((language) => (
-              <MenuItem key={language} value={language}>
-                {language}
-              </MenuItem>
-            ))}
-          </Select>
+            data-testid="language-select"
+          />
         </FormControl>
 
         <FormControl fullWidth variant="outlined">
-          <InputLabel id="theme-label">{t('Theme')}</InputLabel>
+          <label htmlFor="theme-select">{t('Theme')}</label>
           <Select
-            size="small"
-            labelId="theme-label"
-            id="theme"
+            options={themeOptions}
             value={userSettings.theme}
-            onChange={(e) => handleSettingChange('theme', e.target.value as THEME_ENUM)}
+            onChange={(value) => handleSettingChange('theme', value as THEME_ENUM)}
             disabled={isUpdating || isSaving}
-            label={t('Theme')}
-          >
-            {Object.values(THEME_ENUM).map((theme) => (
-              <MenuItem key={theme} value={theme}>
-                {t(theme)}
-              </MenuItem>
-            ))}
-          </Select>
+            data-testid="theme-select"
+          />
         </FormControl>
 
         <Box
@@ -130,9 +108,9 @@ const Settings = () => {
         >
           <FormControlLabel
             control={
-              <Switch
+              <Toggle
                 checked={userSettings.showCategoryColours}
-                onChange={(e) => handleSettingChange('showCategoryColours', e.target.checked)}
+                onChange={(checked) => handleSettingChange('showCategoryColours', checked)}
                 disabled={isUpdating || isSaving}
               />
             }
@@ -141,9 +119,9 @@ const Settings = () => {
 
           <FormControlLabel
             control={
-              <Switch
+              <Toggle
                 checked={userSettings.showSourceColours}
-                onChange={(e) => handleSettingChange('showSourceColours', e.target.checked)}
+                onChange={(checked) => handleSettingChange('showSourceColours', checked)}
                 disabled={isUpdating || isSaving}
               />
             }
@@ -152,9 +130,9 @@ const Settings = () => {
 
           <FormControlLabel
             control={
-              <Switch
+              <Toggle
                 checked={userSettings.showCategoryNames}
-                onChange={(e) => handleSettingChange('showCategoryNames', e.target.checked)}
+                onChange={(checked) => handleSettingChange('showCategoryNames', checked)}
                 disabled={isUpdating || isSaving}
               />
             }
@@ -163,9 +141,9 @@ const Settings = () => {
 
           <FormControlLabel
             control={
-              <Switch
+              <Toggle
                 checked={userSettings.showSourceNames}
-                onChange={(e) => handleSettingChange('showSourceNames', e.target.checked)}
+                onChange={(checked) => handleSettingChange('showSourceNames', checked)}
                 disabled={isUpdating || isSaving}
               />
             }
@@ -183,9 +161,9 @@ const Settings = () => {
         >
           <FormControlLabel
             control={
-              <Switch
+              <Toggle
                 checked={userSettings.showSharedExpenses}
-                onChange={(e) => handleSettingChange('showSharedExpenses', e.target.checked)}
+                onChange={(checked) => handleSettingChange('showSharedExpenses', checked)}
                 disabled={isUpdating || isSaving}
               />
             }
@@ -194,9 +172,9 @@ const Settings = () => {
 
           <FormControlLabel
             control={
-              <Switch
+              <Toggle
                 checked={userSettings.showSharedCategories}
-                onChange={(e) => handleSettingChange('showSharedCategories', e.target.checked)}
+                onChange={(checked) => handleSettingChange('showSharedCategories', checked)}
                 disabled={isUpdating || isSaving}
               />
             }
@@ -205,9 +183,9 @@ const Settings = () => {
 
           <FormControlLabel
             control={
-              <Switch
+              <Toggle
                 checked={userSettings.showSharedSources}
-                onChange={(e) => handleSettingChange('showSharedSources', e.target.checked)}
+                onChange={(checked) => handleSettingChange('showSharedSources', checked)}
                 disabled={isUpdating || isSaving}
               />
             }

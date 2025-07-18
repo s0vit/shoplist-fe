@@ -1,4 +1,4 @@
-import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import Select, { TOption } from 'src/shared/ui-kit/Select';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import { currencies } from 'src/shared/constants/currencies';
 import { CURRENCIES } from 'src/shared/constants/currencies';
@@ -7,18 +7,19 @@ const CurrencySelector = () => {
   const selectedCurrency = useExpensesStore.use.selectedCurrency();
   const setSelectedCurrency = useExpensesStore.use.setSelectedCurrency();
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setSelectedCurrency(event.target.value as CURRENCIES);
+  const handleChange = (value: string) => {
+    setSelectedCurrency(value as CURRENCIES);
   };
 
   return (
-    <Select value={selectedCurrency} onChange={handleChange} size="small">
-      {currencies.map((currency) => (
-        <MenuItem key={currency.value} value={currency.value}>
-          {currency.label} ({currency.value})
-        </MenuItem>
-      ))}
-    </Select>
+    <Select
+      options={
+        currencies.map((currency) => ({ ...currency, label: `${currency.label} (${currency.value})` })) as TOption[]
+      }
+      value={selectedCurrency}
+      onChange={handleChange}
+      data-testid="currency-selector"
+    />
   );
 };
 

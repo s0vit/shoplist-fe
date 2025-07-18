@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import ButtonDropdownComponent from './ButtonDropdown';
+import Select from './Select';
 
-const meta: Meta<typeof ButtonDropdownComponent> = {
-  title: 'UI/ButtonDropdown',
-  component: ButtonDropdownComponent,
+const meta: Meta<typeof Select> = {
+  title: 'UI Kit/Select',
+  component: Select,
   tags: ['autodocs'],
   argTypes: {
     placeholder: { control: 'text' },
@@ -13,7 +13,7 @@ const meta: Meta<typeof ButtonDropdownComponent> = {
 };
 
 export default meta;
-type TStory = StoryObj<typeof ButtonDropdownComponent>;
+type Story = StoryObj<typeof Select>;
 
 const currencyOptions = [
   { value: 'EUR', label: '€' },
@@ -22,7 +22,6 @@ const currencyOptions = [
   { value: 'GBP', label: '£' },
 ];
 
-// Интерактивная обертка для Storybook
 const InteractiveWrapper = ({
   options,
   placeholder,
@@ -36,7 +35,7 @@ const InteractiveWrapper = ({
 
   return (
     <div style={{ padding: '20px' }}>
-      <ButtonDropdownComponent
+      <Select
         options={options}
         value={value}
         onChange={setValue}
@@ -52,7 +51,7 @@ const InteractiveWrapper = ({
   );
 };
 
-export const Default: TStory = {
+export const Default: Story = {
   render: (args) => <InteractiveWrapper {...args} />,
   args: {
     options: currencyOptions,
@@ -64,7 +63,7 @@ export const Default: TStory = {
   },
 };
 
-export const Disabled: TStory = {
+export const Disabled: Story = {
   render: (args) => <InteractiveWrapper {...args} />,
   args: {
     options: currencyOptions,
