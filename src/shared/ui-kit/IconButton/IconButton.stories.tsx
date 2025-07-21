@@ -89,3 +89,12 @@ export const Large: Story = {
     height: '60px',
   },
 };
+
+export const ExtraLarge: Story = {
+  args: {
+    icon: 'camera',
+    iconSize: 'xl',
+    variant: 'text',
+    disabled: false,
+  },
+};

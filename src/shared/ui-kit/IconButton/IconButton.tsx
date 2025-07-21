@@ -24,6 +24,14 @@ type TStyledIconButtonProps = {
   disabled?: boolean;
 };
 
+const sizeMap: Record<string, { width: string; height: string }> = {
+  xs: { width: '24px', height: '24px' },
+  sm: { width: '32px', height: '32px' },
+  md: { width: '40px', height: '40px' },
+  lg: { width: '48px', height: '48px' },
+  xl: { width: '56px', height: '56px' },
+};
+
 const IconButtonStyled = styled.button<TStyledIconButtonProps>`
   display: flex;
   align-items: center;
@@ -72,8 +80,8 @@ const IconButton = ({
   icon,
   iconSize = 'md',
   iconColor,
-  width = '40px',
-  height = '40px',
+  width,
+  height,
   variant = 'text',
   disabled = false,
   onClick,
@@ -82,11 +90,22 @@ const IconButton = ({
   className,
   children,
 }: TIconButtonProps) => {
+  let defaultWidth = '40px';
+  let defaultHeight = '40px';
+  if (typeof iconSize === 'string' && sizeMap[iconSize]) {
+    const { width: sizeWidth, height: sizeHeight } = sizeMap[iconSize];
+    defaultWidth = sizeWidth;
+    defaultHeight = sizeHeight;
+  }
+
+  const finalWidth = width || defaultWidth;
+  const finalHeight = height || defaultHeight;
+
   return (
     <IconButtonStyled
       $variant={variant}
-      width={width}
-      height={height}
+      width={finalWidth}
+      height={finalHeight}
       disabled={disabled}
       onClick={onClick}
       style={style}
