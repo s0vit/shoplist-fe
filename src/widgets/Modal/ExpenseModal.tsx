@@ -1,7 +1,8 @@
 import ModalWrapper from 'src/widgets/Modal/ModalWrapper.tsx';
 import AddExpenseCalculator from 'src/widgets/Forms/AddExpenseForm/AddExpenseCalc.tsx';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
-import Box from 'src/shared/ui-kit/Box/Box';
+import { Box } from 'src/shared/ui-kit';
+
 import styles from './ExpenseModal.module.scss';
 
 const ExpenseModal = () => {

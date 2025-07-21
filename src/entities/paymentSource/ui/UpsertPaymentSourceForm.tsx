@@ -1,7 +1,7 @@
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { FormControl, FormGroup, InputLabel, OutlinedInput, Stack } from '@mui/material';
-import Typography from 'src/shared/ui-kit/Typography/Typography';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Typography, Button } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import {
   createPaymentSource,

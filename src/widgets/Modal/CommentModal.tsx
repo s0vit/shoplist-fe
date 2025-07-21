@@ -1,6 +1,6 @@
 import { FormHelperText, Stack, TextField } from '@mui/material';
-import Typography from 'src/shared/ui-kit/Typography/Typography';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Typography, Button } from 'src/shared/ui-kit';
+
 import ModalWrapper from 'src/widgets/Modal/ModalWrapper';
 import FormWrapper from '../Forms/FormWrapper';
 import { useTranslation } from 'react-i18next';

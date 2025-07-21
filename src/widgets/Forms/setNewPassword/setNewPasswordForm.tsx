@@ -9,7 +9,8 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Button } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';

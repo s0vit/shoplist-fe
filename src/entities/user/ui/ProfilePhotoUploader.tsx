@@ -1,6 +1,6 @@
-import Box from 'src/shared/ui-kit/Box/Box';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Slider } from '@mui/material';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Box, Button } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';

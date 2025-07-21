@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 import emailToHexColor from 'src/utils/helpers/emailToHexColor.ts';
 import { TUser } from 'src/shared/api/authApi.ts';
 import { useTranslation } from 'react-i18next';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Button } from 'src/shared/ui-kit';
 
 type TShareWithModalProps = {
   expenseIds?: string[];

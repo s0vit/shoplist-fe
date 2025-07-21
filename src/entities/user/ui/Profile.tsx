@@ -1,9 +1,6 @@
-import { PhotoCamera } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Accordion, AccordionDetails, AccordionSummary, alpha, Avatar, Paper, useTheme } from '@mui/material';
-import Typography from 'src/shared/ui-kit/Typography/Typography';
-import Button from 'src/shared/ui-kit/Button/Button';
-import ButtonGroup from 'src/shared/ui-kit/ButtonGroup/ButtonGroup';
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Paper, useTheme } from '@mui/material';
+import { Typography, Button, ButtonGroup, IconButton, alpha, Box } from 'src/shared/ui-kit';
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useRef, useState } from 'react';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
@@ -17,7 +14,7 @@ import ProfilePhotoUploader from './ProfilePhotoUploader';
 import ChangePasswordDialog from 'src/widgets/Modal/ChangePasswordDialog.tsx';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import Box from 'src/shared/ui-kit/Box/Box';
+
 import styles from './Profile.module.scss';
 
 const Profile = () => {
@@ -95,23 +92,14 @@ const Profile = () => {
               onClick={handleAvatarClick}
             />
             <IconButton
-              sx={{
-                position: 'absolute',
-                bottom: -8,
-                right: 0,
-                left: 0,
-                p: 0.5,
-                borderRadius: 0,
+              icon="camera"
+              className={styles.cameraButton}
+              style={{
                 backgroundColor: alpha(theme.palette.background.paper, 0.8),
-                '&:hover': {
-                  backgroundColor: alpha(theme.palette.background.paper, 0.6),
-                },
               }}
               disabled={!userData?.isVerified}
               onClick={handleAvatarClick}
-            >
-              <PhotoCamera />
-            </IconButton>
+            />
           </Box>
           <input
             type="file"

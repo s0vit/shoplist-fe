@@ -1,6 +1,7 @@
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 import { Divider, IconButton, Paper, Typography } from '@mui/material';
-import Box from 'src/shared/ui-kit/Box/Box';
+import { Box } from 'src/shared/ui-kit';
+
 import PaymentSourcesGrid from 'src/entities/paymentSource/ui/PaymentSourcesGrid.tsx';
 import { useTranslation } from 'react-i18next';
 import DeleteCategoryDialog from 'src/widgets/Modal/DeleteCategoryDialog.tsx';

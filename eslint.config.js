@@ -91,6 +91,17 @@ export default [
         { blankLine: 'any', prev: 'import', next: 'import' },
       ],
       'i18next/no-literal-string': 1,
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['src/shared/ui-kit/*'],
+              message: 'Please import from "src/shared/ui-kit" instead of individual files.',
+            },
+          ],
+        },
+      ],
     },
   },
   {

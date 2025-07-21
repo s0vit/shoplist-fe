@@ -1,5 +1,6 @@
 import { useTheme } from '@mui/material';
-import Box from 'src/shared/ui-kit/Box/Box';
+import { Box } from 'src/shared/ui-kit';
+
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import ContentContainer from 'src/utils/components/ContentContainer.tsx';

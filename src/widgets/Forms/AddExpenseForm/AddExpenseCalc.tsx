@@ -1,7 +1,7 @@
 import { MapsUgc, Message } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from 'src/shared/ui-kit/Box/Box';
-import Stack from 'src/shared/ui-kit/Stack/Stack';
+import { Box, Stack, Button, ButtonGroup } from 'src/shared/ui-kit';
+
 import { FormControl, IconButton, MenuItem, Paper, Select, Typography, useTheme } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { useMutation } from '@tanstack/react-query';
@@ -30,9 +30,8 @@ import CalculatorButtons from './CalculatorButtons';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
-import Button from 'src/shared/ui-kit/Button/Button';
+
 import styles from './AddExpenseCalc.module.scss';
-import ButtonGroup from 'src/shared/ui-kit/ButtonGroup/ButtonGroup';
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;

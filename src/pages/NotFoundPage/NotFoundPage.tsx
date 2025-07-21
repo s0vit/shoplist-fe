@@ -1,6 +1,6 @@
 import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia } from '@mui/material';
-import Typography from 'src/shared/ui-kit/Typography/Typography';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Typography, Button } from 'src/shared/ui-kit';
+
 import { useNavigate } from 'react-router-dom';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import notFoundImage from 'src/assets/404notfound.png';

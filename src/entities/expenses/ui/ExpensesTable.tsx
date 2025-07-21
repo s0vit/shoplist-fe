@@ -1,5 +1,5 @@
-import Box from 'src/shared/ui-kit/Box/Box';
-import Stack from 'src/shared/ui-kit/Stack/Stack';
+import { Box, Stack } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';

@@ -1,6 +1,7 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack, TextField } from '@mui/material';
-import Typography from 'src/shared/ui-kit/Typography/Typography';
+import { Typography, Button } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
@@ -11,7 +12,6 @@ import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useTranslation } from 'react-i18next';
-import Button from 'src/shared/ui-kit/Button/Button';
 
 const RegisterForm = () => {
   const [isRegistered, setIsRegistered] = useState(false);

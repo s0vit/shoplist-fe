@@ -19,7 +19,8 @@
     "build-storybook": "storybook build",
     "prepare": "husky",
     "cm": "cz",
-    "prestorybook": "node scripts/generateColorPalette.cjs"
+    "prestorybook": "node scripts/generateColorPalette.cjs",
+    "fix-ui-kit-imports": "node scripts/fix-ui-kit-imports.cjs"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": [
@@ -106,11 +107,13 @@
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-i18next": "^6.0.9",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-storybook": "^0.12.0",
     "eslint-plugin-unicorn": "^55.0.0",
+    "glob": "^11.0.3",
     "globals": "^15.9.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",

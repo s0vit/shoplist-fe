@@ -2,7 +2,8 @@ import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useTranslation } from 'react-i18next';
 import { Alert, AlertTitle, useTheme } from '@mui/material';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Button } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import handleError from '../errorHandler';
 import { getNewLink } from 'src/shared/api/authApi';

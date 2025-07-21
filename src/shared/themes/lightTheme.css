@@ -1,11 +1,16 @@
 .theme-light {
   /**
-   * @tokens Light-Categories
+   * @tokens Category-Colors
    * @presenter Color
    */
-  --color-category-food: var(--color-category-light-green);
-  --color-category-transport: var(--color-category-light-blue);
-  --color-category-house: var(--color-category-light-red);
+  --color-category-green: var(--color-category-light-green);
+  --color-category-blue: var(--color-category-light-blue);
+  --color-category-red: var(--color-category-light-red);
+  --color-category-yellow: var(--color-category-light-yellow);
+  --color-category-orange: var(--color-category-light-orange);
+  --color-category-purple: var(--color-category-light-purple);
+  --color-category-pink: var(--color-category-light-pink);
+  --color-category-turquoise: var(--color-category-light-turquoise);
 
   /**
    * @tokens App-Colors

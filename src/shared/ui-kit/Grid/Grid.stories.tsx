@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Grid, { GridItem } from './Grid';
 import Box from '../Box/Box';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const breakpointLabels = [
   { name: 'xs', max: 600 },

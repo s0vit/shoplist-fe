@@ -1,5 +1,5 @@
 import { styled, useMediaQuery } from '@mui/material';
-import Box from 'src/shared/ui-kit/Box/Box';
+import { Box } from 'src/shared/ui-kit';
 
 const ContentContainer = styled(Box)(({ theme }) => {
   const toolbarHeight = useMediaQuery(theme.breakpoints.up('sm')) ? 64 : 56;

@@ -1,7 +1,7 @@
 import { Form } from 'react-router-dom';
 import { Stack, TextField } from '@mui/material';
-import Typography from 'src/shared/ui-kit/Typography/Typography';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Typography, Button } from 'src/shared/ui-kit';
+
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useEffect, useState } from 'react';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';

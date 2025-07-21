@@ -12,7 +12,8 @@ import {
   InputLabel,
   OutlinedInput,
 } from '@mui/material';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Button } from 'src/shared/ui-kit';
+
 import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';

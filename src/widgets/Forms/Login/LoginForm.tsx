@@ -11,8 +11,7 @@ import handleError from 'src/utils/errorHandler.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useTranslation } from 'react-i18next';
-import Button from 'src/shared/ui-kit/Button/Button';
-import Typography from 'src/shared/ui-kit/Typography/Typography';
+import { Button, Typography } from 'src/shared/ui-kit';
 
 type TLoginFormProps = {
   setCurrentTabToRecovery: () => void;

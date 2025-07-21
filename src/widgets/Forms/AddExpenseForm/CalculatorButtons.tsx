@@ -1,5 +1,5 @@
-import Grid from 'src/shared/ui-kit/Grid/Grid';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Grid, Button } from 'src/shared/ui-kit';
+
 import React from 'react';
 import { BsDot } from 'react-icons/bs';
 import { FaBackspace } from 'react-icons/fa';

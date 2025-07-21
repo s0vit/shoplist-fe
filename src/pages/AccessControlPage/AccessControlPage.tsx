@@ -1,7 +1,8 @@
 import AccessControlsList from 'src/entities/accessControl/ui/AccessControlsList.tsx';
 import useLoadAccessControls from 'src/entities/accessControl/hooks/useLoadAccessControls.ts';
 import { Paper, Skeleton, Typography } from '@mui/material';
-import Stack from 'src/shared/ui-kit/Stack/Stack';
+import { Stack } from 'src/shared/ui-kit';
+
 import styles from './AccessControlPage.module.scss';
 
 const AccessControlPage = () => {

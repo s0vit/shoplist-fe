@@ -1,4 +1,3 @@
-import Box from 'src/shared/ui-kit/Box/Box';
 import AccessControlItem from 'src/entities/accessControl/ui/AccessControlItem.tsx';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
@@ -6,6 +5,7 @@ import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import { TAccessControl } from 'src/shared/api/accessControlApi.ts';
 import styles from './AccessControlsList.module.scss';
+import { Box } from 'src/shared/ui-kit';
 
 type TAccessControlsListProps = {
   myAccessControls: TAccessControl[];

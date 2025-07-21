@@ -1,5 +1,6 @@
 import { FormControl, FormGroup, InputLabel, OutlinedInput, Stack } from '@mui/material';
-import Typography from 'src/shared/ui-kit/Typography/Typography';
+import { Typography, Button } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import { Colorful } from '@uiw/react-color';
 import { useEffect, useState } from 'react';
@@ -12,7 +13,6 @@ import getRandomHexColor from 'src/utils/helpers/getRandomHexColor.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useTranslation } from 'react-i18next';
-import Button from 'src/shared/ui-kit/Button/Button';
 
 type TUpsertCategoryFormProps = {
   setSelectedCategory?: (categoryId: string) => void;

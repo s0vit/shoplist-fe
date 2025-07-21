@@ -1,7 +1,6 @@
 import { alpha, Card, CardContent, IconButton, Typography, useTheme } from '@mui/material';
-import Box from 'src/shared/ui-kit/Box/Box';
-import Stack from 'src/shared/ui-kit/Stack/Stack';
-import Grid from 'src/shared/ui-kit/Grid/Grid';
+import { Box, Stack, Grid } from 'src/shared/ui-kit';
+
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import {
   LeadingActions,

@@ -1,7 +1,7 @@
-import Select, { TOption } from 'src/shared/ui-kit/Select';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import { currencies } from 'src/shared/constants/currencies';
 import { CURRENCIES } from 'src/shared/constants/currencies';
+import { Select, type TOption } from 'src/shared/ui-kit';
 
 const CurrencySelector = () => {
   const selectedCurrency = useExpensesStore.use.selectedCurrency();

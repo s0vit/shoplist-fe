@@ -1,5 +1,6 @@
 import { FormControl, Paper, Stack, Typography } from '@mui/material';
-import Select, { TOption } from 'src/shared/ui-kit/Select';
+import { Select, type TOption } from 'src/shared/ui-kit';
+
 import { useState } from 'react';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies';

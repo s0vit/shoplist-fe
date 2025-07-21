@@ -1,6 +1,6 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import Typography from 'src/shared/ui-kit/Typography/Typography';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Typography, Button } from 'src/shared/ui-kit';
+
 import { TUser } from 'src/shared/api/authApi';
 import { useTranslation } from 'react-i18next';
 

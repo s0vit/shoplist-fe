@@ -1,5 +1,6 @@
 import { Avatar, Button, Paper, Typography, useTheme } from '@mui/material';
-import Stack from 'src/shared/ui-kit/Stack/Stack';
+import { Stack } from 'src/shared/ui-kit';
+
 import {
   deleteAccessControl,
   TAccessControl,

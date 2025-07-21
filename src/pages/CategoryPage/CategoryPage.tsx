@@ -1,5 +1,6 @@
 import { Divider, IconButton, Paper, Typography } from '@mui/material';
-import Box from 'src/shared/ui-kit/Box/Box';
+import { Box } from 'src/shared/ui-kit';
+
 import CategoriesGrid from 'src/entities/category/ui/CategoriesGrid.tsx';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import { useTranslation } from 'react-i18next';

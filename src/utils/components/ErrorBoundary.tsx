@@ -1,6 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Button, ButtonGroup, Paper, Typography } from '@mui/material';
-import Box from 'src/shared/ui-kit/Box/Box';
+import { Box } from 'src/shared/ui-kit';
+
 import { Link as RouterLink } from 'react-router-dom';
 import ErrorWrapper from 'src/utils/components/ErrorWrapper.tsx';
 import { HomeOutlined, Refresh, ReportGmailerrorred } from '@mui/icons-material';

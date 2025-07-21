@@ -1,5 +1,6 @@
 import { Box, FormControl, FormControlLabel, Paper, useTheme } from '@mui/material';
-import Toggle from 'src/shared/ui-kit/Toggle';
+import { Select, Toggle, type TOption } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import { setMyConfig, TConfig, THEME_ENUM, updateMyConfig } from 'src/shared/api/userConfigApi';
 import { CURRENCIES } from 'src/shared/constants/currencies';
@@ -9,7 +10,6 @@ import useUserSettingsStore from '../model/store/useUserSettingsStore';
 import i18n from 'src/shared/api/i18nConfig';
 import { useTranslation } from 'react-i18next';
 import styles from './Settings.module.scss';
-import Select, { TOption } from 'src/shared/ui-kit/Select';
 
 const Settings = () => {
   const userSettings = useUserSettingsStore.use.config();

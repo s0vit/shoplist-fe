@@ -1,11 +1,16 @@
 .theme-dark {
   /**
-     * @tokens Dark-Categories
-     * @presenter Color
-     */
-  --color-category-food: var(--color-category-dark-green);
-  --color-category-transport: var(--color-category-dark-blue);
-  --color-category-house: var(--color-category-dark-red);
+   * @tokens Category-Colors
+   * @presenter Color
+   */
+  --color-category-green: var(--color-category-dark-green);
+  --color-category-blue: var(--color-category-dark-blue);
+  --color-category-red: var(--color-category-dark-red);
+  --color-category-yellow: var(--color-category-dark-yellow);
+  --color-category-orange: var(--color-category-dark-orange);
+  --color-category-purple: var(--color-category-dark-purple);
+  --color-category-pink: var(--color-category-dark-pink);
+  --color-category-turquoise: var(--color-category-dark-turquoise);
 
   /**
      * @tokens Button-Colors-Contained

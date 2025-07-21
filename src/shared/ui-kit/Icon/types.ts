@@ -9,7 +9,8 @@ export type TIconName =
   | 'home'
   | 'card'
   | 'coin'
-  | 'menu';
+  | 'menu'
+  | 'camera';
 
 // Размеры иконок
 export type TIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';

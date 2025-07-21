@@ -1,5 +1,6 @@
 import { Dialog, DialogActions, DialogContent, Typography } from '@mui/material';
-import Button from 'src/shared/ui-kit/Button/Button';
+import { Button } from 'src/shared/ui-kit';
+
 import { useTranslation } from 'react-i18next';
 import styles from './DeleteCategoryDialog.module.scss';
 

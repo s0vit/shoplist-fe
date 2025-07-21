@@ -1,10 +1,10 @@
-import Grid from 'src/shared/ui-kit/Grid/Grid';
 import { TCategory, TGetCategoriesResponse } from 'src/shared/api/categoryApi.ts';
 import CategoryCard from 'src/entities/category/ui/CategoryCard.tsx';
 import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
+import { Grid } from 'src/shared/ui-kit';
 
 type TCategoriesProps = {
   categories: TGetCategoriesResponse;

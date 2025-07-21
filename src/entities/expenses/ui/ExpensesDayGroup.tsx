@@ -1,6 +1,6 @@
 import { FormControl, Paper, Typography } from '@mui/material';
-import Box from 'src/shared/ui-kit/Box/Box';
-import Stack from 'src/shared/ui-kit/Stack/Stack';
+import { Box, Stack, Select, type TOption } from 'src/shared/ui-kit';
+
 import { UseMutateFunction } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useState } from 'react';
@@ -13,7 +13,6 @@ import { currencies, CURRENCIES } from 'src/shared/constants/currencies';
 import calculateTotalAmount from 'src/utils/helpers/calculateTotalAmmount';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 import styles from './ExpensesDayGroup.module.scss';
-import Select, { TOption } from 'src/shared/ui-kit/Select';
 
 type TExpensesDayGroupProps = {
   date: string;

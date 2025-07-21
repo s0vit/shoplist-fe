@@ -1,5 +1,5 @@
-import Box from 'src/shared/ui-kit/Box/Box';
-import Stack from 'src/shared/ui-kit/Stack/Stack';
+import { Box, Stack } from 'src/shared/ui-kit';
+
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import ExpensesTable from 'src/entities/expenses/ui/ExpensesTable.tsx';

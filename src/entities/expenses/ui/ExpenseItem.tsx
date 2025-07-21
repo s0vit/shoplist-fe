@@ -9,8 +9,8 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
-import Box from 'src/shared/ui-kit/Box/Box';
-import Stack from 'src/shared/ui-kit/Stack/Stack';
+import { Box, Stack, Select, type TOption } from 'src/shared/ui-kit';
+
 import {
   Typography,
   IconButton,
@@ -37,7 +37,6 @@ import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu.tsx';
 import styles from './ExpenseItem.module.scss';
-import Select, { TOption } from 'src/shared/ui-kit/Select';
 
 type TExpenseItemProps = {
   expense: TExpense;

@@ -1,7 +1,5 @@
 import { alpha, Card, CardContent, IconButton, Typography, useTheme } from '@mui/material';
-import Box from 'src/shared/ui-kit/Box/Box';
-import Grid from 'src/shared/ui-kit/Grid/Grid';
-import Stack from 'src/shared/ui-kit/Stack/Stack';
+import { Box, Grid, Stack } from 'src/shared/ui-kit';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import {
   LeadingActions,

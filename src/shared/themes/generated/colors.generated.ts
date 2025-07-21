@@ -45,10 +45,7 @@ export const colorGroups = {
     "--color-category-light-orange": "#fee3cf",
     "--color-category-light-turquoise": "#cffdf9",
     "--color-category-light-purple": "#d9cffe",
-    "--color-category-light-pink": "#fecff5",
-    "--color-category-food": "var(--color-category-light-green)",
-    "--color-category-transport": "var(--color-category-light-blue)",
-    "--color-category-house": "var(--color-category-light-red)"
+    "--color-category-light-pink": "#fecff5"
   },
   "Dark-Categories": {
     "--color-category-dark-green": "#264b0b",
@@ -58,10 +55,17 @@ export const colorGroups = {
     "--color-category-dark-orange": "#4b2204",
     "--color-category-dark-turquoise": "#044b46",
     "--color-category-dark-purple": "#2d044b",
-    "--color-category-dark-pink": "#4b0440",
-    "--color-category-food": "var(--color-category-dark-green)",
-    "--color-category-transport": "var(--color-category-dark-blue)",
-    "--color-category-house": "var(--color-category-dark-red)"
+    "--color-category-dark-pink": "#4b0440"
+  },
+  "Category-Colors": {
+    "--color-category-green": "var(--color-category-light-green)",
+    "--color-category-blue": "var(--color-category-light-blue)",
+    "--color-category-red": "var(--color-category-light-red)",
+    "--color-category-yellow": "var(--color-category-light-yellow)",
+    "--color-category-orange": "var(--color-category-light-orange)",
+    "--color-category-purple": "var(--color-category-light-purple)",
+    "--color-category-pink": "var(--color-category-light-pink)",
+    "--color-category-turquoise": "var(--color-category-light-turquoise)"
   },
   "Button-Colors-Contained": {
     "--color-button-contained-bg": "var(--color-white)",
