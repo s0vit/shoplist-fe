@@ -1,0 +1,163 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Skeleton component > matches snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="MuiStack-root css-m69qwo-MuiStack-root"
+        data-testid="skeletonStack"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-0"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-1"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-2"
+        />
+      </div>
+    </div>
+    <div>
+      <div
+        class="MuiStack-root css-m69qwo-MuiStack-root"
+        data-testid="skeletonStack"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-0"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-1"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-2"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-3"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-4"
+        />
+      </div>
+    </div>
+    <div>
+      <div
+        class="MuiStack-root css-nen11g-MuiStack-root"
+        data-testid="skeletonStack"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-0"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-1"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-2"
+        />
+      </div>
+    </div>
+    <div>
+      <div
+        class="MuiStack-root css-m69qwo-MuiStack-root"
+        data-testid="skeletonStack"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-0"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-1"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-2"
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="MuiStack-root css-m69qwo-MuiStack-root"
+      data-testid="skeletonStack"
+    >
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+        data-testid="skeletonExpenses-0"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+        data-testid="skeletonExpenses-1"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+        data-testid="skeletonExpenses-2"
+      />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
