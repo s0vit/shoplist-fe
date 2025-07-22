@@ -7,7 +7,6 @@ exports[`Skeleton component > matches snapshot 1`] = `
     <div>
       <div
         class="MuiStack-root css-m69qwo-MuiStack-root"
-        data-testid="skeletonStack"
       >
         <span
           class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
@@ -26,7 +25,6 @@ exports[`Skeleton component > matches snapshot 1`] = `
     <div>
       <div
         class="MuiStack-root css-m69qwo-MuiStack-root"
-        data-testid="skeletonStack"
       >
         <span
           class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
@@ -52,27 +50,7 @@ exports[`Skeleton component > matches snapshot 1`] = `
     </div>
     <div>
       <div
-        class="MuiStack-root css-nen11g-MuiStack-root"
-        data-testid="skeletonStack"
-      >
-        <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
-          data-testid="skeletonExpenses-0"
-        />
-        <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
-          data-testid="skeletonExpenses-1"
-        />
-        <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
-          data-testid="skeletonExpenses-2"
-        />
-      </div>
-    </div>
-    <div>
-      <div
         class="MuiStack-root css-m69qwo-MuiStack-root"
-        data-testid="skeletonStack"
       >
         <span
           class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
@@ -92,7 +70,6 @@ exports[`Skeleton component > matches snapshot 1`] = `
   "container": <div>
     <div
       class="MuiStack-root css-m69qwo-MuiStack-root"
-      data-testid="skeletonStack"
     >
       <span
         class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
