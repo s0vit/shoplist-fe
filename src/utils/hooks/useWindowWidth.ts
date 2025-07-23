@@ -18,8 +18,8 @@ const useWindowWidth = () => {
   }, []);
 
   const isMobileWidth = windowWidth <= 600;
-  const isTabletWidth = windowWidth > 600 && windowWidth <= 900;
-  const isDesktopWidth = windowWidth > 900;
+  const isTabletWidth = windowWidth > 600 && windowWidth <= 1200;
+  const isDesktopWidth = windowWidth > 1200;
 
   return { isMobileWidth, isTabletWidth, isDesktopWidth, windowWidth, windowHeight };
 };
