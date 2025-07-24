@@ -53,6 +53,63 @@ exports[`Skeleton component > matches snapshot 1`] = `
         class="MuiStack-root css-m69qwo-MuiStack-root"
       >
         <span
+          class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-wave css-7vt8oa-MuiSkeleton-root"
+          data-testid="skeletonExpenses-0"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-wave css-7vt8oa-MuiSkeleton-root"
+          data-testid="skeletonExpenses-1"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-wave css-7vt8oa-MuiSkeleton-root"
+          data-testid="skeletonExpenses-2"
+        />
+      </div>
+    </div>
+    <div>
+      <div
+        class="MuiStack-root css-nen11g-MuiStack-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-0"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-1"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-2"
+        />
+      </div>
+    </div>
+    <div>
+      <div
+        class="MuiStack-root css-m69qwo-MuiStack-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-0"
+          style="width: 100px; height: 50px;"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-1"
+          style="width: 100px; height: 50px;"
+        />
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+          data-testid="skeletonExpenses-2"
+          style="width: 100px; height: 50px;"
+        />
+      </div>
+    </div>
+    <div>
+      <div
+        class="MuiStack-root css-m69qwo-MuiStack-root"
+      >
+        <span
           class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
           data-testid="skeletonExpenses-0"
         />
