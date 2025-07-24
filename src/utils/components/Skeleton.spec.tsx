@@ -1,8 +1,12 @@
-import { describe, expect, it } from 'vitest';
-import { render } from '@testing-library/react';
+import { describe, expect, it, afterEach } from 'vitest';
+import { cleanup, render } from '@testing-library/react';
 import SkeletonGroup from 'src/utils/components/Skeleton.tsx';
 
 describe('Skeleton component', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('renders correctly', () => {
     const { container } = render(<SkeletonGroup />);
     const skeletons = container.querySelectorAll('[data-testid^="skeletonExpenses"]');
@@ -36,7 +40,7 @@ describe('Skeleton component', () => {
   });
 
   it('matches snapshot', () => {
-    const rendered = render(<SkeletonGroup />);
-    expect(rendered).toMatchSnapshot();
+    const { asFragment } = render(<SkeletonGroup />);
+    expect(asFragment()).toMatchSnapshot();
   });
 });
