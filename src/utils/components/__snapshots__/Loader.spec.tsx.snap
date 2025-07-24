@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Loader > matches snapshot 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ps6pg7-MuiPaper-root"
   >
@@ -13,7 +13,6 @@ exports[`Loader > matches snapshot 1`] = `
         src="/src/assets/giphy.webp"
       />
     </div>
-     
   </div>
-</div>
+</DocumentFragment>
 `;

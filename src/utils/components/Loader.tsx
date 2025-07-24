@@ -21,7 +21,7 @@ const Loader = () => {
         zIndex={9999}
       >
         <img src={coinFlip} alt="loading" />
-      </Box>{' '}
+      </Box>
     </Paper>
   );
 };

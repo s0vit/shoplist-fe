@@ -44,6 +44,6 @@ describe('Loader', () => {
   });
 
   it('matches snapshot', () => {
-    expect(renderResult.container).toMatchSnapshot();
+    expect(renderResult.asFragment()).toMatchSnapshot();
   });
 });
