@@ -15,6 +15,7 @@ type TUseLoadExpensesArgs =
       onFetchFinish?: () => void;
       shouldFetchOnLoad?: boolean;
       withShared?: boolean;
+      filters?: TFilterForQueryTypes;
     }
   | undefined;
 
