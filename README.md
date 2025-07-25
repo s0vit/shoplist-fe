@@ -86,6 +86,9 @@ pnpm run test:e2e:debug
 
 # Run unit tests
 pnpm run test:unit
+
+# Run and update unit tests
+pnpm run test:unit:upd
 ```
 
 ### Storybook
