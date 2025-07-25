@@ -20,8 +20,8 @@ describe('Skeleton component', () => {
   });
 
   it('renders correct variants', () => {
-    const { container } = render(<SkeletonGroup variant="circular" />);
-    const skeleton = container.querySelector('[data-testid="skeletonExpenses-0"]')!;
+    const { getByTestId } = render(<SkeletonGroup variant="circular" />);
+    const skeleton = getByTestId('skeletonExpenses-0');
     expect(skeleton.className).toMatch(/MuiSkeleton-circular/);
   });
 
@@ -32,8 +32,8 @@ describe('Skeleton component', () => {
   });
 
   it('applies correct width and height to Skeleton elements', () => {
-    const { container } = render(<SkeletonGroup dimensions={{ width: 100, height: '50px' }} />);
-    const skeleton = container.querySelector('[data-testid="skeletonExpenses-0"]') as HTMLElement;
+    const { getByTestId } = render(<SkeletonGroup dimensions={{ width: 100, height: '50px' }} />);
+    const skeleton = getByTestId('skeletonExpenses-0') as HTMLElement;
     const styles = getComputedStyle(skeleton);
     expect(styles.width).toBe('100px');
     expect(styles.height).toBe('50px');
