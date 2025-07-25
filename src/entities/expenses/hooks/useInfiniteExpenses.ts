@@ -1,6 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getExpenses, TGetExpensesResponse } from 'src/shared/api/expenseApi.ts';
-import { TErrorResponse } from 'src/shared/api/rootApi.ts';
+import { getExpenses, TGetExpenseQuery } from 'src/shared/api/expenseApi.ts';
 import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
 import { subMonths } from 'date-fns';
 
@@ -9,35 +8,28 @@ function getMonthRange(date: Date) {
   const end = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   end.setHours(23, 59, 59, 999);
 
-  return {
-    start: start,
-    end: end,
-  };
+  return { start, end };
 }
 
 function useInfiniteExpenses() {
   const filters = useFiltersStoreForExpenses.use.filter();
 
-  return useInfiniteQuery<TGetExpensesResponse, TErrorResponse>({
+  return useInfiniteQuery({
     queryKey: ['expenses-infinite', filters],
     initialPageParam: subMonths(new Date(), 1),
     queryFn: async ({ pageParam }) => {
       const anchorDate = pageParam as Date;
       const { start, end } = getMonthRange(anchorDate);
 
-      const query: {
-        categoryId: string;
-        paymentSourceId: string;
-        createdStartDate: Date;
-        createdEndDate: Date;
-        amountStart: string;
-        amountEnd: string;
-        skip: string;
-        limit: string;
-      } = {
-        ...filters,
+      const query: TGetExpenseQuery = {
+        categoryId: filters.categoryId,
+        paymentSourceId: filters.paymentSourceId,
         createdStartDate: start,
         createdEndDate: end,
+        amountStart: filters.amountStart ? Number(filters.amountStart) : undefined,
+        amountEnd: filters.amountEnd ? Number(filters.amountEnd) : undefined,
+        skip: filters.skip ? Number(filters.skip) : undefined,
+        limit: filters.limit ? Number(filters.limit) : undefined,
       };
 
       return await getExpenses(query);
