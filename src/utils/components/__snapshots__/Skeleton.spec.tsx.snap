@@ -4,6 +4,7 @@ exports[`Skeleton component > matches snapshot 1`] = `
 <DocumentFragment>
   <div
     class="MuiStack-root css-m69qwo-MuiStack-root"
+    data-testid="skeletonStack"
   >
     <span
       class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"

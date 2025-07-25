@@ -8,14 +8,16 @@ describe('Skeleton component', () => {
   });
 
   it('renders correctly', () => {
-    const { container } = render(<SkeletonGroup />);
-    const skeletons = container.querySelectorAll('[data-testid^="skeletonExpenses"]');
+    const { getByTestId } = render(<SkeletonGroup />);
+    const stack = getByTestId('skeletonStack');
+    const skeletons = stack.querySelectorAll('[data-testid^="skeletonExpenses"]');
     expect(skeletons.length).toBe(3);
   });
 
   it('renders correct number of skeletons', () => {
-    const { container } = render(<SkeletonGroup count={5} />);
-    const skeletons = container.querySelectorAll('[data-testid^="skeletonExpenses"]');
+    const { getByTestId } = render(<SkeletonGroup count={5} />);
+    const stack = getByTestId('skeletonStack');
+    const skeletons = stack.querySelectorAll('[data-testid^="skeletonExpenses"]');
     expect(skeletons.length).toBe(5);
   });
 
@@ -26,14 +28,14 @@ describe('Skeleton component', () => {
   });
 
   it('applies column direction to Stack', () => {
-    const { container } = render(<SkeletonGroup dimensions={{ direction: 'column' }} />);
-    const stack = container.firstChild as HTMLElement;
+    const { getByTestId } = render(<SkeletonGroup dimensions={{ direction: 'column' }} />);
+    const stack = getByTestId('skeletonStack');
     expect(getComputedStyle(stack).flexDirection).toBe('column');
   });
 
   it('applies correct width and height to Skeleton elements', () => {
     const { getByTestId } = render(<SkeletonGroup dimensions={{ width: 100, height: '50px' }} />);
-    const skeleton = getByTestId('skeletonExpenses-0') as HTMLElement;
+    const skeleton = getByTestId('skeletonExpenses-0');
     const styles = getComputedStyle(skeleton);
     expect(styles.width).toBe('100px');
     expect(styles.height).toBe('50px');
