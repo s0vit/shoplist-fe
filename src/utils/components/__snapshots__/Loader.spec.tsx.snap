@@ -1,0 +1,18 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Loader > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ps6pg7-MuiPaper-root"
+  >
+    <div
+      class="MuiBox-root css-2v5ii8"
+    >
+      <img
+        alt="loading"
+        src="/src/assets/giphy.webp"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
