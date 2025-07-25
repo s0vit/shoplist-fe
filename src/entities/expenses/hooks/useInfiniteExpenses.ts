@@ -2,6 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getExpenses, TGetExpensesResponse } from 'src/shared/api/expenseApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
+import { subMonths } from 'date-fns';
 
 function getMonthRange(date: Date) {
   const start = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -19,7 +20,7 @@ function useInfiniteExpenses() {
 
   return useInfiniteQuery<TGetExpensesResponse, TErrorResponse>({
     queryKey: ['expenses-infinite', filters],
-    initialPageParam: new Date(),
+    initialPageParam: subMonths(new Date(), 1),
     queryFn: async ({ pageParam }) => {
       const anchorDate = pageParam as Date;
       const { start, end } = getMonthRange(anchorDate);
@@ -39,8 +40,6 @@ function useInfiniteExpenses() {
         createdEndDate: end,
       };
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       return await getExpenses(query);
     },
     getNextPageParam: (_lastPage, allPages) => {

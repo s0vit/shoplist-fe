@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { InView } from 'react-intersection-observer';
 import { deleteExpense, TExpense } from 'src/shared/api/expenseApi.ts';
@@ -7,6 +7,9 @@ import ExpensesDayGroup from './ExpensesDayGroup';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import useInfiniteExpenses from 'src/entities/expenses/hooks/useInfiniteExpenses.ts';
 import SkeletonGroup from 'src/utils/components/Skeleton.tsx';
+import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
+// import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
+import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
 
 const groupExpensesByDate = (expenses: TExpense[]) => {
   return expenses.reduce(
@@ -23,16 +26,40 @@ const groupExpensesByDate = (expenses: TExpense[]) => {
 
 const ExpensesTable = () => {
   const isVerified = _useUserStore.use.user?.()?.isVerified;
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteExpenses();
-  const allExpenses = data?.pages.flat() ?? [];
-  const groupedExpenses = groupExpensesByDate(allExpenses);
+  const queryClient = useQueryClient();
+  const filters = useFiltersStoreForExpenses.use.filter();
 
-  const { mutate: handleDeleteExpense } = useMutation({
-    mutationFn: deleteExpense,
-    onSuccess: () => {},
+  // 1. Загружаем текущий месяц через useLoadExpenses
+  const { userExpenses: currentMonthExpenses, isExpensesLoading } = useLoadExpenses({
+    shouldFetchOnLoad: isVerified,
+    filters: {
+      // Теперь filters будет принят
+      ...filters,
+      createdStartDate: format(new Date(), 'yyyy-MM-01'),
+      createdEndDate: format(new Date(), 'yyyy-MM-dd'),
+    },
   });
 
-  if (!isVerified || isLoading) {
+  // 2. Загружаем предыдущие месяцы через useInfiniteExpenses
+  const { data: infiniteData, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteExpenses();
+
+  // 3. Объединяем данные
+  const allExpenses = [...(currentMonthExpenses || []), ...(infiniteData?.pages.flat() || [])];
+
+  const groupedExpenses = groupExpensesByDate(allExpenses);
+
+  // Обработка удаления
+  const { mutate: handleDeleteExpense } = useMutation({
+    mutationFn: deleteExpense,
+    onSuccess: () => {
+      // Инвалидируем оба запроса
+
+      queryClient.invalidateQueries({ queryKey: ['expenses'] });
+      queryClient.invalidateQueries({ queryKey: ['expenses-infinite'] });
+    },
+  });
+
+  if (!isVerified || isExpensesLoading) {
     return (
       <Stack width="100%">
         <SkeletonGroup
