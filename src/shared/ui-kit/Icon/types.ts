@@ -15,6 +15,9 @@ export type TIconName =
 // Размеры иконок
 export type TIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
+// Варианты иконок
+export type TIconVariant = 'primary' | 'secondary' | 'disabled';
+
 // Маппер размеров
 export const ICON_SIZES: Record<TIconSize, number> = {
   xs: 12,

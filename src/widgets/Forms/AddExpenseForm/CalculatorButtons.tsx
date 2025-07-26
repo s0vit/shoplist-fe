@@ -1,7 +1,6 @@
 import { Grid } from 'src/shared/ui-kit';
 import { CalculatorButton } from 'src/shared/ui-kit';
 
-import React from 'react';
 import styles from './AddExpenseCalc.module.scss';
 
 type TCalculatorButtonsProps = {

@@ -13,6 +13,14 @@
   --color-category-turquoise: var(--color-category-light-turquoise);
 
   /**
+   * @tokens Icon-Colors
+   * @presenter Color
+   */
+  --color-icon-primary: var(--color-black);
+  --color-icon-secondary: var(--color-text-secondary);
+  --color-icon-disabled: var(--color-light-text-disabled);
+
+  /**
    * @tokens App-Colors
    * @presenter Color
    */

@@ -34,7 +34,7 @@ export default [
       },
     },
   },
-  { ignores: ['dist', '.eslintrc.cjs', 'public', 'playwright-report', 'node_modules', 'scripts'] },
+  { ignores: ['dist', '.eslintrc.cjs', 'public', 'playwright-report', 'node_modules', 'scripts/**/*'] },
 
   {
     plugins: {

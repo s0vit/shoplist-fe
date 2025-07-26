@@ -6,6 +6,7 @@ export type TIconButtonProps = {
   icon: TIconName;
   iconSize?: TIconSize | number;
   iconColor?: string;
+  iconVariant?: 'primary' | 'secondary' | 'disabled';
   width?: string;
   height?: string;
   variant?: 'contained' | 'outlined' | 'text';
@@ -80,6 +81,7 @@ const IconButton = ({
   icon,
   iconSize = 'md',
   iconColor,
+  iconVariant = 'primary',
   width,
   height,
   variant = 'text',
@@ -101,6 +103,13 @@ const IconButton = ({
   const finalWidth = width || defaultWidth;
   const finalHeight = height || defaultHeight;
 
+  // Определяем вариант иконки на основе состояния кнопки
+  const getIconVariant = () => {
+    if (disabled) return 'disabled';
+
+    return iconVariant;
+  };
+
   return (
     <IconButtonStyled
       $variant={variant}
@@ -112,7 +121,7 @@ const IconButton = ({
       type={type}
       className={className}
     >
-      <Icon name={icon} size={iconSize} color={iconColor} />
+      <Icon name={icon} size={iconSize} color={iconColor} variant={getIconVariant()} />
       {children}
     </IconButtonStyled>
   );

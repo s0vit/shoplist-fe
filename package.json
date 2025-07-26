@@ -20,7 +20,7 @@
     "prepare": "husky",
     "cm": "cz",
     "prestorybook": "node scripts/generateColorPalette.cjs",
-    "fix-ui-kit-imports": "node scripts/fix-ui-kit-imports.cjs"
+    "mcp:browser": "node scripts/start-mcp-browser.cjs"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": [

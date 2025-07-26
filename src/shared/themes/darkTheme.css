@@ -13,6 +13,14 @@
   --color-category-turquoise: var(--color-category-dark-turquoise);
 
   /**
+   * @tokens Icon-Colors
+   * @presenter Color
+   */
+  --color-icon-primary: var(--color-white);
+  --color-icon-secondary: var(--color-text-secondary);
+  --color-icon-disabled: var(--color-dark-text-disabled);
+
+  /**
      * @tokens Button-Colors-Contained
      * @presenter Color
      */
