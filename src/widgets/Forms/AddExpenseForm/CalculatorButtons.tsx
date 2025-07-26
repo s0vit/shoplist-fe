@@ -1,8 +1,7 @@
-import { Grid, Button } from 'src/shared/ui-kit';
+import { Grid } from 'src/shared/ui-kit';
+import { CalculatorButton } from 'src/shared/ui-kit';
 
 import React from 'react';
-import { BsDot } from 'react-icons/bs';
-import { FaBackspace } from 'react-icons/fa';
 import styles from './AddExpenseCalc.module.scss';
 
 type TCalculatorButtonsProps = {
@@ -11,34 +10,33 @@ type TCalculatorButtonsProps = {
 };
 
 const CalculatorButtons = ({ isPending, handleButtonClick }: TCalculatorButtonsProps) => {
-  const calcButtons: Array<{ title: string; content: React.ReactNode }> = [
-    { title: '1', content: '1' },
-    { title: '2', content: '2' },
-    { title: '3', content: '3' },
-    { title: '4', content: '4' },
-    { title: '5', content: '5' },
-    { title: '6', content: '6' },
-    { title: '7', content: '7' },
-    { title: '8', content: '8' },
-    { title: '9', content: '9' },
-    { title: '.', content: <BsDot size={26} /> },
-    { title: '0', content: '0' },
-    { title: 'del', content: <FaBackspace size={28} /> },
+  const calcButtons: Array<{ title: string; variant: 'calculator' | 'backspace' | 'comma' }> = [
+    { title: '1', variant: 'calculator' },
+    { title: '2', variant: 'calculator' },
+    { title: '3', variant: 'calculator' },
+    { title: '4', variant: 'calculator' },
+    { title: '5', variant: 'calculator' },
+    { title: '6', variant: 'calculator' },
+    { title: '7', variant: 'calculator' },
+    { title: '8', variant: 'calculator' },
+    { title: '9', variant: 'calculator' },
+    { title: '.', variant: 'comma' },
+    { title: '0', variant: 'calculator' },
+    { title: 'del', variant: 'backspace' },
   ];
 
   return (
     <Grid container spacing={1} justifyContent="space-between">
-      {calcButtons.map((value) => (
-        <Grid key={value.title} className={styles.buttonGrid}>
-          <Button
-            key={value.title}
-            variant="outlined"
-            width="100%"
-            label={typeof value.content === 'string' ? value.content : ''}
-            disabled={isPending && value.title !== 'del'}
+      {calcButtons.map((button) => (
+        <Grid key={button.title} className={styles.buttonGrid}>
+          <CalculatorButton
+            variant={button.variant}
+            disabled={isPending && button.title !== 'del'}
             className={styles.calcButton}
-            onClick={() => handleButtonClick(value.title)}
-          />
+            onClick={() => handleButtonClick(button.title)}
+          >
+            {button.variant === 'calculator' ? button.title : undefined}
+          </CalculatorButton>
         </Grid>
       ))}
     </Grid>
