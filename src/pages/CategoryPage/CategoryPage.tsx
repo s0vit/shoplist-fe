@@ -1,5 +1,5 @@
-import { Divider, IconButton, Paper, Typography } from '@mui/material';
-import { Box } from 'src/shared/ui-kit';
+import { Divider, IconButton } from '@mui/material';
+import { Paper, Typography, Box } from 'src/shared/ui-kit';
 
 import CategoriesGrid from 'src/entities/category/ui/CategoriesGrid.tsx';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
@@ -59,9 +59,7 @@ const CategoryPage = () => {
           size="small"
           disabled={false}
           color="primary"
-          onClick={() => {
-            setIsCategoryModalOpen(true);
-          }}
+          onClick={() => setIsCategoryModalOpen(true)}
           className={styles.addButton}
         >
           <AddCircleOutlineIcon fontSize="large" />

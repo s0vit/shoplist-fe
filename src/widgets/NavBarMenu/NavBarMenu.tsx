@@ -1,5 +1,7 @@
 import { Logout, Person, ShareSharp } from '@mui/icons-material';
-import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Avatar } from 'src/shared/ui-kit';
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
@@ -34,8 +36,8 @@ const NavBarMenu = () => {
   return (
     <>
       <Tooltip title={t('Account settings')}>
-        <IconButton onClick={handleClick} size="small">
-          <Avatar src={userData?.avatar} sx={{ width: 32, height: 32 }}></Avatar>
+        <IconButton size="small" onClick={handleClick}>
+          <Avatar src={userData?.avatar} name={userData?.login || userData?.email} style={{ width: 32, height: 32 }} />
         </IconButton>
       </Tooltip>
       <Menu
@@ -43,7 +45,6 @@ const NavBarMenu = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        onClick={handleClose}
         slotProps={{ paper: { sx: { mt: 0 } } }}
       >
         <MenuItem onClick={() => navigate(RoutesEnum.PROFILE)}>
@@ -52,7 +53,7 @@ const NavBarMenu = () => {
           </ListItemIcon>
           {t('Profile')}
         </MenuItem>
-        <MenuItem onClick={() => navigate(RoutesEnum.ACCESS_CONTROL)} disabled={!userData?.isVerified}>
+        <MenuItem disabled={!userData?.isVerified} onClick={() => navigate(RoutesEnum.ACCESS_CONTROL)}>
           <ListItemIcon>
             <ShareSharp fontSize="small" />
           </ListItemIcon>

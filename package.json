@@ -158,5 +158,6 @@
         "target": "ios.simulator"
       }
     }
-  }
+  },
+  "packageManager": "pnpm@10.4.1+sha1.ec73125afa7b740b8fcafeab681883c7ec791a4b"
 }

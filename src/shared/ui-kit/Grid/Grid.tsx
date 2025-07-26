@@ -45,33 +45,75 @@ const getResponsiveSize = (size?: number | { xs?: number; sm?: number; md?: numb
   return cssStr;
 };
 
-const StyledGrid = styled.div<GridProps>`
+type StyledGridProps = {
+  $container?: boolean;
+  $item?: boolean;
+  $spacing?: number;
+  $rowSpacing?: number;
+  $columnSpacing?: number;
+  $direction?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
+  $alignItems?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
+  $justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
+  $wrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
+  $size?: number | { xs?: number; sm?: number; md?: number; lg?: number; xl?: number };
+};
+
+const StyledGrid = styled.div<StyledGridProps>`
   box-sizing: border-box;
-  ${({ container, direction, wrap, alignItems, justifyContent, spacing, rowSpacing, columnSpacing }) =>
-    container
+  ${({ $container, $direction, $wrap, $alignItems, $justifyContent, $spacing, $rowSpacing, $columnSpacing }) =>
+    $container
       ? `
     display: flex;
-    flex-direction: ${direction || 'row'};
-    flex-wrap: ${wrap || 'wrap'};
-    align-items: ${alignItems || 'stretch'};
-    justify-content: ${justifyContent || 'flex-start'};
-    gap: ${spacing ? spacing * 8 + 'px' : 0};
-    row-gap: ${rowSpacing ? rowSpacing * 8 + 'px' : ''};
-    column-gap: ${columnSpacing ? columnSpacing * 8 + 'px' : ''};
+    flex-direction: ${$direction || 'row'};
+    flex-wrap: ${$wrap || 'wrap'};
+    align-items: ${$alignItems || 'stretch'};
+    justify-content: ${$justifyContent || 'flex-start'};
+    gap: ${$spacing ? $spacing * 8 + 'px' : 0};
+    row-gap: ${$rowSpacing ? $rowSpacing * 8 + 'px' : ''};
+    column-gap: ${$columnSpacing ? $columnSpacing * 8 + 'px' : ''};
   `
       : ''}
-  ${({ item, size }) =>
-    item
+  ${({ $item, $size }) =>
+    $item
       ? css`
           box-sizing: border-box;
-          ${getResponsiveSize(size)}
+          ${getResponsiveSize($size)}
         `
       : ''}
 `;
 
 const Grid: React.FC<GridProps> = ({ children, className, style, sx, ref, ...rest }) => {
+  const {
+    container,
+    item,
+    spacing,
+    rowSpacing,
+    columnSpacing,
+    direction,
+    alignItems,
+    justifyContent,
+    wrap,
+    size,
+    ...domProps
+  } = rest;
+
   return (
-    <StyledGrid ref={ref} className={className} style={{ ...style, ...sx }} {...rest}>
+    <StyledGrid
+      ref={ref}
+      className={className}
+      style={{ ...style, ...sx }}
+      $container={container}
+      $item={item}
+      $spacing={spacing}
+      $rowSpacing={rowSpacing}
+      $columnSpacing={columnSpacing}
+      $direction={direction}
+      $alignItems={alignItems}
+      $justifyContent={justifyContent}
+      $wrap={wrap}
+      $size={size}
+      {...domProps}
+    >
       {children}
     </StyledGrid>
   );

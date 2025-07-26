@@ -1,4 +1,5 @@
 import { useTheme } from '@mui/material';
+
 import { Box } from 'src/shared/ui-kit';
 
 import { useEffect } from 'react';

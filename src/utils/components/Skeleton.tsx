@@ -1,4 +1,5 @@
 import { Skeleton, SxProps, Theme } from '@mui/material';
+
 import { Stack } from 'src/shared/ui-kit';
 
 type TDimensionsProps = {

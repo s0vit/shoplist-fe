@@ -1,6 +1,6 @@
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
-import { FormControl, FormGroup, InputLabel, OutlinedInput, Stack } from '@mui/material';
-import { Typography, Button } from 'src/shared/ui-kit';
+import { FormControl, FormGroup, InputLabel, OutlinedInput } from '@mui/material';
+import { Stack, Typography, Button } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
 import {
@@ -80,20 +80,18 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
         {t('Save payment source')}
       </Typography>
       <FormGroup>
-        <Stack gap={1} paddingY={2}>
+        <Stack gap={1} style={{ paddingTop: 16, paddingBottom: 16 }}>
           <Colorful
             color={color}
             onChange={(color) => setColor(color.hex)}
             disableAlpha
             className={styles.colorfulFullWidth}
-          />{' '}
+          />
           <Button
             label={t('Random Color')}
             variant="contained"
             width="100%"
-            onClick={() => {
-              setColor('#' + Math.floor(Math.random() * 16777215).toString(16));
-            }}
+            onClick={() => setColor(getRandomHexColor())}
             disabled={isPending}
           />
           <FormControl disabled={isPending}>

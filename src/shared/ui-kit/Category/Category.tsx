@@ -146,7 +146,6 @@ const Category: React.FC<TCategoryProps> = ({ name, color, size = 'medium', onCl
       $size={size}
       $backgroundColor={backgroundColor}
       $disabled={disabled}
-      onClick={handleClick}
       className={className}
       role="button"
       tabIndex={disabled ? -1 : 0}

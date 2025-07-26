@@ -35,9 +35,9 @@ const CalculatorButtons = ({ isPending, handleButtonClick }: TCalculatorButtonsP
             variant="outlined"
             width="100%"
             label={typeof value.content === 'string' ? value.content : ''}
-            onClick={() => handleButtonClick(value.title)}
             disabled={isPending && value.title !== 'del'}
             className={styles.calcButton}
+            onClick={() => handleButtonClick(value.title)}
           />
         </Grid>
       ))}

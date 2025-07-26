@@ -9,19 +9,10 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
-import { Box, Stack, Select, type TOption } from 'src/shared/ui-kit';
+import { Box, Stack, Select, type TOption, Typography, FormHelperText } from 'src/shared/ui-kit';
 
-import {
-  Typography,
-  IconButton,
-  useTheme,
-  Chip,
-  FormHelperText,
-  alpha,
-  // Select,
-  // MenuItem as MuiMenuItem,
-  // SelectChangeEvent,
-} from '@mui/material';
+import { IconButton, useTheme, Chip, alpha } from '@mui/material';
+
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
@@ -100,14 +91,14 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
     handleEdit();
   };
 
-  const handleSingleExpense = (event: MouseEvent<HTMLElement>) => {
+  const _handleSingleExpense = (event: MouseEvent<HTMLElement>) => {
     if ('id' in event.target && event.target.id !== expense._id) return;
     navigate(`/expense/${expense._id}`);
   };
 
   const leadingActions = () => (
     <LeadingActions>
-      <SwipeAction onClick={handleEdit}>
+      <SwipeAction onClick={() => handleEditClick}>
         <Stack
           className={styles.actionStack}
           style={
@@ -177,8 +168,8 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
             justify="space-between"
             direction="row"
             className={styles.rootStack}
-            onClick={handleSingleExpense}
             id={expense._id}
+            onClick={_handleSingleExpense}
             style={
               {
                 '--root-bg': showCategoryColours ? alpha(categoryColor, 0.05) : undefined,
@@ -187,7 +178,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
             }
           >
             <Box>
-              {showCategoryNames && <Typography variant="subtitle2">{category?.title}</Typography>}
+              {showCategoryNames && <Typography variant="body2">{category?.title}</Typography>}
               <Typography variant="body2">
                 {new Intl.DateTimeFormat(browserLocale, {
                   hour: '2-digit',
@@ -215,10 +206,10 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
                   value={localCurrency}
                   onChange={handleCurrencyChange}
                   style={{ minWidth: 90 }}
-                  data-testid="expense-item-currency-select"
+                  data-test
                 />
                 {showSourceNames && (
-                  <Typography variant="body2" mr={1}>
+                  <Typography variant="body2" style={{ marginRight: 8 }}>
                     {paymentSource?.title || 'Deleted'}
                   </Typography>
                 )}
@@ -232,7 +223,6 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
                   ml: '5px',
                   border: `1px solid ${theme.palette.text.primary}`,
                 }}
-                onClick={(event) => handleEditClick(event)}
               >
                 <FaPencilAlt size={20} color={theme.palette.text.primary} />
               </IconButton>

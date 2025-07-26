@@ -100,7 +100,7 @@ export const Grid: Story = {
 
 export const CustomComponent: Story = {
   render: () => (
-    <Box component="span" display="block" style={{ background: '#1976d2', color: '#fff', padding: 8 }}>
+    <Box display="block" style={{ background: '#1976d2', color: '#fff', padding: 8 }}>
       Я span, но как Box
     </Box>
   ),

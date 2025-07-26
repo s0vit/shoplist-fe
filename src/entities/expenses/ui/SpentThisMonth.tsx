@@ -1,4 +1,6 @@
-import { FormControl, Paper, Stack, Typography } from '@mui/material';
+import { FormControl } from '@mui/material';
+import { Paper, Stack, Typography } from 'src/shared/ui-kit';
+
 import { Select, type TOption } from 'src/shared/ui-kit';
 
 import { useState } from 'react';
@@ -30,21 +32,19 @@ const SpentThisMonth = () => {
   );
 
   return (
-    <Paper sx={{ pb: 2, mb: 1 }}>
-      <Typography variant="h6" textAlign="center">
+    <Paper style={{ paddingBottom: 16, marginBottom: 8 }}>
+      <Typography variant="h3" align="center">
         {t('Spent this month:')}
       </Typography>
-      <Stack textAlign="center" direction="row" spacing={2} justifyContent="center">
-        <Typography variant={isBigScreen ? 'h3' : 'h4'} color="primary">
-          {calculateTotalAmount(filteredExpenses, currency)}
-        </Typography>
+      <Stack align="center" direction="row" gap={2} style={{ justifyContent: 'center' }}>
+        <Typography variant="h3">{calculateTotalAmount(filteredExpenses, currency)}</Typography>
         <FormControl>
           <Select
             options={currencies as TOption[]}
             value={currency}
             onChange={(value) => setCurrency(value as CURRENCIES)}
             style={{ fontSize: isBigScreen ? '2rem' : '1.5rem' }}
-            data-testid="spent-this-month-currency-select"
+            data-test
           />
         </FormControl>
       </Stack>

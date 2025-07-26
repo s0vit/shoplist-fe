@@ -7,6 +7,20 @@
   --color-white: #ffffff;
 
   /**
+   * @tokens Text-Colors
+   * @presenter Color
+   */
+  --color-text-secondary: #666666;
+  --color-info: #2196f3;
+
+  /**
+   * @tokens Avatar-Colors
+   * @presenter Color
+   */
+  --color-avatar-bg: #e0e0e0;
+  --color-avatar-text: #666666;
+
+  /**
    * @tokens Light-Colors
    * @presenter Color
    */

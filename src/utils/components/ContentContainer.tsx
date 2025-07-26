@@ -1,4 +1,5 @@
 import { styled, useMediaQuery } from '@mui/material';
+
 import { Box } from 'src/shared/ui-kit';
 
 const ContentContainer = styled(Box)(({ theme }) => {

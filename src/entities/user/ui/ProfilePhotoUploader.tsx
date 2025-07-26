@@ -1,4 +1,5 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, Slider } from '@mui/material';
+
 import { Box, Button } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
@@ -86,7 +87,7 @@ const ProfilePhotoUploader = ({ file, onClose, isOpen }: TProfilePhotoUploaderPr
             step={0.01}
             onChange={handleScaleChange}
             aria-labelledby="continuous-slider"
-            sx={{ width: 200, marginTop: 2 }}
+            style={{ width: 200, marginTop: 2 }}
           />
         </Box>
       </DialogContent>

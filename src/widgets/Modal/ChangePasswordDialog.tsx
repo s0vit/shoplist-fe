@@ -6,12 +6,13 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
 } from '@mui/material';
+import { FormHelperText } from 'src/shared/ui-kit';
+
 import { Button } from 'src/shared/ui-kit';
 
 import { useState } from 'react';
@@ -113,7 +114,7 @@ const ChangePasswordDialog = ({
     <Dialog open={openResetPasswordDialog} onClose={handleAbortReset}>
       <DialogTitle>{t('Change you password')}</DialogTitle>
       <DialogContent>
-        <FormControl fullWidth variant="outlined" margin="dense">
+        <FormControl fullWidth variant="outlined">
           <InputLabel
             htmlFor="current-password-input"
             error={!!formError.currentPasswordError || !!formError.differentPasswordsError}
@@ -121,7 +122,6 @@ const ChangePasswordDialog = ({
             {t('Current password')}
           </InputLabel>
           <OutlinedInput
-            id="current-password-input"
             type={showCurrentPassword ? 'text' : 'password'}
             value={currentPasswordInput}
             error={!!formError.currentPasswordError || !!formError.differentPasswordsError}
@@ -133,8 +133,8 @@ const ChangePasswordDialog = ({
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={() => handleClickShowPassword(setShowCurrentPassword)}
                   edge="end"
+                  onClick={() => handleClickShowPassword(setShowCurrentPassword)}
                 >
                   {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -143,12 +143,12 @@ const ChangePasswordDialog = ({
             label={t('Current password')}
           />
           {(formError.currentPasswordError || formError.differentPasswordsError) && (
-            <FormHelperText error id="current-password-error-text">
+            <FormHelperText error>
               {t(formError.currentPasswordError) || t(formError.differentPasswordsError)}
             </FormHelperText>
           )}
         </FormControl>
-        <FormControl fullWidth variant="outlined" margin="dense">
+        <FormControl fullWidth variant="outlined">
           <InputLabel
             htmlFor="new-password-input"
             error={
@@ -158,7 +158,6 @@ const ChangePasswordDialog = ({
             {t('New password')}
           </InputLabel>
           <OutlinedInput
-            id="new-password-input"
             type={showNewPassword ? 'text' : 'password'}
             value={newPasswordInput}
             error={
@@ -172,8 +171,8 @@ const ChangePasswordDialog = ({
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle-new-password-visibility"
-                  onClick={() => handleClickShowPassword(setShowNewPassword)}
                   edge="end"
+                  onClick={() => handleClickShowPassword(setShowNewPassword)}
                 >
                   {showNewPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -182,14 +181,14 @@ const ChangePasswordDialog = ({
             label={t('New password')}
           />
           {(formError.newPasswordError || formError.equalPasswordsError || formError.differentPasswordsError) && (
-            <FormHelperText error id="new-password-error-text">
+            <FormHelperText error>
               {t(formError.newPasswordError) ||
                 t(formError.equalPasswordsError) ||
                 t(formError.differentPasswordsError)}
             </FormHelperText>
           )}
         </FormControl>
-        <FormControl fullWidth variant="outlined" margin="dense">
+        <FormControl fullWidth variant="outlined">
           <InputLabel
             htmlFor="confirm-password-input"
             error={!!formError.confirmPasswordError || !!formError.equalPasswordsError}
@@ -197,7 +196,6 @@ const ChangePasswordDialog = ({
             {t('Confirm password')}
           </InputLabel>
           <OutlinedInput
-            id="confirm-password-input"
             type={showConfirmPassword ? 'text' : 'password'}
             value={confirmPasswordInput}
             error={!!formError.confirmPasswordError || !!formError.equalPasswordsError}
@@ -209,8 +207,8 @@ const ChangePasswordDialog = ({
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle-confirm-password-visibility"
-                  onClick={() => handleClickShowPassword(setShowConfirmPassword)}
                   edge="end"
+                  onClick={() => handleClickShowPassword(setShowConfirmPassword)}
                 >
                   {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -219,7 +217,7 @@ const ChangePasswordDialog = ({
             label={t('Confirm password')}
           />
           {(formError.confirmPasswordError || formError.equalPasswordsError) && (
-            <FormHelperText error id="confirm-password-error-text">
+            <FormHelperText error>
               {t(formError.confirmPasswordError) || t(formError.equalPasswordsError)}
             </FormHelperText>
           )}

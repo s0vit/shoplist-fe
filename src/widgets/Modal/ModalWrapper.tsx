@@ -1,4 +1,5 @@
 import { Backdrop, Fade, Modal } from '@mui/material';
+
 import { PropsWithChildren } from 'react';
 import styles from './ModalWrapper.module.scss';
 

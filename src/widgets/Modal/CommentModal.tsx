@@ -1,4 +1,5 @@
-import { FormHelperText, Stack, TextField } from '@mui/material';
+import { FormHelperText, Stack, TextField } from 'src/shared/ui-kit';
+
 import { Typography, Button } from 'src/shared/ui-kit';
 
 import ModalWrapper from 'src/widgets/Modal/ModalWrapper';
@@ -25,13 +26,11 @@ const CommentModal = ({ isCommentModalOpen, setIsCommentModalOpen, comment, setC
   return (
     <ModalWrapper isModalOpen={isCommentModalOpen} onClickAway={() => setIsCommentModalOpen(false)}>
       <FormWrapper>
-        <Stack spacing={2} direction="column">
+        <Stack gap={2} direction="column">
           <Typography variant="h3">{t('Add Comment')}</Typography>
           <TextField
             size="small"
             autoFocus
-            margin="dense"
-            id="comment"
             label={t('Comment')}
             type="text"
             fullWidth
@@ -40,12 +39,12 @@ const CommentModal = ({ isCommentModalOpen, setIsCommentModalOpen, comment, setC
             onChange={handleCommentChange}
             error={comment.length >= maxLengthCommentSymbols}
           />
-          <FormHelperText sx={{ textAlign: 'left' }}>
+          <FormHelperText style={{ textAlign: 'left' }}>
             {`${t('Maximum number of characters:')} ${comment.length} / ${maxLengthCommentSymbols}`}
           </FormHelperText>
-          <Stack direction="row" spacing={2} mt={2}>
-            <Button variant="contained" label={t('Clear')} width="100%" onClick={() => setComment('')} />
-            <Button variant="contained" label={t('Save')} width="100%" onClick={() => setIsCommentModalOpen(false)} />
+          <Stack direction="row" gap={2} sx={{ marginTop: 16 }}>
+            <Button variant="contained" label={t('Clear')} width="100%" />
+            <Button variant="contained" label={t('Save')} width="100%" />
           </Stack>
         </Stack>
       </FormWrapper>

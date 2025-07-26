@@ -3,6 +3,11 @@ export const colorGroups = {
     "--color-black": "#000000",
     "--color-white": "#ffffff"
   },
+  "Text-Colors": {
+    "--color-text-secondary": "#666666",
+    "--color-info": "#2196f3",
+    "--color-text-primary": "#111111"
+  },
   "Light-Colors": {
     "--color-light-text-disabled": "#808080",
     "--color-light-grey": "rgba(242, 242, 242, 1)",
@@ -81,9 +86,6 @@ export const colorGroups = {
   "Card-Colors": {
     "--color-card-bg": "var(--color-white)",
     "--color-card-shadow": "0 0 24px 0 rgba(14, 15, 18, 0.05)"
-  },
-  "Text-Colors": {
-    "--color-text-primary": "#111111"
   },
   "ButtonDropdown-Colors": {
     "--color-dropdown-bg": "var(--color-light-grey)",

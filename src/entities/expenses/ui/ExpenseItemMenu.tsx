@@ -1,5 +1,7 @@
 import { Delete, Edit, Share } from '@mui/icons-material';
-import { alpha, Menu, MenuItem, Typography, useTheme } from '@mui/material';
+import { alpha, Menu, MenuItem, useTheme } from '@mui/material';
+import { Typography } from 'src/shared/ui-kit';
+
 import { useTranslation } from 'react-i18next';
 
 type TExpenseItemMenuProps = {
@@ -44,37 +46,21 @@ const ExpenseItemMenu = ({
         },
       }}
     >
-      <MenuItem
-        onClick={() => {
-          handleEdit();
-          handleCloseMenu();
-        }}
-      >
+      <MenuItem onClick={handleEdit}>
         <Edit fontSize="small" />
-        <Typography variant="body2" sx={{ ml: 1 }}>
+        <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Edit')}
         </Typography>
       </MenuItem>
-      <MenuItem
-        divider
-        onClick={() => {
-          setIsShareWithModalOpen(true);
-          handleCloseMenu();
-        }}
-      >
+      <MenuItem divider onClick={() => setIsShareWithModalOpen(true)}>
         <Share fontSize="small" />
-        <Typography variant="body2" sx={{ ml: 1 }}>
+        <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Share with')}
         </Typography>
       </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handleRemove(expense._id);
-          handleCloseMenu();
-        }}
-      >
+      <MenuItem onClick={() => handleRemove(expense._id)}>
         <Delete fontSize="small" />
-        <Typography variant="body2" sx={{ ml: 1 }}>
+        <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Delete')}
         </Typography>
       </MenuItem>

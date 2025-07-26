@@ -1,5 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { Button, ButtonGroup, Paper, Typography } from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
+import { Paper, Typography } from 'src/shared/ui-kit';
+
 import { Box } from 'src/shared/ui-kit';
 
 import { Link as RouterLink } from 'react-router-dom';
@@ -30,8 +32,8 @@ class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> 
         <ErrorWrapper>
           <Paper>
             <Box className={styles.errorBox}>
-              <ReportGmailerrorred color="error" sx={{ fontSize: 80 }} />
-              <Typography variant="h4" gutterBottom>
+              <ReportGmailerrorred color="error" style={{ fontSize: 80 }} />
+              <Typography variant="h3" gutterBottom>
                 {this.props.t('Something went wrong.')}
               </Typography>
               <Typography variant="body1" gutterBottom>
@@ -41,7 +43,7 @@ class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> 
                 {this.props.t('Please try reloading the page or go back to the home page.')}
               </Typography>
               <ButtonGroup fullWidth>
-                <Button variant="contained" color="primary" onClick={this.handleReload} startIcon={<Refresh />}>
+                <Button variant="contained" color="primary" startIcon={<Refresh />}>
                   {this.props.t('Reload')}
                 </Button>
                 <Button variant="outlined" color="primary" component={RouterLink} to="/" startIcon={<HomeOutlined />}>

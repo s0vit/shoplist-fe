@@ -1,4 +1,6 @@
-import { alpha, Card, CardContent, IconButton, Typography, useTheme } from '@mui/material';
+import { alpha, Card, CardContent, IconButton, useTheme } from '@mui/material';
+import { Typography } from 'src/shared/ui-kit';
+
 import { Box, Grid, Stack } from 'src/shared/ui-kit';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import {
@@ -141,9 +143,9 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
               borderRadius: theme.spacing(1),
             }}
           >
-            <CardContent sx={{ p: 1 }} className={styles.cardContent}>
+            <CardContent style={{ padding: 8 }} className={styles.cardContent}>
               <Box className={styles.headerBox}>
-                <Typography variant="h5" component="div" color={categoryTextColor}>
+                <Typography variant="h3" color={categoryTextColor}>
                   {category.title}
                 </Typography>
                 <Box className={styles.columnEndBox}>
@@ -160,7 +162,6 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
                       border: `1px solid ${theme.palette.text.primary}`,
                     }}
                     disabled={!isVerified}
-                    onClick={handleEdit}
                   >
                     <FaPencilAlt size={20} color={theme.palette.text.primary} />
                   </IconButton>

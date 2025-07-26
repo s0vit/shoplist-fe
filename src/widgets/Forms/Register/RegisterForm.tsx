@@ -1,5 +1,7 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack, TextField } from '@mui/material';
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
+import { Stack, TextField } from 'src/shared/ui-kit';
+
 import { Typography, Button } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
@@ -91,7 +93,7 @@ const RegisterForm = () => {
     <FormWrapper elevation={5}>
       {isRegistered ? (
         isConfirmed ? (
-          <Stack spacing={1}>
+          <Stack gap={1}>
             <Typography variant="h3" align="center">
               {t('Registration finished!')}
             </Typography>
@@ -99,7 +101,7 @@ const RegisterForm = () => {
           </Stack>
         ) : (
           <Form onSubmit={() => confirmMutate()}>
-            <Stack spacing={1}>
+            <Stack gap={1}>
               <Typography variant="h3" align="center">
                 {t('Registration successful!')}
               </Typography>
@@ -117,7 +119,7 @@ const RegisterForm = () => {
         )
       ) : (
         <Form onSubmit={handleRegisterSubmit}>
-          <Stack spacing={1}>
+          <Stack gap={1}>
             <Typography variant="h3" align="center">
               {t('Register')}
             </Typography>
@@ -128,7 +130,7 @@ const RegisterForm = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t('Email')}
             />
-            <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
+            <FormControl style={{ margin: 8, width: '100%' }} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">{t('Password')}</InputLabel>
               <OutlinedInput
                 disabled={isRegisterPending}
@@ -157,13 +159,7 @@ const RegisterForm = () => {
               placeholder={t('Confirm Password')}
               helperText={t('Password should contain 1 number and 1 capital letter')}
             />
-            <Button
-              disabled={isRegisterPending}
-              variant="outlined"
-              label={t('Register')}
-              width="100%"
-              onClick={handleRegisterSubmit}
-            />
+            <Button disabled={isRegisterPending} variant="outlined" label={t('Register')} width="100%" />
           </Stack>
         </Form>
       )}

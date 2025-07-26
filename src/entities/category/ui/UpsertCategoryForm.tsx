@@ -1,4 +1,6 @@
-import { FormControl, FormGroup, InputLabel, OutlinedInput, Stack } from '@mui/material';
+import { FormControl, FormGroup, InputLabel, OutlinedInput } from '@mui/material';
+import { Stack } from 'src/shared/ui-kit';
+
 import { Typography, Button } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
@@ -84,7 +86,7 @@ const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) =
         {t('Save category')}
       </Typography>
       <FormGroup>
-        <Stack gap={1} paddingY={2}>
+        <Stack gap={1} sx={{ paddingTop: 16, paddingBottom: 16 }}>
           <Colorful color={color} onChange={(color) => setColor(color.hex)} disableAlpha style={{ width: '100%' }} />
           <Button
             label={t('Random Color')}

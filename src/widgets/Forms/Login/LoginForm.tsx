@@ -1,5 +1,7 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack } from '@mui/material';
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
+import { Stack } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Form, useNavigate, useSearchParams } from 'react-router-dom';
@@ -65,11 +67,11 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
   return (
     <FormWrapper elevation={5}>
       <Form onSubmit={handleLoginClick}>
-        <Stack spacing={1}>
+        <Stack gap={1}>
           <Typography variant="h3" align="center">
             {t('Login-frame')}
           </Typography>
-          <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
+          <FormControl style={{ margin: 8, width: '100%' }} variant="outlined">
             <InputLabel htmlFor="outlined-adornment-email">{t('Email')}</InputLabel>
             <OutlinedInput
               value={email}
@@ -79,7 +81,7 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
               label={t('Email')}
             />
           </FormControl>
-          <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
+          <FormControl style={{ margin: 8, width: '100%' }} variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">{t('Password')}</InputLabel>
             <OutlinedInput
               value={password}
@@ -90,8 +92,8 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
                     edge="end"
+                    onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>

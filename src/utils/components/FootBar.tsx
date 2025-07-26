@@ -5,7 +5,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
-import { BottomNavigation, BottomNavigationAction, Box, Fab, useTheme } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Fab, useTheme } from '@mui/material';
+import { Box } from 'src/shared/ui-kit';
+
 import { useTranslation } from 'react-i18next';
 
 const FootBar = () => {
@@ -60,6 +62,7 @@ const FootBar = () => {
         {location.pathname !== RoutesEnum.ROOT && (
           <Fab
             color="success"
+            onClick={() => navigate(RoutesEnum.ROOT)}
             sx={{
               position: 'absolute',
               top: -28,
@@ -70,7 +73,6 @@ const FootBar = () => {
                 color: theme.palette.grey[300],
               },
             }}
-            onClick={() => navigate(RoutesEnum.ROOT)}
           >
             <AddIcon />
           </Fab>

@@ -1,5 +1,6 @@
 import { Form } from 'react-router-dom';
-import { Stack, TextField } from '@mui/material';
+import { Stack, TextField } from 'src/shared/ui-kit';
+
 import { Typography, Button } from 'src/shared/ui-kit';
 
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
@@ -44,7 +45,7 @@ const RequestPasswordRecoveryForm = () => {
   return (
     <FormWrapper elevation={5}>
       <Form onSubmit={handleRecoveryClick}>
-        <Stack spacing={1}>
+        <Stack gap={1}>
           <Typography variant="h3" align="center">
             {t('Password recovery')}
           </Typography>

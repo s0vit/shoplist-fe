@@ -1,4 +1,6 @@
-import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Box } from 'src/shared/ui-kit';
+
 import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -49,11 +51,16 @@ const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationPr
 
   return (
     <Drawer anchor="left" open={isDrawerOpen} onClose={closeDrawer}>
-      <Box sx={{ width: 250 }} onClick={closeDrawer}>
+      <Box style={{ width: 250 }}>
         <List>
           {navigationList.map((route) => (
             <ListItem key={route.link} disablePadding>
-              <ListItemButton onClick={() => navigate(route.link)}>
+              <ListItemButton
+                onClick={() => {
+                  navigate(route.link);
+                  closeDrawer();
+                }}
+              >
                 <ListItemIcon>{route.icon}</ListItemIcon>
                 <ListItemText
                   primary={t(route.title)}

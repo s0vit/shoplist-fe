@@ -1,4 +1,5 @@
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box } from 'src/shared/ui-kit';
 

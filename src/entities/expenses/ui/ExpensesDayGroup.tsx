@@ -1,4 +1,6 @@
-import { FormControl, Paper, Typography } from '@mui/material';
+import { FormControl } from '@mui/material';
+import { Paper, Typography } from 'src/shared/ui-kit';
+
 import { Box, Stack, Select, type TOption } from 'src/shared/ui-kit';
 
 import { UseMutateFunction } from '@tanstack/react-query';
@@ -27,13 +29,13 @@ const ExpensesDayGroup = ({ date, expenses, deleteExpense }: TExpensesDayGroupPr
   const userPaymentSources = usePaymentSourcesStore(selectUserPaymentSources);
 
   return (
-    <Paper key={date} sx={{ mb: 2, p: 2 }}>
+    <Paper key={date} style={{ marginBottom: 16, padding: 16 }}>
       <Box className={styles.headerBox}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h3" gutterBottom>
           {format(new Date(date), 'MM/dd')}
         </Typography>
         <Stack direction="row" gap={1}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h3" gutterBottom>
             {calculateTotalAmount(expenses, currency || CURRENCIES.EUR)}
           </Typography>
           <FormControl>
@@ -41,7 +43,7 @@ const ExpensesDayGroup = ({ date, expenses, deleteExpense }: TExpensesDayGroupPr
               options={currencies as TOption[]}
               value={currency}
               onChange={(value) => setCurrency(value as CURRENCIES)}
-              data-testid="expenses-day-group-currency-select"
+              data-test
             />
           </FormControl>
         </Stack>

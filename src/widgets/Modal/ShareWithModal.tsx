@@ -4,7 +4,9 @@ import { findUserByEmail, TFindUserByEmailResponse } from 'src/shared/api/userAp
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { useEffect, useState } from 'react';
 import useDebouncedValue from 'src/utils/hooks/useDebouncedValue.ts';
-import { alpha, Avatar, Box, FormHelperText, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { alpha, useTheme } from '@mui/material';
+import { Avatar, Box, FormHelperText, Paper, Stack, TextField, Typography } from 'src/shared/ui-kit';
+
 import handleError from 'src/utils/errorHandler.ts';
 import { shareWith } from 'src/shared/api/accessControlApi.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
@@ -80,8 +82,8 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
   return (
     <ModalWrapper isModalOpen={isOpen} onClickAway={onClose}>
       <Paper sx={{ position: 'relative', zIndex: 1 }}>
-        <Stack gap={2} justifyContent="stretch" padding={2}>
-          <Typography variant="h5" gutterBottom>
+        <Stack gap={2} align="stretch" style={{ padding: '16px' }}>
+          <Typography variant="h3" gutterBottom>
             {t('Share with')}
           </Typography>
           <TextField
@@ -89,7 +91,7 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
             variant="outlined"
             label="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
           />
           <FormHelperText>{t('Enter email to share with')}</FormHelperText>
           <Stack>
@@ -110,13 +112,18 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
                       backgroundColor: selectedUser?._id === user._id ? emailColor : 'transparent',
                       color: selectedUser?._id === user._id ? theme.palette.getContrastText(emailColor) : 'inherit',
                       padding: 0.5,
-                      mb: 1,
+                      marginBottom: 1,
                       opacity: user.isVerified ? 1 : 0.5,
                     }}
                     onClick={() => onUserSelect(user)}
                   >
-                    <Avatar src={user.avatar} alt={`${user.email}'s avatar`} sx={{ width: 30, height: 30 }} />
-                    <Typography variant="h6" gutterBottom>
+                    <Avatar
+                      src={user.avatar}
+                      alt={`${user.email}'s avatar`}
+                      name={user.email}
+                      style={{ width: 30, height: 30 }}
+                    />
+                    <Typography variant="h3" gutterBottom>
                       {user.email}
                     </Typography>
                   </Box>

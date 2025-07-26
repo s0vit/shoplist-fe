@@ -23,11 +23,11 @@ const IconComponent = ({ name, size = 'md', color, className, style, onClick, ..
 
   return (
     <SvgIcon
+      onClick={onClick}
       width={iconSize}
       height={iconSize}
       style={{ color, ...style }}
       className={className}
-      onClick={onClick}
       {...props}
     />
   );

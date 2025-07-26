@@ -1,4 +1,6 @@
-import { alpha, Card, CardContent, IconButton, Typography, useTheme } from '@mui/material';
+import { alpha, Card, CardContent, IconButton, useTheme } from '@mui/material';
+import { Typography } from 'src/shared/ui-kit';
+
 import { Box, Stack, Grid } from 'src/shared/ui-kit';
 
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
@@ -80,7 +82,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
 
   const leadingActions = () => (
     <LeadingActions>
-      <SwipeAction onClick={isVerified ? handleEdit : () => {}}>
+      <SwipeAction onClick={handleEdit}>
         <Stack className={styles.actionStack}>
           <Edit />
         </Stack>
@@ -90,7 +92,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
 
   const trailingActions = () => (
     <TrailingActions>
-      <SwipeAction destructive={isVerified} onClick={isVerified ? handleRemove : () => {}}>
+      <SwipeAction destructive={isVerified} onClick={handleRemove}>
         <Stack className={styles.actionStack}>
           <Delete />
         </Stack>
@@ -125,9 +127,9 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
               border: `1px solid ${paymentSource.color || theme.palette.primary.main}`,
             }}
           >
-            <CardContent sx={{ p: 1 }} className={styles.cardContent}>
+            <CardContent style={{ padding: 8 }} className={styles.cardContent}>
               <Box className={styles.flexBetween}>
-                <Typography variant="h5" component="div" color={paymentSourceTextColor}>
+                <Typography variant="h3" color={paymentSourceTextColor}>
                   {paymentSource.title}
                 </Typography>
                 <Box className={styles.flexColumnEnd}>
@@ -143,7 +145,6 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
                       ml: '5px',
                       border: `1px solid ${theme.palette.text.primary}`,
                     }}
-                    onClick={handleEdit}
                     disabled={!isVerified}
                   >
                     <FaPencilAlt size={20} color={theme.palette.text.primary} />

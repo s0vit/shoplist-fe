@@ -1,4 +1,6 @@
-import { Box, FormControl, FormControlLabel, Paper, useTheme } from '@mui/material';
+import { FormControl, FormControlLabel, useTheme } from '@mui/material';
+import { Box, Paper } from 'src/shared/ui-kit';
+
 import { Select, Toggle, type TOption } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
@@ -69,7 +71,7 @@ const Settings = () => {
             value={userSettings.currency}
             onChange={(value) => handleSettingChange('currency', value as CURRENCIES)}
             disabled={isUpdating || isSaving}
-            data-testid="currency-select"
+            data-test
           />
         </FormControl>
 
@@ -83,7 +85,7 @@ const Settings = () => {
               setNewLanguage(value as LANGUAGES_ENUM);
             }}
             disabled={isUpdating || isSaving}
-            data-testid="language-select"
+            data-test
           />
         </FormControl>
 
@@ -94,7 +96,7 @@ const Settings = () => {
             value={userSettings.theme}
             onChange={(value) => handleSettingChange('theme', value as THEME_ENUM)}
             disabled={isUpdating || isSaving}
-            data-testid="theme-select"
+            data-test
           />
         </FormControl>
 
@@ -102,9 +104,11 @@ const Settings = () => {
           display="flex"
           flexDirection="column"
           gap="8px"
-          border={`1px solid ${theme.palette.grey[700]}`}
-          borderRadius="4px"
-          padding="8px"
+          sx={{
+            border: `1px solid ${theme.palette.grey[700]}`,
+            borderRadius: '4px',
+            padding: '8px',
+          }}
         >
           <FormControlLabel
             control={
@@ -155,9 +159,11 @@ const Settings = () => {
           display="flex"
           flexDirection="column"
           gap="8px"
-          border={`1px solid ${theme.palette.grey[700]}`}
-          borderRadius="4px"
-          padding="8px"
+          sx={{
+            border: `1px solid ${theme.palette.grey[700]}`,
+            borderRadius: '4px',
+            padding: '8px',
+          }}
         >
           <FormControlLabel
             control={

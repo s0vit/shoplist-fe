@@ -2,7 +2,9 @@ import { MapsUgc, Message } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box, Stack, Button, ButtonGroup } from 'src/shared/ui-kit';
 
-import { FormControl, IconButton, MenuItem, Paper, Select, Typography, useTheme } from '@mui/material';
+import { FormControl, IconButton, MenuItem, Select, useTheme } from '@mui/material';
+import { Paper, Typography } from 'src/shared/ui-kit';
+
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -235,7 +237,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
 
   return (
     <Paper
-      style={{
+      sx={{
         backgroundColor: theme.palette.background.paper,
         position: 'relative',
         zIndex: 1,
@@ -261,7 +263,6 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
               autoWidth
               size="small"
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
               value={currency}
               onChange={(e) => setCurrency(e.target.value as CURRENCIES)}
             >
@@ -318,29 +319,20 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
               },
             }}
           />
-          <IconButton
-            onClick={() => setIsCommentModalOpen(true)}
-            sx={{ border: `1px solid ${comments ? theme.palette.success.main : theme.palette.grey[700]}` }}
-          >
+          <IconButton sx={{ border: `1px solid ${comments ? theme.palette.success.main : theme.palette.grey[700]}` }}>
             {comments?.length ? (
-              <Message htmlColor={theme.palette.success.main} sx={{ width: '21px', height: '21px' }} />
+              <Message htmlColor={theme.palette.success.main} style={{ width: '21px', height: '21px' }} />
             ) : (
-              <MapsUgc sx={{ width: '21px', height: '21px' }} />
+              <MapsUgc style={{ width: '21px', height: '21px' }} />
             )}
           </IconButton>
         </Stack>
         <ButtonGroup fullWidth>
-          <Button
-            disabled={isPending}
-            variant="contained"
-            label={t('Clear')}
-            onClick={() => handleButtonClick('Clear')}
-          />
+          <Button disabled={isPending} variant="contained" label={t('Clear')} />
           <Button
             disabled={isPending || !isVerified}
             variant="contained"
             label={isPending ? <CircularProgress size={24} /> : t('Save')}
-            onClick={handleSave}
           />
         </ButtonGroup>
       </Box>

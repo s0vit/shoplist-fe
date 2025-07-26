@@ -1,4 +1,6 @@
-import { Dialog, DialogActions, DialogContent, Typography } from '@mui/material';
+import { Dialog, DialogActions, DialogContent } from '@mui/material';
+import { Typography } from 'src/shared/ui-kit';
+
 import { Button } from 'src/shared/ui-kit';
 
 import { useTranslation } from 'react-i18next';

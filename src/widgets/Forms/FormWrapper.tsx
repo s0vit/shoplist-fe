@@ -1,4 +1,5 @@
-import { Paper, PaperProps, styled } from '@mui/material';
+import { PaperProps, styled } from '@mui/material';
+import { Paper } from 'src/shared/ui-kit';
 
 const FormWrapper = styled(Paper)<PaperProps>(({ theme }) => ({
   width: 'fit-content',

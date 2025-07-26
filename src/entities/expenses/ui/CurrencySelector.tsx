@@ -18,7 +18,7 @@ const CurrencySelector = () => {
       }
       value={selectedCurrency}
       onChange={handleChange}
-      data-testid="currency-selector"
+      data-test
     />
   );
 };

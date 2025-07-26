@@ -1,4 +1,6 @@
-import { Avatar, Button, Paper, Typography, useTheme } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
+import { Avatar, Paper, Typography } from 'src/shared/ui-kit';
+
 import { Stack } from 'src/shared/ui-kit';
 
 import {
@@ -69,10 +71,8 @@ const AccessControlItem = ({ accessControl, paymentSources, categories, expenses
         ) : (
           <Stack className={styles.row} gap={2}>
             <Stack className={styles.rowMax} gap={2}>
-              <Avatar src={user?.avatar} alt={user?.login} />
-              <Typography overflow="hidden" textOverflow="ellipsis">
-                {user?.login}
-              </Typography>
+              <Avatar src={user?.avatar} alt={user?.login} name={user?.login || user?.email} />
+              <Typography style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{user?.login}</Typography>
             </Stack>
             <Button
               onClick={() => deleteAccessControlMutate()}

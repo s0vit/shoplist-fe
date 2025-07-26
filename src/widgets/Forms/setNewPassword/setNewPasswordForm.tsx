@@ -1,14 +1,7 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import {
-  Box,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
+import { Box, Stack, Typography } from 'src/shared/ui-kit';
+
 import { Button } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
@@ -71,11 +64,11 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
     <Box>
       <FormWrapper elevation={5}>
         <Form onSubmit={() => requestSetNewPassword()}>
-          <Stack spacing={1}>
-            <Typography variant="h6" align="center">
+          <Stack gap={1}>
+            <Typography variant="h3" align="center">
               {t('Set new password')}
             </Typography>
-            <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
+            <FormControl style={{ margin: 8, width: '100%' }} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">{t('Password')}</InputLabel>
               <OutlinedInput
                 disabled={isPendingSetNewPassword}

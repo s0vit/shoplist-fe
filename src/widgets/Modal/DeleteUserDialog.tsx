@@ -1,4 +1,6 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { TextField } from 'src/shared/ui-kit';
+
 import { Typography, Button } from 'src/shared/ui-kit';
 
 import { TUser } from 'src/shared/api/authApi';

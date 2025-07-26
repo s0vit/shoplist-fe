@@ -1,4 +1,6 @@
-import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia } from '@mui/material';
+import { Card, CardActions, CardContent, CardHeader } from '@mui/material';
+import { Avatar } from 'src/shared/ui-kit';
+
 import { Typography, Button } from 'src/shared/ui-kit';
 
 import { useNavigate } from 'react-router-dom';
@@ -11,13 +13,13 @@ const NotFoundPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Card sx={{ maxWidth: 345, margin: 'auto' }}>
+    <Card style={{ maxWidth: 345, margin: 'auto' }}>
       <CardHeader
         avatar={<Avatar aria-label="404" src={notFoundImage} />}
         title="Worker"
         subheader="We are on it, hold on"
       />
-      <CardMedia component="img" image={notFoundImage} alt="404 Not Found" />
+      <img src={notFoundImage} alt="404 Not Found" style={{ width: '100%', height: 'auto' }} />
       <CardContent>
         <Typography variant="h3" align="center">
           {t('The page you are looking for does not exist')}

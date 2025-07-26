@@ -130,15 +130,7 @@ const CalculatorExample = () => {
           </CalculatorButton>
         ))}
 
-        <CalculatorButton
-          variant="comma"
-          onClick={() => {
-            if (!display.includes('.')) {
-              handleNumberClick('.');
-            }
-          }}
-          disabled={display.includes('.')}
-        />
+        <CalculatorButton variant="comma" onClick={() => handleNumberClick('.')} disabled={display.includes('.')} />
 
         <CalculatorButton onClick={() => handleNumberClick('0')}>0</CalculatorButton>
 

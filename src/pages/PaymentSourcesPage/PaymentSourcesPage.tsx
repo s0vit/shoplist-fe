@@ -1,6 +1,6 @@
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
-import { Divider, IconButton, Paper, Typography } from '@mui/material';
-import { Box } from 'src/shared/ui-kit';
+import { Divider, IconButton } from '@mui/material';
+import { Paper, Typography, Box } from 'src/shared/ui-kit';
 
 import PaymentSourcesGrid from 'src/entities/paymentSource/ui/PaymentSourcesGrid.tsx';
 import { useTranslation } from 'react-i18next';
@@ -58,9 +58,7 @@ const PaymentSourcesPage = () => {
           size="small"
           disabled={false}
           color="primary"
-          onClick={() => {
-            setIsPaymentSourceModalOpen(true);
-          }}
+          onClick={() => setIsPaymentSourceModalOpen(true)}
           className={styles.addButton}
         >
           <AddCircleOutlineIcon fontSize="large" />

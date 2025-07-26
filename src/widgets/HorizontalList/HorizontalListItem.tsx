@@ -1,5 +1,7 @@
 import { Delete, Edit, Share } from '@mui/icons-material';
-import { alpha, Button, Menu, MenuItem, Typography, useTheme } from '@mui/material';
+import { alpha, Button, Menu, MenuItem, useTheme } from '@mui/material';
+import { Typography } from 'src/shared/ui-kit';
+
 import { Fragment, MouseEvent, TouchEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +25,7 @@ const HorizontalListItem = ({
   handleOpenDeleteDialog,
   handleShare,
   selectedItem,
-  setSelectedItem,
+  setSelectedItem: _setSelectedItem,
   handleEdit,
   disabled,
 }: THorizontalListItemProps) => {
@@ -52,7 +54,6 @@ const HorizontalListItem = ({
         disabled={disabled}
         variant={selectedItem === item._id ? 'contained' : 'outlined'}
         color="primary"
-        onClick={() => setSelectedItem(selectedItem === item._id ? '' : item._id)}
         sx={
           selectedItem === item._id
             ? {
@@ -88,36 +89,21 @@ const HorizontalListItem = ({
           },
         }}
       >
-        <MenuItem
-          onClick={() => {
-            handleEdit(item);
-            handleCloseMenu();
-          }}
-        >
+        <MenuItem onClick={() => handleEdit(item)}>
           <Edit fontSize="small" />
-          <Typography variant="body2" sx={{ ml: 1 }}>
+          <Typography variant="body2" style={{ marginLeft: 8 }}>
             {t('Edit')}
           </Typography>
         </MenuItem>
-        <MenuItem
-          divider
-          onClick={() => {
-            handleShare(item._id);
-          }}
-        >
+        <MenuItem divider onClick={() => handleShare(item._id)}>
           <Share fontSize="small" />
-          <Typography variant="body2" sx={{ ml: 1 }}>
+          <Typography variant="body2" style={{ marginLeft: 8 }}>
             {t('Share with')}
           </Typography>
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleOpenDeleteDialog(item);
-            handleCloseMenu();
-          }}
-        >
+        <MenuItem onClick={() => handleOpenDeleteDialog(item)}>
           <Delete fontSize="small" />
-          <Typography variant="body2" sx={{ ml: 1 }}>
+          <Typography variant="body2" style={{ marginLeft: 8 }}>
             {t('Delete')}
           </Typography>
         </MenuItem>

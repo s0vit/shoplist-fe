@@ -2,6 +2,7 @@ import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useTranslation } from 'react-i18next';
 import { Alert, AlertTitle, useTheme } from '@mui/material';
+
 import { Button } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
@@ -23,7 +24,7 @@ export const UnverifiedAlert = () => {
   if (!isVerified && isLoggedIn) {
     return (
       <div>
-        <Alert severity="warning" variant="outlined" sx={{ margin: '10px 15px', ...theme.palette.background }}>
+        <Alert severity="warning" variant="outlined" style={{ margin: '10px 15px', ...theme.palette.background }}>
           <AlertTitle>{t('Warning: ')}</AlertTitle>
           {t(
             'To get full functionality you should to confirm your email. Please check your email. Or follow the link to get a new verification code.',
@@ -33,7 +34,7 @@ export const UnverifiedAlert = () => {
               variant="contained"
               label={t('Send verification link again')}
               width="100%"
-              onClick={() => getNewLinkMutate()}
+              onClick={getNewLinkMutate}
             />
           )}
         </Alert>

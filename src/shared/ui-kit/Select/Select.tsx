@@ -163,8 +163,8 @@ const SelectComponent = ({
         {options.map((option) => (
           <DropdownItem
             key={option.value}
-            onClick={() => handleSelect(option.value)}
             data-testid={`${dataTestId}-option-${option.value}`}
+            onClick={() => handleSelect(option.value)}
           >
             {option.label}
           </DropdownItem>

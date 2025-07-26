@@ -1,5 +1,7 @@
 import { AddCircle } from '@mui/icons-material';
-import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
+import { Autocomplete, IconButton, TextField } from '@mui/material';
+import { Stack } from 'src/shared/ui-kit';
+
 import { SyntheticEvent } from 'react';
 import selectUserPaymentSources from 'src/entities/paymentSource/model/selectors/selectUserPaymentSources.ts';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
@@ -35,16 +37,14 @@ const PaymentSourcesSelect = ({
 
   return (
     <>
-      <Stack direction="row" alignItems="end">
+      <Stack direction="row" align="flex-end">
         <Autocomplete
           size="small"
           fullWidth
           disabled={isCreateExpensePending}
           disablePortal
           options={paymentSources || []}
-          renderInput={(params) => (
-            <TextField {...params} label={t('Payment source')} InputLabelProps={{ shrink: true }} />
-          )}
+          renderInput={(params) => <TextField {...params} label={t('Payment source')} />}
           value={selectedPaymentSource}
           onChange={onAutocompleteChange}
           getOptionLabel={(option) => option.title}

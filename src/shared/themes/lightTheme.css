@@ -51,6 +51,14 @@
    * @presenter Color
    */
   --color-text-primary: #111111;
+  --color-text-secondary: #666666;
+
+  /**
+   * @tokens Avatar-Colors
+   * @presenter Color
+   */
+  --color-avatar-bg: #e0e0e0;
+  --color-avatar-text: #666666;
 
   /**
    * @tokens ButtonDropdown-Colors

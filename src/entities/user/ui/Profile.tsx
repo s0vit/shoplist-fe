@@ -1,6 +1,7 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Paper, useTheme } from '@mui/material';
-import { Typography, Button, ButtonGroup, IconButton, alpha, Box } from 'src/shared/ui-kit';
+import { Accordion, AccordionDetails, AccordionSummary, useTheme } from '@mui/material';
+import { Avatar, Paper, Typography, Button, ButtonGroup, IconButton, Box } from 'src/shared/ui-kit';
+import { alpha } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useRef, useState } from 'react';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
@@ -49,7 +50,7 @@ const Profile = () => {
     },
   });
 
-  const handleAvatarClick = () => {
+  const _handleAvatarClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -77,7 +78,7 @@ const Profile = () => {
 
   return (
     <Box>
-      <Paper sx={{ padding: 4, maxWidth: 600, margin: 'auto', marginTop: 4, textAlign: 'center' }}>
+      <Paper style={{ padding: 4, maxWidth: 600, margin: 'auto', marginTop: 4, textAlign: 'center' }}>
         {userData?.login && (
           <Typography variant="h3" gutterBottom>
             {userData.login}
@@ -88,8 +89,9 @@ const Profile = () => {
             <Avatar
               src={userData?.avatar}
               alt="User Avatar"
-              sx={{ width: 100, height: 100, cursor: userData?.isVerified ? 'pointer' : 'not-allowed' }}
-              onClick={handleAvatarClick}
+              name={userData?.login || userData?.email}
+              style={{ width: 100, height: 100, cursor: userData?.isVerified ? 'pointer' : 'not-allowed' }}
+              onClick={userData?.isVerified ? _handleAvatarClick : undefined}
             />
             <IconButton
               icon="camera"
@@ -98,7 +100,6 @@ const Profile = () => {
                 backgroundColor: alpha(theme.palette.background.paper, 0.8),
               }}
               disabled={!userData?.isVerified}
-              onClick={handleAvatarClick}
             />
           </Box>
           <input
@@ -115,27 +116,25 @@ const Profile = () => {
           </Typography>
         </Box>
 
-        <Accordion sx={{ marginTop: 4 }} elevation={2}>
+        <Accordion style={{ marginTop: 4 }} elevation={2}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} disabled={!userData?.isVerified}>
             <Typography>{t('Settings')}</Typography>
           </AccordionSummary>
-          <AccordionDetails sx={{ p: 0 }}>
+          <AccordionDetails style={{ padding: 0 }}>
             <Settings />
           </AccordionDetails>
         </Accordion>
         <ButtonGroup joined fullWidth>
           <Button
             variant="contained"
-            onClick={() => {
-              setOpenResetPasswordDialog(true);
-            }}
+            onClick={() => setOpenResetPasswordDialog(true)}
             disabled={!userData?.isVerified}
             label={t('Change password')}
           />
           <Button
             variant="contained"
-            disabled={!userData?.isVerified}
             onClick={handleDeleteClick}
+            disabled={!userData?.isVerified}
             className={styles.deleteButton}
             label={t('Delete Profile')}
           />

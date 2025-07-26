@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import { Grid, Box } from 'src/shared/ui-kit';
 
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CategoriesSelect from 'src/entities/category/ui/CategoriesSelect.tsx';
 import PaymentSourcesSelect from 'src/entities/paymentSource/ui/PaymentSourcesSelect.tsx';
@@ -65,7 +66,6 @@ const ExpenseQueryForm = () => {
                   value={filters[field.name as keyof TFilterForQueryTypes] || ''}
                   onChange={handleChange}
                   disabled={isExpensesLoading}
-                  InputLabelProps={{ shrink: true }}
                 />
               </Grid>
             ))}
