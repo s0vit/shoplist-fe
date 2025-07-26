@@ -1,6 +1,5 @@
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
-import { FormControl, FormGroup, InputLabel, OutlinedInput } from '@mui/material';
-import { Stack, Typography, Button } from 'src/shared/ui-kit';
+import { Stack, Typography, Button, TextField } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
 import {
@@ -79,38 +78,44 @@ const UpsertPaymentSourceForm = ({ setSelectedPaymentSource }: TUpsertPaymentSou
       <Typography variant="h3" align="center">
         {t('Save payment source')}
       </Typography>
-      <FormGroup>
-        <Stack gap={1} style={{ paddingTop: 16, paddingBottom: 16 }}>
-          <Colorful
-            color={color}
-            onChange={(color) => setColor(color.hex)}
-            disableAlpha
-            className={styles.colorfulFullWidth}
-          />
-          <Button
-            label={t('Random Color')}
-            variant="contained"
-            width="100%"
-            onClick={() => setColor(getRandomHexColor())}
-            disabled={isPending}
-          />
-          <FormControl disabled={isPending}>
-            <InputLabel size="small">{t('Title')}</InputLabel>
-            <OutlinedInput size="small" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-          </FormControl>
-          <FormControl disabled={isPending}>
-            <InputLabel size="small">{t('Comments')}</InputLabel>
-            <OutlinedInput size="small" type="text" value={comments} onChange={(e) => setComments(e.target.value)} />
-          </FormControl>
-          <Button
-            label={paymentSource?._id ? `${t('Update')}` : `${t('Create')}`}
-            variant="outlined"
-            width="100%"
-            onClick={upsertPaymentSource}
-            disabled={isPending}
-          />
-        </Stack>
-      </FormGroup>
+      <Stack gap={1} style={{ paddingTop: 16, paddingBottom: 16 }}>
+        <Colorful
+          color={color}
+          onChange={(color) => setColor(color.hex)}
+          disableAlpha
+          className={styles.colorfulFullWidth}
+        />
+        <Button
+          label={t('Random Color')}
+          variant="contained"
+          width="100%"
+          onClick={() => setColor(getRandomHexColor())}
+          disabled={isPending}
+        />
+        <TextField
+          label={t('Title')}
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          disabled={isPending}
+          size="small"
+        />
+        <TextField
+          label={t('Comments')}
+          type="text"
+          value={comments}
+          onChange={(e) => setComments(e.target.value)}
+          disabled={isPending}
+          size="small"
+        />
+        <Button
+          label={paymentSource?._id ? `${t('Update')}` : `${t('Create')}`}
+          variant="outlined"
+          width="100%"
+          onClick={upsertPaymentSource}
+          disabled={isPending}
+        />
+      </Stack>
     </FormWrapper>
   );
 };

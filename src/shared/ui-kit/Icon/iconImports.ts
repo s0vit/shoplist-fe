@@ -10,6 +10,8 @@ import CardIcon from '../assets/icons/card.svg?react';
 import CoinIcon from '../assets/icons/coin.svg?react';
 import MenuIcon from '../assets/icons/menu.svg?react';
 import CameraIcon from '../assets/icons/camera.svg?react';
+import EyeIcon from '../assets/icons/eye.svg?react';
+import EyeSlashIcon from '../assets/icons/eyeSlash.svg?react';
 
 import type { TIconName } from './types';
 import type React from 'react';
@@ -27,4 +29,6 @@ export const ICON_MAP: Record<TIconName, React.FC<React.SVGProps<SVGSVGElement>>
   coin: CoinIcon,
   menu: MenuIcon,
   camera: CameraIcon,
+  eye: EyeIcon,
+  eyeSlash: EyeSlashIcon,
 };

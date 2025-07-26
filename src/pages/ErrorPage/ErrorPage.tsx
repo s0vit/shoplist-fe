@@ -1,8 +1,7 @@
-import { Link as RouterLink, useRouteError } from 'react-router-dom';
-import { Button, Container, useTheme } from '@mui/material';
-import { Box, Paper, Typography } from 'src/shared/ui-kit';
+import { useRouteError } from 'react-router-dom';
+import { useTheme } from '@mui/material';
+import { Box, Paper, Typography, Button } from 'src/shared/ui-kit';
 
-import { HomeOutlined, ReportGmailerrorred } from '@mui/icons-material';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { useTranslation } from 'react-i18next';
 
@@ -25,33 +24,28 @@ export default function ErrorPage() {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: theme.palette.background.default,
-        padding: 2,
+        padding: 16,
       }}
     >
-      <Container maxWidth="sm">
-        <Paper style={{ padding: 3, textAlign: 'center', backgroundColor: theme.palette.background.paper }}>
-          <ReportGmailerrorred color="error" style={{ fontSize: 80, marginBottom: 16 }} />
+      <Box style={{ maxWidth: '600px', width: '100%' }}>
+        <Paper style={{ padding: 24, textAlign: 'center', backgroundColor: theme.palette.background.paper }}>
           <Typography variant="h3" gutterBottom>
             {t('Oops!')}
           </Typography>
           <Typography variant="h3" gutterBottom>
             {t('Sorry, an unexpected error has occurred.')}
           </Typography>
-          <Typography variant="body1" color="textSecondary" gutterBottom>
+          <Typography variant="body1" color="secondary" gutterBottom>
             <i>{error?.statusText || error?.message || 'Unknown error'}</i>
           </Typography>
           <Button
             variant="contained"
-            color="primary"
-            startIcon={<HomeOutlined />}
-            component={RouterLink}
-            to={RoutesEnum.ROOT}
-            style={{ marginTop: 4 }}
-          >
-            {t('Go to Home')}
-          </Button>
+            label={t('Go to Home')}
+            onClick={() => (window.location.href = RoutesEnum.ROOT)}
+            style={{ marginTop: 16 }}
+          />
         </Paper>
-      </Container>
+      </Box>
     </Box>
   );
 }

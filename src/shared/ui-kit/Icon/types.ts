@@ -10,7 +10,9 @@ export type TIconName =
   | 'card'
   | 'coin'
   | 'menu'
-  | 'camera';
+  | 'camera'
+  | 'eye'
+  | 'eyeSlash';
 
 // Размеры иконок
 export type TIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';

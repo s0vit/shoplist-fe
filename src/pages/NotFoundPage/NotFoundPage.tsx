@@ -1,7 +1,4 @@
-import { Card, CardActions, CardContent, CardHeader } from '@mui/material';
-import { Avatar } from 'src/shared/ui-kit';
-
-import { Typography, Button } from 'src/shared/ui-kit';
+import { Card, Avatar, Typography, Button, Box } from 'src/shared/ui-kit';
 
 import { useNavigate } from 'react-router-dom';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
@@ -14,20 +11,24 @@ const NotFoundPage = () => {
 
   return (
     <Card style={{ maxWidth: 345, margin: 'auto' }}>
-      <CardHeader
-        avatar={<Avatar aria-label="404" src={notFoundImage} />}
-        title="Worker"
-        subheader="We are on it, hold on"
-      />
+      <Box style={{ padding: 16 }}>
+        <Box style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
+          <Avatar aria-label="404" src={notFoundImage} />
+          <Box style={{ marginLeft: 12 }}>
+            <Typography variant="h3">{t('Worker')}</Typography>
+            <Typography variant="body2">{t('We are on it, hold on')}</Typography>
+          </Box>
+        </Box>
+      </Box>
       <img src={notFoundImage} alt="404 Not Found" style={{ width: '100%', height: 'auto' }} />
-      <CardContent>
+      <Box style={{ padding: 16 }}>
         <Typography variant="h3" align="center">
           {t('The page you are looking for does not exist')}
         </Typography>
-      </CardContent>
-      <CardActions>
+      </Box>
+      <Box style={{ padding: 16 }}>
         <Button variant="outlined" label={t('Go to Home')} width="100%" onClick={() => navigate(RoutesEnum.ROOT)} />
-      </CardActions>
+      </Box>
     </Card>
   );
 };

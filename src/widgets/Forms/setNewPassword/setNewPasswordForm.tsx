@@ -1,8 +1,4 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
-import { Box, Stack, Typography } from 'src/shared/ui-kit';
-
-import { Button } from 'src/shared/ui-kit';
+import { Box, Stack, Typography, TextField, Button, IconButton } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
 import { jwtDecode } from 'jwt-decode';
@@ -68,27 +64,23 @@ const SetNewPasswordForm = ({ token }: TSetNewPasswordFormProps) => {
             <Typography variant="h3" align="center">
               {t('Set new password')}
             </Typography>
-            <FormControl style={{ margin: 8, width: '100%' }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">{t('Password')}</InputLabel>
-              <OutlinedInput
-                disabled={isPendingSetNewPassword}
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                type={showPassword ? 'text' : 'password'}
-                label={t('Password')}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
+            <TextField
+              disabled={isPendingSetNewPassword}
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              label={t('Password')}
+              fullWidth
+              size="small"
+              endAdornment={
+                <IconButton
+                  icon={showPassword ? 'eyeSlash' : 'eye'}
+                  iconSize="sm"
+                  variant="text"
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              }
+            />
             <Button
               variant="outlined"
               type="submit"

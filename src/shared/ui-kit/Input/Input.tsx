@@ -57,6 +57,34 @@ const StyledInput = styled.input<TStyledInputProps>`
   &:disabled {
     cursor: not-allowed;
   }
+
+  /* Удаление синей подсветки автозаполнения Chrome */
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--color-input-bg) inset !important;
+    -webkit-text-fill-color: var(--color-input-text) !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  /* Для темной темы */
+  .theme-dark &:-webkit-autofill,
+  .theme-dark &:-webkit-autofill:hover,
+  .theme-dark &:-webkit-autofill:focus,
+  .theme-dark &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--color-input-bg) inset !important;
+    -webkit-text-fill-color: var(--color-input-text) !important;
+  }
+
+  /* Для светлой темы */
+  .theme-light &:-webkit-autofill,
+  .theme-light &:-webkit-autofill:hover,
+  .theme-light &:-webkit-autofill:focus,
+  .theme-light &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--color-input-bg) inset !important;
+    -webkit-text-fill-color: var(--color-input-text) !important;
+  }
 `;
 
 const InputComponent = forwardRef<HTMLInputElement, TInputProps>(

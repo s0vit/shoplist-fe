@@ -1,12 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { Button, ButtonGroup } from '@mui/material';
-import { Paper, Typography } from 'src/shared/ui-kit';
+import { Paper, Typography, Button, ButtonGroup, Box } from 'src/shared/ui-kit';
 
-import { Box } from 'src/shared/ui-kit';
-
-import { Link as RouterLink } from 'react-router-dom';
 import ErrorWrapper from 'src/utils/components/ErrorWrapper.tsx';
-import { HomeOutlined, Refresh, ReportGmailerrorred } from '@mui/icons-material';
 import { withTranslation } from 'react-i18next';
 import styles from './ErrorBoundary.module.scss';
 
@@ -32,7 +27,6 @@ class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> 
         <ErrorWrapper>
           <Paper>
             <Box className={styles.errorBox}>
-              <ReportGmailerrorred color="error" style={{ fontSize: 80 }} />
               <Typography variant="h3" gutterBottom>
                 {this.props.t('Something went wrong.')}
               </Typography>
@@ -42,13 +36,9 @@ class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> 
               <Typography variant="body2" gutterBottom>
                 {this.props.t('Please try reloading the page or go back to the home page.')}
               </Typography>
-              <ButtonGroup fullWidth>
-                <Button variant="contained" color="primary" startIcon={<Refresh />}>
-                  {this.props.t('Reload')}
-                </Button>
-                <Button variant="outlined" color="primary" component={RouterLink} to="/" startIcon={<HomeOutlined />}>
-                  {this.props.t('Home')}
-                </Button>
+              <ButtonGroup>
+                <Button variant="contained" label={this.props.t('Reload')} onClick={this.handleReload} />
+                <Button variant="outlined" label={this.props.t('Home')} onClick={() => (window.location.href = '/')} />
               </ButtonGroup>
             </Box>
           </Paper>

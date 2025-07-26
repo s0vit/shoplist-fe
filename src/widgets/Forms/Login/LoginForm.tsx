@@ -1,6 +1,4 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
-import { Stack } from 'src/shared/ui-kit';
+import { Stack, TextField, IconButton, Button, Typography } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -13,7 +11,6 @@ import handleError from 'src/utils/errorHandler.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useTranslation } from 'react-i18next';
-import { Button, Typography } from 'src/shared/ui-kit';
 
 type TLoginFormProps = {
   setCurrentTabToRecovery: () => void;
@@ -71,37 +68,32 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
           <Typography variant="h3" align="center">
             {t('Login-frame')}
           </Typography>
-          <FormControl style={{ margin: 8, width: '100%' }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-email">{t('Email')}</InputLabel>
-            <OutlinedInput
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={isLoginPending}
-              type="text"
-              label={t('Email')}
-            />
-          </FormControl>
-          <FormControl style={{ margin: 8, width: '100%' }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">{t('Password')}</InputLabel>
-            <OutlinedInput
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={isLoginPending}
-              type={showPassword ? 'text' : 'password'}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    edge="end"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label={t('Password')}
-            />
-          </FormControl>
+          <TextField
+            label={t('Email')}
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoginPending}
+            fullWidth
+            size="small"
+          />
+          <TextField
+            label={t('Password')}
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoginPending}
+            fullWidth
+            size="small"
+            endAdornment={
+              <IconButton
+                icon={showPassword ? 'eyeSlash' : 'eye'}
+                iconSize="sm"
+                variant="text"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            }
+          />
           <Button disabled={isLoginPending} variant="outlined" label={t('Login')} width="100%" type="submit" />
           <Typography variant="body1" align="center">
             {t('Forgot password?')}

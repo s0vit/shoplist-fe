@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { forwardRef, InputHTMLAttributes, useState } from 'react';
+import { forwardRef, InputHTMLAttributes, useState, ReactNode } from 'react';
 
 export type TTextFieldProps = {
   label?: string;
@@ -13,6 +13,7 @@ export type TTextFieldProps = {
   InputProps?: Record<string, unknown>;
   inputProps?: Record<string, unknown>;
   inputRef?: React.Ref<HTMLInputElement>;
+  endAdornment?: ReactNode;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>;
 
 type TStyledTextFieldProps = {
@@ -64,6 +65,14 @@ const InputContainer = styled.div<TStyledTextFieldProps>`
   }};
 
   transition: all 0.2s ease;
+
+  /* Стили для endAdornment */
+  .end-adornment {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    color: var(--color-text-secondary);
+  }
 `;
 
 const StyledInput = styled.input<TStyledTextFieldProps>`
@@ -93,6 +102,34 @@ const StyledInput = styled.input<TStyledTextFieldProps>`
 
   &:disabled {
     cursor: not-allowed;
+  }
+
+  /* Удаление синей подсветки автозаполнения Chrome */
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--color-input-bg) inset !important;
+    -webkit-text-fill-color: var(--color-input-text) !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  /* Для темной темы */
+  .theme-dark &:-webkit-autofill,
+  .theme-dark &:-webkit-autofill:hover,
+  .theme-dark &:-webkit-autofill:focus,
+  .theme-dark &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--color-input-bg) inset !important;
+    -webkit-text-fill-color: var(--color-input-text) !important;
+  }
+
+  /* Для светлой темы */
+  .theme-light &:-webkit-autofill,
+  .theme-light &:-webkit-autofill:hover,
+  .theme-light &:-webkit-autofill:focus,
+  .theme-light &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--color-input-bg) inset !important;
+    -webkit-text-fill-color: var(--color-input-text) !important;
   }
 `;
 
@@ -131,6 +168,7 @@ const TextFieldComponent = forwardRef<HTMLInputElement, TTextFieldProps>(
       InputProps: _InputProps,
       inputProps: _inputProps,
       inputRef,
+      endAdornment,
       ...inputElementProps
     },
     ref,
@@ -186,6 +224,7 @@ const TextFieldComponent = forwardRef<HTMLInputElement, TTextFieldProps>(
             onBlur={handleBlur}
             {...inputElementProps}
           />
+          {endAdornment && <div className="end-adornment">{endAdornment}</div>}
         </InputContainer>
         {helperText && <HelperText $error={error}>{helperText}</HelperText>}
       </TextFieldWrapper>

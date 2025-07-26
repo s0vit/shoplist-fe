@@ -1,7 +1,4 @@
-import { FormControl, FormGroup, InputLabel, OutlinedInput } from '@mui/material';
-import { Stack } from 'src/shared/ui-kit';
-
-import { Typography, Button } from 'src/shared/ui-kit';
+import { Stack, Typography, Button, TextField } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
 import { Colorful } from '@uiw/react-color';
@@ -85,33 +82,39 @@ const UpsertCategoryForm = ({ setSelectedCategory }: TUpsertCategoryFormProps) =
       <Typography variant="h3" align="center">
         {t('Save category')}
       </Typography>
-      <FormGroup>
-        <Stack gap={1} sx={{ paddingTop: 16, paddingBottom: 16 }}>
-          <Colorful color={color} onChange={(color) => setColor(color.hex)} disableAlpha style={{ width: '100%' }} />
-          <Button
-            label={t('Random Color')}
-            variant="contained"
-            width="100%"
-            onClick={() => setColor(getRandomHexColor())}
-            disabled={isPending}
-          />
-          <FormControl disabled={isPending}>
-            <InputLabel size="small">{t('Title')}</InputLabel>
-            <OutlinedInput size="small" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-          </FormControl>
-          <FormControl disabled={isPending}>
-            <InputLabel size="small">{t('Comments')}</InputLabel>
-            <OutlinedInput size="small" type="text" value={comments} onChange={(e) => setComments(e.target.value)} />
-          </FormControl>
-          <Button
-            label={category?._id ? t('Update') : t('Create')}
-            variant="outlined"
-            width="100%"
-            onClick={upsertCategory}
-            disabled={isPending}
-          />
-        </Stack>
-      </FormGroup>
+      <Stack gap={1} style={{ paddingTop: 16, paddingBottom: 16 }}>
+        <Colorful color={color} onChange={(color) => setColor(color.hex)} disableAlpha style={{ width: '100%' }} />
+        <Button
+          label={t('Random Color')}
+          variant="contained"
+          width="100%"
+          onClick={() => setColor(getRandomHexColor())}
+          disabled={isPending}
+        />
+        <TextField
+          label={t('Title')}
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          disabled={isPending}
+          size="small"
+        />
+        <TextField
+          label={t('Comments')}
+          type="text"
+          value={comments}
+          onChange={(e) => setComments(e.target.value)}
+          disabled={isPending}
+          size="small"
+        />
+        <Button
+          label={category?._id ? t('Update') : t('Create')}
+          variant="outlined"
+          width="100%"
+          onClick={upsertCategory}
+          disabled={isPending}
+        />
+      </Stack>
     </FormWrapper>
   );
 };

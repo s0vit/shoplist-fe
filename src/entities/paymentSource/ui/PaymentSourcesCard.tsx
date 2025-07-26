@@ -1,5 +1,5 @@
-import { alpha, Card, CardContent, IconButton, useTheme } from '@mui/material';
-import { Typography } from 'src/shared/ui-kit';
+import { alpha, useTheme } from '@mui/material';
+import { Typography, Card, IconButton } from 'src/shared/ui-kit';
 
 import { Box, Stack, Grid } from 'src/shared/ui-kit';
 
@@ -19,7 +19,6 @@ import ShareWithModal from 'src/widgets/Modal/ShareWithModal.tsx';
 import { MouseEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
-import { FaPencilAlt } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useSortable } from '@dnd-kit/sortable';
@@ -120,14 +119,14 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
       <SwipeableList type={Type.IOS} fullSwipe className={styles.swipeList}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
           <Card
-            sx={{
+            style={{
               backgroundColor: paymentSourceBackgroundColor,
               width: '100%',
               borderRadius: theme.spacing(1),
               border: `1px solid ${paymentSource.color || theme.palette.primary.main}`,
             }}
           >
-            <CardContent style={{ padding: 8 }} className={styles.cardContent}>
+            <Box style={{ padding: 8 }} className={styles.cardContent}>
               <Box className={styles.flexBetween}>
                 <Typography variant="h3" color={paymentSourceTextColor}>
                   {paymentSource.title}
@@ -137,18 +136,18 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
                     {t('Created: ') + `${new Date(paymentSource.createdAt).toLocaleDateString()}`}
                   </Typography>
                   <IconButton
-                    aria-label="edit"
-                    sx={{
+                    icon="pencilSquare"
+                    iconSize="sm"
+                    variant="text"
+                    disabled={!isVerified}
+                    style={{
                       height: 'fit-content',
                       width: 'fit-content',
-                      p: '5px',
-                      ml: '5px',
+                      padding: '5px',
+                      marginLeft: '5px',
                       border: `1px solid ${theme.palette.text.primary}`,
                     }}
-                    disabled={!isVerified}
-                  >
-                    <FaPencilAlt size={20} color={theme.palette.text.primary} />
-                  </IconButton>
+                  />
                 </Box>
               </Box>
               {paymentSource.comments && (
@@ -156,7 +155,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
                   {paymentSource.comments}
                 </Typography>
               )}
-            </CardContent>
+            </Box>
           </Card>
         </SwipeableListItem>
       </SwipeableList>

@@ -1,8 +1,4 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
-import { Stack, TextField } from 'src/shared/ui-kit';
-
-import { Typography, Button } from 'src/shared/ui-kit';
+import { Stack, TextField, Button, Typography, IconButton } from 'src/shared/ui-kit';
 
 import { useMutation } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
@@ -23,6 +19,7 @@ const RegisterForm = () => {
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { t } = useTranslation('loginPage');
 
   const toastId = useRef<Id>(undefined);
@@ -112,6 +109,8 @@ const RegisterForm = () => {
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="Code"
+                fullWidth
+                size="small"
               />
               <Button disabled={isConfirmPending} variant="outlined" type="submit" label={t('Confirm')} width="100%" />
             </Stack>
@@ -129,35 +128,43 @@ const RegisterForm = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t('Email')}
+              fullWidth
+              size="small"
             />
-            <FormControl style={{ margin: 8, width: '100%' }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">{t('Password')}</InputLabel>
-              <OutlinedInput
-                disabled={isRegisterPending}
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                label={t('Password')}
-                type={showPassword ? 'text' : 'password'}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
             <TextField
-              type="password"
+              disabled={isRegisterPending}
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              label={t('Password')}
+              fullWidth
+              size="small"
+              endAdornment={
+                <IconButton
+                  icon={showPassword ? 'eyeSlash' : 'eye'}
+                  iconSize="sm"
+                  variant="text"
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              }
+            />
+            <TextField
+              type={showConfirmPassword ? 'text' : 'password'}
               value={confirmPassword}
               disabled={isRegisterPending}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder={t('Confirm Password')}
               helperText={t('Password should contain 1 number and 1 capital letter')}
+              fullWidth
+              size="small"
+              endAdornment={
+                <IconButton
+                  icon={showConfirmPassword ? 'eyeSlash' : 'eye'}
+                  iconSize="sm"
+                  variant="text"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                />
+              }
             />
             <Button disabled={isRegisterPending} variant="outlined" label={t('Register')} width="100%" />
           </Stack>
