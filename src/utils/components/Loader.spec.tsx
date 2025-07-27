@@ -1,18 +1,11 @@
 import { render, screen, cleanup } from '@testing-library/react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Loader from 'src/utils/components/Loader.tsx';
 import { describe, expect, it, afterEach, beforeEach } from 'vitest';
 
 let renderResult: ReturnType<typeof render>;
 
 const renderWithTheme = () => {
-  const theme = createTheme();
-
-  return render(
-    <ThemeProvider theme={theme}>
-      <Loader />
-    </ThemeProvider>,
-  );
+  return render(<Loader />);
 };
 
 describe('Loader', () => {
