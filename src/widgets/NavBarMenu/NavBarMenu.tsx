@@ -1,6 +1,5 @@
-import { Logout, Person, ShareSharp } from '@mui/icons-material';
-import { Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
-import { Avatar } from 'src/shared/ui-kit';
+import { Divider, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Avatar, IconButton, Icon } from 'src/shared/ui-kit';
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -19,8 +18,10 @@ const NavBarMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = useStableCallback((event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = useStableCallback((event?: React.MouseEvent<HTMLButtonElement>) => {
+    if (event) {
+      setAnchorEl(event.currentTarget);
+    }
   });
 
   const handleClose = useStableCallback(() => {
@@ -36,7 +37,7 @@ const NavBarMenu = () => {
   return (
     <>
       <Tooltip title={t('Account settings')}>
-        <IconButton size="small" onClick={handleClick}>
+        <IconButton onClick={handleClick}>
           <Avatar src={userData?.avatar} name={userData?.login || userData?.email} style={{ width: 32, height: 32 }} />
         </IconButton>
       </Tooltip>
@@ -49,20 +50,20 @@ const NavBarMenu = () => {
       >
         <MenuItem onClick={() => navigate(RoutesEnum.PROFILE)}>
           <ListItemIcon>
-            <Person fontSize="small" />
+            <Icon name="user" size="sm" />
           </ListItemIcon>
           {t('Profile')}
         </MenuItem>
         <MenuItem disabled={!userData?.isVerified} onClick={() => navigate(RoutesEnum.ACCESS_CONTROL)}>
           <ListItemIcon>
-            <ShareSharp fontSize="small" />
+            <Icon name="share" size="sm" />
           </ListItemIcon>
           {t('Shared')}
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleLoginClick}>
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <Icon name="logout" size="sm" />
           </ListItemIcon>
           {t('Logout')}
         </MenuItem>

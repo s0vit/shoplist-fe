@@ -1,8 +1,8 @@
-import { MapsUgc, Message } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box, Stack, Button, ButtonGroup } from 'src/shared/ui-kit';
 
-import { FormControl, IconButton, MenuItem, Select, useTheme } from '@mui/material';
+import { FormControl, MenuItem, Select, useTheme } from '@mui/material';
+import { IconButton } from 'src/shared/ui-kit';
 import { Paper, Typography } from 'src/shared/ui-kit';
 
 import { DateTimePicker } from '@mui/x-date-pickers';
@@ -319,20 +319,19 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
               },
             }}
           />
-          <IconButton sx={{ border: `1px solid ${comments ? theme.palette.success.main : theme.palette.grey[700]}` }}>
-            {comments?.length ? (
-              <Message htmlColor={theme.palette.success.main} style={{ width: '21px', height: '21px' }} />
-            ) : (
-              <MapsUgc style={{ width: '21px', height: '21px' }} />
-            )}
-          </IconButton>
+          <IconButton
+            icon="plus"
+            style={{ border: `1px solid ${comments ? theme.palette.success.main : theme.palette.grey[700]}` }}
+            onClick={() => setIsCommentModalOpen(true)}
+          />
         </Stack>
         <ButtonGroup fullWidth>
-          <Button disabled={isPending} variant="contained" label={t('Clear')} />
+          <Button disabled={isPending} variant="contained" label={t('Clear')} onClick={clearData} />
           <Button
             disabled={isPending || !isVerified}
             variant="contained"
             label={isPending ? <CircularProgress size={24} /> : t('Save')}
+            onClick={handleSave}
           />
         </ButtonGroup>
       </Box>

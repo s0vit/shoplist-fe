@@ -11,7 +11,7 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
-import { Delete, Edit } from '@mui/icons-material';
+import { Icon } from 'src/shared/ui-kit';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu';
 import { MouseEvent, useState } from 'react';
@@ -91,7 +91,7 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
             } as React.CSSProperties
           }
         >
-          <Edit />
+          <Icon name="pencilSquare" size="md" />
         </Stack>
       </SwipeAction>
     </LeadingActions>
@@ -109,7 +109,7 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
             } as React.CSSProperties
           }
         >
-          <Delete />
+          <Icon name="trash" size="md" />
         </Stack>
       </SwipeAction>
     </TrailingActions>

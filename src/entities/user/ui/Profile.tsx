@@ -1,6 +1,5 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, useTheme } from '@mui/material';
-import { Avatar, Paper, Typography, Button, ButtonGroup, IconButton, Box } from 'src/shared/ui-kit';
+import { Avatar, Paper, Typography, Button, ButtonGroup, IconButton, Box, Icon } from 'src/shared/ui-kit';
 import { alpha } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useRef, useState } from 'react';
@@ -117,7 +116,7 @@ const Profile = () => {
         </Box>
 
         <Accordion style={{ marginTop: 4 }} elevation={2}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />} disabled={!userData?.isVerified}>
+          <AccordionSummary expandIcon={<Icon name="chevronDown" size="md" />} disabled={!userData?.isVerified}>
             <Typography>{t('Settings')}</Typography>
           </AccordionSummary>
           <AccordionDetails style={{ padding: 0 }}>

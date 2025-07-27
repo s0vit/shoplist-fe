@@ -1,10 +1,9 @@
 import { ChangeEvent } from 'react';
-import TextField from '@mui/material/TextField';
-import { Grid, Box } from 'src/shared/ui-kit';
+import { Grid, Box, TextField } from 'src/shared/ui-kit';
 
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Icon } from 'src/shared/ui-kit';
 import CategoriesSelect from 'src/entities/category/ui/CategoriesSelect.tsx';
 import PaymentSourcesSelect from 'src/entities/paymentSource/ui/PaymentSourcesSelect.tsx';
 import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
@@ -37,7 +36,7 @@ const ExpenseQueryForm = () => {
 
   return (
     <Accordion disableGutters>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>{t('Filter')}</AccordionSummary>
+      <AccordionSummary expandIcon={<Icon name="chevronDown" size="md" />}>{t('Filter')}</AccordionSummary>
       <AccordionDetails>
         <Box>
           <Grid container spacing={2}>

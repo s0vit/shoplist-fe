@@ -12,7 +12,7 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
-import { Delete, Edit } from '@mui/icons-material';
+import { Icon } from 'src/shared/ui-kit';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu.tsx';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal.tsx';
@@ -83,7 +83,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
     <LeadingActions>
       <SwipeAction onClick={handleEdit}>
         <Stack className={styles.actionStack}>
-          <Edit />
+          <Icon name="pencilSquare" size="md" />
         </Stack>
       </SwipeAction>
     </LeadingActions>
@@ -93,7 +93,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
     <TrailingActions>
       <SwipeAction destructive={isVerified} onClick={handleRemove}>
         <Stack className={styles.actionStack}>
-          <Delete />
+          <Icon name="trash" size="md" />
         </Stack>
       </SwipeAction>
     </TrailingActions>

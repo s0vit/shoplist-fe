@@ -1,6 +1,6 @@
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Icon } from 'src/shared/ui-kit';
 import { Box } from 'src/shared/ui-kit';
 
 import ExpenseItem from 'src/entities/expenses/ui/ExpenseItem.tsx';
@@ -29,7 +29,7 @@ const AccessControlSharedExpenses = ({
 
   return (
     <Accordion disableGutters>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+      <AccordionSummary expandIcon={<Icon name="chevronDown" size="md" />}>
         {t('Shared expenses: ')} {accessControl.expenseIds.length}
       </AccordionSummary>
       <AccordionDetails>

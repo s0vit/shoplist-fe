@@ -1,6 +1,5 @@
-import { Delete, Edit, Share } from '@mui/icons-material';
 import { alpha, Button, Menu, MenuItem, useTheme } from '@mui/material';
-import { Typography } from 'src/shared/ui-kit';
+import { Typography, Icon } from 'src/shared/ui-kit';
 
 import { Fragment, MouseEvent, TouchEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
@@ -48,6 +47,7 @@ const HorizontalListItem = ({
   return (
     <Fragment key={item._id}>
       <Button
+        onClick={() => _setSelectedItem(item._id)}
         onContextMenu={(e) => handleOpenMenu(e, item._id)}
         {...useLongPress((e) => handleOpenMenu(e, item._id), 500)}
         size="small"
@@ -90,19 +90,19 @@ const HorizontalListItem = ({
         }}
       >
         <MenuItem onClick={() => handleEdit(item)}>
-          <Edit fontSize="small" />
+          <Icon name="pencilSquare" size="sm" />
           <Typography variant="body2" style={{ marginLeft: 8 }}>
             {t('Edit')}
           </Typography>
         </MenuItem>
         <MenuItem divider onClick={() => handleShare(item._id)}>
-          <Share fontSize="small" />
+          <Icon name="share" size="sm" />
           <Typography variant="body2" style={{ marginLeft: 8 }}>
             {t('Share with')}
           </Typography>
         </MenuItem>
         <MenuItem onClick={() => handleOpenDeleteDialog(item)}>
-          <Delete fontSize="small" />
+          <Icon name="trash" size="sm" />
           <Typography variant="body2" style={{ marginLeft: 8 }}>
             {t('Delete')}
           </Typography>

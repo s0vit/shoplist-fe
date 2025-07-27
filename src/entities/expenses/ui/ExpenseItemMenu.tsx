@@ -1,6 +1,5 @@
-import { Delete, Edit, Share } from '@mui/icons-material';
 import { alpha, Menu, MenuItem, useTheme } from '@mui/material';
-import { Typography } from 'src/shared/ui-kit';
+import { Typography, Icon } from 'src/shared/ui-kit';
 
 import { useTranslation } from 'react-i18next';
 
@@ -47,19 +46,19 @@ const ExpenseItemMenu = ({
       }}
     >
       <MenuItem onClick={handleEdit}>
-        <Edit fontSize="small" />
+        <Icon name="pencilSquare" size="sm" />
         <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Edit')}
         </Typography>
       </MenuItem>
       <MenuItem divider onClick={() => setIsShareWithModalOpen(true)}>
-        <Share fontSize="small" />
+        <Icon name="share" size="sm" />
         <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Share with')}
         </Typography>
       </MenuItem>
       <MenuItem onClick={() => handleRemove(expense._id)}>
-        <Delete fontSize="small" />
+        <Icon name="trash" size="sm" />
         <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Delete')}
         </Typography>

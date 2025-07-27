@@ -6,17 +6,16 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
 } from '@mui/material';
-import { FormHelperText } from 'src/shared/ui-kit';
+import { FormHelperText, IconButton } from 'src/shared/ui-kit';
 
 import { Button } from 'src/shared/ui-kit';
 
 import { useState } from 'react';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import { TPasswordChangeRequest } from 'src/shared/api/authApi';
 import passwordValidate from 'src/utils/helpers/passwordValidate.ts';
@@ -132,12 +131,9 @@ const ChangePasswordDialog = ({
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  aria-label="toggle password visibility"
-                  edge="end"
+                  icon={showCurrentPassword ? 'eyeSlash' : 'eye'}
                   onClick={() => handleClickShowPassword(setShowCurrentPassword)}
-                >
-                  {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
+                />
               </InputAdornment>
             }
             label={t('Current password')}
@@ -170,12 +166,9 @@ const ChangePasswordDialog = ({
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  aria-label="toggle-new-password-visibility"
-                  edge="end"
+                  icon={showNewPassword ? 'eyeSlash' : 'eye'}
                   onClick={() => handleClickShowPassword(setShowNewPassword)}
-                >
-                  {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
+                />
               </InputAdornment>
             }
             label={t('New password')}
@@ -206,12 +199,9 @@ const ChangePasswordDialog = ({
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  aria-label="toggle-confirm-password-visibility"
-                  edge="end"
+                  icon={showConfirmPassword ? 'eyeSlash' : 'eye'}
                   onClick={() => handleClickShowPassword(setShowConfirmPassword)}
-                >
-                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
+                />
               </InputAdornment>
             }
             label={t('Confirm password')}

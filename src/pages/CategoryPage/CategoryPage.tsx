@@ -1,5 +1,5 @@
-import { Divider, IconButton } from '@mui/material';
-import { Paper, Typography, Box } from 'src/shared/ui-kit';
+import { Divider } from '@mui/material';
+import { Paper, Typography, Box, IconButton } from 'src/shared/ui-kit';
 
 import CategoriesGrid from 'src/entities/category/ui/CategoriesGrid.tsx';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
@@ -9,7 +9,7 @@ import { deleteCategory, TCategory } from 'src/shared/api/categoryApi.ts';
 import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import handleError from 'src/utils/errorHandler.ts';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import useUpdateCategoryOrder from 'src/entities/category/hooks/useUpdateCategoryOrder.ts';
@@ -56,14 +56,13 @@ const CategoryPage = () => {
       <Box className={styles.rootBox}>
         <Typography variant="h3">{t('Categories')}</Typography>
         <IconButton
-          size="small"
+          icon="plus"
+          iconSize="lg"
+          variant="text"
           disabled={false}
-          color="primary"
           onClick={() => setIsCategoryModalOpen(true)}
           className={styles.addButton}
-        >
-          <AddCircleOutlineIcon fontSize="large" />
-        </IconButton>
+        />
 
         <Divider />
         <br />

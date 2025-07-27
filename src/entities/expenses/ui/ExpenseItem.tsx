@@ -1,5 +1,5 @@
 import { MouseEvent, useEffect, useState } from 'react';
-import { FaPencilAlt } from 'react-icons/fa';
+
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   LeadingActions,
@@ -11,14 +11,15 @@ import {
 } from 'react-swipeable-list';
 import { Box, Stack, Select, type TOption, Typography, FormHelperText } from 'src/shared/ui-kit';
 
-import { IconButton, useTheme, Chip, alpha } from '@mui/material';
+import { useTheme, Chip, alpha } from '@mui/material';
+import { IconButton } from 'src/shared/ui-kit';
 
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import { TExpense } from 'src/shared/api/expenseApi.ts';
-import { Delete, Edit } from '@mui/icons-material';
+import { Icon } from 'src/shared/ui-kit';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
@@ -86,8 +87,11 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
     }
   });
 
-  const handleEditClick = (event: MouseEvent<HTMLElement>) => {
-    event.stopPropagation();
+  const handleEditClick = (event?: React.MouseEvent<HTMLButtonElement>) => {
+    if (event) {
+      event.stopPropagation();
+    }
+
     handleEdit();
   };
 
@@ -108,7 +112,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
             } as React.CSSProperties
           }
         >
-          <Edit />
+          <Icon name="pencilSquare" size="md" />
         </Stack>
       </SwipeAction>
     </LeadingActions>
@@ -126,7 +130,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
             } as React.CSSProperties
           }
         >
-          <Delete />
+          <Icon name="trash" size="md" />
         </Stack>
       </SwipeAction>
     </TrailingActions>
@@ -215,17 +219,17 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
                 )}
               </Box>
               <IconButton
-                aria-label="edit"
-                sx={{
+                icon="pencilSquare"
+                iconSize={20}
+                style={{
                   height: 'fit-content',
                   width: 'fit-content',
-                  p: '5px',
-                  ml: '5px',
+                  padding: '5px',
+                  marginLeft: '5px',
                   border: `1px solid ${theme.palette.text.primary}`,
                 }}
-              >
-                <FaPencilAlt size={20} color={theme.palette.text.primary} />
-              </IconButton>
+                onClick={handleEditClick}
+              />
             </Stack>
           </Stack>
         </SwipeableListItem>

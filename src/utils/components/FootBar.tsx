@@ -1,12 +1,8 @@
-import { Money, Payments } from '@mui/icons-material';
-import AddIcon from '@mui/icons-material/Add';
-import CategoryIcon from '@mui/icons-material/Category';
-import PersonIcon from '@mui/icons-material/Person';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { BottomNavigation, BottomNavigationAction, Fab, useTheme } from '@mui/material';
-import { Box } from 'src/shared/ui-kit';
+import { Box, Icon } from 'src/shared/ui-kit';
 
 import { useTranslation } from 'react-i18next';
 
@@ -20,22 +16,22 @@ const FootBar = () => {
   const navigationItems = [
     {
       label: 'Accounts',
-      icon: <Payments />,
+      icon: <Icon name="card" size="md" />,
       route: RoutesEnum.PAYMENT_SOURCE,
     },
     {
       label: 'Expenses',
-      icon: <Money />,
+      icon: <Icon name="coin" size="md" />,
       route: RoutesEnum.EXPENSES_LIST,
     },
     {
       label: 'Profile',
-      icon: <PersonIcon />,
+      icon: <Icon name="user" size="md" />,
       route: RoutesEnum.PROFILE,
     },
     {
       label: 'Categories',
-      icon: <CategoryIcon />,
+      icon: <Icon name="menu" size="md" />,
       route: RoutesEnum.CATEGORY,
     },
   ];
@@ -74,7 +70,7 @@ const FootBar = () => {
               },
             }}
           >
-            <AddIcon />
+            <Icon name="plus" size="md" />
           </Fab>
         )}
       </Box>

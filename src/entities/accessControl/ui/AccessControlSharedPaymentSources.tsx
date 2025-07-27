@@ -2,7 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 
 import { Box } from 'src/shared/ui-kit';
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Icon } from 'src/shared/ui-kit';
 import PaymentSourcesCard from 'src/entities/paymentSource/ui/PaymentSourcesCard.tsx';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { TAccessControl, TCreateAccessControlRequest } from 'src/shared/api/accessControlApi.ts';
@@ -23,7 +23,7 @@ const AccessControlSharedPaymentSources = ({
 
   return (
     <Accordion disableGutters>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+      <AccordionSummary expandIcon={<Icon name="chevronDown" size="md" />}>
         {t('Shared payment sources: ')} {accessControl.paymentSourceIds.length}
       </AccordionSummary>
       <AccordionDetails>

@@ -12,7 +12,15 @@ export type TIconName =
   | 'menu'
   | 'camera'
   | 'eye'
-  | 'eyeSlash';
+  | 'eyeSlash'
+  | 'moon'
+  | 'sun'
+  | 'trash'
+  | 'share'
+  | 'logout'
+  | 'user'
+  | 'message'
+  | 'chevronDown';
 
 // Размеры иконок
 export type TIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';

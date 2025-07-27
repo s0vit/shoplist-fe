@@ -17,6 +17,7 @@ export { default as TextField } from './TextField/TextField';
 export { default as Toggle } from './Toggle/Toggle';
 export { default as Category } from './Category/Category';
 export { default as Typography } from './Typography/Typography';
+export { default as Autocomplete } from './Autocomplete/Autocomplete';
 
 // Types
 export type { TAvatarProps } from './Avatar/Avatar';

@@ -1,6 +1,6 @@
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Icon } from 'src/shared/ui-kit';
 import { Box } from 'src/shared/ui-kit';
 
 import CategoryCard from 'src/entities/category/ui/CategoryCard.tsx';
@@ -23,7 +23,7 @@ const AccessControlSharedCategories = ({
 
   return (
     <Accordion disableGutters>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+      <AccordionSummary expandIcon={<Icon name="chevronDown" size="md" />}>
         {t('Shared categories: ')} {accessControl.expenseIds.length}
       </AccordionSummary>
       <AccordionDetails>

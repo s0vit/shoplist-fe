@@ -42,7 +42,6 @@
     "@emotion/styled": "^11.14.0",
     "@faker-js/faker": "^9.0.3",
     "@fontsource/roboto": "^5.0.13",
-    "@mui/icons-material": "^5.17.1",
     "@mui/material": "^5.17.1",
     "@mui/x-date-pickers": "^7.28.0",
     "@storybook/addon-docs": "^8.6.14",

@@ -1,14 +1,11 @@
 import { Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Box } from 'src/shared/ui-kit';
 
-import HomeIcon from '@mui/icons-material/Home';
-import CategoryIcon from '@mui/icons-material/Category';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { ReactElement, useEffect } from 'react';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
-import { Money, Payments } from '@mui/icons-material';
+import { Icon } from 'src/shared/ui-kit';
 import { useTranslation } from 'react-i18next';
 
 type TDrawerNavigationProps = {
@@ -23,10 +20,10 @@ type TNavigationItem = {
 };
 
 const navigationList: Array<TNavigationItem> = [
-  { title: 'Home', link: RoutesEnum.ROOT, icon: <HomeIcon /> },
-  { title: 'Profile', link: RoutesEnum.PROFILE, icon: <AccountCircleIcon /> },
-  { title: 'Categories', link: RoutesEnum.CATEGORY, icon: <CategoryIcon /> },
-  { title: 'Accounts', link: RoutesEnum.PAYMENT_SOURCE, icon: <Payments /> },
+  { title: 'Home', link: RoutesEnum.ROOT, icon: <Icon name="home" size="md" /> },
+  { title: 'Profile', link: RoutesEnum.PROFILE, icon: <Icon name="user" size="md" /> },
+  { title: 'Categories', link: RoutesEnum.CATEGORY, icon: <Icon name="menu" size="md" /> },
+  { title: 'Accounts', link: RoutesEnum.PAYMENT_SOURCE, icon: <Icon name="card" size="md" /> },
 ];
 
 const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationProps) => {
@@ -45,7 +42,11 @@ const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationPr
 
   useEffect(() => {
     if (!isDesktopWidth && !navigationList.some((route) => route.link === RoutesEnum.EXPENSES_LIST)) {
-      navigationList.push({ title: t('Expenses'), link: RoutesEnum.EXPENSES_LIST, icon: <Money /> });
+      navigationList.push({
+        title: t('Expenses'),
+        link: RoutesEnum.EXPENSES_LIST,
+        icon: <Icon name="coin" size="md" />,
+      });
     }
   }, [isDesktopWidth, t]);
 

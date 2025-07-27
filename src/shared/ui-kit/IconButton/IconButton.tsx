@@ -3,7 +3,7 @@ import Icon from '../Icon/Icon';
 import { TIconName, TIconSize } from '../Icon/types';
 
 export type TIconButtonProps = {
-  icon: TIconName;
+  icon?: TIconName;
   iconSize?: TIconSize | number;
   iconColor?: string;
   iconVariant?: 'primary' | 'secondary' | 'disabled';
@@ -11,7 +11,7 @@ export type TIconButtonProps = {
   height?: string;
   variant?: 'contained' | 'outlined' | 'text';
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
   style?: React.CSSProperties;
   type?: 'button' | 'submit' | 'reset';
   className?: string;
@@ -121,7 +121,7 @@ const IconButton = ({
       type={type}
       className={className}
     >
-      <Icon name={icon} size={iconSize} color={iconColor} variant={getIconVariant()} />
+      {icon && <Icon name={icon} size={iconSize} color={iconColor} variant={getIconVariant()} />}
       {children}
     </IconButtonStyled>
   );

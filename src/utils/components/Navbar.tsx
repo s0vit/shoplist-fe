@@ -1,8 +1,5 @@
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, IconButton, Toolbar, useTheme } from '@mui/material';
-import { Box, Typography } from 'src/shared/ui-kit';
+import { AppBar, Toolbar, useTheme } from '@mui/material';
+import { Box, Typography, IconButton } from 'src/shared/ui-kit';
 
 import { useContext, useState } from 'react';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
@@ -43,16 +40,22 @@ const Navbar = () => {
         <AppBar position="fixed">
           <Toolbar>
             {isDesktopWidth && (
-              <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-                <MenuIcon />
-              </IconButton>
+              <IconButton
+                icon="menu"
+                iconSize="lg"
+                variant="text"
+                style={{ marginRight: 16 }}
+                onClick={() => setIsDrawerOpen(true)}
+              />
             )}
             <Typography variant="h3" style={{ flexGrow: 1 }}>
               {t('Shoplist')} {`${import.meta.env.PACKAGE_VERSION}`}
             </Typography>
-            <IconButton color="inherit" onClick={colorMode.toggleColorMode}>
-              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-            </IconButton>
+            <IconButton
+              icon={theme.palette.mode === 'dark' ? 'sun' : 'moon'}
+              variant="text"
+              onClick={colorMode.toggleColorMode}
+            />
             {isLoggedIn && <NavBarMenu />}
           </Toolbar>
         </AppBar>

@@ -12,6 +12,14 @@ import MenuIcon from '../assets/icons/menu.svg?react';
 import CameraIcon from '../assets/icons/camera.svg?react';
 import EyeIcon from '../assets/icons/eye.svg?react';
 import EyeSlashIcon from '../assets/icons/eyeSlash.svg?react';
+import MoonIcon from '../assets/icons/moon.svg?react';
+import SunIcon from '../assets/icons/sun.svg?react';
+import TrashIcon from '../assets/icons/trash.svg?react';
+import ShareIcon from '../assets/icons/share.svg?react';
+import LogoutIcon from '../assets/icons/logout.svg?react';
+import UserIcon from '../assets/icons/user.svg?react';
+import MessageIcon from '../assets/icons/message.svg?react';
+import ChevronDownIcon from '../assets/icons/chevronDown.svg?react';
 
 import type { TIconName } from './types';
 import type React from 'react';
@@ -31,4 +39,12 @@ export const ICON_MAP: Record<TIconName, React.FC<React.SVGProps<SVGSVGElement>>
   camera: CameraIcon,
   eye: EyeIcon,
   eyeSlash: EyeSlashIcon,
+  moon: MoonIcon,
+  sun: SunIcon,
+  trash: TrashIcon,
+  share: ShareIcon,
+  logout: LogoutIcon,
+  user: UserIcon,
+  message: MessageIcon,
+  chevronDown: ChevronDownIcon,
 };

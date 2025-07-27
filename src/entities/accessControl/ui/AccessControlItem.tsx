@@ -15,7 +15,7 @@ import handleError from 'src/utils/errorHandler.ts';
 import useLoadAccessControls from 'src/entities/accessControl/hooks/useLoadAccessControls.ts';
 import { findUserById } from 'src/shared/api/userApi.ts';
 import { useEffect } from 'react';
-import { Delete } from '@mui/icons-material';
+import { Icon } from 'src/shared/ui-kit';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import AccessControlSharedExpenses from 'src/entities/accessControl/ui/AccessControlSharedExpenses.tsx';
@@ -82,7 +82,7 @@ const AccessControlItem = ({ accessControl, paymentSources, categories, expenses
                 border: `1px solid ${theme.palette.error.main}`,
               }}
             >
-              <Delete color="error" />
+              <Icon name="trash" size="md" color="error" />
             </Button>
           </Stack>
         )}
