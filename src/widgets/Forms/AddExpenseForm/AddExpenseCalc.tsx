@@ -6,7 +6,7 @@ import { FormControl, Select } from 'src/shared/ui-kit';
 import { IconButton } from 'src/shared/ui-kit';
 import { Paper, Typography } from 'src/shared/ui-kit';
 
-import { DateTimePicker } from 'src/shared/ui-kit';
+import { DateTimePicker } from '@mui/x-date-pickers';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -289,8 +289,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             label={t('Date and time')}
             disableFuture
             value={selectedDate}
-            onChange={setSelectedDate}
-            style={{ flex: 1 }}
+            onChange={(value) => setSelectedDate(value || undefined)}
+            sx={{ flex: 1 }}
           />
           <IconButton
             icon="plus"

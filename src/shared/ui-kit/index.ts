@@ -39,14 +39,12 @@ export { Modal } from './Modal';
 export { Backdrop } from './Backdrop';
 export { Fade } from './Fade';
 export { Tooltip } from './Tooltip';
-export { DateTimePicker } from './DateTimePicker';
 export type { TTabsProps, TTabProps } from './Tabs';
 export type { TInputAdornmentProps } from './InputAdornment';
 export type { TModalProps } from './Modal';
 export type { TBackdropProps } from './Backdrop';
 export type { TFadeProps } from './Fade';
 export type { TTooltipProps } from './Tooltip';
-export type { TDateTimePickerProps } from './DateTimePicker';
 
 // Types
 export type { TAvatarProps } from './Avatar/Avatar';
