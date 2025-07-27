@@ -1,4 +1,4 @@
-import { AppBar, Toolbar } from '@mui/material';
+import { AppBar, Toolbar } from 'src/shared/ui-kit';
 import { Box, Typography, IconButton } from 'src/shared/ui-kit';
 
 import { useContext, useState } from 'react';

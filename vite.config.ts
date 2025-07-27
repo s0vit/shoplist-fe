@@ -32,7 +32,7 @@ export default defineConfig({
     }),
   ],
   optimizeDeps: {
-    include: ['@mui/material', '@emotion/react', '@emotion/styled', '@mui/x-date-pickers', 'date-fns'],
+    include: ['@emotion/react', '@emotion/styled', 'date-fns'],
   },
   resolve: {
     alias: {

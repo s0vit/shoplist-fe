@@ -41,7 +41,7 @@ const ExpensesTable = () => {
   return isVerified && isExpensesLoading ? (
     <Stack className={styles.rootStack}>
       <SkeletonGroup
-        variant="rounded"
+        variant="rectangular"
         styles={{ minHeight: '130px', marginBottom: '15px' }}
         dimensions={{ direction: 'column' }}
       />

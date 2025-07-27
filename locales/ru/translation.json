@@ -18,5 +18,6 @@
   "Warning: ": "Внимание: ",
   "To get full functionality you should to confirm your email. Please check your email. Or follow the link to get a new verification code.": "Чтобы получить полную функциональность необходимо подтвердить адрес электронной почты. Пожалуйста, проверьте свой почтовый ящик. Или пройдите по ссылке для получения нового кода верификаций.",
   "A you sure to delete ": "Вы уверены, что хотите удалить ",
-  "New verification link": "Новая ссылка для авторизации"
+  "New verification link": "Новая ссылка для авторизации",
+  "Time": "Время"
 }

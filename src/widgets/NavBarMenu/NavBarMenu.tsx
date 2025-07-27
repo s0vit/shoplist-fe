@@ -1,5 +1,4 @@
-import { Tooltip } from '@mui/material';
-import { Menu, MenuItem, ListItemIcon as MenuListItemIcon } from 'src/shared/ui-kit';
+import { Menu, MenuItem, ListItemIcon as MenuListItemIcon, Tooltip } from 'src/shared/ui-kit';
 import { Divider } from 'src/shared/ui-kit';
 import { Avatar, IconButton, Icon } from 'src/shared/ui-kit';
 

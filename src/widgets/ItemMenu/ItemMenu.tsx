@@ -46,19 +46,35 @@ const ItemMenu = ({
         },
       }}
     >
-      <MenuItem onClick={handleEdit}>
+      <MenuItem
+        onClick={() => {
+          handleEdit();
+          handleCloseMenu();
+        }}
+      >
         <Icon name="pencilSquare" size="sm" />
         <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Edit')}
         </Typography>
       </MenuItem>
-      <MenuItem divider onClick={() => setIsShareWithModalOpen(true)}>
+      <MenuItem
+        divider
+        onClick={() => {
+          setIsShareWithModalOpen(true);
+          handleCloseMenu();
+        }}
+      >
         <Icon name="share" size="sm" />
         <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Share with')}
         </Typography>
       </MenuItem>
-      <MenuItem onClick={() => handleRemove(itemId)}>
+      <MenuItem
+        onClick={() => {
+          handleRemove(itemId);
+          handleCloseMenu();
+        }}
+      >
         <Icon name="trash" size="sm" />
         <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Delete')}

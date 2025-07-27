@@ -1,6 +1,5 @@
-import { FormControl, FormControlLabel } from '@mui/material';
-import { useTheme } from 'src/shared/ui-kit';
-import { Box, Paper } from 'src/shared/ui-kit';
+import { FormControl } from 'src/shared/ui-kit';
+import { Box, Paper, Typography } from 'src/shared/ui-kit';
 
 import { Select, Toggle, type TOption } from 'src/shared/ui-kit';
 
@@ -18,8 +17,6 @@ const Settings = () => {
   const userSettings = useUserSettingsStore.use.config();
   const setUserConfig = useUserSettingsStore.use.setConfig();
   const { t } = useTranslation('profile');
-
-  const theme = useTheme();
 
   const setNewLanguage = async (newLanguage: LANGUAGES_ENUM) => {
     await i18n.changeLanguage(newLanguage);
@@ -65,8 +62,10 @@ const Settings = () => {
   return (
     <Paper elevation={2} className={styles.settingsPaper}>
       <Box display="flex" flexDirection="column" gap="16px">
-        <FormControl fullWidth variant="outlined">
-          <label htmlFor="currency-select">{t('Currency')}</label>
+        <FormControl fullWidth>
+          <Typography variant="body2" weight="medium" gutterBottom>
+            {t('Currency')}
+          </Typography>
           <Select
             options={currencyOptions}
             value={userSettings.currency}
@@ -76,8 +75,10 @@ const Settings = () => {
           />
         </FormControl>
 
-        <FormControl fullWidth variant="outlined">
-          <label htmlFor="language-select">{t('Language')}</label>
+        <FormControl fullWidth>
+          <Typography variant="body2" weight="medium" gutterBottom>
+            {t('Language')}
+          </Typography>
           <Select
             options={languageOptions}
             value={userSettings.language}
@@ -90,8 +91,10 @@ const Settings = () => {
           />
         </FormControl>
 
-        <FormControl fullWidth variant="outlined">
-          <label htmlFor="theme-select">{t('Theme')}</label>
+        <FormControl fullWidth>
+          <Typography variant="body2" weight="medium" gutterBottom>
+            {t('Theme')}
+          </Typography>
           <Select
             options={themeOptions}
             value={userSettings.theme}
@@ -105,99 +108,85 @@ const Settings = () => {
           display="flex"
           flexDirection="column"
           gap="8px"
-          sx={{
-            border: `1px solid ${theme.colors.textSecondary}`,
+          style={{
+            border: '1px solid var(--color-text-secondary)',
             borderRadius: '4px',
             padding: '8px',
           }}
         >
-          <FormControlLabel
-            control={
-              <Toggle
-                checked={userSettings.showCategoryColours}
-                onChange={(checked) => handleSettingChange('showCategoryColours', checked)}
-                disabled={isUpdating || isSaving}
-              />
-            }
-            label={t('Category Colours')}
-          />
+          <Box display="flex" alignItems="center" gap="8px">
+            <Typography variant="body2">{t('Category Colours')}</Typography>
+            <Toggle
+              checked={userSettings.showCategoryColours}
+              onChange={(checked) => handleSettingChange('showCategoryColours', checked)}
+              disabled={isUpdating || isSaving}
+            />
+          </Box>
 
-          <FormControlLabel
-            control={
-              <Toggle
-                checked={userSettings.showSourceColours}
-                onChange={(checked) => handleSettingChange('showSourceColours', checked)}
-                disabled={isUpdating || isSaving}
-              />
-            }
-            label={t('Source Colours')}
-          />
+          <Box display="flex" alignItems="center" gap="8px">
+            <Typography variant="body2">{t('Source Colours')}</Typography>
+            <Toggle
+              checked={userSettings.showSourceColours}
+              onChange={(checked) => handleSettingChange('showSourceColours', checked)}
+              disabled={isUpdating || isSaving}
+            />
+          </Box>
 
-          <FormControlLabel
-            control={
-              <Toggle
-                checked={userSettings.showCategoryNames}
-                onChange={(checked) => handleSettingChange('showCategoryNames', checked)}
-                disabled={isUpdating || isSaving}
-              />
-            }
-            label={t('Category Names')}
-          />
+          <Box display="flex" alignItems="center" gap="8px">
+            <Typography variant="body2">{t('Category Names')}</Typography>
+            <Toggle
+              checked={userSettings.showCategoryNames}
+              onChange={(checked) => handleSettingChange('showCategoryNames', checked)}
+              disabled={isUpdating || isSaving}
+            />
+          </Box>
 
-          <FormControlLabel
-            control={
-              <Toggle
-                checked={userSettings.showSourceNames}
-                onChange={(checked) => handleSettingChange('showSourceNames', checked)}
-                disabled={isUpdating || isSaving}
-              />
-            }
-            label={t('Source Names')}
-          />
+          <Box display="flex" alignItems="center" gap="8px">
+            <Typography variant="body2">{t('Source Names')}</Typography>
+            <Toggle
+              checked={userSettings.showSourceNames}
+              onChange={(checked) => handleSettingChange('showSourceNames', checked)}
+              disabled={isUpdating || isSaving}
+            />
+          </Box>
         </Box>
 
         <Box
           display="flex"
           flexDirection="column"
           gap="8px"
-          sx={{
-            border: `1px solid ${theme.colors.textSecondary}`,
+          style={{
+            border: '1px solid var(--color-text-secondary)',
             borderRadius: '4px',
             padding: '8px',
           }}
         >
-          <FormControlLabel
-            control={
-              <Toggle
-                checked={userSettings.showSharedExpenses}
-                onChange={(checked) => handleSettingChange('showSharedExpenses', checked)}
-                disabled={isUpdating || isSaving}
-              />
-            }
-            label={t('Shared Expenses')}
-          />
+          <Box display="flex" alignItems="center" gap="8px">
+            <Typography variant="body2">{t('Shared Expenses')}</Typography>
+            <Toggle
+              checked={userSettings.showSharedExpenses}
+              onChange={(checked) => handleSettingChange('showSharedExpenses', checked)}
+              disabled={isUpdating || isSaving}
+            />
+          </Box>
 
-          <FormControlLabel
-            control={
-              <Toggle
-                checked={userSettings.showSharedCategories}
-                onChange={(checked) => handleSettingChange('showSharedCategories', checked)}
-                disabled={isUpdating || isSaving}
-              />
-            }
-            label={t('Shared Categories')}
-          />
+          <Box display="flex" alignItems="center" gap="8px">
+            <Typography variant="body2">{t('Shared Categories')}</Typography>
+            <Toggle
+              checked={userSettings.showSharedCategories}
+              onChange={(checked) => handleSettingChange('showSharedCategories', checked)}
+              disabled={isUpdating || isSaving}
+            />
+          </Box>
 
-          <FormControlLabel
-            control={
-              <Toggle
-                checked={userSettings.showSharedSources}
-                onChange={(checked) => handleSettingChange('showSharedSources', checked)}
-                disabled={isUpdating || isSaving}
-              />
-            }
-            label={t('Shared Sources')}
-          />
+          <Box display="flex" alignItems="center" gap="8px">
+            <Typography variant="body2">{t('Shared Sources')}</Typography>
+            <Toggle
+              checked={userSettings.showSharedSources}
+              onChange={(checked) => handleSettingChange('showSharedSources', checked)}
+              disabled={isUpdating || isSaving}
+            />
+          </Box>
         </Box>
       </Box>
     </Paper>

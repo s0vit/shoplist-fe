@@ -19,19 +19,19 @@ const maxWidthMap: Record<string, string> = {
 };
 
 const ContainerWrapper = styled.div<{
-  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
+  $maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 }>`
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding-left: 16px;
   padding-right: 16px;
-  max-width: ${({ maxWidth = 'lg' }) => maxWidthMap[maxWidth === false ? 'false' : maxWidth]};
+  max-width: ${({ $maxWidth = 'lg' }) => maxWidthMap[$maxWidth === false ? 'false' : $maxWidth]};
   box-sizing: border-box;
 `;
 
 const Container = ({ children, maxWidth = 'lg', style, className, sx }: TContainerProps) => (
-  <ContainerWrapper maxWidth={maxWidth} style={{ ...style, ...sx }} className={className}>
+  <ContainerWrapper $maxWidth={maxWidth} style={{ ...style, ...sx }} className={className}>
     {children}
   </ContainerWrapper>
 );

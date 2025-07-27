@@ -1,8 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
-import { BottomNavigation, BottomNavigationAction, Fab } from '@mui/material';
-import { useTheme } from 'src/shared/ui-kit';
+import { BottomNavigation, BottomNavigationAction, Fab } from 'src/shared/ui-kit';
 import { Box, Icon } from 'src/shared/ui-kit';
 
 import { useTranslation } from 'react-i18next';
@@ -11,7 +10,6 @@ const FootBar = () => {
   const isLoggedIn = useUserStore.use.user?.() !== undefined;
   const navigate = useNavigate();
   const location = useLocation();
-  const theme = useTheme();
   const { t } = useTranslation('translation');
 
   const navigationItems = [
@@ -40,17 +38,17 @@ const FootBar = () => {
   return (
     isLoggedIn && (
       <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1 }}>
-        <BottomNavigation showLabels>
+        <BottomNavigation showLabels value={location.pathname}>
           {navigationItems.map((item) => (
             <BottomNavigationAction
-              disabled={location.pathname === item.route}
               key={item.label}
+              value={item.route}
               label={t(item.label)}
               icon={item.icon}
               onClick={() => navigate(item.route)}
-              sx={{
-                border: `1px solid ${theme.colors.textSecondary}`,
-                borderRadius: theme.spacing(1),
+              style={{
+                border: '1px solid var(--color-text-secondary)',
+                borderRadius: '8px',
                 maxWidth: 'none',
               }}
             />
@@ -60,15 +58,11 @@ const FootBar = () => {
           <Fab
             color="success"
             onClick={() => navigate(RoutesEnum.ROOT)}
-            sx={{
+            style={{
               position: 'absolute',
               top: -28,
               left: 'calc(50% - 28px)',
-              border: `1px solid ${theme.colors.textSecondary}`,
-              '&.Mui-disabled': {
-                backgroundColor: theme.colors.textSecondary,
-                color: theme.colors.textPrimary,
-              },
+              border: '1px solid var(--color-text-secondary)',
             }}
           >
             <Icon name="plus" size="md" />

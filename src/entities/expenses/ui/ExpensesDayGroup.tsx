@@ -1,4 +1,4 @@
-import { FormControl } from '@mui/material';
+import { FormControl } from 'src/shared/ui-kit';
 import { Paper, Typography } from 'src/shared/ui-kit';
 
 import { Box, Stack, Select, type TOption } from 'src/shared/ui-kit';

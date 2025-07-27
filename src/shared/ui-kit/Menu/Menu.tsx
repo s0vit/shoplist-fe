@@ -42,6 +42,8 @@ const MenuOverlay = styled.div<{ open: boolean }>`
   bottom: 0;
   z-index: 1300;
   display: ${({ open }) => (open ? 'block' : 'none')};
+  background-color: transparent;
+  cursor: default;
 `;
 
 const MenuContainer = styled.div<{
@@ -190,13 +192,21 @@ const Menu: React.FC<TMenuProps> = ({
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      onClose();
+    }
+  };
+
   const paperStyle = {
     ...style,
     ...slotProps?.paper?.style,
   };
 
+  if (!open) return null;
+
   return (
-    <MenuOverlay open={open} onClick={handleOverlayClick}>
+    <MenuOverlay open={open} onClick={handleOverlayClick} onKeyDown={handleKeyDown} tabIndex={-1}>
       <MenuContainer
         $anchorEl={anchorEl}
         $anchorPosition={anchorPosition}

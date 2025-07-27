@@ -1,5 +1,3 @@
-import { CssBaseline, createTheme } from '@mui/material';
-
 import { ThemeProvider } from '@emotion/react';
 import { createContext, PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
@@ -43,16 +41,6 @@ const ThemeProviderWithToggle = ({ children }: PropsWithChildren) => {
     [],
   );
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-        },
-      }),
-    [mode],
-  );
-
   useEffect(() => {
     const styleContent = `
     ::-webkit-scrollbar {
@@ -61,13 +49,13 @@ const ThemeProviderWithToggle = ({ children }: PropsWithChildren) => {
     }
 
     ::-webkit-scrollbar-track {
-      background: ${theme.palette.background.default};
+      background: var(--color-bg);
     }
 
     ::-webkit-scrollbar-thumb {
-      background-color: ${theme.palette.grey[500]};
+      background-color: var(--color-border);
       border-radius: 20px;
-      border: 1px solid ${theme.palette.grey[600]};
+      border: 1px solid var(--color-border);
     }
   `;
     const style = document.createElement('style');
@@ -77,7 +65,7 @@ const ThemeProviderWithToggle = ({ children }: PropsWithChildren) => {
     return () => {
       document.head.removeChild(style);
     };
-  }, [theme]);
+  }, [mode]);
 
   useEffect(() => {
     const rootElement = document.documentElement;
@@ -88,8 +76,7 @@ const ThemeProviderWithToggle = ({ children }: PropsWithChildren) => {
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <CssBaseline />
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      <ThemeProvider theme={{ mode }}>{children}</ThemeProvider>
     </ColorModeContext.Provider>
   );
 };

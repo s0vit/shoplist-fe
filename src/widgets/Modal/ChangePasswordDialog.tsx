@@ -1,6 +1,6 @@
-import { FormControl, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
+import { FormControl } from 'src/shared/ui-kit';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Alert, AlertTitle } from 'src/shared/ui-kit';
-import { FormHelperText, IconButton } from 'src/shared/ui-kit';
+import { FormHelperText, IconButton, Input, Typography, InputAdornment, Box } from 'src/shared/ui-kit';
 
 import { Button } from 'src/shared/ui-kit';
 
@@ -103,66 +103,64 @@ const ChangePasswordDialog = ({
     <Dialog open={openResetPasswordDialog} onClose={handleAbortReset}>
       <DialogTitle>{t('Change you password')}</DialogTitle>
       <DialogContent>
-        <FormControl fullWidth variant="outlined">
-          <InputLabel
-            htmlFor="current-password-input"
-            error={!!formError.currentPasswordError || !!formError.differentPasswordsError}
-          >
+        <FormControl fullWidth>
+          <Typography variant="body2" weight="medium" gutterBottom>
             {t('Current password')}
-          </InputLabel>
-          <OutlinedInput
-            type={showCurrentPassword ? 'text' : 'password'}
-            value={currentPasswordInput}
-            error={!!formError.currentPasswordError || !!formError.differentPasswordsError}
-            onChange={(e) => setCurrentPasswordInput(e.target.value)}
-            onBlur={() =>
-              setFormError({ ...formError, currentPasswordError: passwordValidate(currentPasswordInput, 'password') })
-            }
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  icon={showCurrentPassword ? 'eyeSlash' : 'eye'}
-                  onClick={() => handleClickShowPassword(setShowCurrentPassword)}
-                />
-              </InputAdornment>
-            }
-            label={t('Current password')}
-          />
+          </Typography>
+          <Box style={{ position: 'relative' }}>
+            <Input
+              type={showCurrentPassword ? 'text' : 'password'}
+              value={currentPasswordInput}
+              error={!!formError.currentPasswordError || !!formError.differentPasswordsError}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentPasswordInput(e.target.value)}
+              onBlur={() =>
+                setFormError({ ...formError, currentPasswordError: passwordValidate(currentPasswordInput, 'password') })
+              }
+              style={{ paddingRight: '40px' }}
+            />
+            <InputAdornment
+              position="end"
+              style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)' }}
+            >
+              <IconButton
+                icon={showCurrentPassword ? 'eyeSlash' : 'eye'}
+                onClick={() => handleClickShowPassword(setShowCurrentPassword)}
+              />
+            </InputAdornment>
+          </Box>
           {(formError.currentPasswordError || formError.differentPasswordsError) && (
             <FormHelperText error>
               {t(formError.currentPasswordError) || t(formError.differentPasswordsError)}
             </FormHelperText>
           )}
         </FormControl>
-        <FormControl fullWidth variant="outlined">
-          <InputLabel
-            htmlFor="new-password-input"
-            error={
-              !!formError.newPasswordError || !!formError.equalPasswordsError || !!formError.differentPasswordsError
-            }
-          >
+        <FormControl fullWidth>
+          <Typography variant="body2" weight="medium" gutterBottom>
             {t('New password')}
-          </InputLabel>
-          <OutlinedInput
-            type={showNewPassword ? 'text' : 'password'}
-            value={newPasswordInput}
-            error={
-              !!formError.newPasswordError || !!formError.equalPasswordsError || !!formError.differentPasswordsError
-            }
-            onChange={(e) => setNewPasswordInput(e.target.value)}
-            onBlur={() => {
-              setFormError({ ...formError, newPasswordError: passwordValidate(newPasswordInput, 'password') });
-            }}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  icon={showNewPassword ? 'eyeSlash' : 'eye'}
-                  onClick={() => handleClickShowPassword(setShowNewPassword)}
-                />
-              </InputAdornment>
-            }
-            label={t('New password')}
-          />
+          </Typography>
+          <Box style={{ position: 'relative' }}>
+            <Input
+              type={showNewPassword ? 'text' : 'password'}
+              value={newPasswordInput}
+              error={
+                !!formError.newPasswordError || !!formError.equalPasswordsError || !!formError.differentPasswordsError
+              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPasswordInput(e.target.value)}
+              onBlur={() => {
+                setFormError({ ...formError, newPasswordError: passwordValidate(newPasswordInput, 'password') });
+              }}
+              style={{ paddingRight: '40px' }}
+            />
+            <InputAdornment
+              position="end"
+              style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)' }}
+            >
+              <IconButton
+                icon={showNewPassword ? 'eyeSlash' : 'eye'}
+                onClick={() => handleClickShowPassword(setShowNewPassword)}
+              />
+            </InputAdornment>
+          </Box>
           {(formError.newPasswordError || formError.equalPasswordsError || formError.differentPasswordsError) && (
             <FormHelperText error>
               {t(formError.newPasswordError) ||
@@ -171,31 +169,34 @@ const ChangePasswordDialog = ({
             </FormHelperText>
           )}
         </FormControl>
-        <FormControl fullWidth variant="outlined">
-          <InputLabel
-            htmlFor="confirm-password-input"
-            error={!!formError.confirmPasswordError || !!formError.equalPasswordsError}
-          >
+        <FormControl fullWidth>
+          <Typography variant="body2" weight="medium" gutterBottom>
             {t('Confirm password')}
-          </InputLabel>
-          <OutlinedInput
-            type={showConfirmPassword ? 'text' : 'password'}
-            value={confirmPasswordInput}
-            error={!!formError.confirmPasswordError || !!formError.equalPasswordsError}
-            onChange={(e) => setConfirmPasswordInput(e.target.value)}
-            onBlur={() => {
-              setFormError({ ...formError, confirmPasswordError: passwordValidate(confirmPasswordInput, 'password') });
-            }}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  icon={showConfirmPassword ? 'eyeSlash' : 'eye'}
-                  onClick={() => handleClickShowPassword(setShowConfirmPassword)}
-                />
-              </InputAdornment>
-            }
-            label={t('Confirm password')}
-          />
+          </Typography>
+          <Box style={{ position: 'relative' }}>
+            <Input
+              type={showConfirmPassword ? 'text' : 'password'}
+              value={confirmPasswordInput}
+              error={!!formError.confirmPasswordError || !!formError.equalPasswordsError}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPasswordInput(e.target.value)}
+              onBlur={() => {
+                setFormError({
+                  ...formError,
+                  confirmPasswordError: passwordValidate(confirmPasswordInput, 'password'),
+                });
+              }}
+              style={{ paddingRight: '40px' }}
+            />
+            <InputAdornment
+              position="end"
+              style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)' }}
+            >
+              <IconButton
+                icon={showConfirmPassword ? 'eyeSlash' : 'eye'}
+                onClick={() => handleClickShowPassword(setShowConfirmPassword)}
+              />
+            </InputAdornment>
+          </Box>
           {(formError.confirmPasswordError || formError.equalPasswordsError) && (
             <FormHelperText error>
               {t(formError.confirmPasswordError) || t(formError.equalPasswordsError)}

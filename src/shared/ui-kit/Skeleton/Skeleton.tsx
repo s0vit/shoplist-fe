@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 export type TSkeletonProps = {
   /** Вариант скелетона */
@@ -78,16 +78,16 @@ const StyledSkeleton = styled.div<TSkeletonProps>`
 
   ${({ animation = 'pulse' }) => {
     if (animation === 'pulse') {
-      return `
+      return css`
         animation: ${pulseAnimation} 1.5s ease-in-out 0.5s infinite;
       `;
     }
 
     if (animation === 'wave') {
-      return `
+      return css`
         position: relative;
         overflow: hidden;
-        
+
         &::after {
           content: '';
           position: absolute;
@@ -95,12 +95,7 @@ const StyledSkeleton = styled.div<TSkeletonProps>`
           right: 0;
           bottom: 0;
           left: 0;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.4),
-            transparent
-          );
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
           animation: ${waveAnimation} 1.6s linear infinite;
         }
       `;

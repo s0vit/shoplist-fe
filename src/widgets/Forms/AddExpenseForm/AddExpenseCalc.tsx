@@ -1,12 +1,12 @@
 import { CircularProgress } from 'src/shared/ui-kit';
 import { Box, Stack, Button, ButtonGroup } from 'src/shared/ui-kit';
 
-import { FormControl, MenuItem, Select } from '@mui/material';
-import { useTheme } from 'src/shared/ui-kit';
+import { FormControl, Select } from 'src/shared/ui-kit';
+
 import { IconButton } from 'src/shared/ui-kit';
 import { Paper, Typography } from 'src/shared/ui-kit';
 
-import { DateTimePicker } from '@mui/x-date-pickers';
+import { DateTimePicker } from 'src/shared/ui-kit';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -45,13 +45,13 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const categories = useCategoryStore.use.userCategories();
   const currentExpense = useExpensesStore.use.currentEditExpense?.();
   const setCurrentEditExpense = useExpensesStore.use.setCurrentEditExpense?.();
-  const theme = useTheme();
+
   const defaultCurrency = useUserSettingsStore.use.config().currency;
   const [amount, setAmount] = useState<string>('0');
   const [currency, setCurrency] = useState<CURRENCIES>(defaultCurrency ?? CURRENCIES.EUR);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedPaymentSource, setSelectedPaymentSource] = useState<string>('');
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isCommentModalOpen, setIsCommentModalOpen] = useState<boolean>(false); // TODO move to store
   const [comments, setComments] = useState<string>('');
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
@@ -239,40 +239,30 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   return (
     <Paper
       sx={{
-        backgroundColor: theme.colors.cardBg,
+        backgroundColor: 'var(--color-card-bg)',
         position: 'relative',
         zIndex: 1,
-        maxWidth: isDesktopWidth ? '400px' : '100%',
+        maxWidth: isDesktopWidth ? '600px' : '100%',
+        minWidth: isDesktopWidth ? '500px' : 'auto',
       }}
     >
       <Box className={`${styles.rootBox} ${styles.borderBox}`}>
-        <Stack direction="row" gap={1} align="center" justify="space-between" className={styles.topRow}>
+        <Stack direction="row" gap={2} align="center" justify="space-between" className={styles.topRow}>
           <Typography
             style={{
               display: 'flex',
               alignItems: 'center',
-              paddingLeft: 8,
-              paddingRight: 8,
-              fontSize: 20,
+              paddingLeft: 12,
+              paddingRight: 12,
+              fontSize: isDesktopWidth ? 28 : 20,
               fontWeight: 'bold',
+              minWidth: '120px',
             }}
           >
             {amount}
           </Typography>
-          <FormControl>
-            <Select
-              autoWidth
-              size="small"
-              labelId="demo-simple-select-label"
-              value={currency}
-              onChange={(e) => setCurrency(e.target.value as CURRENCIES)}
-            >
-              {currencies.map((currency) => (
-                <MenuItem key={currency.value} value={currency.value}>
-                  {currency.label}
-                </MenuItem>
-              ))}
-            </Select>
+          <FormControl style={{ minWidth: '100px' }}>
+            <Select options={currencies} value={currency} onChange={(value) => setCurrency(value as CURRENCIES)} />
           </FormControl>
         </Stack>
         <CalculatorButtons isPending={isPending} handleButtonClick={handleButtonClick} />
@@ -294,39 +284,25 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           handleDelete={deletePaymentSourceMutate}
           isLoading={isPaymentSourcesLoading}
         />
-        <Stack direction="row" gap={1} align="center" className={styles.dateRow}>
+        <Stack direction="row" gap={2} align="center" className={styles.dateRow}>
           <DateTimePicker
             label={t('Date and time')}
             disableFuture
             value={selectedDate}
             onChange={setSelectedDate}
-            slotProps={{
-              textField: {
-                variant: 'outlined',
-                size: 'small',
-              },
-              day: {
-                sx: { borderRadius: theme.spacing(1) },
-              },
-            }}
-            sx={{
-              width: '100%',
-              '& .MuiInputBase-root': {
-                backgroundColor: theme.colors.cardBg,
-              },
-              '& .MuiInputBase-input': {
-                paddingTop: theme.spacing(1),
-                paddingBottom: theme.spacing(1),
-              },
-            }}
+            style={{ flex: 1 }}
           />
           <IconButton
             icon="plus"
-            style={{ border: `1px solid ${comments ? theme.colors.success : theme.colors.textSecondary}` }}
+            style={{
+              border: `1px solid ${comments ? 'var(--color-success)' : 'var(--color-text-secondary)'}`,
+              minWidth: '48px',
+              height: '48px',
+            }}
             onClick={() => setIsCommentModalOpen(true)}
           />
         </Stack>
-        <ButtonGroup fullWidth>
+        <ButtonGroup fullWidth style={{ marginTop: '20px' }}>
           <Button disabled={isPending} variant="contained" label={t('Clear')} onClick={clearData} />
           <Button
             disabled={isPending || !isVerified}
