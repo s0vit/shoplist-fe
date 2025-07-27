@@ -1,8 +1,10 @@
-import { Divider, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
+import { Menu, MenuItem, ListItemIcon as MenuListItemIcon } from 'src/shared/ui-kit';
+import { Divider } from 'src/shared/ui-kit';
 import { Avatar, IconButton, Icon } from 'src/shared/ui-kit';
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import useLogout from 'src/utils/hooks/useLogout.ts';
@@ -11,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 const NavBarMenu = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation('translation');
 
   const userData = _useUserStore.use.user?.();
@@ -46,25 +49,25 @@ const NavBarMenu = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        slotProps={{ paper: { sx: { mt: 0 } } }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
         <MenuItem onClick={() => navigate(RoutesEnum.PROFILE)}>
-          <ListItemIcon>
+          <MenuListItemIcon>
             <Icon name="user" size="sm" />
-          </ListItemIcon>
+          </MenuListItemIcon>
           {t('Profile')}
         </MenuItem>
         <MenuItem disabled={!userData?.isVerified} onClick={() => navigate(RoutesEnum.ACCESS_CONTROL)}>
-          <ListItemIcon>
+          <MenuListItemIcon>
             <Icon name="share" size="sm" />
-          </ListItemIcon>
+          </MenuListItemIcon>
           {t('Shared')}
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleLoginClick}>
-          <ListItemIcon>
+          <MenuListItemIcon>
             <Icon name="logout" size="sm" />
-          </ListItemIcon>
+          </MenuListItemIcon>
           {t('Logout')}
         </MenuItem>
       </Menu>

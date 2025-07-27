@@ -11,7 +11,8 @@ import {
 } from 'react-swipeable-list';
 import { Box, Stack, Select, type TOption, Typography, FormHelperText } from 'src/shared/ui-kit';
 
-import { useTheme, Chip, alpha } from '@mui/material';
+import { Chip } from 'src/shared/ui-kit';
+import { alpha, useTheme } from 'src/shared/ui-kit';
 import { IconButton } from 'src/shared/ui-kit';
 
 import 'react-swipeable-list/dist/styles.css';
@@ -107,8 +108,8 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
           className={styles.actionStack}
           style={
             {
-              '--action-bg': theme.palette.info.main,
-              '--action-color': theme.palette.info.contrastText,
+              '--action-bg': theme.colors.categoryBlue,
+              '--action-color': theme.colors.white,
             } as React.CSSProperties
           }
         >
@@ -125,8 +126,8 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
           className={styles.actionStack}
           style={
             {
-              '--action-bg': theme.palette.error.main,
-              '--action-color': theme.palette.error.contrastText,
+              '--action-bg': theme.colors.error,
+              '--action-color': theme.colors.white,
             } as React.CSSProperties
           }
         >
@@ -195,10 +196,10 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
               <Box className={styles.amountBox}>
                 <Chip
                   label={displayAmount}
-                  sx={{
-                    backgroundColor: showSourceColours ? alpha(paymentSourceColor, 0.9) : 'null',
-                    border: `1px solid ${alpha(theme.palette.getContrastText(paymentSourceColor), 0.8)}`,
-                    color: showSourceColours ? theme.palette.getContrastText(paymentSourceColor) : 'null',
+                  style={{
+                    backgroundColor: showSourceColours ? alpha(paymentSourceColor, 0.9) : 'transparent',
+                    border: `1px solid ${alpha(theme.colors.white, 0.8)}`,
+                    color: showSourceColours ? theme.colors.black : 'inherit',
                     fontSize: '1.2rem',
                     padding: theme.spacing(0.5),
                   }}

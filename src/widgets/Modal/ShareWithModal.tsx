@@ -4,7 +4,7 @@ import { findUserByEmail, TFindUserByEmailResponse } from 'src/shared/api/userAp
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { useEffect, useState } from 'react';
 import useDebouncedValue from 'src/utils/hooks/useDebouncedValue.ts';
-import { alpha, useTheme } from '@mui/material';
+import { alpha, useTheme } from 'src/shared/ui-kit';
 import { Avatar, Box, FormHelperText, Paper, Stack, TextField, Typography } from 'src/shared/ui-kit';
 
 import handleError from 'src/utils/errorHandler.ts';
@@ -110,7 +110,7 @@ const ShareWithModal = ({ isOpen, categoryIds, paymentSourceIds, expenseIds, onC
                       borderRadius: 1,
                       cursor: user.isVerified ? 'pointer' : 'not-allowed',
                       backgroundColor: selectedUser?._id === user._id ? emailColor : 'transparent',
-                      color: selectedUser?._id === user._id ? theme.palette.getContrastText(emailColor) : 'inherit',
+                      color: selectedUser?._id === user._id ? theme.colors.white : 'inherit',
                       padding: 0.5,
                       marginBottom: 1,
                       opacity: user.isVerified ? 1 : 0.5,

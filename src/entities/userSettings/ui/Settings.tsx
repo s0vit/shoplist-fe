@@ -1,4 +1,5 @@
-import { FormControl, FormControlLabel, useTheme } from '@mui/material';
+import { FormControl, FormControlLabel } from '@mui/material';
+import { useTheme } from 'src/shared/ui-kit';
 import { Box, Paper } from 'src/shared/ui-kit';
 
 import { Select, Toggle, type TOption } from 'src/shared/ui-kit';
@@ -105,7 +106,7 @@ const Settings = () => {
           flexDirection="column"
           gap="8px"
           sx={{
-            border: `1px solid ${theme.palette.grey[700]}`,
+            border: `1px solid ${theme.colors.textSecondary}`,
             borderRadius: '4px',
             padding: '8px',
           }}
@@ -160,7 +161,7 @@ const Settings = () => {
           flexDirection="column"
           gap="8px"
           sx={{
-            border: `1px solid ${theme.palette.grey[700]}`,
+            border: `1px solid ${theme.colors.textSecondary}`,
             borderRadius: '4px',
             padding: '8px',
           }}

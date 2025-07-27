@@ -1,4 +1,5 @@
-import { Button, useTheme } from '@mui/material';
+import { Button } from 'src/shared/ui-kit';
+import { useTheme } from 'src/shared/ui-kit';
 import { Avatar, Paper, Typography } from 'src/shared/ui-kit';
 
 import { Stack } from 'src/shared/ui-kit';
@@ -76,14 +77,13 @@ const AccessControlItem = ({ accessControl, paymentSources, categories, expenses
             </Stack>
             <Button
               onClick={() => deleteAccessControlMutate()}
-              sx={{
+              style={{
                 minWidth: 0,
-                px: 1,
-                border: `1px solid ${theme.palette.error.main}`,
+                padding: '0 8px',
+                border: `1px solid ${theme.colors.error}`,
               }}
-            >
-              <Icon name="trash" size="md" color="error" />
-            </Button>
+              label={<Icon name="trash" size="md" color="error" />}
+            />
           </Stack>
         )}
         {accessControl.expenseIds.length > 0 && (

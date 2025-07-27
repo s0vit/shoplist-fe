@@ -1,6 +1,6 @@
 import AccessControlsList from 'src/entities/accessControl/ui/AccessControlsList.tsx';
 import useLoadAccessControls from 'src/entities/accessControl/hooks/useLoadAccessControls.ts';
-import { Skeleton } from '@mui/material';
+import { Skeleton } from 'src/shared/ui-kit';
 import { Paper, Typography } from 'src/shared/ui-kit';
 
 import { Stack } from 'src/shared/ui-kit';

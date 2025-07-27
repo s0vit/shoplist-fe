@@ -1,6 +1,16 @@
-import { Accordion, AccordionDetails, AccordionSummary, useTheme } from '@mui/material';
-import { Avatar, Paper, Typography, Button, ButtonGroup, IconButton, Box, Icon } from 'src/shared/ui-kit';
-import { alpha } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary } from 'src/shared/ui-kit';
+import {
+  Avatar,
+  Paper,
+  Typography,
+  Button,
+  ButtonGroup,
+  IconButton,
+  Box,
+  Icon,
+  alpha,
+  useTheme,
+} from 'src/shared/ui-kit';
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useRef, useState } from 'react';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
@@ -96,7 +106,7 @@ const Profile = () => {
               icon="camera"
               className={styles.cameraButton}
               style={{
-                backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                backgroundColor: alpha(theme.colors.cardBg, 0.8),
               }}
               disabled={!userData?.isVerified}
             />

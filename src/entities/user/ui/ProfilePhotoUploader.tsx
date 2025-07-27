@@ -1,4 +1,5 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, Slider } from '@mui/material';
+import { Slider } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from 'src/shared/ui-kit';
 
 import { Box, Button } from 'src/shared/ui-kit';
 

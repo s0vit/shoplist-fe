@@ -1,4 +1,4 @@
-import { alpha, Menu, MenuItem, useTheme } from '@mui/material';
+import { Menu, MenuItem } from 'src/shared/ui-kit';
 import { Typography, Icon } from 'src/shared/ui-kit';
 
 import { useTranslation } from 'react-i18next';
@@ -21,7 +21,6 @@ const ItemMenu = ({
   itemId,
   setIsShareWithModalOpen,
 }: TItemMenuProps) => {
-  const theme = useTheme();
   const { t } = useTranslation('translation');
   const isVerified = _useUserStore.use.user?.()?.isVerified;
 
@@ -42,7 +41,7 @@ const ItemMenu = ({
         paper: {
           style: {
             width: '200px',
-            border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+            border: '1px solid var(--color-border)',
           },
         },
       }}

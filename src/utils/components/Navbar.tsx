@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, useTheme } from '@mui/material';
+import { AppBar, Toolbar } from '@mui/material';
 import { Box, Typography, IconButton } from 'src/shared/ui-kit';
 
 import { useContext, useState } from 'react';
@@ -17,7 +17,6 @@ const Navbar = () => {
   const isLoggedIn = useUserStore.use.user?.() !== undefined;
   const isVerified = useUserStore.use.user?.()?.isVerified;
   const colorMode = useContext(ColorModeContext);
-  const theme = useTheme();
   const { isDesktopWidth } = useWindowWidth();
   const { t } = useTranslation('translation');
 
@@ -28,10 +27,9 @@ const Navbar = () => {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Extract valid CSS properties from theme.mixins.toolbar
-  const toolbarStyles = theme.mixins.toolbar;
+  // Default toolbar styles
   const validToolbarStyles = {
-    minHeight: toolbarStyles?.minHeight,
+    minHeight: '64px',
   };
 
   return (
@@ -51,11 +49,7 @@ const Navbar = () => {
             <Typography variant="h3" style={{ flexGrow: 1 }}>
               {t('Shoplist')} {`${import.meta.env.PACKAGE_VERSION}`}
             </Typography>
-            <IconButton
-              icon={theme.palette.mode === 'dark' ? 'sun' : 'moon'}
-              variant="text"
-              onClick={colorMode.toggleColorMode}
-            />
+            <IconButton icon="moon" variant="text" onClick={colorMode.toggleColorMode} />
             {isLoggedIn && <NavBarMenu />}
           </Toolbar>
         </AppBar>

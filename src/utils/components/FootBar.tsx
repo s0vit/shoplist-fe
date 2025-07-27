@@ -1,7 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
-import { BottomNavigation, BottomNavigationAction, Fab, useTheme } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Fab } from '@mui/material';
+import { useTheme } from 'src/shared/ui-kit';
 import { Box, Icon } from 'src/shared/ui-kit';
 
 import { useTranslation } from 'react-i18next';
@@ -48,7 +49,7 @@ const FootBar = () => {
               icon={item.icon}
               onClick={() => navigate(item.route)}
               sx={{
-                border: `1px solid ${theme.palette.divider}`,
+                border: `1px solid ${theme.colors.textSecondary}`,
                 borderRadius: theme.spacing(1),
                 maxWidth: 'none',
               }}
@@ -63,10 +64,10 @@ const FootBar = () => {
               position: 'absolute',
               top: -28,
               left: 'calc(50% - 28px)',
-              border: `1px solid ${theme.palette.divider}`,
+              border: `1px solid ${theme.colors.textSecondary}`,
               '&.Mui-disabled': {
-                backgroundColor: theme.palette.grey[800],
-                color: theme.palette.grey[300],
+                backgroundColor: theme.colors.textSecondary,
+                color: theme.colors.textPrimary,
               },
             }}
           >

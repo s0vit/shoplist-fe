@@ -1,15 +1,5 @@
-import {
-  Alert,
-  AlertTitle,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-} from '@mui/material';
+import { FormControl, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Alert, AlertTitle } from 'src/shared/ui-kit';
 import { FormHelperText, IconButton } from 'src/shared/ui-kit';
 
 import { Button } from 'src/shared/ui-kit';
@@ -212,7 +202,7 @@ const ChangePasswordDialog = ({
             </FormHelperText>
           )}
         </FormControl>
-        <Alert severity="warning" variant="outlined" style={{ marginTop: '10px' }}>
+        <Alert severity="warning" style={{ marginTop: '10px' }}>
           <AlertTitle>{t('Warning: ')}</AlertTitle>
           {t('After changing you will sign out.')}
         </Alert>

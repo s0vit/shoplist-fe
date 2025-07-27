@@ -1,7 +1,8 @@
-import CircularProgress from '@mui/material/CircularProgress';
+import { CircularProgress } from 'src/shared/ui-kit';
 import { Box, Stack, Button, ButtonGroup } from 'src/shared/ui-kit';
 
-import { FormControl, MenuItem, Select, useTheme } from '@mui/material';
+import { FormControl, MenuItem, Select } from '@mui/material';
+import { useTheme } from 'src/shared/ui-kit';
 import { IconButton } from 'src/shared/ui-kit';
 import { Paper, Typography } from 'src/shared/ui-kit';
 
@@ -238,7 +239,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   return (
     <Paper
       sx={{
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.colors.cardBg,
         position: 'relative',
         zIndex: 1,
         maxWidth: isDesktopWidth ? '400px' : '100%',
@@ -311,7 +312,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             sx={{
               width: '100%',
               '& .MuiInputBase-root': {
-                backgroundColor: theme.palette.background.paper,
+                backgroundColor: theme.colors.cardBg,
               },
               '& .MuiInputBase-input': {
                 paddingTop: theme.spacing(1),
@@ -321,7 +322,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           />
           <IconButton
             icon="plus"
-            style={{ border: `1px solid ${comments ? theme.palette.success.main : theme.palette.grey[700]}` }}
+            style={{ border: `1px solid ${comments ? theme.colors.success : theme.colors.textSecondary}` }}
             onClick={() => setIsCommentModalOpen(true)}
           />
         </Stack>

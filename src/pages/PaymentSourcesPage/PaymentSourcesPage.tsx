@@ -1,5 +1,5 @@
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
-import { Divider } from '@mui/material';
+import { Divider } from 'src/shared/ui-kit';
 import { Paper, Typography, Box, IconButton } from 'src/shared/ui-kit';
 
 import PaymentSourcesGrid from 'src/entities/paymentSource/ui/PaymentSourcesGrid.tsx';

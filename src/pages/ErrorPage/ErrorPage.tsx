@@ -1,5 +1,5 @@
 import { useRouteError } from 'react-router-dom';
-import { useTheme } from '@mui/material';
+import { useTheme } from 'src/shared/ui-kit';
 import { Box, Paper, Typography, Button } from 'src/shared/ui-kit';
 
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
@@ -23,12 +23,12 @@ export default function ErrorPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: theme.colors.cardBg,
         padding: 16,
       }}
     >
       <Box style={{ maxWidth: '600px', width: '100%' }}>
-        <Paper style={{ padding: 24, textAlign: 'center', backgroundColor: theme.palette.background.paper }}>
+        <Paper style={{ padding: 24, textAlign: 'center', backgroundColor: theme.colors.cardBg }}>
           <Typography variant="h3" gutterBottom>
             {t('Oops!')}
           </Typography>

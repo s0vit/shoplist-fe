@@ -1,4 +1,4 @@
-import { Divider } from '@mui/material';
+import { Divider } from 'src/shared/ui-kit';
 import { Paper, Typography, Box, IconButton } from 'src/shared/ui-kit';
 
 import CategoriesGrid from 'src/entities/category/ui/CategoriesGrid.tsx';

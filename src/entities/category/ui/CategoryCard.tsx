@@ -1,4 +1,4 @@
-import { alpha, useTheme } from '@mui/material';
+import { alpha, useTheme } from 'src/shared/ui-kit';
 import { Typography, Card, IconButton } from 'src/shared/ui-kit';
 
 import { Box, Grid, Stack } from 'src/shared/ui-kit';
@@ -86,8 +86,8 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
           className={styles.editStack}
           style={
             {
-              '--edit-bg': theme.palette.info.main,
-              '--edit-color': theme.palette.info.contrastText,
+              '--edit-bg': theme.colors.categoryBlue,
+              '--edit-color': theme.colors.white,
             } as React.CSSProperties
           }
         >
@@ -104,8 +104,8 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
           className={styles.deleteStack}
           style={
             {
-              '--delete-bg': theme.palette.error.main,
-              '--delete-color': theme.palette.error.contrastText,
+              '--delete-bg': theme.colors.error,
+              '--delete-color': theme.colors.white,
             } as React.CSSProperties
           }
         >

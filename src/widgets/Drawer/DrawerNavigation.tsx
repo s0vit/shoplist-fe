@@ -1,4 +1,5 @@
-import { Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from 'src/shared/ui-kit';
+import { Divider } from 'src/shared/ui-kit';
 import { Box } from 'src/shared/ui-kit';
 
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';

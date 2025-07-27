@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { Grid, Box, TextField } from 'src/shared/ui-kit';
 
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary } from 'src/shared/ui-kit';
 
 import { Icon } from 'src/shared/ui-kit';
 import CategoriesSelect from 'src/entities/category/ui/CategoriesSelect.tsx';

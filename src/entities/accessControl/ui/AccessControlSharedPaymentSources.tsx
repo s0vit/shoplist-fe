@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary } from 'src/shared/ui-kit';
 
 import { Box } from 'src/shared/ui-kit';
 

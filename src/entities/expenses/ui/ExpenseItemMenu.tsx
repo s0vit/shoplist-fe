@@ -1,4 +1,5 @@
-import { alpha, Menu, MenuItem, useTheme } from '@mui/material';
+import { Menu, MenuItem } from 'src/shared/ui-kit';
+import { alpha, useTheme } from 'src/shared/ui-kit';
 import { Typography, Icon } from 'src/shared/ui-kit';
 
 import { useTranslation } from 'react-i18next';

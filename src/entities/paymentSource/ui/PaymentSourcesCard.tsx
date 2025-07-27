@@ -1,4 +1,4 @@
-import { alpha, useTheme } from '@mui/material';
+import { alpha, useTheme } from 'src/shared/ui-kit';
 import { Typography, Card, IconButton } from 'src/shared/ui-kit';
 
 import { Box, Stack, Grid } from 'src/shared/ui-kit';

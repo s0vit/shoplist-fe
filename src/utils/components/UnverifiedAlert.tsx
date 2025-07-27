@@ -1,7 +1,8 @@
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useTranslation } from 'react-i18next';
-import { Alert, AlertTitle, useTheme } from '@mui/material';
+import { Alert, AlertTitle } from 'src/shared/ui-kit';
+import { useTheme } from 'src/shared/ui-kit';
 
 import { Button } from 'src/shared/ui-kit';
 
@@ -24,7 +25,7 @@ export const UnverifiedAlert = () => {
   if (!isVerified && isLoggedIn) {
     return (
       <div>
-        <Alert severity="warning" variant="outlined" style={{ margin: '10px 15px', ...theme.palette.background }}>
+        <Alert severity="warning" style={{ margin: '10px 15px', backgroundColor: theme.colors.cardBg }}>
           <AlertTitle>{t('Warning: ')}</AlertTitle>
           {t(
             'To get full functionality you should to confirm your email. Please check your email. Or follow the link to get a new verification code.',
