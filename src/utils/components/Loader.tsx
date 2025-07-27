@@ -25,7 +25,7 @@ const Loader = () => {
         }}
       >
         <img src={coinFlip} alt="loading" />
-      </Box>{' '}
+      </Box>
     </Paper>
   );
 };
