@@ -6,7 +6,7 @@ import { FormControl, Select } from 'src/shared/ui-kit';
 import { IconButton } from 'src/shared/ui-kit';
 import { Paper, Typography } from 'src/shared/ui-kit';
 
-import { DateTimePicker } from '@mui/x-date-pickers';
+import { format } from 'date-fns';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -285,12 +285,14 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           isLoading={isPaymentSourcesLoading}
         />
         <Stack direction="row" gap={2} align="center" className={styles.dateRow}>
-          <DateTimePicker
-            label={t('Date and time')}
-            disableFuture
-            value={selectedDate}
-            onChange={(value) => setSelectedDate(value || undefined)}
-            sx={{ flex: 1 }}
+          <input
+            type="datetime-local"
+            value={selectedDate ? format(selectedDate, "yyyy-MM-dd'T'HH:mm") : ''}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSelectedDate(value ? new Date(value) : undefined);
+            }}
+            style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid var(--color-border)' }}
           />
           <IconButton
             icon="plus"
