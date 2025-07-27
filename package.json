@@ -43,7 +43,7 @@
     "@fontsource/roboto": "^5.0.13",
     "@mui/icons-material": "^5.17.1",
     "@mui/material": "^5.17.1",
-    "@mui/x-date-pickers": "^7.28.0",
+    "@mui/x-date-pickers": "^7.29.4",
     "@storybook/addon-docs": "^8.6.14",
     "@tanstack/react-query": "^5.51.21",
     "@testing-library/dom": "^10.4.0",
@@ -153,5 +153,6 @@
         "target": "ios.simulator"
       }
     }
-  }
+  },
+  "packageManager": "pnpm@10.4.1+sha1.ec73125afa7b740b8fcafeab681883c7ec791a4b"
 }
