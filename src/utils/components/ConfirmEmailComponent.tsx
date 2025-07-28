@@ -1,7 +1,8 @@
 import { confirmEmail, TConfirmEmailResponse } from 'src/shared/api/authApi.ts';
 import { useMutation } from '@tanstack/react-query';
 import { Id, toast } from 'react-toastify';
-import { Box, Paper, Stack, Typography } from '@mui/material';
+import { Box, Paper, Stack, Typography } from 'src/shared/ui-kit';
+
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
@@ -44,9 +45,9 @@ const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
     toastIdRef.current = toast('Confirming email...', { isLoading: isConfirmPending, autoClose: false });
 
     return (
-      <Box padding={2}>
+      <Box style={{ padding: '2 * 8px' }}>
         <Paper>
-          <Typography variant="h4">{t('Confirming email...')}</Typography>
+          <Typography variant="h3">{t('Confirming email...')}</Typography>
         </Paper>
       </Box>
     );
@@ -56,10 +57,10 @@ const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
     toast('Email confirmed', { type: 'success' });
 
     return (
-      <Box padding={2}>
+      <Box style={{ padding: '2 * 8px' }}>
         <Paper>
-          <Stack spacing={1}>
-            <Typography variant="h4">{t('Email confirmed')}</Typography>
+          <Stack gap={1}>
+            <Typography variant="h3">{t('Email confirmed')}</Typography>
             <Typography variant="body1">{t('Redirecting to login page...')}</Typography>
           </Stack>
         </Paper>
@@ -71,9 +72,9 @@ const ConfirmEmailComponent = ({ token }: TConfirmEmailComponentProps) => {
     toast(confirmError.message, { type: 'error' });
 
     return (
-      <Box padding={2}>
+      <Box style={{ padding: '2 * 8px' }}>
         <Paper>
-          <Typography variant="h4">{t('Error confirming email')}</Typography>
+          <Typography variant="h3">{t('Error confirming email')}</Typography>
         </Paper>
       </Box>
     );

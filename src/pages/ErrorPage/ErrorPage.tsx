@@ -1,6 +1,7 @@
-import { Link as RouterLink, useRouteError } from 'react-router-dom';
-import { Box, Button, Container, Paper, Typography, useTheme } from '@mui/material';
-import { HomeOutlined, ReportGmailerrorred } from '@mui/icons-material';
+import { useRouteError } from 'react-router-dom';
+import { useTheme } from 'src/shared/ui-kit';
+import { Box, Paper, Typography, Button } from 'src/shared/ui-kit';
+
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { useTranslation } from 'react-i18next';
 
@@ -17,39 +18,34 @@ export default function ErrorPage() {
 
   return (
     <Box
-      sx={{
+      style={{
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.palette.background.default,
-        padding: 2,
+        backgroundColor: theme.colors.cardBg,
+        padding: 16,
       }}
     >
-      <Container maxWidth="sm">
-        <Paper sx={{ padding: 3, textAlign: 'center', backgroundColor: theme.palette.background.paper }}>
-          <ReportGmailerrorred color="error" sx={{ fontSize: 80, mb: 2 }} />
-          <Typography variant="h4" gutterBottom>
+      <Box style={{ maxWidth: '600px', width: '100%' }}>
+        <Paper style={{ padding: 24, textAlign: 'center', backgroundColor: theme.colors.cardBg }}>
+          <Typography variant="h3" gutterBottom>
             {t('Oops!')}
           </Typography>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h3" gutterBottom>
             {t('Sorry, an unexpected error has occurred.')}
           </Typography>
-          <Typography variant="body1" color="textSecondary" gutterBottom>
+          <Typography variant="body1" color="secondary" gutterBottom>
             <i>{error?.statusText || error?.message || 'Unknown error'}</i>
           </Typography>
           <Button
             variant="contained"
-            color="primary"
-            startIcon={<HomeOutlined />}
-            component={RouterLink}
-            to={RoutesEnum.ROOT}
-            sx={{ marginTop: 4 }}
-          >
-            {t('Go to Home')}
-          </Button>
+            label={t('Go to Home')}
+            onClick={() => (window.location.href = RoutesEnum.ROOT)}
+            style={{ marginTop: 16 }}
+          />
         </Paper>
-      </Container>
+      </Box>
     </Box>
   );
 }

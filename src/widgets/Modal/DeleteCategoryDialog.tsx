@@ -1,5 +1,10 @@
-import { Button, Dialog, DialogActions, DialogContent, Typography } from '@mui/material';
+import { Dialog, DialogActions, DialogContent } from 'src/shared/ui-kit';
+import { Typography } from 'src/shared/ui-kit';
+
+import { Button } from 'src/shared/ui-kit';
+
 import { useTranslation } from 'react-i18next';
+import styles from './DeleteCategoryDialog.module.scss';
 
 type TDeleteCategoryDialog = {
   openDeleteDialog: boolean;
@@ -24,22 +29,25 @@ const DeleteCategoryDialog = ({
         <DialogContent>
           <Typography variant="body1" gutterBottom>
             {t('A you sure to delete ')}
-            <span style={{ color: 'red' }}>{item.title}</span>
+            <span className={styles.dangerText}>{item.title}</span>
           </Typography>
         </DialogContent>
       )}
       <DialogActions>
-        <Button onClick={() => setOpenDeleteDialog(false)} color="primary" disabled={isUpdating}>
-          {t('Cancel')}
-        </Button>
+        <Button
+          onClick={() => setOpenDeleteDialog(false)}
+          variant="outlined"
+          label={t('Cancel')}
+          width="100%"
+          disabled={isUpdating}
+        />
         <Button
           onClick={() => item && handleConfirmDelete(item._id)}
-          color="error"
           variant="contained"
+          label={t('Delete')}
+          width="100%"
           disabled={isUpdating}
-        >
-          {t('Delete')}
-        </Button>
+        />
       </DialogActions>
     </Dialog>
   );

@@ -1,9 +1,9 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { Box, Button, ButtonGroup, Paper, Typography } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Paper, Typography, Button, ButtonGroup, Box } from 'src/shared/ui-kit';
+
 import ErrorWrapper from 'src/utils/components/ErrorWrapper.tsx';
-import { HomeOutlined, Refresh, ReportGmailerrorred } from '@mui/icons-material';
 import { withTranslation } from 'react-i18next';
+import styles from './ErrorBoundary.module.scss';
 
 class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> {
   constructor(props: TErrorBoundaryProps) {
@@ -26,9 +26,8 @@ class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> 
       return (
         <ErrorWrapper>
           <Paper>
-            <Box padding={2}>
-              <ReportGmailerrorred color="error" sx={{ fontSize: 80 }} />
-              <Typography variant="h4" gutterBottom>
+            <Box className={styles.errorBox}>
+              <Typography variant="h3" gutterBottom>
                 {this.props.t('Something went wrong.')}
               </Typography>
               <Typography variant="body1" gutterBottom>
@@ -37,13 +36,9 @@ class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> 
               <Typography variant="body2" gutterBottom>
                 {this.props.t('Please try reloading the page or go back to the home page.')}
               </Typography>
-              <ButtonGroup fullWidth>
-                <Button variant="contained" color="primary" onClick={this.handleReload} startIcon={<Refresh />}>
-                  {this.props.t('Reload')}
-                </Button>
-                <Button variant="outlined" color="primary" component={RouterLink} to="/" startIcon={<HomeOutlined />}>
-                  {this.props.t('Home')}
-                </Button>
+              <ButtonGroup>
+                <Button variant="contained" label={this.props.t('Reload')} onClick={this.handleReload} />
+                <Button variant="outlined" label={this.props.t('Home')} onClick={() => (window.location.href = '/')} />
               </ButtonGroup>
             </Box>
           </Paper>

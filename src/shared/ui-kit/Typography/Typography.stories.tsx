@@ -43,3 +43,14 @@ export const ButtonText: TStory = {
     align: 'center',
   },
 };
+
+export const GutterBottom: TStory = {
+  render: () => (
+    <>
+      <Typography variant="h3" gutterBottom>
+        Заголовок с gutterBottom
+      </Typography>
+      <Typography variant="body1">Текст сразу под заголовком.</Typography>
+    </>
+  ),
+};

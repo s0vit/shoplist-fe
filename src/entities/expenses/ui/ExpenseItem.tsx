@@ -1,5 +1,5 @@
 import { MouseEvent, useEffect, useState } from 'react';
-import { FaPencilAlt } from 'react-icons/fa';
+
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   LeadingActions,
@@ -9,25 +9,18 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
-import {
-  alpha,
-  Box,
-  Chip,
-  FormHelperText,
-  IconButton,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Stack, Select, type TOption, Typography, FormHelperText } from 'src/shared/ui-kit';
+
+import { Chip } from 'src/shared/ui-kit';
+import { alpha, useTheme } from 'src/shared/ui-kit';
+import { IconButton } from 'src/shared/ui-kit';
+
 import 'react-swipeable-list/dist/styles.css';
 import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore.ts';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import { TExpense } from 'src/shared/api/expenseApi.ts';
-import { Delete, Edit } from '@mui/icons-material';
+import { Icon } from 'src/shared/ui-kit';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
@@ -36,6 +29,7 @@ import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu.tsx';
+import styles from './ExpenseItem.module.scss';
 
 type TExpenseItemProps = {
   expense: TExpense;
@@ -94,31 +88,32 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
     }
   });
 
-  const handleEditClick = (event: MouseEvent<HTMLElement>) => {
-    event.stopPropagation();
+  const handleEditClick = (event?: React.MouseEvent<HTMLButtonElement>) => {
+    if (event) {
+      event.stopPropagation();
+    }
+
     handleEdit();
   };
 
-  const handleSingleExpense = (event: MouseEvent<HTMLElement>) => {
+  const _handleSingleExpense = (event: MouseEvent<HTMLElement>) => {
     if ('id' in event.target && event.target.id !== expense._id) return;
     navigate(`/expense/${expense._id}`);
   };
 
   const leadingActions = () => (
     <LeadingActions>
-      <SwipeAction onClick={handleEdit}>
+      <SwipeAction onClick={() => handleEditClick}>
         <Stack
-          alignItems="center"
-          justifyContent="center"
-          sx={{
-            backgroundColor: theme.palette.info.main,
-            color: theme.palette.info.contrastText,
-            padding: theme.spacing(2),
-            marginBottom: theme.spacing(1),
-            borderRadius: theme.spacing(1),
-          }}
+          className={styles.actionStack}
+          style={
+            {
+              '--action-bg': theme.colors.categoryBlue,
+              '--action-color': theme.colors.white,
+            } as React.CSSProperties
+          }
         >
-          <Edit />
+          <Icon name="pencilSquare" size="md" />
         </Stack>
       </SwipeAction>
     </LeadingActions>
@@ -128,17 +123,15 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
     <TrailingActions>
       <SwipeAction destructive={true} onClick={() => handleRemove(expense._id)}>
         <Stack
-          alignItems="center"
-          justifyContent="center"
-          sx={{
-            backgroundColor: theme.palette.error.main,
-            color: theme.palette.error.contrastText,
-            padding: theme.spacing(2),
-            marginBottom: theme.spacing(1),
-            borderRadius: theme.spacing(1),
-          }}
+          className={styles.actionStack}
+          style={
+            {
+              '--action-bg': theme.colors.error,
+              '--action-color': theme.colors.white,
+            } as React.CSSProperties
+          }
         >
-          <Delete />
+          <Icon name="trash" size="md" />
         </Stack>
       </SwipeAction>
     </TrailingActions>
@@ -164,32 +157,33 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
   const localCurrencySymbol = currencies.find((c) => c.value === localCurrency)?.label || localCurrency;
   const displayAmount = `${convertedAmount.toFixed(2)} ${localCurrencySymbol}`;
 
-  const handleCurrencyChange = (event: SelectChangeEvent) => {
-    setLocalCurrency(event.target.value as CURRENCIES);
+  const handleCurrencyChange = (value: string) => {
+    setLocalCurrency(value as CURRENCIES);
   };
 
   return (
     <div onContextMenu={handleOpenMenu} {...longPressEvents}>
-      <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto', cursor: 'pointer', userSelect: 'none' }}>
-        <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
+      <SwipeableList type={Type.IOS} fullSwipe className={styles.swipeList}>
+        <SwipeableListItem
+          leadingActions={leadingActions()}
+          trailingActions={trailingActions()}
+          className={styles.swipeListItem}
+        >
           <Stack
+            justify="space-between"
             direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            onClick={handleSingleExpense}
+            className={styles.rootStack}
             id={expense._id}
-            sx={{
-              backgroundColor: showCategoryColours ? alpha(categoryColor, 0.05) : 'null',
-              padding: theme.spacing(0.5),
-              borderRadius: theme.spacing(1),
-              marginBottom: theme.spacing(1),
-              width: '100%',
-              border: `1px solid`,
-              borderColor: showCategoryColours ? categoryColor : 'null',
-            }}
+            onClick={_handleSingleExpense}
+            style={
+              {
+                '--root-bg': showCategoryColours ? alpha(categoryColor, 0.05) : undefined,
+                '--root-border': showCategoryColours ? categoryColor : undefined,
+              } as React.CSSProperties
+            }
           >
             <Box>
-              {showCategoryNames && <Typography variant="subtitle2">{category?.title}</Typography>}
+              {showCategoryNames && <Typography variant="body2">{category?.title}</Typography>}
               <Typography variant="body2">
                 {new Intl.DateTimeFormat(browserLocale, {
                   hour: '2-digit',
@@ -198,44 +192,45 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
               </Typography>
               {expense.comments && <FormHelperText>{expense.comments}</FormHelperText>}
             </Box>
-            <Stack direction="row">
-              <Box sx={{ textAlign: 'right' }}>
+            <Stack direction="row" align="center" gap={1}>
+              <Box className={styles.amountBox}>
                 <Chip
                   label={displayAmount}
-                  sx={{
-                    backgroundColor: showSourceColours ? alpha(paymentSourceColor, 0.9) : 'null',
-                    border: `1px solid ${alpha(theme.palette.getContrastText(paymentSourceColor), 0.8)}`,
-                    color: showSourceColours ? theme.palette.getContrastText(paymentSourceColor) : 'null',
+                  style={{
+                    backgroundColor: showSourceColours ? alpha(paymentSourceColor, 0.9) : 'transparent',
+                    border: `1px solid ${alpha(theme.colors.white, 0.8)}`,
+                    color: showSourceColours ? theme.colors.black : 'inherit',
                     fontSize: '1.2rem',
                     padding: theme.spacing(0.5),
                   }}
                 />
-                <Select value={localCurrency} onChange={handleCurrencyChange} size="small" sx={{ minWidth: 90 }}>
-                  {currencies.map((currency) => (
-                    <MenuItem key={currency.value} value={currency.value}>
-                      {currency.value}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <Select
+                  options={
+                    currencies.map((currency) => ({ value: currency.value, label: currency.value })) as TOption[]
+                  }
+                  value={localCurrency}
+                  onChange={handleCurrencyChange}
+                  style={{ minWidth: 90 }}
+                  data-test
+                />
                 {showSourceNames && (
-                  <Typography variant="body2" mr={1}>
+                  <Typography variant="body2" style={{ marginRight: 8 }}>
                     {paymentSource?.title || 'Deleted'}
                   </Typography>
                 )}
               </Box>
               <IconButton
-                aria-label="edit"
-                sx={{
+                icon="pencilSquare"
+                iconSize={20}
+                style={{
                   height: 'fit-content',
                   width: 'fit-content',
-                  p: '5px',
-                  ml: '5px',
+                  padding: '5px',
+                  marginLeft: '5px',
                   border: `1px solid ${theme.palette.text.primary}`,
                 }}
-                onClick={(event) => handleEditClick(event)}
-              >
-                <FaPencilAlt size={20} color={theme.palette.text.primary} />
-              </IconButton>
+                onClick={handleEditClick}
+              />
             </Stack>
           </Stack>
         </SwipeableListItem>

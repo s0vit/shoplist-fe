@@ -1,4 +1,7 @@
-import { alpha, Box, Card, CardContent, Grid, IconButton, Stack, Typography, useTheme } from '@mui/material';
+import { alpha, useTheme } from 'src/shared/ui-kit';
+import { Typography, Card, IconButton } from 'src/shared/ui-kit';
+
+import { Box, Grid, Stack } from 'src/shared/ui-kit';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import {
   LeadingActions,
@@ -8,18 +11,18 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
-import { Delete, Edit } from '@mui/icons-material';
+import { Icon } from 'src/shared/ui-kit';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu';
 import { MouseEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal.tsx';
-import { FaPencilAlt } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import styles from './CategoryCard.module.scss';
 
 type TCategoriesProps = {
   category: TCategory;
@@ -80,17 +83,15 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
     <LeadingActions>
       <SwipeAction onClick={handleEdit}>
         <Stack
-          alignItems="center"
-          justifyContent="center"
-          height="100%"
-          sx={{
-            backgroundColor: theme.palette.info.main,
-            color: theme.palette.info.contrastText,
-            padding: theme.spacing(2),
-            borderRadius: theme.spacing(1),
-          }}
+          className={styles.editStack}
+          style={
+            {
+              '--edit-bg': theme.colors.categoryBlue,
+              '--edit-color': theme.colors.white,
+            } as React.CSSProperties
+          }
         >
-          <Edit />
+          <Icon name="pencilSquare" size="md" />
         </Stack>
       </SwipeAction>
     </LeadingActions>
@@ -100,17 +101,15 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
     <TrailingActions>
       <SwipeAction destructive={true} onClick={handleRemove}>
         <Stack
-          alignItems="center"
-          height="100%"
-          justifyContent="center"
-          sx={{
-            backgroundColor: theme.palette.error.main,
-            color: theme.palette.error.contrastText,
-            padding: theme.spacing(2),
-            borderRadius: theme.spacing(1),
-          }}
+          className={styles.deleteStack}
+          style={
+            {
+              '--delete-bg': theme.colors.error,
+              '--delete-color': theme.colors.white,
+            } as React.CSSProperties
+          }
         >
-          <Delete />
+          <Icon name="trash" size="md" />
         </Stack>
       </SwipeAction>
     </TrailingActions>
@@ -119,47 +118,52 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
   return (
     <Grid
       item
-      xs={12}
+      size={{ xs: 12 }}
       onContextMenu={handleOpenMenu}
       {...longPressEvents}
       ref={setNodeRef}
-      style={style}
+      className={styles.sortable}
+      style={
+        {
+          '--sortable-transition': style.transition,
+          '--sortable-transform': style.transform,
+        } as React.CSSProperties
+      }
       {...attributes}
       {...listeners}
     >
       <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
           <Card
-            sx={{
+            style={{
               backgroundColor: categoryBackgroundColor,
               border: `1px solid ${category.color || theme.palette.primary.main}`,
               width: '100%',
               borderRadius: theme.spacing(1),
             }}
           >
-            <CardContent sx={{ p: 1 }} style={{ paddingBottom: '16px' }}>
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="h5" component="div" color={categoryTextColor}>
+            <Box style={{ padding: 8 }} className={styles.cardContent}>
+              <Box className={styles.headerBox}>
+                <Typography variant="h3" color={categoryTextColor}>
                   {category.title}
                 </Typography>
-                <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
+                <Box className={styles.columnEndBox}>
                   <Typography variant="body2" color={categoryTextColor}>
                     {t('Created: ') + `${new Date(category.createdAt).toLocaleDateString()}`}
                   </Typography>
                   <IconButton
-                    aria-label="edit"
-                    sx={{
+                    icon="pencilSquare"
+                    iconSize="sm"
+                    variant="text"
+                    disabled={!isVerified}
+                    style={{
                       height: 'fit-content',
                       width: 'fit-content',
-                      p: '5px',
-                      ml: '5px',
+                      padding: '5px',
+                      marginLeft: '5px',
                       border: `1px solid ${theme.palette.text.primary}`,
                     }}
-                    disabled={!isVerified}
-                    onClick={handleEdit}
-                  >
-                    <FaPencilAlt size={20} color={theme.palette.text.primary} />
-                  </IconButton>
+                  />
                 </Box>
               </Box>
               {category.comments && (
@@ -167,7 +171,7 @@ const CategoryCard = ({ category, handleRemove }: TCategoriesProps) => {
                   {category.comments}
                 </Typography>
               )}
-            </CardContent>
+            </Box>
           </Card>
         </SwipeableListItem>
       </SwipeableList>

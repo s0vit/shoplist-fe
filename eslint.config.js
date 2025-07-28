@@ -34,7 +34,7 @@ export default [
       },
     },
   },
-  { ignores: ['dist', '.eslintrc.cjs', 'public', 'playwright-report', 'node_modules', 'scripts'] },
+  { ignores: ['dist', '.eslintrc.cjs', 'public', 'playwright-report', 'node_modules', 'scripts/**/*'] },
 
   {
     plugins: {
@@ -91,6 +91,23 @@ export default [
         { blankLine: 'any', prev: 'import', next: 'import' },
       ],
       'i18next/no-literal-string': 1,
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['src/shared/ui-kit/*'],
+              message: 'Please import from "src/shared/ui-kit" instead of individual files.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/*.stories.tsx'],
+    rules: {
+      'i18next/no-literal-string': 'off',
     },
   },
 ];

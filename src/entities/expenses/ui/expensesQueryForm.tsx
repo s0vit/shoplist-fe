@@ -1,8 +1,7 @@
 import { ChangeEvent } from 'react';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import { Accordion, AccordionDetails } from '@mui/material';
+import { Grid, Box, TextField } from 'src/shared/ui-kit';
+import { Accordion, AccordionDetails, AccordionSummary } from 'src/shared/ui-kit';
+import { Icon } from 'src/shared/ui-kit';
 import CategoriesSelect from 'src/entities/category/ui/CategoriesSelect.tsx';
 import PaymentSourcesSelect from 'src/entities/paymentSource/ui/PaymentSourcesSelect.tsx';
 import useFiltersStoreForExpenses from 'src/entities/filters/models/store/FiltersStore.ts';
@@ -34,19 +33,20 @@ const ExpenseQueryForm = () => {
   ];
 
   return (
-    <Box sx={{ alignSelf: 'flex-start' }}>
+    <Box style={{ alignSelf: 'flex-start' }}>
       <Accordion disableGutters>
+        <AccordionSummary expandIcon={<Icon name="chevronDown" size="md" />}>{t('Filter')}</AccordionSummary>
         <AccordionDetails>
           <Box>
             <Grid container direction="column" spacing={2}>
-              <Grid item xs={12} sm={4}>
+              <Grid item size={{ xs: 12, sm: 4 }}>
                 <CategoriesSelect
                   selectedCategoryId={filters.categoryId}
                   setSelectedCategoryId={(value) => setFilter({ ...filters, categoryId: value })}
                   isCreateExpensePending={isExpensesLoading}
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item size={{ xs: 12, sm: 4 }}>
                 <PaymentSourcesSelect
                   selectedPaymentSourceId={filters.paymentSourceId}
                   setSelectedPaymentSourceId={(value) => setFilter({ ...filters, paymentSourceId: value })}
@@ -54,7 +54,7 @@ const ExpenseQueryForm = () => {
                 />
               </Grid>
               {filtersArray.map((field) => (
-                <Grid item xs={12} sm={4} key={field.name}>
+                <Grid item size={{ xs: 12, sm: 4 }} key={field.name}>
                   <TextField
                     name={field.name}
                     label={t(field.label)}
@@ -64,7 +64,6 @@ const ExpenseQueryForm = () => {
                     value={filters[field.name as keyof TFilterForQueryTypes] || ''}
                     onChange={handleChange}
                     disabled={isExpensesLoading}
-                    InputLabelProps={{ shrink: true }}
                   />
                 </Grid>
               ))}

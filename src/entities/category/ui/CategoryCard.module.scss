@@ -1,0 +1,40 @@
+.headerBox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.columnEndBox {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 4px;
+}
+
+.editStack {
+  height: 100%;
+  background-color: var(--edit-bg);
+  color: var(--edit-color);
+  padding: 16px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteStack {
+  height: 100%;
+  background-color: var(--delete-bg);
+  color: var(--delete-color);
+  padding: 16px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardContent {
+  padding-bottom: 16px !important;
+}
+
+.sortable {
+  transition: var(--sortable-transition, none);
+  transform: var(--sortable-transform, none);
+}

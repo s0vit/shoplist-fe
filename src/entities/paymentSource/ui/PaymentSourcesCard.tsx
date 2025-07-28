@@ -1,4 +1,8 @@
-import { alpha, Box, Card, CardContent, Grid, IconButton, Stack, Typography, useTheme } from '@mui/material';
+import { alpha, useTheme } from 'src/shared/ui-kit';
+import { Typography, Card, IconButton } from 'src/shared/ui-kit';
+
+import { Box, Stack, Grid } from 'src/shared/ui-kit';
+
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import {
   LeadingActions,
@@ -8,18 +12,18 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
-import { Delete, Edit } from '@mui/icons-material';
+import { Icon } from 'src/shared/ui-kit';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import ItemMenu from 'src/widgets/ItemMenu/ItemMenu.tsx';
 import ShareWithModal from 'src/widgets/Modal/ShareWithModal.tsx';
 import { MouseEvent, useState } from 'react';
 import useLongPress from 'src/utils/hooks/useLongPress.ts';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
-import { FaPencilAlt } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import styles from './PaymentSourcesCard.module.scss';
 
 type TPaymentSourcesCardProps = {
   paymentSource: TPaymentSource;
@@ -77,19 +81,9 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
 
   const leadingActions = () => (
     <LeadingActions>
-      <SwipeAction onClick={isVerified ? handleEdit : () => {}}>
-        <Stack
-          alignItems="center"
-          justifyContent="center"
-          height="100%"
-          sx={{
-            backgroundColor: theme.palette.info.main,
-            color: theme.palette.info.contrastText,
-            padding: theme.spacing(2),
-            borderRadius: theme.spacing(1),
-          }}
-        >
-          <Edit />
+      <SwipeAction onClick={handleEdit}>
+        <Stack className={styles.actionStack}>
+          <Icon name="pencilSquare" size="md" />
         </Stack>
       </SwipeAction>
     </LeadingActions>
@@ -97,19 +91,9 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
 
   const trailingActions = () => (
     <TrailingActions>
-      <SwipeAction destructive={isVerified} onClick={isVerified ? handleRemove : () => {}}>
-        <Stack
-          alignItems="center"
-          height="100%"
-          justifyContent="center"
-          sx={{
-            backgroundColor: theme.palette.error.main,
-            color: theme.palette.error.contrastText,
-            padding: theme.spacing(2),
-            borderRadius: theme.spacing(1),
-          }}
-        >
-          <Delete />
+      <SwipeAction destructive={isVerified} onClick={handleRemove}>
+        <Stack className={styles.actionStack}>
+          <Icon name="trash" size="md" />
         </Stack>
       </SwipeAction>
     </TrailingActions>
@@ -117,48 +101,53 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
 
   return (
     <Grid
-      item
-      xs={12}
+      {...attributes}
+      {...listeners}
+      container
+      item={false}
+      className={`${styles.gridRoot} ${styles.sortable}`}
+      style={
+        {
+          '--sortable-transition': style.transition,
+          '--sortable-transform': style.transform,
+        } as React.CSSProperties
+      }
       onContextMenu={handleOpenMenu}
       {...longPressEvents}
       ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
     >
-      <SwipeableList type={Type.IOS} fullSwipe style={{ height: 'auto' }}>
+      <SwipeableList type={Type.IOS} fullSwipe className={styles.swipeList}>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}>
           <Card
-            sx={{
+            style={{
               backgroundColor: paymentSourceBackgroundColor,
               width: '100%',
               borderRadius: theme.spacing(1),
               border: `1px solid ${paymentSource.color || theme.palette.primary.main}`,
             }}
           >
-            <CardContent sx={{ p: 1 }} style={{ paddingBottom: '16px' }}>
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="h5" component="div" color={paymentSourceTextColor}>
+            <Box style={{ padding: 8 }} className={styles.cardContent}>
+              <Box className={styles.flexBetween}>
+                <Typography variant="h3" color={paymentSourceTextColor}>
                   {paymentSource.title}
                 </Typography>
-                <Box display="flex" flexDirection="column" alignItems="end" gap="4px">
+                <Box className={styles.flexColumnEnd}>
                   <Typography variant="body2" color={paymentSourceTextColor}>
                     {t('Created: ') + `${new Date(paymentSource.createdAt).toLocaleDateString()}`}
                   </Typography>
                   <IconButton
-                    aria-label="edit"
-                    sx={{
+                    icon="pencilSquare"
+                    iconSize="sm"
+                    variant="text"
+                    disabled={!isVerified}
+                    style={{
                       height: 'fit-content',
                       width: 'fit-content',
-                      p: '5px',
-                      ml: '5px',
+                      padding: '5px',
+                      marginLeft: '5px',
                       border: `1px solid ${theme.palette.text.primary}`,
                     }}
-                    onClick={handleEdit}
-                    disabled={!isVerified}
-                  >
-                    <FaPencilAlt size={20} color={theme.palette.text.primary} />
-                  </IconButton>
+                  />
                 </Box>
               </Box>
               {paymentSource.comments && (
@@ -166,7 +155,7 @@ const PaymentSourcesCard = ({ paymentSource, handleRemove }: TPaymentSourcesCard
                   {paymentSource.comments}
                 </Typography>
               )}
-            </CardContent>
+            </Box>
           </Card>
         </SwipeableListItem>
       </SwipeableList>

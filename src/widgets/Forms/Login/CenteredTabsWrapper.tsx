@@ -1,11 +1,13 @@
-import { styled, Tabs, TabsProps } from '@mui/material';
+import { styled } from 'styled-components';
+import { Tabs, TTabsProps } from 'src/shared/ui-kit';
 
-const CenteredTabsWrapper = styled(Tabs)<TabsProps>(({ theme }) => ({
-  margin: '0 auto',
-  backgroundColor: theme.palette.background.default,
-  '& .MuiTabs-flexContainer': {
-    justifyContent: 'space-between',
-  },
-}));
+const CenteredTabsWrapper = styled(Tabs)<TTabsProps>`
+  margin: 0 auto;
+  background-color: var(--color-card-bg);
+
+  & > * {
+    justify-content: space-between;
+  }
+`;
 
 export default CenteredTabsWrapper;

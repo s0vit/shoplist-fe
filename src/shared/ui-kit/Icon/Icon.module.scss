@@ -1,0 +1,49 @@
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+
+  // Обеспечиваем правильное отображение SVG иконок
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  // Для иконок с fill атрибутом
+  svg[fill] {
+    fill: currentColor;
+  }
+
+  // Для иконок с stroke атрибутом
+  svg[stroke] {
+    stroke: currentColor;
+  }
+}
+
+// Варианты иконок
+.iconPrimary {
+  color: var(--color-icon-primary);
+}
+
+.iconSecondary {
+  color: var(--color-icon-secondary);
+}
+
+.iconDisabled {
+  color: var(--color-icon-disabled);
+  opacity: 0.6;
+}
+
+// Интерактивные состояния
+.iconClickable {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+}

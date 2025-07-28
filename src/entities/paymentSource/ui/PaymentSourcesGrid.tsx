@@ -1,9 +1,9 @@
-import { Grid } from '@mui/material';
 import PaymentSourcesCard from 'src/entities/paymentSource/ui/PaymentSourcesCard.tsx';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { Grid } from 'src/shared/ui-kit';
 
 type TPaymentSourcesProps = {
   paymentSources: TPaymentSource[];

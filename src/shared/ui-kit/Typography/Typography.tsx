@@ -12,6 +12,8 @@ export type TTypographyProps = {
   color?: string;
   style?: React.CSSProperties;
   className?: string;
+  gutterBottom?: boolean;
+  onClick?: React.MouseEventHandler<HTMLSpanElement>;
 };
 
 const variantToFontSize = {
@@ -36,6 +38,31 @@ const weightToFontWeight = {
   bold: 'var(--font-weight-bold)',
 };
 
+// Функция для получения правильного цвета
+const getColorValue = (color?: string) => {
+  if (!color) return 'var(--color-text-primary)';
+
+  // Обработка предопределенных цветов
+  switch (color) {
+    case 'primary':
+      return 'var(--color-text-primary)';
+    case 'secondary':
+    case 'textSecondary':
+      return 'var(--color-text-secondary)';
+    case 'error':
+      return 'var(--color-error)';
+    case 'success':
+      return 'var(--color-success)';
+    case 'warning':
+      return 'var(--color-warning)';
+    case 'info':
+      return 'var(--color-info)';
+    default:
+      // Если это кастомный цвет (hex, rgb, etc.), используем его как есть
+      return color;
+  }
+};
+
 const StyledTypography = styled.span<{
   $variant: TTypographyVariant;
   $weight: TTypographyWeight;
@@ -47,7 +74,7 @@ const StyledTypography = styled.span<{
   line-height: ${({ $variant }) => variantToLineHeight[$variant]};
   font-weight: ${({ $weight }) => weightToFontWeight[$weight]};
   text-align: ${({ $align }) => $align || 'left'};
-  color: ${({ $color }) => $color || 'var(--color-text-primary)'};
+  color: ${({ $color }) => getColorValue($color)};
 `;
 
 const Typography = ({
@@ -58,14 +85,20 @@ const Typography = ({
   color,
   style,
   className,
+  gutterBottom = false,
+  onClick,
 }: TTypographyProps) => (
   <StyledTypography
     $variant={variant}
     $weight={weight}
     $align={align}
     $color={color}
-    style={style}
+    style={{
+      ...style,
+      ...(gutterBottom ? { marginBottom: '0.35em' } : {}),
+    }}
     className={className}
+    onClick={onClick}
   >
     {children}
   </StyledTypography>

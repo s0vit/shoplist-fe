@@ -1,0 +1,50 @@
+// Styles for AddExpenseCalc
+
+.rootBox {
+  padding: 20px;
+  border: 1px solid grey;
+  border-radius: 8px;
+
+  @media (min-width: 768px) {
+    padding: 24px;
+  }
+}
+
+.topRow {
+  margin-bottom: 12px;
+
+  @media (min-width: 768px) {
+    margin-bottom: 16px;
+  }
+}
+
+.dateRow {
+  margin-top: 20px;
+
+  @media (min-width: 768px) {
+    margin-top: 24px;
+  }
+}
+
+.buttonGrid {
+  width: calc(33% - 8px);
+
+  @media (min-width: 768px) {
+    width: calc(33% - 12px);
+  }
+}
+
+.calcButton {
+  height: 50px;
+  font-size: 24px;
+
+  @media (min-width: 768px) {
+    height: 60px;
+    font-size: 28px;
+  }
+}
+
+.borderBox {
+  border: 1px solid grey;
+  border-radius: 8px;
+}

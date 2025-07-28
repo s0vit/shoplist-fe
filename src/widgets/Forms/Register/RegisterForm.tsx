@@ -1,15 +1,5 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import {
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Stack, TextField, Button, Typography, IconButton } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
@@ -29,6 +19,7 @@ const RegisterForm = () => {
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { t } = useTranslation('loginPage');
 
   const toastId = useRef<Id>(undefined);
@@ -99,16 +90,16 @@ const RegisterForm = () => {
     <FormWrapper elevation={5}>
       {isRegistered ? (
         isConfirmed ? (
-          <Stack spacing={1}>
-            <Typography variant="h4" align="center">
+          <Stack gap={1}>
+            <Typography variant="h3" align="center">
               {t('Registration finished!')}
             </Typography>
             <Typography>{t('You now will be redirected')}</Typography>
           </Stack>
         ) : (
           <Form onSubmit={() => confirmMutate()}>
-            <Stack spacing={1}>
-              <Typography variant="h4" align="center">
+            <Stack gap={1}>
+              <Typography variant="h3" align="center">
                 {t('Registration successful!')}
               </Typography>
               <Typography>{t('Confirm your email. Enter code from letter')}</Typography>
@@ -118,17 +109,17 @@ const RegisterForm = () => {
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="Code"
+                fullWidth
+                size="small"
               />
-              <Button disabled={isConfirmPending} type="submit" variant="outlined">
-                {t('Confirm')}
-              </Button>
+              <Button disabled={isConfirmPending} variant="outlined" type="submit" label={t('Confirm')} width="100%" />
             </Stack>
           </Form>
         )
       ) : (
         <Form onSubmit={handleRegisterSubmit}>
-          <Stack spacing={1}>
-            <Typography variant="h4" align="center">
+          <Stack gap={1}>
+            <Typography variant="h3" align="center">
               {t('Register')}
             </Typography>
             <TextField
@@ -137,39 +128,45 @@ const RegisterForm = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t('Email')}
+              fullWidth
+              size="small"
             />
-            <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">{t('Password')}</InputLabel>
-              <OutlinedInput
-                disabled={isRegisterPending}
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                label={t('Password')}
-                type={showPassword ? 'text' : 'password'}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
             <TextField
-              type="password"
+              disabled={isRegisterPending}
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              label={t('Password')}
+              fullWidth
+              size="small"
+              endAdornment={
+                <IconButton
+                  icon={showPassword ? 'eyeSlash' : 'eye'}
+                  iconSize="sm"
+                  variant="text"
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              }
+            />
+            <TextField
+              type={showConfirmPassword ? 'text' : 'password'}
               value={confirmPassword}
               disabled={isRegisterPending}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder={t('Confirm Password')}
               helperText={t('Password should contain 1 number and 1 capital letter')}
+              fullWidth
+              size="small"
+              endAdornment={
+                <IconButton
+                  icon={showConfirmPassword ? 'eyeSlash' : 'eye'}
+                  iconSize="sm"
+                  variant="text"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                />
+              }
             />
-            <Button disabled={isRegisterPending} type="submit" variant="outlined">
-              {t('Register')}
-            </Button>
+            <Button disabled={isRegisterPending} variant="outlined" label={t('Register')} width="100%" />
           </Stack>
         </Form>
       )}

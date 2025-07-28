@@ -1,4 +1,8 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from 'src/shared/ui-kit';
+import { TextField } from 'src/shared/ui-kit';
+
+import { Typography, Button } from 'src/shared/ui-kit';
+
 import { TUser } from 'src/shared/api/authApi';
 import { useTranslation } from 'react-i18next';
 
@@ -37,17 +41,14 @@ const DeleteUserDialog = ({
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpenDeleteDialog(false)} color="primary">
-          {t('Cancel')}
-        </Button>
+        <Button onClick={() => setOpenDeleteDialog(false)} variant="outlined" label={t('Cancel')} width="100%" />
         <Button
           onClick={handleConfirmDelete}
-          color="error"
           variant="contained"
+          label={t('Delete')}
+          width="100%"
           disabled={userData?.email !== emailInput}
-        >
-          {t('Delete')}
-        </Button>
+        />
       </DialogActions>
     </Dialog>
   );
