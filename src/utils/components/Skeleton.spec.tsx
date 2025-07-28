@@ -24,7 +24,7 @@ describe('Skeleton component', () => {
   it('renders correct variants', () => {
     const { getByTestId } = render(<SkeletonGroup variant="circular" />);
     const skeleton = getByTestId('skeletonExpenses-0');
-    expect(skeleton.className).toMatch(/MuiSkeleton-circular/);
+    expect(getComputedStyle(skeleton).borderRadius).toBe('50%');
   });
 
   it('applies column direction to Stack', () => {

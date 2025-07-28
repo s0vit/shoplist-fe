@@ -3,20 +3,24 @@
 exports[`Skeleton component > matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="MuiStack-root css-m69qwo-MuiStack-root"
+    class="sc-frmfij cisIhe"
     data-testid="skeletonStack"
+    direction="row"
   >
-    <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+    <div
+      class="sc-VILhF hItdIP"
       data-testid="skeletonExpenses-0"
+      variant="rectangular"
     />
-    <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+    <div
+      class="sc-VILhF hItdIP"
       data-testid="skeletonExpenses-1"
+      variant="rectangular"
     />
-    <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-ezskuf-MuiSkeleton-root"
+    <div
+      class="sc-VILhF hItdIP"
       data-testid="skeletonExpenses-2"
+      variant="rectangular"
     />
   </div>
 </DocumentFragment>
