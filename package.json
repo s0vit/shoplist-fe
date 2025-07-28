@@ -9,7 +9,6 @@
     "test:e2e": "playwright test",
     "test:e2e:debug": "playwright test --headed --debug",
     "test:unit": "vitest",
-    "test:unit:upd": "vitest --update",
     "lint": "eslint --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint --report-unused-disable-directives --max-warnings 0 --fix",
     "format:fix": "prettier --write \"src/**/*.ts\"",
