@@ -33,6 +33,7 @@ const CalculatorButtons = ({ isPending, handleButtonClick }: TCalculatorButtonsP
             disabled={isPending && button.title !== 'del'}
             className={styles.calcButton}
             onClick={() => handleButtonClick(button.title)}
+            data-testid={button.title}
           >
             {button.variant === 'calculator' ? button.title : undefined}
           </CalculatorButton>

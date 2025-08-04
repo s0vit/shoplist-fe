@@ -64,6 +64,7 @@ export const CalculatorButton: React.FC<CalculatorButtonProps> = ({
   onClick,
   disabled = false,
   className,
+  ...props
 }) => {
   const handleClick = () => {
     if (!disabled && onClick) {
@@ -90,6 +91,7 @@ export const CalculatorButton: React.FC<CalculatorButtonProps> = ({
       disabled={disabled}
       className={className}
       type="button"
+      {...props}
     >
       {getButtonContent()}
     </StyledButton>
