@@ -1,4 +1,15 @@
-// Styles for AddExpenseCalc
+.wrapper {
+  background-color: var(--color-card-bg);
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  min-width: 500px;
+
+  @media (max-width: 1200px) {
+    max-width: 100%;
+    min-width: auto;
+  }
+}
 
 .rootBox {
   padding: 20px;
@@ -47,4 +58,55 @@
 .borderBox {
   border: 1px solid grey;
   border-radius: 8px;
+}
+
+.buttonsWrapper {
+  border-radius: 24px 24px 0 0;
+  padding: 16px;
+  background-color: var(--color-card-bg);
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  box-shadow: 0 0 24px 0 rgba(14, 15, 18, 0.05);
+}
+
+.dateCommentRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+
+  .dateButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 53px;
+    height: 53px;
+    background: var(--color-input-bg);
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .dateInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .commentInput {
+    width: 100%;
+    &.hasComment {
+      border-color: var(--color-success);
+    }
+  }
 }

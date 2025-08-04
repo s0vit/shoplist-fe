@@ -1,10 +1,8 @@
-import { useTheme } from 'src/shared/ui-kit';
-
-import { Box } from 'src/shared/ui-kit';
+import { Box, useTheme } from 'src/shared/ui-kit';
 
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import ContentContainer from 'src/utils/components/ContentContainer.tsx';
+import ContentContainer from 'src/utils/components/ContentContainer/ContentContainer.tsx';
 import FootBar from 'src/utils/components/FootBar.tsx';
 import Navbar from 'src/utils/components/Navbar.tsx';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
@@ -21,7 +19,7 @@ const Layout = () => {
   }, [theme]);
 
   return (
-    <Box>
+    <Box style={{ height: '100%' }}>
       <Navbar />
       <UnverifiedAlert />
       <ContentContainer>

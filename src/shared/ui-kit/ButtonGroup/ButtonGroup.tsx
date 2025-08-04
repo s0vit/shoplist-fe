@@ -8,12 +8,16 @@ export type ButtonGroupProps = {
   style?: React.CSSProperties;
   joined?: boolean;
   fullWidth?: boolean;
+  height?: string | number;
+  width?: string | number;
 };
 
 const ButtonGroup = ({
   children,
   direction = 'row',
   gap = '8px',
+  height = 'auto',
+  width = 'auto',
   className,
   style,
   joined = false,
@@ -52,6 +56,8 @@ const ButtonGroup = ({
           ...(el.props.style || {}),
           borderRadius,
           margin: 0,
+          width: width,
+          height: height,
           ...(fullWidth && direction === 'row' ? { width: '100%' } : {}),
         };
 
