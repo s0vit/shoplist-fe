@@ -17,9 +17,16 @@ const SkeletonGroup = ({ dimensions = {}, count = 3, styles = {}, variant = 'rec
   const { width, height, direction = 'row' } = dimensions;
 
   return (
-    <Stack direction={direction}>
+    <Stack direction={direction} data-testid="skeletonStack">
       {[...Array(count)].map((_, index) => (
-        <Skeleton key={index} variant={variant} width={width} height={height} style={styles} />
+        <Skeleton
+          key={index}
+          variant={variant}
+          width={width}
+          height={height}
+          style={styles}
+          data-testid={`skeletonExpenses-${index}`}
+        />
       ))}
     </Stack>
   );
