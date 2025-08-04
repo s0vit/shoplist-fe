@@ -1,4 +1,9 @@
-import { Avatar, Button, Paper, Stack, Typography, useTheme } from '@mui/material';
+import { Button } from 'src/shared/ui-kit';
+import { useTheme } from 'src/shared/ui-kit';
+import { Avatar, Paper, Typography } from 'src/shared/ui-kit';
+
+import { Stack } from 'src/shared/ui-kit';
+
 import {
   deleteAccessControl,
   TAccessControl,
@@ -11,13 +16,14 @@ import handleError from 'src/utils/errorHandler.ts';
 import useLoadAccessControls from 'src/entities/accessControl/hooks/useLoadAccessControls.ts';
 import { findUserById } from 'src/shared/api/userApi.ts';
 import { useEffect } from 'react';
-import { Delete } from '@mui/icons-material';
+import { Icon } from 'src/shared/ui-kit';
 import { TPaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
 import AccessControlSharedExpenses from 'src/entities/accessControl/ui/AccessControlSharedExpenses.tsx';
 import { TExpense } from 'src/shared/api/expenseApi.ts';
 import AccessControlSharedCategories from 'src/entities/accessControl/ui/AccessControlSharedCategories.tsx';
 import AccessControlSharedPaymentSources from 'src/entities/accessControl/ui/AccessControlSharedPaymentSources.tsx';
+import styles from './AccessControlItem.module.scss';
 
 type TAccessControlItemProps = {
   accessControl: TAccessControl;
@@ -60,27 +66,24 @@ const AccessControlItem = ({ accessControl, paymentSources, categories, expenses
 
   return (
     <Paper key={accessControl._id}>
-      <Stack p={2} mt={2} gap={2}>
+      <Stack className={styles.root} gap={2}>
         {isUserLoading ? (
           <Typography>Loading...</Typography>
         ) : (
-          <Stack direction="row" gap={2} alignItems="center" justifyContent="space-between">
-            <Stack direction="row" gap={2} alignItems="center" maxWidth="calc(100% - 58px)">
-              <Avatar src={user?.avatar} alt={user?.login} />
-              <Typography overflow="hidden" textOverflow="ellipsis">
-                {user?.login}
-              </Typography>
+          <Stack className={styles.row} gap={2}>
+            <Stack className={styles.rowMax} gap={2}>
+              <Avatar src={user?.avatar} alt={user?.login} name={user?.login || user?.email} />
+              <Typography style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{user?.login}</Typography>
             </Stack>
             <Button
               onClick={() => deleteAccessControlMutate()}
-              sx={{
+              style={{
                 minWidth: 0,
-                px: 1,
-                border: `1px solid ${theme.palette.error.main}`,
+                padding: '0 8px',
+                border: `1px solid ${theme.colors.error}`,
               }}
-            >
-              <Delete color="error" />
-            </Button>
+              label={<Icon name="trash" size="md" color="error" />}
+            />
           </Stack>
         )}
         {accessControl.expenseIds.length > 0 && (

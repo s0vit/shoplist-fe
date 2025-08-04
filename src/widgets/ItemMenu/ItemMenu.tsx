@@ -1,5 +1,6 @@
-import { Delete, Edit, Share } from '@mui/icons-material';
-import { alpha, Menu, MenuItem, Typography, useTheme } from '@mui/material';
+import { Menu, MenuItem } from 'src/shared/ui-kit';
+import { Typography, Icon } from 'src/shared/ui-kit';
+
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
@@ -20,7 +21,6 @@ const ItemMenu = ({
   itemId,
   setIsShareWithModalOpen,
 }: TItemMenuProps) => {
-  const theme = useTheme();
   const { t } = useTranslation('translation');
   const isVerified = _useUserStore.use.user?.()?.isVerified;
 
@@ -41,7 +41,7 @@ const ItemMenu = ({
         paper: {
           style: {
             width: '200px',
-            border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+            border: '1px solid var(--color-border)',
           },
         },
       }}
@@ -52,8 +52,8 @@ const ItemMenu = ({
           handleCloseMenu();
         }}
       >
-        <Edit fontSize="small" />
-        <Typography variant="body2" sx={{ ml: 1 }}>
+        <Icon name="pencilSquare" size="sm" />
+        <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Edit')}
         </Typography>
       </MenuItem>
@@ -64,8 +64,8 @@ const ItemMenu = ({
           handleCloseMenu();
         }}
       >
-        <Share fontSize="small" />
-        <Typography variant="body2" sx={{ ml: 1 }}>
+        <Icon name="share" size="sm" />
+        <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Share with')}
         </Typography>
       </MenuItem>
@@ -75,8 +75,8 @@ const ItemMenu = ({
           handleCloseMenu();
         }}
       >
-        <Delete fontSize="small" />
-        <Typography variant="body2" sx={{ ml: 1 }}>
+        <Icon name="trash" size="sm" />
+        <Typography variant="body2" style={{ marginLeft: 8 }}>
           {t('Delete')}
         </Typography>
       </MenuItem>

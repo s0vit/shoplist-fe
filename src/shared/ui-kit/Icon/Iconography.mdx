@@ -1,0 +1,70 @@
+import { Meta, IconGallery, IconItem } from '@storybook/addon-docs/blocks';
+import Icon from './Icon';
+
+<Meta title="Iconography" />
+
+# Iconography
+
+Наша библиотека иконок содержит все необходимые иконки для интерфейса приложения.
+
+## Размеры иконок
+
+Доступные размеры иконок:
+- **xs**: 12px
+- **sm**: 16px  
+- **md**: 24px (по умолчанию)
+- **lg**: 32px
+- **xl**: 48px
+
+## Все иконки
+
+<IconGallery>
+  <IconItem name="plus">
+    <Icon name="plus" size="md" />
+  </IconItem>
+  <IconItem name="decline">
+    <Icon name="decline" size="md" />
+  </IconItem>
+  <IconItem name="chevroneRight">
+    <Icon name="chevroneRight" size="md" />
+  </IconItem>
+  <IconItem name="pencilSquare">
+    <Icon name="pencilSquare" size="md" />
+  </IconItem>
+  <IconItem name="calendar">
+    <Icon name="calendar" size="md" />
+  </IconItem>
+  <IconItem name="burgerMenu">
+    <Icon name="burgerMenu" size="md" />
+  </IconItem>
+  <IconItem name="home">
+    <Icon name="home" size="md" />
+  </IconItem>
+  <IconItem name="card">
+    <Icon name="card" size="md" />
+  </IconItem>
+  <IconItem name="coin">
+    <Icon name="coin" size="md" />
+  </IconItem>
+  <IconItem name="menu">
+    <Icon name="menu" size="md" />
+  </IconItem>
+</IconGallery>
+
+## Использование
+
+```tsx
+import { Icon } from '@/shared/ui-kit/Icon';
+
+// Базовая иконка
+<Icon name="plus" size="md" />
+
+// С кастомным размером
+<Icon name="home" size={20} />
+
+// С цветом
+<Icon name="plus" size="md" color="#FF0000" />
+
+// Кликабельная иконка
+<Icon name="close" size="sm" onClick={handleClose} />
+``` 

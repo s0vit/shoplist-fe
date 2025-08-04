@@ -1,5 +1,5 @@
-import { AddCircle } from '@mui/icons-material';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton } from 'src/shared/ui-kit';
+
 import HorizontalListItem from 'src/widgets/HorizontalList/HorizontalListItem.tsx';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import DeleteCategoryDialog from 'src/widgets/Modal/DeleteCategoryDialog.tsx';
@@ -45,7 +45,7 @@ const HorizontalList = ({
   const isVerified = _useUserStore.use.user?.()?.isVerified;
 
   return (
-    <Box pt={1} pb={0.5} sx={{ overflowX: 'auto', display: 'flex' }}>
+    <Box style={{ paddingTop: 8, paddingBottom: 4, overflowX: 'auto', display: 'flex' }}>
       {items.map((item) => {
         return (
           <HorizontalListItem
@@ -60,9 +60,13 @@ const HorizontalList = ({
           />
         );
       })}
-      <IconButton size="small" disabled={disabled || !isVerified} color="primary" onClick={openModal}>
-        <AddCircle />
-      </IconButton>
+      <IconButton
+        icon="plus"
+        iconSize="sm"
+        variant="contained"
+        disabled={disabled || !isVerified}
+        onClick={openModal}
+      />
       <DeleteCategoryDialog
         openDeleteDialog={openDeleteDialog}
         setOpenDeleteDialog={setOpenDeleteDialog}

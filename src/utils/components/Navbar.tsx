@@ -1,7 +1,6 @@
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Box, IconButton, Toolbar, Typography, useTheme } from '@mui/material';
+import { AppBar, Toolbar } from 'src/shared/ui-kit';
+import { Box, Typography, IconButton } from 'src/shared/ui-kit';
+
 import { useContext, useState } from 'react';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
@@ -18,7 +17,6 @@ const Navbar = () => {
   const isLoggedIn = useUserStore.use.user?.() !== undefined;
   const isVerified = useUserStore.use.user?.()?.isVerified;
   const colorMode = useContext(ColorModeContext);
-  const theme = useTheme();
   const { isDesktopWidth } = useWindowWidth();
   const { t } = useTranslation('translation');
 
@@ -29,29 +27,29 @@ const Navbar = () => {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // Default toolbar styles
+  const validToolbarStyles = {
+    minHeight: '64px',
+  };
+
   return (
     <>
-      <Box sx={{ flexGrow: 1, ...theme.mixins.toolbar }}>
+      <Box sx={{ flexGrow: 1, ...validToolbarStyles }}>
         <AppBar position="fixed">
           <Toolbar>
             {isDesktopWidth && (
               <IconButton
+                icon="menu"
+                iconSize="lg"
+                variant="text"
+                style={{ marginRight: 16 }}
                 onClick={() => setIsDrawerOpen(true)}
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-              >
-                <MenuIcon />
-              </IconButton>
+              />
             )}
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            <Typography variant="h3" style={{ flexGrow: 1 }}>
               {t('Shoplist')} {`${import.meta.env.PACKAGE_VERSION}`}
             </Typography>
-            <IconButton onClick={colorMode.toggleColorMode} color="inherit">
-              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-            </IconButton>
+            <IconButton icon="moon" variant="text" onClick={colorMode.toggleColorMode} />
             {isLoggedIn && <NavBarMenu />}
           </Toolbar>
         </AppBar>

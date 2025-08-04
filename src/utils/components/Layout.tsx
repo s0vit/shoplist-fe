@@ -1,4 +1,7 @@
-import { Box, useTheme } from '@mui/material';
+import { useTheme } from 'src/shared/ui-kit';
+
+import { Box } from 'src/shared/ui-kit';
+
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import ContentContainer from 'src/utils/components/ContentContainer.tsx';
@@ -14,7 +17,7 @@ const Layout = () => {
   const theme = useTheme();
   const { isDesktopWidth } = useWindowWidth();
   useEffect(() => {
-    document.body.style.backgroundColor = theme.palette.background.default;
+    document.body.style.backgroundColor = theme.colors.cardBg;
   }, [theme]);
 
   return (

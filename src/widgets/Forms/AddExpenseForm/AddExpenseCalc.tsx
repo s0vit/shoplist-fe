@@ -1,19 +1,12 @@
-import { MapsUgc, Message } from '@mui/icons-material';
-import CircularProgress from '@mui/material/CircularProgress';
-import {
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  MenuItem,
-  Paper,
-  Select,
-  Stack,
-  Typography,
-  useTheme,
-} from '@mui/material';
-import { DateTimePicker } from '@mui/x-date-pickers';
+import { CircularProgress } from 'src/shared/ui-kit';
+import { Box, Stack, Button, ButtonGroup } from 'src/shared/ui-kit';
+
+import { FormControl, Select } from 'src/shared/ui-kit';
+
+import { IconButton } from 'src/shared/ui-kit';
+import { Paper, Typography } from 'src/shared/ui-kit';
+
+import { format } from 'date-fns';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -41,6 +34,8 @@ import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserS
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
+import styles from './AddExpenseCalc.module.scss';
+
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
 };
@@ -50,13 +45,13 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const categories = useCategoryStore.use.userCategories();
   const currentExpense = useExpensesStore.use.currentEditExpense?.();
   const setCurrentEditExpense = useExpensesStore.use.setCurrentEditExpense?.();
-  const theme = useTheme();
+
   const defaultCurrency = useUserSettingsStore.use.config().currency;
   const [amount, setAmount] = useState<string>('0');
   const [currency, setCurrency] = useState<CURRENCIES>(defaultCurrency ?? CURRENCIES.EUR);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedPaymentSource, setSelectedPaymentSource] = useState<string>('');
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isCommentModalOpen, setIsCommentModalOpen] = useState<boolean>(false); // TODO move to store
   const [comments, setComments] = useState<string>('');
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
@@ -244,44 +239,30 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   return (
     <Paper
       sx={{
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: 'var(--color-card-bg)',
         position: 'relative',
         zIndex: 1,
-        maxWidth: isDesktopWidth ? '400px' : '100%',
+        maxWidth: isDesktopWidth ? '600px' : '100%',
+        minWidth: isDesktopWidth ? '500px' : 'auto',
       }}
     >
-      <Box sx={{ p: 2, border: '1px solid grey', borderRadius: '8px' }}>
-        <Stack spacing={1} direction="row" alignItems="center" justifyContent="space-between" mb={1}>
+      <Box className={`${styles.rootBox} ${styles.borderBox}`}>
+        <Stack direction="row" gap={2} align="center" justify="space-between" className={styles.topRow}>
           <Typography
-            sx={{
+            style={{
               display: 'flex',
               alignItems: 'center',
-              px: 1,
-              fontSize: '20px',
+              paddingLeft: 12,
+              paddingRight: 12,
+              fontSize: isDesktopWidth ? 28 : 20,
               fontWeight: 'bold',
-              border: `1px solid ${theme.palette.grey[700]}`,
-              height: '40px',
-              borderRadius: 1,
-              width: '75%',
+              minWidth: '120px',
             }}
           >
             {amount}
           </Typography>
-          <FormControl>
-            <Select
-              autoWidth
-              size="small"
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={currency}
-              onChange={(e) => setCurrency(e.target.value as CURRENCIES)}
-            >
-              {currencies.map((currency) => (
-                <MenuItem key={currency.value} value={currency.value}>
-                  {currency.label}
-                </MenuItem>
-              ))}
-            </Select>
+          <FormControl style={{ minWidth: '100px' }}>
+            <Select options={currencies} value={currency} onChange={(value) => setCurrency(value as CURRENCIES)} />
           </FormControl>
         </Stack>
         <CalculatorButtons isPending={isPending} handleButtonClick={handleButtonClick} />
@@ -303,67 +284,35 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           handleDelete={deletePaymentSourceMutate}
           isLoading={isPaymentSourcesLoading}
         />
-        <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 2 }}>
-          <DateTimePicker
-            label={t('Date and time')}
-            disableFuture
-            value={selectedDate}
-            onChange={setSelectedDate}
-            slotProps={{
-              textField: {
-                variant: 'outlined',
-                size: 'small',
-              },
-              day: {
-                sx: { borderRadius: theme.spacing(1) },
-              },
+        <Stack direction="row" gap={2} align="center" className={styles.dateRow}>
+          <input
+            type="datetime-local"
+            value={selectedDate ? format(selectedDate, "yyyy-MM-dd'T'HH:mm") : ''}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSelectedDate(value ? new Date(value) : undefined);
             }}
-            sx={{
-              width: '100%',
-              '& .MuiInputBase-root': {
-                backgroundColor: theme.palette.background.paper,
-              },
-              '& .MuiInputBase-input': {
-                paddingTop: theme.spacing(1),
-                paddingBottom: theme.spacing(1),
-              },
-            }}
+            style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid var(--color-border)' }}
           />
           <IconButton
+            icon="plus"
+            style={{
+              border: `1px solid ${comments ? 'var(--color-success)' : 'var(--color-text-secondary)'}`,
+              minWidth: '48px',
+              height: '48px',
+            }}
             onClick={() => setIsCommentModalOpen(true)}
-            sx={{ border: `1px solid ${comments ? theme.palette.success.main : theme.palette.grey[700]}` }}
-          >
-            {comments?.length ? (
-              <Message htmlColor={theme.palette.success.main} sx={{ width: '21px', height: '21px' }} />
-            ) : (
-              <MapsUgc sx={{ width: '21px', height: '21px' }} />
-            )}
-          </IconButton>
+          />
         </Stack>
-        <Grid container spacing={1} sx={{ mt: 1 }}>
-          <Grid xs={6} item>
-            <Button
-              disabled={isPending}
-              variant="contained"
-              color="warning"
-              fullWidth
-              onClick={() => handleButtonClick('Clear')}
-            >
-              {t('Clear')}
-            </Button>
-          </Grid>
-          <Grid xs={6} item>
-            <Button
-              disabled={isPending || !isVerified}
-              variant="contained"
-              color="success"
-              fullWidth
-              onClick={handleSave}
-            >
-              {isPending ? <CircularProgress size={24} /> : t('Save')}
-            </Button>
-          </Grid>
-        </Grid>
+        <ButtonGroup fullWidth style={{ marginTop: '20px' }}>
+          <Button disabled={isPending} variant="contained" label={t('Clear')} onClick={clearData} />
+          <Button
+            disabled={isPending || !isVerified}
+            variant="contained"
+            label={isPending ? <CircularProgress size={24} /> : t('Save')}
+            onClick={handleSave}
+          />
+        </ButtonGroup>
       </Box>
       <UpsertCategoryModal setSelectedCategory={setSelectedCategory} />
       <UpsertPaymentSourceModal setSelectedPaymentSource={setSelectedPaymentSource} />

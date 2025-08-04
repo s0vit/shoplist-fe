@@ -1,11 +1,24 @@
 .theme-dark {
   /**
-     * @tokens Dark-Categories
-     * @presenter Color
-     */
-  --color-category-food: var(--color-category-dark-green);
-  --color-category-transport: var(--color-category-dark-blue);
-  --color-category-house: var(--color-category-dark-red);
+   * @tokens Category-Colors
+   * @presenter Color
+   */
+  --color-category-green: var(--color-category-dark-green);
+  --color-category-blue: var(--color-category-dark-blue);
+  --color-category-red: var(--color-category-dark-red);
+  --color-category-yellow: var(--color-category-dark-yellow);
+  --color-category-orange: var(--color-category-dark-orange);
+  --color-category-purple: var(--color-category-dark-purple);
+  --color-category-pink: var(--color-category-dark-pink);
+  --color-category-turquoise: var(--color-category-dark-turquoise);
+
+  /**
+   * @tokens Icon-Colors
+   * @presenter Color
+   */
+  --color-icon-primary: var(--color-white);
+  --color-icon-secondary: var(--color-text-secondary);
+  --color-icon-disabled: var(--color-dark-text-disabled);
 
   /**
      * @tokens Button-Colors-Contained
@@ -37,4 +50,52 @@
    * @presenter Color
    */
   --color-text-primary: #fff;
+  --color-text-secondary: #b0b0b0;
+
+  /**
+   * @tokens Avatar-Colors
+   * @presenter Color
+   */
+  --color-avatar-bg: #424242;
+  --color-avatar-text: #ffffff;
+
+  /**
+   * @tokens ButtonDropdown-Colors
+   * @presenter Color
+   */
+  --color-dropdown-bg: var(--color-dark-grey);
+  --color-dropdown-text: var(--color-white);
+  --color-dropdown-icon: var(--color-white);
+  --color-dropdown-hover-bg: rgba(255, 255, 255, 0.1);
+
+  /**
+   * @tokens Toggle-Colors
+   * @presenter Color
+   */
+  --color-toggle-bg-off: var(--color-black);
+  --color-toggle-bg-on: var(--color-white);
+  --color-toggle-border: var(--color-white);
+  --color-toggle-thumb: var(--color-black);
+  --color-toggle-thumb-border: var(--color-white);
+
+  /**
+   * @tokens CalculatorButton-Colors
+   * @presenter Color
+   */
+  --color-calculator-button-bg: transparent;
+  --color-calculator-button-text: var(--color-white);
+  --color-calculator-button-hover-bg: rgba(255, 255, 255, 0.05);
+  --color-calculator-button-active-bg: rgba(255, 255, 255, 0.1);
+  --color-calculator-button-disabled-bg: transparent;
+  --color-calculator-button-disabled-text: var(--color-dark-text-disabled);
+
+  /**
+   * @tokens Input-Colors
+   * @presenter Color
+   */
+  --color-input-bg: #1c1c1e;
+  --color-input-focus-bg: #0e0e10;
+  --color-input-disabled-bg: #1c1c1e;
+  --color-input-text: #ffffff;
+  --color-input-placeholder: #808080;
 }

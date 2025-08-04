@@ -1,5 +1,8 @@
 import { Form } from 'react-router-dom';
-import { Button, Stack, TextField, Typography } from '@mui/material';
+import { Stack, TextField } from 'src/shared/ui-kit';
+
+import { Typography, Button } from 'src/shared/ui-kit';
+
 import FormWrapper from 'src/widgets/Forms/FormWrapper.tsx';
 import { useEffect, useState } from 'react';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
@@ -42,8 +45,8 @@ const RequestPasswordRecoveryForm = () => {
   return (
     <FormWrapper elevation={5}>
       <Form onSubmit={handleRecoveryClick}>
-        <Stack spacing={1}>
-          <Typography variant="h4" align="center">
+        <Stack gap={1}>
+          <Typography variant="h3" align="center">
             {t('Password recovery')}
           </Typography>
           <Typography variant="body2">{t('Enter your email to recover password')}</Typography>
@@ -54,9 +57,13 @@ const RequestPasswordRecoveryForm = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t('Email')}
           />
-          <Button disabled={isConfirmPending} type="submit" variant="outlined">
-            {t('Send recovery link')}
-          </Button>
+          <Button
+            disabled={isConfirmPending}
+            variant="outlined"
+            label={t('Send recovery link')}
+            width="100%"
+            type="submit"
+          />
         </Stack>
       </Form>
     </FormWrapper>

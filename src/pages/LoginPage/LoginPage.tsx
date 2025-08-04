@@ -1,7 +1,9 @@
 import { SyntheticEvent, useState } from 'react';
 import LoginForm from 'src/widgets/Forms/Login/LoginForm.tsx';
 import RegisterForm from 'src/widgets/Forms/Register/RegisterForm.tsx';
-import { Stack, Tab } from '@mui/material';
+import { Tab } from 'src/shared/ui-kit';
+import { Stack } from 'src/shared/ui-kit';
+
 import CenteredTabsWrapper from 'src/widgets/Forms/Login/CenteredTabsWrapper.tsx';
 import RequestPasswordRecoveryForm from 'src/widgets/Forms/RequestPasswordRecovery/RequestPasswordRecoveryForm.tsx';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
@@ -27,7 +29,7 @@ const LoginPage = () => {
   ];
   const [currentTab, setCurrentTab] = useState<(typeof tabs)[number]>(tabs[0]);
 
-  const onCenteredTabsWrapperChange = useStableCallback((_: SyntheticEvent, newValue: string) =>
+  const onCenteredTabsWrapperChange = useStableCallback((_: SyntheticEvent, newValue: string | number) =>
     setCurrentTab({ ...tabs.find((tab) => tab.value === newValue)! }),
   );
 

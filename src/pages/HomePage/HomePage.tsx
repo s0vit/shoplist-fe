@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Box, Stack } from 'src/shared/ui-kit';
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import ExpensesTable from 'src/entities/expenses/ui/ExpensesTable.tsx';
@@ -16,28 +16,28 @@ const HomePage = () => {
   useLoadCategories(true);
 
   return isDesktopWidth ? (
-    <Box display="flex" height="100%">
+    <Box style={{ display: 'flex', height: '100%' }}>
       {isVerified && <Box></Box>}
 
-      <Stack gap={0} flexGrow={1} p={1}>
-        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" gap={1} sx={{ width: '100%' }}>
-          <Box sx={{ flexBasis: '20%' }}>
+      <Stack gap={0} style={{ flexGrow: 1, padding: '8px' }}>
+        <Stack direction="row" justify="space-between" align="flex-start" gap={1} style={{ width: '100%' }}>
+          <Box style={{ flexBasis: '20%' }}>
             <ExpenseQueryForm />
           </Box>
-          <Box sx={{ flexBasis: '60%' }}>
+          <Box style={{ flexBasis: '60%' }}>
             <SpentThisMonth />
             <ExpensesTable />
           </Box>
-          <Box sx={{ flexBasis: { xs: '100%', sm: '20%' } }}>
+          <Box style={{ flexBasis: '20%' }}>
             <AddExpenseCalculator />
           </Box>
         </Stack>
       </Stack>
     </Box>
   ) : (
-    <Box sx={{ minHeight: '85vh', display: 'flex', flexDirection: 'column', justifyContent: 'end' }}>
+    <Box style={{ minHeight: '85vh', display: 'flex', flexDirection: 'column', justifyContent: 'end' }}>
       <Box
-        sx={{
+        style={{
           margin: '0 auto',
           width: '100%',
           maxWidth: '500px',

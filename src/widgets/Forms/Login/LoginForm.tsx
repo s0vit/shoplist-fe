@@ -1,15 +1,5 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import {
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Stack,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Stack, TextField, IconButton, Button, Typography } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Form, useNavigate, useSearchParams } from 'react-router-dom';
@@ -31,7 +21,6 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const theme = useTheme();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { t } = useTranslation('loginPage');
@@ -75,53 +64,41 @@ const LoginForm = ({ setCurrentTabToRecovery }: TLoginFormProps) => {
   return (
     <FormWrapper elevation={5}>
       <Form onSubmit={handleLoginClick}>
-        <Stack spacing={1}>
-          <Typography variant="h4" align="center">
+        <Stack gap={1}>
+          <Typography variant="h3" align="center">
             {t('Login-frame')}
           </Typography>
-          <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-email">{t('Email')}</InputLabel>
-            <OutlinedInput
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={isLoginPending}
-              type="text"
-              label={t('Email')}
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">{t('Password')}</InputLabel>
-            <OutlinedInput
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={isLoginPending}
-              type={showPassword ? 'text' : 'password'}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label={t('Password')}
-            />
-          </FormControl>
-          <Button type="submit" disabled={isLoginPending} variant="outlined">
-            {t('Login')}
-          </Button>
-          <Typography variant="body1" align="center" paddingTop={5}>
+          <TextField
+            label={t('Email')}
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoginPending}
+            fullWidth
+            size="small"
+          />
+          <TextField
+            label={t('Password')}
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoginPending}
+            fullWidth
+            size="small"
+            endAdornment={
+              <IconButton
+                icon={showPassword ? 'eyeSlash' : 'eye'}
+                iconSize="sm"
+                variant="text"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            }
+          />
+          <Button disabled={isLoginPending} variant="outlined" label={t('Login')} width="100%" type="submit" />
+          <Typography variant="body1" align="center">
             {t('Forgot password?')}
           </Typography>
-          <Typography
-            variant="body2"
-            align="center"
-            color={theme.palette.primary.main}
-            onClick={setCurrentTabToRecovery}
-          >
+          <Typography variant="body2" align="center" onClick={setCurrentTabToRecovery}>
             {t('Click here to recover password')}
           </Typography>
         </Stack>

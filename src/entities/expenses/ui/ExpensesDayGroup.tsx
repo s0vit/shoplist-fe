@@ -1,4 +1,8 @@
-import { Box, FormControl, MenuItem, Paper, Select, Stack, Typography } from '@mui/material';
+import { FormControl } from 'src/shared/ui-kit';
+import { Paper, Typography } from 'src/shared/ui-kit';
+
+import { Box, Stack, Select, type TOption } from 'src/shared/ui-kit';
+
 import { UseMutateFunction } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useState } from 'react';
@@ -10,6 +14,7 @@ import { TExpense } from 'src/shared/api/expenseApi.ts';
 import { currencies, CURRENCIES } from 'src/shared/constants/currencies';
 import calculateTotalAmount from 'src/utils/helpers/calculateTotalAmmount';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
+import styles from './ExpensesDayGroup.module.scss';
 
 type TExpensesDayGroupProps = {
   date: string;
@@ -24,28 +29,22 @@ const ExpensesDayGroup = ({ date, expenses, deleteExpense }: TExpensesDayGroupPr
   const userPaymentSources = usePaymentSourcesStore(selectUserPaymentSources);
 
   return (
-    <Paper key={date} sx={{ mb: 2, p: 2 }}>
-      <Box display="flex" justifyContent="space-between">
-        <Typography variant="h6" gutterBottom>
+    <Paper key={date} style={{ marginBottom: 16, padding: 16 }}>
+      <Box className={styles.headerBox}>
+        <Typography variant="h3" gutterBottom>
           {format(new Date(date), 'MM/dd')}
         </Typography>
-        <Stack direction="row" spacing={1}>
-          <Typography variant="h6" gutterBottom>
+        <Stack direction="row" gap={1}>
+          <Typography variant="h3" gutterBottom>
             {calculateTotalAmount(expenses, currency || CURRENCIES.EUR)}
           </Typography>
           <FormControl>
             <Select
-              autoWidth
-              variant="standard"
+              options={currencies as TOption[]}
               value={currency}
-              onChange={(e) => setCurrency(e.target.value as CURRENCIES)}
-            >
-              {currencies.map((currency) => (
-                <MenuItem key={currency.value} value={currency.value}>
-                  {currency.label}
-                </MenuItem>
-              ))}
-            </Select>
+              onChange={(value) => setCurrency(value as CURRENCIES)}
+              data-test
+            />
           </FormControl>
         </Stack>
       </Box>

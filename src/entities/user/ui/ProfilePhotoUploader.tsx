@@ -1,4 +1,8 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Slider } from '@mui/material';
+import { Slider } from 'src/shared/ui-kit';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from 'src/shared/ui-kit';
+
+import { Box, Button } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
@@ -8,6 +12,7 @@ import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { uploadAvatar } from 'src/shared/api/userApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import { useTranslation } from 'react-i18next';
+import styles from './ProfilePhotoUploader.module.scss';
 
 type TProfilePhotoUploaderProps = {
   file: File | null;
@@ -63,7 +68,7 @@ const ProfilePhotoUploader = ({ file, onClose, isOpen }: TProfilePhotoUploaderPr
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>{t('Adjust your photo')}</DialogTitle>
       <DialogContent>
-        <Box display="flex" flexDirection="column" alignItems="center">
+        <Box className={styles.centerColumn}>
           {file && (
             <AvatarEditor
               ref={editorRef}
@@ -83,17 +88,13 @@ const ProfilePhotoUploader = ({ file, onClose, isOpen }: TProfilePhotoUploaderPr
             step={0.01}
             onChange={handleScaleChange}
             aria-labelledby="continuous-slider"
-            sx={{ width: 200, marginTop: 2 }}
+            style={{ width: 200, marginTop: 2 }}
           />
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
-          {t('Cancel')}
-        </Button>
-        <Button onClick={handleSave} color="primary" variant="contained">
-          {t('Save')}
-        </Button>
+        <Button label={t('Cancel')} variant="outlined" onClick={onClose} />
+        <Button label={t('Save')} variant="contained" onClick={handleSave} />
       </DialogActions>
     </Dialog>
   );

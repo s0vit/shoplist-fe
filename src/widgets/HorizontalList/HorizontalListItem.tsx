@@ -1,9 +1,12 @@
-import { Delete, Edit, Share } from '@mui/icons-material';
-import { alpha, Button, Menu, MenuItem, Typography, useTheme } from '@mui/material';
+import { Menu, MenuItem } from 'src/shared/ui-kit';
+import { Button } from 'src/shared/ui-kit';
+import { Typography, Icon } from 'src/shared/ui-kit';
+
 import { Fragment, MouseEvent, TouchEvent, useState } from 'react';
-import useLongPress from 'src/utils/hooks/useLongPress.ts';
+
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import styles from './HorizontalListItem.module.scss';
 
 type TItem = { _id: string; title: string; color?: string };
 
@@ -22,13 +25,12 @@ const HorizontalListItem = ({
   handleOpenDeleteDialog,
   handleShare,
   selectedItem,
-  setSelectedItem,
+  setSelectedItem: _setSelectedItem,
   handleEdit,
   disabled,
 }: THorizontalListItemProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
-  const theme = useTheme();
   const isVerified = _useUserStore.use.user?.()?.isVerified;
   const { t } = useTranslation(['homePage', 'translation'], { nsMode: 'fallback' });
 
@@ -45,30 +47,26 @@ const HorizontalListItem = ({
   return (
     <Fragment key={item._id}>
       <Button
-        onContextMenu={(e) => handleOpenMenu(e, item._id)}
-        {...useLongPress((e) => handleOpenMenu(e, item._id), 500)}
-        size="small"
+        onClick={() => _setSelectedItem(item._id)}
+        onContextMenu={(e: React.MouseEvent<HTMLElement> | React.TouchEvent) => handleOpenMenu(e, item._id)}
         disabled={disabled}
         variant={selectedItem === item._id ? 'contained' : 'outlined'}
-        color="primary"
-        onClick={() => setSelectedItem(selectedItem === item._id ? '' : item._id)}
-        sx={
+        size="small"
+        width="auto"
+        style={
           selectedItem === item._id
             ? {
-                backgroundColor: disabled
-                  ? `${theme.palette.action.disabled}!important`
-                  : `${alpha(item.color || '', 0.7)}!important`,
-                color: `${theme.palette.getContrastText(item.color || '')}!important`,
+                backgroundColor: disabled ? 'var(--color-icon-disabled)' : item.color || 'var(--color-primary)',
+                color: 'var(--color-white)',
               }
             : {
-                borderColor: disabled ? `${theme.palette.action.disabled}!important` : `${item.color}!important`,
-                color: theme.palette.text.secondary,
+                borderColor: disabled ? 'var(--color-icon-disabled)' : item.color || 'var(--color-primary)',
+                color: 'var(--color-text-secondary)',
               }
         }
-        style={{ marginRight: '8px', flexShrink: 0 }}
-      >
-        {item.title}
-      </Button>
+        className={styles.item}
+        label={item.title}
+      />
       <Menu
         variant="selectedMenu"
         anchorEl={anchorEl}
@@ -82,41 +80,26 @@ const HorizontalListItem = ({
           paper: {
             style: {
               width: '200px',
-              border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+              border: '1px solid var(--color-border)',
             },
           },
         }}
       >
-        <MenuItem
-          onClick={() => {
-            handleEdit(item);
-            handleCloseMenu();
-          }}
-        >
-          <Edit fontSize="small" />
-          <Typography variant="body2" sx={{ ml: 1 }}>
+        <MenuItem onClick={() => handleEdit(item)}>
+          <Icon name="pencilSquare" size="sm" />
+          <Typography variant="body2" style={{ marginLeft: 8 }}>
             {t('Edit')}
           </Typography>
         </MenuItem>
-        <MenuItem
-          divider
-          onClick={() => {
-            handleShare(item._id);
-          }}
-        >
-          <Share fontSize="small" />
-          <Typography variant="body2" sx={{ ml: 1 }}>
+        <MenuItem divider onClick={() => handleShare(item._id)}>
+          <Icon name="share" size="sm" />
+          <Typography variant="body2" style={{ marginLeft: 8 }}>
             {t('Share with')}
           </Typography>
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleOpenDeleteDialog(item);
-            handleCloseMenu();
-          }}
-        >
-          <Delete fontSize="small" />
-          <Typography variant="body2" sx={{ ml: 1 }}>
+        <MenuItem onClick={() => handleOpenDeleteDialog(item)}>
+          <Icon name="trash" size="sm" />
+          <Typography variant="body2" style={{ marginLeft: 8 }}>
             {t('Delete')}
           </Typography>
         </MenuItem>

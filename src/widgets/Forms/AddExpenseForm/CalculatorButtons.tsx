@@ -1,7 +1,7 @@
-import { Button, Grid } from '@mui/material';
-import React from 'react';
-import { BsDot } from 'react-icons/bs';
-import { FaBackspace } from 'react-icons/fa';
+import { Grid } from 'src/shared/ui-kit';
+import { CalculatorButton } from 'src/shared/ui-kit';
+
+import styles from './AddExpenseCalc.module.scss';
 
 type TCalculatorButtonsProps = {
   isPending: boolean;
@@ -9,34 +9,33 @@ type TCalculatorButtonsProps = {
 };
 
 const CalculatorButtons = ({ isPending, handleButtonClick }: TCalculatorButtonsProps) => {
-  const calcButtons: Array<{ title: string; content: React.ReactNode }> = [
-    { title: '1', content: '1' },
-    { title: '2', content: '2' },
-    { title: '3', content: '3' },
-    { title: '4', content: '4' },
-    { title: '5', content: '5' },
-    { title: '6', content: '6' },
-    { title: '7', content: '7' },
-    { title: '8', content: '8' },
-    { title: '9', content: '9' },
-    { title: '.', content: <BsDot size={26} /> },
-    { title: '0', content: '0' },
-    { title: 'del', content: <FaBackspace size={28} /> },
+  const calcButtons: Array<{ title: string; variant: 'calculator' | 'backspace' | 'comma' }> = [
+    { title: '1', variant: 'calculator' },
+    { title: '2', variant: 'calculator' },
+    { title: '3', variant: 'calculator' },
+    { title: '4', variant: 'calculator' },
+    { title: '5', variant: 'calculator' },
+    { title: '6', variant: 'calculator' },
+    { title: '7', variant: 'calculator' },
+    { title: '8', variant: 'calculator' },
+    { title: '9', variant: 'calculator' },
+    { title: '.', variant: 'comma' },
+    { title: '0', variant: 'calculator' },
+    { title: 'del', variant: 'backspace' },
   ];
 
   return (
-    <Grid container gap={1} justifyContent="space-between">
-      {calcButtons.map((value) => (
-        <Grid key={value.title} width="calc(33% - 8px)">
-          <Button
-            disabled={isPending}
-            variant="contained"
-            fullWidth
-            onClick={() => handleButtonClick(value.title)}
-            sx={{ height: 50, fontSize: '24px' }}
+    <Grid container spacing={1} justifyContent="space-between">
+      {calcButtons.map((button) => (
+        <Grid key={button.title} className={styles.buttonGrid}>
+          <CalculatorButton
+            variant={button.variant}
+            disabled={isPending && button.title !== 'del'}
+            className={styles.calcButton}
+            onClick={() => handleButtonClick(button.title)}
           >
-            {value.content}
-          </Button>
+            {button.variant === 'calculator' ? button.title : undefined}
+          </CalculatorButton>
         </Grid>
       ))}
     </Grid>

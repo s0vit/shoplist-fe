@@ -1,4 +1,5 @@
-import { Box, Stack } from '@mui/material';
+import { Box, Stack } from 'src/shared/ui-kit';
+
 import { useMutation } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
@@ -7,6 +8,7 @@ import { deleteExpense, TExpense } from 'src/shared/api/expenseApi.ts';
 import ExpensesDayGroup from './ExpensesDayGroup';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import SkeletonGroup from 'src/utils/components/Skeleton.tsx';
+import styles from './ExpensesTable.module.scss';
 
 const groupExpensesByDate = (expenses: TExpense[]) => {
   return expenses.reduce(
@@ -37,15 +39,15 @@ const ExpensesTable = () => {
   const groupedExpenses = groupExpensesByDate(expenses);
 
   return isVerified && isExpensesLoading ? (
-    <Stack width="100%">
+    <Stack className={styles.rootStack}>
       <SkeletonGroup
-        variant="rounded"
+        variant="rectangular"
         styles={{ minHeight: '130px', marginBottom: '15px' }}
         dimensions={{ direction: 'column' }}
       />
     </Stack>
   ) : (
-    <Box width="100%" maxHeight="100%" overflow="auto">
+    <Box className={styles.scrollBox}>
       {Object.entries(groupedExpenses).map(([date, expenses]) => (
         <ExpensesDayGroup key={date} date={date} expenses={expenses} deleteExpense={handleDeleteExpense} />
       ))}

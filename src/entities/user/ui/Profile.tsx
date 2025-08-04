@@ -1,19 +1,16 @@
-import { PhotoCamera } from '@mui/icons-material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Accordion, AccordionDetails, AccordionSummary } from 'src/shared/ui-kit';
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  alpha,
   Avatar,
-  Box,
+  Paper,
+  Typography,
   Button,
   ButtonGroup,
   IconButton,
-  Paper,
-  Typography,
+  Box,
+  Icon,
+  alpha,
   useTheme,
-} from '@mui/material';
+} from 'src/shared/ui-kit';
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, useRef, useState } from 'react';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
@@ -27,6 +24,8 @@ import ProfilePhotoUploader from './ProfilePhotoUploader';
 import ChangePasswordDialog from 'src/widgets/Modal/ChangePasswordDialog.tsx';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+
+import styles from './Profile.module.scss';
 
 const Profile = () => {
   const [openUploader, setOpenUploader] = useState(false);
@@ -60,7 +59,7 @@ const Profile = () => {
     },
   });
 
-  const handleAvatarClick = () => {
+  const _handleAvatarClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -88,51 +87,36 @@ const Profile = () => {
 
   return (
     <Box>
-      <Paper sx={{ padding: 4, maxWidth: 600, margin: 'auto', marginTop: 4, textAlign: 'center' }}>
+      <Paper style={{ padding: 4, maxWidth: 600, margin: 'auto', marginTop: 4, textAlign: 'center' }}>
         {userData?.login && (
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h3" gutterBottom>
             {userData.login}
           </Typography>
         )}
         <Box display="flex" flexDirection="column" alignItems="center">
-          <Box
-            position="relative"
-            borderRadius={50}
-            display="inline-block"
-            sx={{ marginBottom: 2, overflow: 'hidden' }}
-          >
+          <Box className={styles.avatarBox}>
             <Avatar
               src={userData?.avatar}
               alt="User Avatar"
-              sx={{ width: 100, height: 100, cursor: userData?.isVerified ? 'pointer' : 'not-allowed' }}
-              onClick={handleAvatarClick}
+              name={userData?.login || userData?.email}
+              style={{ width: 100, height: 100, cursor: userData?.isVerified ? 'pointer' : 'not-allowed' }}
+              onClick={userData?.isVerified ? _handleAvatarClick : undefined}
             />
             <IconButton
-              sx={{
-                position: 'absolute',
-                bottom: -8,
-                right: 0,
-                left: 0,
-                p: 0.5,
-                borderRadius: 0,
-                backgroundColor: alpha(theme.palette.background.paper, 0.8),
-                '&:hover': {
-                  backgroundColor: alpha(theme.palette.background.paper, 0.6),
-                },
+              icon="camera"
+              className={styles.cameraButton}
+              style={{
+                backgroundColor: alpha(theme.colors.cardBg, 0.8),
               }}
               disabled={!userData?.isVerified}
-              onClick={handleAvatarClick}
-            >
-              <PhotoCamera />
-            </IconButton>
+            />
           </Box>
           <input
             type="file"
             accept="image/*"
-            style={{ display: 'none' }}
             ref={fileInputRef}
-            disabled={!userData?.isVerified}
             onChange={handleFileChange}
+            className={styles.hidden}
           />
           <Typography variant="body1" gutterBottom>
             {t('email: ')} {userData?.email}
@@ -141,34 +125,28 @@ const Profile = () => {
           </Typography>
         </Box>
 
-        <Accordion sx={{ marginTop: 4 }} elevation={2}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />} disabled={!userData?.isVerified}>
+        <Accordion style={{ marginTop: 4 }} elevation={2}>
+          <AccordionSummary expandIcon={<Icon name="chevronDown" size="md" />} disabled={!userData?.isVerified}>
             <Typography>{t('Settings')}</Typography>
           </AccordionSummary>
-          <AccordionDetails sx={{ p: 0 }}>
+          <AccordionDetails style={{ padding: 0 }}>
             <Settings />
           </AccordionDetails>
         </Accordion>
-        <ButtonGroup>
+        <ButtonGroup joined fullWidth>
           <Button
             variant="contained"
-            onClick={() => {
-              setOpenResetPasswordDialog(true);
-            }}
+            onClick={() => setOpenResetPasswordDialog(true)}
             disabled={!userData?.isVerified}
-            sx={{ marginRight: 5, marginTop: 2 }}
-          >
-            {t('Change password')}
-          </Button>
+            label={t('Change password')}
+          />
           <Button
             variant="contained"
-            color="error"
-            disabled={!userData?.isVerified}
             onClick={handleDeleteClick}
-            sx={{ marginTop: 2 }}
-          >
-            {t('Delete Profile')}
-          </Button>
+            disabled={!userData?.isVerified}
+            className={styles.deleteButton}
+            label={t('Delete Profile')}
+          />
         </ButtonGroup>
         <ProfilePhotoUploader file={selectedFile} onClose={() => setOpenUploader(false)} isOpen={openUploader} />
         <DeleteUserDialog

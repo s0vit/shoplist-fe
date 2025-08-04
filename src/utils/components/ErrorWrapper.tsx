@@ -1,14 +1,15 @@
-import { Container, ContainerProps, styled } from '@mui/material';
+import styled from 'styled-components';
+import { Container } from 'src/shared/ui-kit';
 
-const ErrorWrapper = styled(Container)<ContainerProps>(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '100vh',
-  textAlign: 'center',
-  backgroundColor: theme.palette.background.paper,
-  padding: 3,
-}));
+const ErrorWrapper = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background-color: var(--color-card-bg);
+  padding: var(--spacing-lg);
+`;
 
 export default ErrorWrapper;

@@ -1,5 +1,5 @@
-import { AddCircle } from '@mui/icons-material';
-import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
+import { Autocomplete, IconButton, Stack, TextField } from 'src/shared/ui-kit';
+
 import { SyntheticEvent } from 'react';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import { TCategory } from 'src/shared/api/categoryApi.ts';
@@ -34,21 +34,23 @@ const CategoriesSelect = ({
 
   return (
     <>
-      <Stack direction="row" alignItems="end">
+      <Stack direction="row" align="flex-end">
         <Autocomplete
           size="small"
           fullWidth
           disabled={isCreateExpensePending}
-          disablePortal
           options={categories || []}
-          renderInput={(params) => <TextField {...params} label={t('Category')} InputLabelProps={{ shrink: true }} />}
+          renderInput={(params) => <TextField {...params} label={t('Category')} />}
           value={selectedCategory}
           onChange={onAutocompleteChange}
           getOptionLabel={(option) => option.title}
         />
-        <IconButton aria-label="add" disabled={isCreateExpensePending} onClick={() => setIsCategoryModalOpen(true)}>
-          <AddCircle />
-        </IconButton>
+        <IconButton
+          icon="plus"
+          aria-label="add"
+          disabled={isCreateExpensePending}
+          onClick={() => setIsCategoryModalOpen(true)}
+        />
       </Stack>
       <UpsertCategoryModal />
     </>
