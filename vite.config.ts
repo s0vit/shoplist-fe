@@ -12,6 +12,8 @@ export default defineConfig({
   test: {
     exclude: ['**/tests/playwright/**', '**/node_modules/**'],
     environment: 'happy-dom',
+    setupFiles: ['./vitest.setup.ts'],
+    globals: true,
   },
   plugins: [
     react(),
