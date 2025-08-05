@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  height: 100%;
+  margin: var(--spacing-md);
+
+  @media (min-width: 1200px) {
+    margin: 0 var(--spacing-sm) var(--spacing-md) 0;
+  }
+}

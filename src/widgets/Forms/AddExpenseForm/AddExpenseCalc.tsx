@@ -14,7 +14,7 @@ import {
 
 import { format } from 'date-fns';
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
@@ -28,6 +28,7 @@ import { deletePaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies.ts';
 import handleError from 'src/utils/errorHandler.ts';
+import errorHandler from 'src/utils/errorHandler.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import UpsertCategoryModal from 'src/widgets/Modal/UpsertCategoryModal';
 import UpsertPaymentSourceModal from 'src/widgets/Modal/UpsertPaymentSourceModal';
@@ -59,6 +60,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isCommentModalOpen, setIsCommentModalOpen] = useState<boolean>(false); // TODO move to store
   const [comments, setComments] = useState<string>('');
+  const dateInputRef = useRef<HTMLInputElement>(null);
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
   const isVerified = _useUserStore.use.user?.()?.isVerified;
@@ -240,6 +242,20 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     };
   }, [handleKeyboard]);
 
+  const onCalendarClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    e?.stopPropagation();
+    e?.preventDefault();
+    if (dateInputRef.current) {
+      try {
+        if ('showPicker' in dateInputRef.current) {
+          dateInputRef.current.showPicker();
+        }
+      } catch (_error: unknown) {
+        errorHandler(_error, false);
+      }
+    }
+  };
+
   return (
     <>
       <Paper className={styles.wrapper}>
@@ -270,23 +286,31 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             isLoading={isPaymentSourcesLoading}
           />
           <div className={styles.dateCommentRow}>
-            <IconButton className={styles.dateButton} icon="calendar" iconVariant="secondary" iconSize="sm">
+            <div className={styles.calendarWrapper}>
+              <IconButton
+                className={styles.dateButton}
+                icon="calendar"
+                iconVariant="secondary"
+                iconSize="sm"
+                onClick={onCalendarClick}
+              />
               <input
                 type="datetime-local"
                 className={styles.dateInput}
+                ref={dateInputRef}
                 value={selectedDate ? format(selectedDate, "yyyy-MM-dd'T'HH:mm") : ''}
                 onChange={(e) => {
                   const value = e.target.value;
                   setSelectedDate(value ? new Date(value) : undefined);
                 }}
               />
-            </IconButton>
+            </div>
             <Input
               className={styles.commentInput}
               width="100%"
               onChange={(e) => setComments(e.target.value)}
               value={comments}
-              placeholder={t('Add comment')}
+              placeholder={t('Comment')}
             />
           </div>
         </Box>

@@ -40,7 +40,7 @@ const IconButtonStyled = styled.button<TStyledIconButtonProps>`
   width: ${({ width }) => width || '40px'};
   height: ${({ height }) => height || '40px'};
   border-radius: var(--border-radius-md);
-  font-family: var(--font-family);
+  font-family: var(--font-family), serif;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   border: ${({ $variant }) => {
     if ($variant === 'outlined') return `1px solid var(--color-button-outlined-border)`;
@@ -72,7 +72,7 @@ const IconButtonStyled = styled.button<TStyledIconButtonProps>`
   }
 
   &:focus {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-btn-focus-bg);
     outline-offset: 2px;
   }
 `;
