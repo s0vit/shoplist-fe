@@ -222,6 +222,36 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     }
   };
 
+  const onCalendarClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    e?.stopPropagation();
+    e?.preventDefault();
+    if (dateInputRef.current) {
+      try {
+        if ('showPicker' in dateInputRef.current) {
+          dateInputRef.current.showPicker();
+        }
+      } catch (_error: unknown) {
+        errorHandler(_error, false);
+      }
+    }
+  };
+
+  const handleSetCategory = (categoryId: string) => {
+    if (categoryId === selectedCategory) {
+      setSelectedCategory('');
+    } else {
+      setSelectedCategory(categoryId);
+    }
+  };
+
+  const handleSetPaymentSource = (paymentSourceId: string) => {
+    if (paymentSourceId === selectedPaymentSource) {
+      setSelectedPaymentSource('');
+    } else {
+      setSelectedPaymentSource(paymentSourceId);
+    }
+  };
+
   useEffect(() => {
     if (currentExpense) {
       setAmount(currentExpense.amount.toString());
@@ -243,20 +273,6 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     };
   }, [handleKeyboard]);
 
-  const onCalendarClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
-    e?.stopPropagation();
-    e?.preventDefault();
-    if (dateInputRef.current) {
-      try {
-        if ('showPicker' in dateInputRef.current) {
-          dateInputRef.current.showPicker();
-        }
-      } catch (_error: unknown) {
-        errorHandler(_error, false);
-      }
-    }
-  };
-
   return (
     <>
       <Paper className={styles.wrapper}>
@@ -275,7 +291,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             categories={categories}
             isPending={isPending}
             selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
+            setSelectedCategory={handleSetCategory}
             openModal={() => setIsCategoryModalOpen(true)}
             handleDelete={deleteCategoryMutate}
             isLoading={isCategoriesLoading}
@@ -284,7 +300,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             paymentSources={paymentSources}
             isPending={isPending}
             selectedPaymentSource={selectedPaymentSource}
-            setSelectedPaymentSource={setSelectedPaymentSource}
+            setSelectedPaymentSource={handleSetPaymentSource}
             openModal={() => setIsPaymentSourceModalOpen(true)}
             handleDelete={deletePaymentSourceMutate}
             isLoading={isPaymentSourcesLoading}
