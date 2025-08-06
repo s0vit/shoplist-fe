@@ -7,6 +7,13 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern',
+      },
+    },
+  },
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   test: {

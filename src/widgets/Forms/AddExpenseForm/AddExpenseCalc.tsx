@@ -3,6 +3,7 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
+  Divider,
   FormControl,
   IconButton,
   Input,
@@ -261,11 +262,14 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
       <Paper className={styles.wrapper}>
         <Box className={`${styles.rootBox} ${styles.borderBox}`}>
           <Stack direction="row" gap={2} align="center" justify="space-between" className={styles.topRow}>
-            <Typography className={styles.amountText}>{amount}</Typography>
+            <Typography variant="h2" className={styles.amountText}>
+              {amount}
+            </Typography>
             <FormControl className={styles.currencySelect}>
               <Select options={currencies} value={currency} onChange={(value) => setCurrency(value as CURRENCIES)} />
             </FormControl>
           </Stack>
+          <Divider />
           <CalculatorButtons isPending={isPending} handleButtonClick={handleButtonClick} />
           <CategoryList
             categories={categories}
