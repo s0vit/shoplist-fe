@@ -59,7 +59,7 @@ export type { TCategoryProps, TCategoryName } from './Category/Category';
 export { categoryColorPresets } from './Category/Category';
 
 // Utils
-export { alpha, setAlpha, getContrastColor } from './utils';
+export { alpha, setAlpha, getContrastColor, useContrastColor } from './utils';
 
 // Hooks
 export { useTheme } from '../hooks/useTheme';

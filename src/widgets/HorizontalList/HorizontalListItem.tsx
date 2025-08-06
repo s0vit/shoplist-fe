@@ -1,4 +1,4 @@
-import { getContrastColor, Menu, MenuItem } from 'src/shared/ui-kit';
+import { useContrastColor, Menu, MenuItem } from 'src/shared/ui-kit';
 import { Button } from 'src/shared/ui-kit';
 import { Typography, Icon } from 'src/shared/ui-kit';
 
@@ -46,7 +46,7 @@ const HorizontalListItem = ({
   const normalBackgroundColor = isSelected ? item.color || 'var(--color-primary)' : 'var(--color-card-bg)';
   const disabledBackgroundColor = disabled ? 'var(--color-icon-disabled)' : normalBackgroundColor;
   const backgroundColor = disabled ? disabledBackgroundColor : normalBackgroundColor;
-  const color = getContrastColor(backgroundColor);
+  const color = useContrastColor(backgroundColor);
 
   return (
     <Fragment key={item._id}>

@@ -156,3 +156,37 @@ export const getContrastColor = (color: string): 'black' | 'white' => {
   // Если яркость больше 0.5, используем черный текст, иначе белый
   return luminance > 0.5 ? 'black' : 'white';
 };
+
+import { useEffect, useState } from 'react';
+
+/**
+ * Хук для получения контрастного цвета с автоматическим обновлением при смене темы
+ * @param color - цвет в формате hex, rgb, rgba, названия цвета или CSS переменной
+ * @returns контрастный цвет ('black' | 'white') с автоматическим обновлением
+ */
+export const useContrastColor = (color: string): 'black' | 'white' => {
+  const [contrastColor, setContrastColor] = useState<'black' | 'white'>(() => getContrastColor(color));
+
+  useEffect(() => {
+    const updateContrastColor = () => {
+      setContrastColor(getContrastColor(color));
+    };
+
+    // Обновляем контрастный цвет при изменении темы
+    const observer = new MutationObserver(updateContrastColor);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    // Также обновляем при изменении размера окна (на случай изменения CSS переменных)
+    window.addEventListener('resize', updateContrastColor);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateContrastColor);
+    };
+  }, [color]);
+
+  return contrastColor;
+};
