@@ -21,6 +21,12 @@
   --color-icon-disabled: var(--color-dark-text-disabled);
 
   /**
+   * @tokens App-Colors
+   * @presenter Color
+   */
+  --color-app-bg: var(--color-black);
+
+  /**
      * @tokens Button-Colors-Contained
      * @presenter Color
      */

@@ -64,3 +64,129 @@ export const setAlpha = (color: string, alpha: number): string => {
  * Алиас для setAlpha для совместимости с MUI alpha
  */
 export const alpha = setAlpha;
+
+/**
+ * Создает белый или черный цвет в зависимости от фона
+ * @param color - цвет в формате hex, rgb, rgba или названия цвета
+ * @returns белый или черный цвет в зависимости от фона
+ * Если цвет является переменной, то используем window.getComputedStyle для получения цвета
+ * Конвертирует пиксельное значение цвета в hex из rgb/rgba
+ */
+export const getContrastColor = (color: string): 'black' | 'white' => {
+  // Если цвет является CSS переменной, получаем вычисленное значение
+  if (color.startsWith('var(')) {
+    const tempEl = document.createElement('div');
+    tempEl.style.color = color;
+    document.body.appendChild(tempEl);
+    const computedColor = window.getComputedStyle(tempEl).color;
+    document.body.removeChild(tempEl);
+    color = computedColor;
+  }
+
+  // Функция для конвертации hex в RGB
+  const hexToRgb = (hex: string): { r: number; g: number; b: number } | null => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
+  };
+
+  // Функция для парсинга RGB/RGBA строки
+  const parseRgb = (rgb: string): { r: number; g: number; b: number } | null => {
+    const match = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+      return {
+        r: parseInt(match[1], 10),
+        g: parseInt(match[2], 10),
+        b: parseInt(match[3], 10),
+      };
+    }
+
+    return null;
+  };
+
+  let r: number, g: number, b: number;
+
+  // Нормализация цвета и удаление пробелов
+  color = color.toLowerCase().trim();
+
+  // Обработка hex цветов
+  if (color.startsWith('#')) {
+    const rgb = hexToRgb(color);
+    if (!rgb) throw new Error(`Invalid hex color: ${color}`);
+    ({ r, g, b } = rgb);
+  }
+  // Обработка rgb/rgba цветов
+  else if (color.startsWith('rgb')) {
+    const rgb = parseRgb(color);
+    if (!rgb) throw new Error(`Invalid rgb color: ${color}`);
+    ({ r, g, b } = rgb);
+  }
+  // Если цвет не распознан, пытаемся получить его через DOM
+  else {
+    const tempEl = document.createElement('div');
+    tempEl.style.color = color;
+    document.body.appendChild(tempEl);
+    const computedColor = window.getComputedStyle(tempEl).color;
+    document.body.removeChild(tempEl);
+
+    const rgb = parseRgb(computedColor);
+    if (!rgb) throw new Error(`Unable to parse color: ${color}`);
+    ({ r, g, b } = rgb);
+  }
+
+  // Вычисление относительной яркости по формуле WCAG
+  const getLuminance = (r: number, g: number, b: number): number => {
+    const [rs, gs, bs] = [r, g, b].map((c) => {
+      c = c / 255;
+
+      return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+
+    return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+  };
+
+  const luminance = getLuminance(r, g, b);
+
+  // Если яркость больше 0.5, используем черный текст, иначе белый
+  return luminance > 0.5 ? 'black' : 'white';
+};
+
+import { useEffect, useState } from 'react';
+
+/**
+ * Хук для получения контрастного цвета с автоматическим обновлением при смене темы
+ * @param color - цвет в формате hex, rgb, rgba, названия цвета или CSS переменной
+ * @returns контрастный цвет ('black' | 'white') с автоматическим обновлением
+ */
+export const useContrastColor = (color: string): 'black' | 'white' => {
+  const [contrastColor, setContrastColor] = useState<'black' | 'white'>(() => getContrastColor(color));
+
+  useEffect(() => {
+    const updateContrastColor = () => {
+      setContrastColor(getContrastColor(color));
+    };
+
+    // Обновляем контрастный цвет при изменении темы
+    const observer = new MutationObserver(updateContrastColor);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    // Также обновляем при изменении размера окна (на случай изменения CSS переменных)
+    window.addEventListener('resize', updateContrastColor);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateContrastColor);
+    };
+  }, [color]);
+
+  return contrastColor;
+};

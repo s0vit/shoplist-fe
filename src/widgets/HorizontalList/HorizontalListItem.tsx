@@ -1,4 +1,4 @@
-import { Menu, MenuItem } from 'src/shared/ui-kit';
+import { useContrastColor, Menu, MenuItem } from 'src/shared/ui-kit';
 import { Button } from 'src/shared/ui-kit';
 import { Typography, Icon } from 'src/shared/ui-kit';
 
@@ -25,45 +25,43 @@ const HorizontalListItem = ({
   handleOpenDeleteDialog,
   handleShare,
   selectedItem,
-  setSelectedItem: _setSelectedItem,
+  setSelectedItem,
   handleEdit,
   disabled,
 }: THorizontalListItemProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const isVerified = _useUserStore.use.user?.()?.isVerified;
   const { t } = useTranslation(['homePage', 'translation'], { nsMode: 'fallback' });
 
-  const handleOpenMenu = (event: MouseEvent<HTMLElement> | TouchEvent, itemId: string) => {
+  const handleOpenMenu = (event: MouseEvent<HTMLElement> | TouchEvent) => {
     event.preventDefault();
     setAnchorEl(event.target as HTMLElement);
-    setSelectedItemId(itemId);
   };
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
+  const isSelected = selectedItem === item._id;
+  const normalBackgroundColor = isSelected ? item.color || 'var(--color-primary)' : 'var(--color-card-bg)';
+  const disabledBackgroundColor = disabled ? 'var(--color-icon-disabled)' : normalBackgroundColor;
+  const backgroundColor = disabled ? disabledBackgroundColor : normalBackgroundColor;
+  const color = useContrastColor(backgroundColor);
+
   return (
     <Fragment key={item._id}>
       <Button
-        onClick={() => _setSelectedItem(item._id)}
-        onContextMenu={(e: React.MouseEvent<HTMLElement> | React.TouchEvent) => handleOpenMenu(e, item._id)}
+        onClick={() => setSelectedItem(item._id)}
+        onContextMenu={handleOpenMenu}
         disabled={disabled}
-        variant={selectedItem === item._id ? 'contained' : 'outlined'}
+        variant={isSelected ? 'contained' : 'outlined'}
         size="small"
         width="auto"
-        style={
-          selectedItem === item._id
-            ? {
-                backgroundColor: disabled ? 'var(--color-icon-disabled)' : item.color || 'var(--color-primary)',
-                color: 'var(--color-white)',
-              }
-            : {
-                borderColor: disabled ? 'var(--color-icon-disabled)' : item.color || 'var(--color-primary)',
-                color: 'var(--color-text-secondary)',
-              }
-        }
+        style={{
+          backgroundColor,
+          color,
+          borderColor: item.color || 'var(--color-primary)',
+        }}
         className={styles.item}
         label={item.title}
       />
@@ -74,7 +72,7 @@ const HorizontalListItem = ({
           vertical: 'bottom',
           horizontal: 'center',
         }}
-        open={Boolean(anchorEl) && item._id === selectedItemId && !!isVerified}
+        open={Boolean(anchorEl) && isSelected && !!isVerified}
         onClose={handleCloseMenu}
         slotProps={{
           paper: {

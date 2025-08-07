@@ -24,7 +24,7 @@
    * @tokens App-Colors
    * @presenter Color
    */
-  --color-app-bg: rgba(251, 251, 251, 1);
+  --color-app-bg: var(--color-white);
 
   /**
    * @tokens Light-Colors

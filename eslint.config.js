@@ -1,10 +1,10 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import tsEslint from 'typescript-eslint';
 import react from 'eslint-plugin-react';
 import hooksPlugin from 'eslint-plugin-react-hooks';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import esllintConfigPrettier from 'eslint-config-prettier';
+import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import stylisticJs from '@stylistic/eslint-plugin-js';
 import { fixupPluginRules } from '@eslint/compat';
@@ -13,8 +13,8 @@ import i18next from 'eslint-plugin-i18next';
 export default [
   pluginJs.configs.recommended,
   eslintPluginPrettierRecommended,
-  esllintConfigPrettier,
-  ...tseslint.configs.recommended,
+  eslintConfigPrettier,
+  ...tsEslint.configs.recommended,
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
   {
     languageOptions: {
@@ -46,7 +46,7 @@ export default [
     },
     rules: {
       ...hooksPlugin.configs.recommended.rules,
-      ...tseslint.configs.recommended.rules,
+      ...tsEslint.configs.recommended.rules,
       '@typescript-eslint/no-unused-vars': [
         'error',
         {

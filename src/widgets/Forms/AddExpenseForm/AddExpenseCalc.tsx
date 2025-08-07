@@ -1,14 +1,21 @@
-import { CircularProgress } from 'src/shared/ui-kit';
-import { Box, Stack, Button, ButtonGroup } from 'src/shared/ui-kit';
-
-import { FormControl, Select } from 'src/shared/ui-kit';
-
-import { IconButton } from 'src/shared/ui-kit';
-import { Paper, Typography } from 'src/shared/ui-kit';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  CircularProgress,
+  Divider,
+  FormControl,
+  IconButton,
+  Input,
+  Paper,
+  Select,
+  Stack,
+  Typography,
+} from 'src/shared/ui-kit';
 
 import { format } from 'date-fns';
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
@@ -22,8 +29,8 @@ import { deletePaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies.ts';
 import handleError from 'src/utils/errorHandler.ts';
+import errorHandler from 'src/utils/errorHandler.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
-import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import UpsertCategoryModal from 'src/widgets/Modal/UpsertCategoryModal';
 import UpsertPaymentSourceModal from 'src/widgets/Modal/UpsertPaymentSourceModal';
 import CategoryList from '../../../entities/category/ui/CategoryList';
@@ -54,13 +61,13 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isCommentModalOpen, setIsCommentModalOpen] = useState<boolean>(false); // TODO move to store
   const [comments, setComments] = useState<string>('');
+  const dateInputRef = useRef<HTMLInputElement>(null);
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
   const isVerified = _useUserStore.use.user?.()?.isVerified;
   const { t } = useTranslation('homePage');
 
   const { fetchExpenses } = useLoadExpenses();
-  const { isDesktopWidth } = useWindowWidth();
   const { fetchCategories, isCategoriesLoading } = useLoadCategories(false);
   const { fetchPaymentSources, isPaymentSourcesLoading } = useLoadPaymentSources(false);
   const clearData = useStableCallback(() => {
@@ -215,6 +222,36 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     }
   };
 
+  const onCalendarClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    e?.stopPropagation();
+    e?.preventDefault();
+    if (dateInputRef.current) {
+      try {
+        if ('showPicker' in dateInputRef.current) {
+          dateInputRef.current.showPicker();
+        }
+      } catch (_error: unknown) {
+        errorHandler(_error, false);
+      }
+    }
+  };
+
+  const handleSetCategory = (categoryId: string) => {
+    if (categoryId === selectedCategory) {
+      setSelectedCategory('');
+    } else {
+      setSelectedCategory(categoryId);
+    }
+  };
+
+  const handleSetPaymentSource = (paymentSourceId: string) => {
+    if (paymentSourceId === selectedPaymentSource) {
+      setSelectedPaymentSource('');
+    } else {
+      setSelectedPaymentSource(paymentSourceId);
+    }
+  };
+
   useEffect(() => {
     if (currentExpense) {
       setAmount(currentExpense.amount.toString());
@@ -237,75 +274,79 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   }, [handleKeyboard]);
 
   return (
-    <Paper
-      sx={{
-        backgroundColor: 'var(--color-card-bg)',
-        position: 'relative',
-        zIndex: 1,
-        maxWidth: isDesktopWidth ? '600px' : '100%',
-        minWidth: isDesktopWidth ? '500px' : 'auto',
-      }}
-    >
-      <Box className={`${styles.rootBox} ${styles.borderBox}`}>
-        <Stack direction="row" gap={2} align="center" justify="space-between" className={styles.topRow}>
-          <Typography
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              paddingLeft: 12,
-              paddingRight: 12,
-              fontSize: isDesktopWidth ? 28 : 20,
-              fontWeight: 'bold',
-              minWidth: '120px',
-            }}
-          >
-            {amount}
-          </Typography>
-          <FormControl style={{ minWidth: '100px' }}>
-            <Select options={currencies} value={currency} onChange={(value) => setCurrency(value as CURRENCIES)} />
-          </FormControl>
-        </Stack>
-        <CalculatorButtons isPending={isPending} handleButtonClick={handleButtonClick} />
-        <CategoryList
-          categories={categories}
-          isPending={isPending}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          openModal={() => setIsCategoryModalOpen(true)}
-          handleDelete={deleteCategoryMutate}
-          isLoading={isCategoriesLoading}
-        />
-        <PaymentSourceList
-          paymentSources={paymentSources}
-          isPending={isPending}
-          selectedPaymentSource={selectedPaymentSource}
-          setSelectedPaymentSource={setSelectedPaymentSource}
-          openModal={() => setIsPaymentSourceModalOpen(true)}
-          handleDelete={deletePaymentSourceMutate}
-          isLoading={isPaymentSourcesLoading}
-        />
-        <Stack direction="row" gap={2} align="center" className={styles.dateRow}>
-          <input
-            type="datetime-local"
-            value={selectedDate ? format(selectedDate, "yyyy-MM-dd'T'HH:mm") : ''}
-            onChange={(e) => {
-              const value = e.target.value;
-              setSelectedDate(value ? new Date(value) : undefined);
-            }}
-            style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid var(--color-border)' }}
+    <>
+      <Paper className={styles.wrapper}>
+        <Box className={`${styles.rootBox} ${styles.borderBox}`}>
+          <Stack direction="row" gap={2} align="center" justify="space-between" className={styles.topRow}>
+            <Typography variant="h2" className={styles.amountText}>
+              {amount}
+            </Typography>
+            <FormControl className={styles.currencySelect}>
+              <Select options={currencies} value={currency} onChange={(value) => setCurrency(value as CURRENCIES)} />
+            </FormControl>
+          </Stack>
+          <Divider />
+          <CalculatorButtons isPending={isPending} handleButtonClick={handleButtonClick} />
+          <CategoryList
+            categories={categories}
+            isPending={isPending}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={handleSetCategory}
+            openModal={() => setIsCategoryModalOpen(true)}
+            handleDelete={deleteCategoryMutate}
+            isLoading={isCategoriesLoading}
           />
-          <IconButton
-            icon="plus"
-            style={{
-              border: `1px solid ${comments ? 'var(--color-success)' : 'var(--color-text-secondary)'}`,
-              minWidth: '48px',
-              height: '48px',
-            }}
-            onClick={() => setIsCommentModalOpen(true)}
+          <PaymentSourceList
+            paymentSources={paymentSources}
+            isPending={isPending}
+            selectedPaymentSource={selectedPaymentSource}
+            setSelectedPaymentSource={handleSetPaymentSource}
+            openModal={() => setIsPaymentSourceModalOpen(true)}
+            handleDelete={deletePaymentSourceMutate}
+            isLoading={isPaymentSourcesLoading}
           />
-        </Stack>
-        <ButtonGroup fullWidth style={{ marginTop: '20px' }}>
-          <Button disabled={isPending} variant="contained" label={t('Clear')} onClick={clearData} />
+          <div className={styles.dateCommentRow}>
+            <div className={styles.calendarWrapper}>
+              <IconButton
+                className={styles.dateButton}
+                icon="calendar"
+                iconVariant="secondary"
+                iconSize="sm"
+                onClick={onCalendarClick}
+              />
+              <input
+                type="datetime-local"
+                className={styles.dateInput}
+                ref={dateInputRef}
+                value={selectedDate ? format(selectedDate, "yyyy-MM-dd'T'HH:mm") : ''}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setSelectedDate(value ? new Date(value) : undefined);
+                }}
+              />
+            </div>
+            <Input
+              className={styles.commentInput}
+              width="100%"
+              onChange={(e) => setComments(e.target.value)}
+              value={comments}
+              placeholder={t('Comment')}
+            />
+          </div>
+        </Box>
+        <UpsertCategoryModal setSelectedCategory={setSelectedCategory} />
+        <UpsertPaymentSourceModal setSelectedPaymentSource={setSelectedPaymentSource} />
+        <CommentModal
+          isCommentModalOpen={isCommentModalOpen}
+          setIsCommentModalOpen={setIsCommentModalOpen}
+          comment={comments}
+          setComment={setComments}
+        />
+      </Paper>
+
+      <div className={styles.buttonsWrapper}>
+        <ButtonGroup fullWidth height="53px">
+          <Button disabled={isPending} variant="outlined" label={t('Clear')} onClick={clearData} />
           <Button
             disabled={isPending || !isVerified}
             variant="contained"
@@ -313,16 +354,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             onClick={handleSave}
           />
         </ButtonGroup>
-      </Box>
-      <UpsertCategoryModal setSelectedCategory={setSelectedCategory} />
-      <UpsertPaymentSourceModal setSelectedPaymentSource={setSelectedPaymentSource} />
-      <CommentModal
-        isCommentModalOpen={isCommentModalOpen}
-        setIsCommentModalOpen={setIsCommentModalOpen}
-        comment={comments}
-        setComment={setComments}
-      />
-    </Paper>
+      </div>
+    </>
   );
 };
 

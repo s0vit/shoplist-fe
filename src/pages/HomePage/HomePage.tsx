@@ -6,19 +6,16 @@ import AddExpenseCalculator from 'src/widgets/Forms/AddExpenseForm/AddExpenseCal
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import SpentThisMonth from 'src/entities/expenses/ui/SpentThisMonth.tsx';
 import ExpenseQueryForm from 'src/entities/expenses/ui/expensesQueryForm.tsx';
-import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import styles from './HomePage.module.scss';
 
 const HomePage = () => {
   const { isDesktopWidth } = useWindowWidth();
-  const isVerified = _useUserStore.use.user?.()?.isVerified;
 
   useLoadPaymentSources(true);
   useLoadCategories(true);
 
   return isDesktopWidth ? (
     <Box style={{ display: 'flex', height: '100%' }}>
-      {isVerified && <Box></Box>}
-
       <Stack gap={0} style={{ flexGrow: 1, padding: '8px' }}>
         <Stack direction="row" justify="space-between" align="flex-start" gap={1} style={{ width: '100%' }}>
           <Box style={{ flexBasis: '20%' }}>
@@ -35,17 +32,9 @@ const HomePage = () => {
       </Stack>
     </Box>
   ) : (
-    <Box style={{ minHeight: '85vh', display: 'flex', flexDirection: 'column', justifyContent: 'end' }}>
-      <Box
-        style={{
-          margin: '0 auto',
-          width: '100%',
-          maxWidth: '500px',
-        }}
-      >
-        <SpentThisMonth />
-        <AddExpenseCalculator />
-      </Box>
+    <Box className={styles.wrapperBox}>
+      <SpentThisMonth />
+      <AddExpenseCalculator />
     </Box>
   );
 };
