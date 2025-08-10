@@ -37,10 +37,8 @@ const StyledBottomNavigation = styled.div<TBottomNavigationProps>`
   align-items: center;
   justify-content: space-around;
   background-color: var(--color-card-bg);
-  border-top: 1px solid var(--color-border);
   padding: 8px 0;
   min-height: 56px;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const BottomNavigation: React.FC<TBottomNavigationProps> = ({

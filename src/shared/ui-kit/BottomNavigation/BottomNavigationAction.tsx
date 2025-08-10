@@ -29,42 +29,17 @@ type TStyledBottomNavigationActionProps = {
 };
 
 const StyledBottomNavigationAction = styled.button<TStyledBottomNavigationActionProps>`
+  background: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: none;
   border: none;
-  cursor: pointer;
-  padding: 8px 12px;
-  min-width: 80px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  color: var(--color-text-secondary);
   opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
   pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'auto')};
 
-  &:hover {
-    background-color: var(--color-hover);
-    color: var(--color-text-primary);
-  }
-
-  ${({ $active }) =>
-    $active &&
-    `
-    color: var(--color-text-primary);
-    background-color: var(--color-hover);
-  `}
-
-  .icon {
-    margin-bottom: 4px;
-    font-size: 1.5rem;
-  }
-
   .label {
     font-size: 0.75rem;
-    font-weight: 500;
-    text-align: center;
+    color: ${({ $active }) => ($active ? 'var(--color-text-primary)' : 'var(--color-text-secondary)')};
   }
 `;
 
@@ -105,7 +80,7 @@ const BottomNavigationAction: React.FC<TBottomNavigationActionProps> = ({
       data-value={value}
       {...props}
     >
-      {icon && <div className="icon">{icon}</div>}
+      {icon}
       {label && <div className="label">{label}</div>}
     </StyledBottomNavigationAction>
   );

@@ -88,22 +88,15 @@
     height: 53px;
     background: var(--color-input-bg);
     border-radius: var(--border-radius-md);
-    border: none;
+    border: 1px solid transparent;
     cursor: pointer;
     position: relative;
     padding: 0;
     flex-shrink: 0;
   }
 
-  .dateInput {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    pointer-events: none;
-    //visibility: hidden;
+  .dateButtonChanged {
+    border-color: var(--color-success);
   }
 
   .commentInput {
@@ -111,5 +104,86 @@
     &.hasComment {
       border-color: var(--color-success);
     }
+  }
+}
+
+// Calendar popover styles must be top-level to work inside portal
+.calendarPopover {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+
+  // Scoped overrides for react-calendar
+  :global(.react-calendar) {
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    font-family: inherit;
+    font-size: 16px;
+  }
+
+  :global(.react-calendar__navigation) {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 4px;
+  }
+
+  :global(.react-calendar__navigation button) {
+    background: var(--color-input-bg);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 10px 12px;
+    min-width: 40px;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  :global(.react-calendar__navigation button:enabled:hover),
+  :global(.react-calendar__navigation button:enabled:focus) {
+    background: var(--color-hover-bg, rgba(0, 0, 0, 0.05));
+  }
+
+  :global(.react-calendar__month-view__weekdays) {
+    text-transform: uppercase;
+    font-size: 11px;
+    color: var(--color-text-secondary);
+  }
+
+  :global(.react-calendar__tile) {
+    background: transparent;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid transparent;
+    padding: 12px 0;
+    min-height: 44px;
+    line-height: 1.25;
+    font-size: 16px;
+    color: var(--color-text-primary);
+  }
+
+  :global(.react-calendar__tile:enabled:hover),
+  :global(.react-calendar__tile:enabled:focus) {
+    background: var(--color-input-bg);
+    border-color: var(--color-border);
+  }
+
+  :global(.react-calendar__tile--now) {
+    background: var(--color-info-bg, rgba(0, 123, 255, 0.12));
+    border-color: var(--color-info, #007bff);
+  }
+
+  :global(.react-calendar__tile--active),
+  :global(.react-calendar__tile--hasActive) {
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  :global(.react-calendar__tile--active:enabled:hover),
+  :global(.react-calendar__tile--active:enabled:focus) {
+    background: var(--color-primary-dark, var(--color-primary));
   }
 }

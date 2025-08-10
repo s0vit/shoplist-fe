@@ -11,12 +11,13 @@ import {
   Select,
   Stack,
   Typography,
+  Modal,
 } from 'src/shared/ui-kit';
 
-import { format } from 'date-fns';
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import Calendar from 'react-calendar';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
@@ -29,7 +30,6 @@ import { deletePaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies.ts';
 import handleError from 'src/utils/errorHandler.ts';
-import errorHandler from 'src/utils/errorHandler.ts';
 import useStableCallback from 'src/utils/hooks/useStableCallback.ts';
 import UpsertCategoryModal from 'src/widgets/Modal/UpsertCategoryModal';
 import UpsertPaymentSourceModal from 'src/widgets/Modal/UpsertPaymentSourceModal';
@@ -41,7 +41,11 @@ import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserS
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
+import 'react-calendar/dist/Calendar.css';
 import styles from './AddExpenseCalc.module.scss';
+
+type CalendarValuePiece = Date | null;
+type CalendarValue = CalendarValuePiece | [CalendarValuePiece, CalendarValuePiece];
 
 type TExpensesCalculatorProps = {
   closeModal?: () => void;
@@ -58,10 +62,12 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   const [currency, setCurrency] = useState<CURRENCIES>(defaultCurrency ?? CURRENCIES.EUR);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedPaymentSource, setSelectedPaymentSource] = useState<string>('');
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isCommentModalOpen, setIsCommentModalOpen] = useState<boolean>(false); // TODO move to store
   const [comments, setComments] = useState<string>('');
-  const dateInputRef = useRef<HTMLInputElement>(null);
+  // Deprecated: native datetime-local
+  // const dateInputRef = useRef<HTMLInputElement>(null);
+  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
   const isVerified = _useUserStore.use.user?.()?.isVerified;
@@ -126,6 +132,10 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
 
   const isPending =
     isCreateExpensePending || isUpdateExpensePending || isDeleteCategoryPending || isDeletePaymentSourcePending;
+
+  const isSameDay = (a: Date, b: Date) =>
+    a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  const isDateChangedFromToday = !isSameDay(selectedDate, new Date());
 
   const handleButtonClick = (value: string) => {
     setAmount((prevValue) => {
@@ -208,7 +218,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
       categoryId: selectedCategory,
       paymentSourceId: selectedPaymentSource,
       currency: currency,
-      createdAt: selectedDate!.toISOString(),
+      createdAt: selectedDate.toISOString(),
       comments,
     };
 
@@ -222,18 +232,19 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     }
   };
 
-  const onCalendarClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
-    e?.stopPropagation();
-    e?.preventDefault();
-    if (dateInputRef.current) {
-      try {
-        if ('showPicker' in dateInputRef.current) {
-          dateInputRef.current.showPicker();
-        }
-      } catch (_error: unknown) {
-        errorHandler(_error, false);
-      }
-    }
+  const onCalendarClick = () => {
+    setIsCalendarOpen((prev) => !prev);
+  };
+
+  const handleCalendarChange = (value: CalendarValue) => {
+    const picked = Array.isArray(value) ? value[0] : value;
+    if (!picked) return;
+
+    const base = selectedDate ?? new Date();
+    const preserved = new Date(picked);
+    preserved.setHours(base.getHours(), base.getMinutes(), base.getSeconds(), base.getMilliseconds());
+    setSelectedDate(preserved);
+    setIsCalendarOpen(false);
   };
 
   const handleSetCategory = (categoryId: string) => {
@@ -273,6 +284,8 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     };
   }, [handleKeyboard]);
 
+  // Using Modal for overlay/portal & scroll lock
+
   return (
     <>
       <Paper className={styles.wrapper}>
@@ -308,22 +321,25 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
           <div className={styles.dateCommentRow}>
             <div className={styles.calendarWrapper}>
               <IconButton
-                className={styles.dateButton}
+                className={`${styles.dateButton} ${isDateChangedFromToday ? styles.dateButtonChanged : ''}`}
                 icon="calendar"
                 iconVariant="secondary"
                 iconSize="sm"
                 onClick={onCalendarClick}
               />
-              <input
-                type="datetime-local"
-                className={styles.dateInput}
-                ref={dateInputRef}
-                value={selectedDate ? format(selectedDate, "yyyy-MM-dd'T'HH:mm") : ''}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setSelectedDate(value ? new Date(value) : undefined);
-                }}
-              />
+              <Modal open={isCalendarOpen} onClose={() => setIsCalendarOpen(false)} closeAfterTransition>
+                <div className={styles.calendarPopover}>
+                  <Calendar
+                    onChange={handleCalendarChange}
+                    value={selectedDate ?? new Date()}
+                    locale={navigator?.language}
+                    showDoubleView={false}
+                    prev2Label={null}
+                    next2Label={null}
+                    calendarType="iso8601"
+                  />
+                </div>
+              </Modal>
             </div>
             <Input
               className={styles.commentInput}
