@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 import { BottomNavigation, BottomNavigationAction, Fab } from 'src/shared/ui-kit';
-import { Box, Icon } from 'src/shared/ui-kit';
+import { Box, Icon, IconButton } from 'src/shared/ui-kit';
 
 import { useTranslation } from 'react-i18next';
 
@@ -15,22 +15,22 @@ const FootBar = () => {
   const navigationItems = [
     {
       label: 'Accounts',
-      icon: <Icon name="card" size="md" />,
+      iconName: 'card' as const,
       route: RoutesEnum.PAYMENT_SOURCE,
     },
     {
       label: 'Expenses',
-      icon: <Icon name="coin" size="md" />,
+      iconName: 'coin' as const,
       route: RoutesEnum.EXPENSES_LIST,
     },
     {
       label: 'Profile',
-      icon: <Icon name="user" size="md" />,
+      iconName: 'user' as const,
       route: RoutesEnum.PROFILE,
     },
     {
       label: 'Categories',
-      icon: <Icon name="menu" size="md" />,
+      iconName: 'menu' as const,
       route: RoutesEnum.CATEGORY,
     },
   ];
@@ -44,13 +44,20 @@ const FootBar = () => {
               key={item.label}
               value={item.route}
               label={t(item.label)}
-              icon={item.icon}
+              icon={
+                <IconButton
+                  variant={location.pathname === item.route ? 'contained' : 'text'}
+                  width="48px"
+                  height="48px"
+                  onClick={() => navigate(item.route)}
+                  style={{
+                    borderRadius: '12px',
+                  }}
+                >
+                  <Icon name={item.iconName} size="md" />
+                </IconButton>
+              }
               onClick={() => navigate(item.route)}
-              style={{
-                border: '1px solid var(--color-text-secondary)',
-                borderRadius: '8px',
-                maxWidth: 'none',
-              }}
             />
           ))}
         </BottomNavigation>
