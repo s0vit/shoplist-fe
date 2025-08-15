@@ -9,7 +9,7 @@ import {
   TrailingActions,
   Type,
 } from 'react-swipeable-list';
-import { Box, Stack, Select, type TOption, Typography, FormHelperText } from 'src/shared/ui-kit';
+import { Box, Stack, Select, type TOption, Typography, FormHelperText, getContrastColor } from 'src/shared/ui-kit';
 
 import { Chip } from 'src/shared/ui-kit';
 import { alpha, useTheme } from 'src/shared/ui-kit';
@@ -183,7 +183,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
             }
           >
             <Box>
-              {showCategoryNames && <Typography variant="body2">{category?.title}</Typography>}
+              {showCategoryNames && <Typography variant="body2">{category?.title} - </Typography>}
               <Typography variant="body2">
                 {new Intl.DateTimeFormat(browserLocale, {
                   hour: '2-digit',
@@ -199,7 +199,7 @@ const ExpenseItem = ({ expense, category, paymentSource, handleRemove, currency 
                   style={{
                     backgroundColor: showSourceColours ? alpha(paymentSourceColor, 0.9) : 'transparent',
                     border: `1px solid ${alpha(theme.colors.white, 0.8)}`,
-                    color: showSourceColours ? theme.colors.black : 'inherit',
+                    color: getContrastColor(showSourceColours ? theme.colors.black : 'var(--color-app-bg)'),
                     fontSize: '1.2rem',
                     padding: theme.spacing(0.5),
                   }}

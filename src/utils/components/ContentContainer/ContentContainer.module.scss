@@ -1,4 +1,8 @@
 .root {
-  height: calc(100% - 64px - 80px);
+  height: calc(100% - 64px);
   background-color: var(--color-app-bg);
+
+  @media (max-width: 1200px) {
+    height: calc(100% - 128px);
+  }
 }
