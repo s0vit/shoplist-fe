@@ -23,8 +23,8 @@ const PaymentSourceList = ({
 }: TPaymentSourceListProps) => {
   return isLoading ? (
     <SkeletonGroup
-      dimensions={{ direction: 'row', width: 85, height: 36 }}
-      styles={{ marginTop: '10px', marginLeft: '10px' }}
+      dimensions={{ direction: 'row', width: Math.max(50, Math.random() * 85), height: 36 }}
+      styles={{ marginTop: '10px', marginLeft: '10px', borderRadius: 'var(--border-radius-lg)' }}
     />
   ) : (
     <HorizontalList
