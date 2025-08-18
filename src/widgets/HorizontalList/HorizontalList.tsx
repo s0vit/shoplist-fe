@@ -60,13 +60,7 @@ const HorizontalList = ({
           />
         );
       })}
-      <IconButton
-        icon="plus"
-        iconSize="sm"
-        variant="contained"
-        disabled={disabled || !isVerified}
-        onClick={openModal}
-      />
+      <IconButton icon="plus" iconSize="sm" variant="outlined" disabled={disabled || !isVerified} onClick={openModal} />
       <DeleteCategoryDialog
         openDeleteDialog={openDeleteDialog}
         setOpenDeleteDialog={setOpenDeleteDialog}

@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { Grid, Box, TextField } from 'src/shared/ui-kit';
+import { Grid, Box, TextField, Typography } from 'src/shared/ui-kit';
 import { Accordion, AccordionDetails, AccordionSummary } from 'src/shared/ui-kit';
 import { Icon } from 'src/shared/ui-kit';
 import CategoriesSelect from 'src/entities/category/ui/CategoriesSelect.tsx';
@@ -33,9 +33,17 @@ const ExpenseQueryForm = () => {
   ];
 
   return (
-    <Box style={{ alignSelf: 'flex-start' }}>
+    <Box
+      style={{
+        alignSelf: 'flex-start',
+        borderRadius: 'var(--border-radius-lg)',
+        overflow: 'hidden',
+      }}
+    >
       <Accordion disableGutters>
-        <AccordionSummary expandIcon={<Icon name="chevronDown" size="md" />}>{t('Filter')}</AccordionSummary>
+        <AccordionSummary expandIcon={<Icon name="chevronDown" size="md" />} style={{ minHeight: '60px' }}>
+          <Typography variant="h3">{t('Filter')}</Typography>
+        </AccordionSummary>
         <AccordionDetails>
           <Box>
             <Grid container direction="column" spacing={2}>
