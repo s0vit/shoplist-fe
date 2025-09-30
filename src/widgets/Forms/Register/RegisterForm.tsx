@@ -166,7 +166,7 @@ const RegisterForm = () => {
                 />
               }
             />
-            <Button disabled={isRegisterPending} variant="outlined" label={t('Register')} width="100%" />
+            <Button disabled={isRegisterPending} type="submit" variant="outlined" label={t('Register')} width="100%" />
           </Stack>
         </Form>
       )}
