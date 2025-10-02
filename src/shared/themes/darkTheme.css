@@ -33,6 +33,7 @@
   /*  Contained */
   --color-button-contained-bg: var(--color-white); /* White background for contained button */
   --color-button-contained-color: var(--color-black); /* Black text for contained button */
+  --color-button-contained-hover-bg: var(--color-light-grey); /* Slightly darker white for hover */
   --color-button-contained-disabled: var(--color-dark-surface-variant);
 
   /**
