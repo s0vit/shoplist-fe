@@ -46,6 +46,8 @@ const FootBar = () => {
               label={t(item.label)}
               icon={
                 <IconButton
+                  icon={item.iconName}
+                  iconSize="md"
                   variant={location.pathname === item.route ? 'contained' : 'text'}
                   width="48px"
                   height="48px"
@@ -53,9 +55,7 @@ const FootBar = () => {
                   style={{
                     borderRadius: '12px',
                   }}
-                >
-                  <Icon name={item.iconName} size="md" />
-                </IconButton>
+                />
               }
               onClick={() => navigate(item.route)}
             />

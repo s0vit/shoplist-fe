@@ -110,6 +110,8 @@ const IconButton = ({
     return iconVariant;
   };
 
+  const resultIconColor = variant === 'contained' ? 'var(--color-button-contained-color)' : iconColor;
+
   return (
     <IconButtonStyled
       $variant={variant}
@@ -121,7 +123,7 @@ const IconButton = ({
       type={type}
       className={className}
     >
-      {icon && <Icon name={icon} size={iconSize} color={iconColor} variant={getIconVariant()} />}
+      {icon && <Icon name={icon} size={iconSize} color={resultIconColor} variant={getIconVariant()} />}
       {children}
     </IconButtonStyled>
   );
