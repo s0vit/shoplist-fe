@@ -110,14 +110,7 @@ const IconButton = ({
     return iconVariant;
   };
 
-  // Определяем цвет иконки на основе варианта кнопки
-  const getIconColor = () => {
-    if (iconColor) return iconColor;
-    // Для contained кнопки используем цвет текста кнопки
-    if (variant === 'contained') {
-      return 'var(--color-button-contained-color)';
-    }
-  };
+  const resultIconColor = variant === 'contained' ? 'var(--color-button-contained-color)' : iconColor;
 
   return (
     <IconButtonStyled
@@ -130,7 +123,7 @@ const IconButton = ({
       type={type}
       className={className}
     >
-      {icon && <Icon name={icon} size={iconSize} color={getIconColor()} variant={getIconVariant()} />}
+      {icon && <Icon name={icon} size={iconSize} color={resultIconColor} variant={getIconVariant()} />}
       {children}
     </IconButtonStyled>
   );
