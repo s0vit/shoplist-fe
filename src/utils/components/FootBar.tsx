@@ -39,7 +39,7 @@ const FootBar = () => {
     isLoggedIn && (
       <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1 }}>
         <BottomNavigation showLabels value={location.pathname}>
-          {navigationItems.map((item) => (
+          {navigationItems.map((item, index) => (
             <BottomNavigationAction
               key={item.label}
               value={item.route}
@@ -57,6 +57,7 @@ const FootBar = () => {
                   }}
                 />
               }
+              data-testid={`navigate-button-${index}`}
               onClick={() => navigate(item.route)}
             />
           ))}
@@ -64,6 +65,7 @@ const FootBar = () => {
         {location.pathname !== RoutesEnum.ROOT && (
           <Fab
             color="success"
+            data-testid="fab-element"
             onClick={() => navigate(RoutesEnum.ROOT)}
             style={{
               position: 'absolute',

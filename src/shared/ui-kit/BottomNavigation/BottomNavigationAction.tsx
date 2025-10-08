@@ -28,7 +28,7 @@ type TStyledBottomNavigationActionProps = {
   $active?: boolean;
 };
 
-const StyledBottomNavigationAction = styled.button<TStyledBottomNavigationActionProps>`
+const StyledBottomNavigationAction = styled.div<TStyledBottomNavigationActionProps>`
   background: none;
   display: flex;
   flex-direction: column;
