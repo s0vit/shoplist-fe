@@ -1,0 +1,400 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FootBar > matches snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="sc-fmZSGO bJpNxu"
+      >
+        <div
+          class="sc-kNmFTk jzDKHf"
+        >
+          <div
+            class="sc-cExZcH jPtxOG"
+            data-testid="navigate-button-/payment-source"
+            data-value="/payment-source"
+          >
+            <button
+              class="sc-dTdQuR jqeHNQ"
+              height="48px"
+              style="border-radius: 12px;"
+              type="button"
+              width="48px"
+            >
+              <div
+                class="_icon_e0ef48 _iconPrimary_e0ef48"
+                style="width: 24px; height: 24px;"
+              >
+                <svg
+                  fill="none"
+                  height="24"
+                  style="color: var(--color-icon-primary); fill: currentColor;"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 6C0 5.20435 0.316071 4.44129 0.87868 3.87868C1.44129 3.31607 2.20435 3 3 3H21C21.7956 3 22.5587 3.31607 23.1213 3.87868C23.6839 4.44129 24 5.20435 24 6V7.5H0V6ZM0 10.5V18C0 18.7956 0.316071 19.5587 0.87868 20.1213C1.44129 20.6839 2.20435 21 3 21H21C21.7956 21 22.5587 20.6839 23.1213 20.1213C23.6839 19.5587 24 18.7956 24 18V10.5H0ZM4.5 13.5H6C6.39782 13.5 6.77936 13.658 7.06066 13.9393C7.34196 14.2206 7.5 14.6022 7.5 15V16.5C7.5 16.8978 7.34196 17.2794 7.06066 17.5607C6.77936 17.842 6.39782 18 6 18H4.5C4.10218 18 3.72064 17.842 3.43934 17.5607C3.15804 17.2794 3 16.8978 3 16.5V15C3 14.6022 3.15804 14.2206 3.43934 13.9393C3.72064 13.658 4.10218 13.5 4.5 13.5Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </div>
+            </button>
+            <div
+              class="label"
+            >
+              Accounts
+            </div>
+          </div>
+          <div
+            class="sc-cExZcH jPtxOG"
+            data-testid="navigate-button-/expenses"
+            data-value="/expenses"
+          >
+            <button
+              class="sc-dTdQuR jqeHNQ"
+              height="48px"
+              style="border-radius: 12px;"
+              type="button"
+              width="48px"
+            >
+              <div
+                class="_icon_e0ef48 _iconPrimary_e0ef48"
+                style="width: 24px; height: 24px;"
+              >
+                <svg
+                  fill="none"
+                  height="24"
+                  style="color: var(--color-icon-primary); fill: currentColor;"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11.01 19.7H12.935V18.325C13.8517 18.16 14.64 17.8025 15.3 17.2525C15.96 16.7025 16.29 15.8867 16.29 14.805C16.29 14.035 16.07 13.3292 15.63 12.6875C15.19 12.0458 14.31 11.4867 12.99 11.01C11.89 10.6433 11.1292 10.3225 10.7075 10.0475C10.2858 9.7725 10.075 9.39667 10.075 8.92C10.075 8.44333 10.2446 8.0675 10.5838 7.7925C10.9229 7.5175 11.4133 7.38 12.055 7.38C12.6417 7.38 13.1 7.52208 13.43 7.80625C13.76 8.09042 13.9983 8.44333 14.145 8.865L15.905 8.15C15.7033 7.50833 15.3321 6.94917 14.7913 6.4725C14.2504 5.99583 13.65 5.73 12.99 5.675V4.3H11.065V5.675C10.1483 5.87667 9.43333 6.28 8.92 6.885C8.40667 7.49 8.15 8.16833 8.15 8.92C8.15 9.78167 8.40208 10.4783 8.90625 11.01C9.41042 11.5417 10.2033 12 11.285 12.385C12.44 12.8067 13.2421 13.1825 13.6913 13.5125C14.1404 13.8425 14.365 14.2733 14.365 14.805C14.365 15.41 14.1496 15.8546 13.7188 16.1388C13.2879 16.4229 12.77 16.565 12.165 16.565C11.56 16.565 11.0238 16.3771 10.5563 16.0013C10.0887 15.6254 9.745 15.0617 9.525 14.31L7.71 15.025C7.96667 15.905 8.36542 16.6154 8.90625 17.1562C9.44708 17.6971 10.1483 18.0683 11.01 18.27V19.7ZM12 23C10.4783 23 9.04833 22.7113 7.71 22.1338C6.37167 21.5562 5.2075 20.7725 4.2175 19.7825C3.2275 18.7925 2.44375 17.6283 1.86625 16.29C1.28875 14.9517 1 13.5217 1 12C1 10.4783 1.28875 9.04833 1.86625 7.71C2.44375 6.37167 3.2275 5.2075 4.2175 4.2175C5.2075 3.2275 6.37167 2.44375 7.71 1.86625C9.04833 1.28875 10.4783 1 12 1C13.5217 1 14.9517 1.28875 16.29 1.86625C17.6283 2.44375 18.7925 3.2275 19.7825 4.2175C20.7725 5.2075 21.5562 6.37167 22.1338 7.71C22.7113 9.04833 23 10.4783 23 12C23 13.5217 22.7113 14.9517 22.1338 16.29C21.5562 17.6283 20.7725 18.7925 19.7825 19.7825C18.7925 20.7725 17.6283 21.5562 16.29 22.1338C14.9517 22.7113 13.5217 23 12 23Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </div>
+            </button>
+            <div
+              class="label"
+            >
+              Expenses
+            </div>
+          </div>
+          <div
+            class="sc-cExZcH jPtxOG"
+            data-testid="navigate-button-/profile"
+            data-value="/profile"
+          >
+            <button
+              class="sc-dTdQuR jqeHNQ"
+              height="48px"
+              style="border-radius: 12px;"
+              type="button"
+              width="48px"
+            >
+              <div
+                class="_icon_e0ef48 _iconPrimary_e0ef48"
+                style="width: 24px; height: 24px;"
+              >
+                <svg
+                  fill="none"
+                  height="24"
+                  style="color: var(--color-icon-primary); fill: currentColor;"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                  <circle
+                    cx="12"
+                    cy="7"
+                    r="4"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </div>
+            </button>
+            <div
+              class="label"
+            >
+              Profile
+            </div>
+          </div>
+          <div
+            class="sc-cExZcH jPtxOG"
+            data-testid="navigate-button-/category"
+            data-value="/category"
+          >
+            <button
+              class="sc-dTdQuR jqeHNQ"
+              height="48px"
+              style="border-radius: 12px;"
+              type="button"
+              width="48px"
+            >
+              <div
+                class="_icon_e0ef48 _iconPrimary_e0ef48"
+                style="width: 24px; height: 24px;"
+              >
+                <svg
+                  fill="none"
+                  height="24"
+                  style="color: var(--color-icon-primary); fill: currentColor;"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2 4.14286C2 3.57454 2.22576 3.02949 2.62763 2.62763C3.02949 2.22576 3.57454 2 4.14286 2H8.42857C8.99689 2 9.54194 2.22576 9.9438 2.62763C10.3457 3.02949 10.5714 3.57454 10.5714 4.14286V8.42857C10.5714 8.99689 10.3457 9.54194 9.9438 9.9438C9.54194 10.3457 8.99689 10.5714 8.42857 10.5714H4.14286C3.57454 10.5714 3.02949 10.3457 2.62763 9.9438C2.22576 9.54194 2 8.99689 2 8.42857V4.14286ZM13.4286 4.14286C13.4286 3.57454 13.6543 3.02949 14.0562 2.62763C14.4581 2.22576 15.0031 2 15.5714 2H19.8571C20.4255 2 20.9705 2.22576 21.3724 2.62763C21.7742 3.02949 22 3.57454 22 4.14286V8.42857C22 8.99689 21.7742 9.54194 21.3724 9.9438C20.9705 10.3457 20.4255 10.5714 19.8571 10.5714H15.5714C15.0031 10.5714 14.4581 10.3457 14.0562 9.9438C13.6543 9.54194 13.4286 8.99689 13.4286 8.42857V4.14286ZM2 15.5714C2 15.0031 2.22576 14.4581 2.62763 14.0562C3.02949 13.6543 3.57454 13.4286 4.14286 13.4286H8.42857C8.99689 13.4286 9.54194 13.6543 9.9438 14.0562C10.3457 14.4581 10.5714 15.0031 10.5714 15.5714V19.8571C10.5714 20.4255 10.3457 20.9705 9.9438 21.3724C9.54194 21.7742 8.99689 22 8.42857 22H4.14286C3.57454 22 3.02949 21.7742 2.62763 21.3724C2.22576 20.9705 2 20.4255 2 19.8571V15.5714ZM13.4286 15.5714C13.4286 15.0031 13.6543 14.4581 14.0562 14.0562C14.4581 13.6543 15.0031 13.4286 15.5714 13.4286H19.8571C20.4255 13.4286 20.9705 13.6543 21.3724 14.0562C21.7742 14.4581 22 15.0031 22 15.5714V19.8571C22 20.4255 21.7742 20.9705 21.3724 21.3724C20.9705 21.7742 20.4255 22 19.8571 22H15.5714C15.0031 22 14.4581 21.7742 14.0562 21.3724C13.6543 20.9705 13.4286 20.4255 13.4286 19.8571V15.5714Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </div>
+            </button>
+            <div
+              class="label"
+            >
+              Categories
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="sc-fmZSGO bJpNxu"
+    >
+      <div
+        class="sc-kNmFTk jzDKHf"
+      >
+        <div
+          class="sc-cExZcH jPtxOG"
+          data-testid="navigate-button-/payment-source"
+          data-value="/payment-source"
+        >
+          <button
+            class="sc-dTdQuR jqeHNQ"
+            height="48px"
+            style="border-radius: 12px;"
+            type="button"
+            width="48px"
+          >
+            <div
+              class="_icon_e0ef48 _iconPrimary_e0ef48"
+              style="width: 24px; height: 24px;"
+            >
+              <svg
+                fill="none"
+                height="24"
+                style="color: var(--color-icon-primary); fill: currentColor;"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0 6C0 5.20435 0.316071 4.44129 0.87868 3.87868C1.44129 3.31607 2.20435 3 3 3H21C21.7956 3 22.5587 3.31607 23.1213 3.87868C23.6839 4.44129 24 5.20435 24 6V7.5H0V6ZM0 10.5V18C0 18.7956 0.316071 19.5587 0.87868 20.1213C1.44129 20.6839 2.20435 21 3 21H21C21.7956 21 22.5587 20.6839 23.1213 20.1213C23.6839 19.5587 24 18.7956 24 18V10.5H0ZM4.5 13.5H6C6.39782 13.5 6.77936 13.658 7.06066 13.9393C7.34196 14.2206 7.5 14.6022 7.5 15V16.5C7.5 16.8978 7.34196 17.2794 7.06066 17.5607C6.77936 17.842 6.39782 18 6 18H4.5C4.10218 18 3.72064 17.842 3.43934 17.5607C3.15804 17.2794 3 16.8978 3 16.5V15C3 14.6022 3.15804 14.2206 3.43934 13.9393C3.72064 13.658 4.10218 13.5 4.5 13.5Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </button>
+          <div
+            class="label"
+          >
+            Accounts
+          </div>
+        </div>
+        <div
+          class="sc-cExZcH jPtxOG"
+          data-testid="navigate-button-/expenses"
+          data-value="/expenses"
+        >
+          <button
+            class="sc-dTdQuR jqeHNQ"
+            height="48px"
+            style="border-radius: 12px;"
+            type="button"
+            width="48px"
+          >
+            <div
+              class="_icon_e0ef48 _iconPrimary_e0ef48"
+              style="width: 24px; height: 24px;"
+            >
+              <svg
+                fill="none"
+                height="24"
+                style="color: var(--color-icon-primary); fill: currentColor;"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M11.01 19.7H12.935V18.325C13.8517 18.16 14.64 17.8025 15.3 17.2525C15.96 16.7025 16.29 15.8867 16.29 14.805C16.29 14.035 16.07 13.3292 15.63 12.6875C15.19 12.0458 14.31 11.4867 12.99 11.01C11.89 10.6433 11.1292 10.3225 10.7075 10.0475C10.2858 9.7725 10.075 9.39667 10.075 8.92C10.075 8.44333 10.2446 8.0675 10.5838 7.7925C10.9229 7.5175 11.4133 7.38 12.055 7.38C12.6417 7.38 13.1 7.52208 13.43 7.80625C13.76 8.09042 13.9983 8.44333 14.145 8.865L15.905 8.15C15.7033 7.50833 15.3321 6.94917 14.7913 6.4725C14.2504 5.99583 13.65 5.73 12.99 5.675V4.3H11.065V5.675C10.1483 5.87667 9.43333 6.28 8.92 6.885C8.40667 7.49 8.15 8.16833 8.15 8.92C8.15 9.78167 8.40208 10.4783 8.90625 11.01C9.41042 11.5417 10.2033 12 11.285 12.385C12.44 12.8067 13.2421 13.1825 13.6913 13.5125C14.1404 13.8425 14.365 14.2733 14.365 14.805C14.365 15.41 14.1496 15.8546 13.7188 16.1388C13.2879 16.4229 12.77 16.565 12.165 16.565C11.56 16.565 11.0238 16.3771 10.5563 16.0013C10.0887 15.6254 9.745 15.0617 9.525 14.31L7.71 15.025C7.96667 15.905 8.36542 16.6154 8.90625 17.1562C9.44708 17.6971 10.1483 18.0683 11.01 18.27V19.7ZM12 23C10.4783 23 9.04833 22.7113 7.71 22.1338C6.37167 21.5562 5.2075 20.7725 4.2175 19.7825C3.2275 18.7925 2.44375 17.6283 1.86625 16.29C1.28875 14.9517 1 13.5217 1 12C1 10.4783 1.28875 9.04833 1.86625 7.71C2.44375 6.37167 3.2275 5.2075 4.2175 4.2175C5.2075 3.2275 6.37167 2.44375 7.71 1.86625C9.04833 1.28875 10.4783 1 12 1C13.5217 1 14.9517 1.28875 16.29 1.86625C17.6283 2.44375 18.7925 3.2275 19.7825 4.2175C20.7725 5.2075 21.5562 6.37167 22.1338 7.71C22.7113 9.04833 23 10.4783 23 12C23 13.5217 22.7113 14.9517 22.1338 16.29C21.5562 17.6283 20.7725 18.7925 19.7825 19.7825C18.7925 20.7725 17.6283 21.5562 16.29 22.1338C14.9517 22.7113 13.5217 23 12 23Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </button>
+          <div
+            class="label"
+          >
+            Expenses
+          </div>
+        </div>
+        <div
+          class="sc-cExZcH jPtxOG"
+          data-testid="navigate-button-/profile"
+          data-value="/profile"
+        >
+          <button
+            class="sc-dTdQuR jqeHNQ"
+            height="48px"
+            style="border-radius: 12px;"
+            type="button"
+            width="48px"
+          >
+            <div
+              class="_icon_e0ef48 _iconPrimary_e0ef48"
+              style="width: 24px; height: 24px;"
+            >
+              <svg
+                fill="none"
+                height="24"
+                style="color: var(--color-icon-primary); fill: currentColor;"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+                <circle
+                  cx="12"
+                  cy="7"
+                  r="4"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+          </button>
+          <div
+            class="label"
+          >
+            Profile
+          </div>
+        </div>
+        <div
+          class="sc-cExZcH jPtxOG"
+          data-testid="navigate-button-/category"
+          data-value="/category"
+        >
+          <button
+            class="sc-dTdQuR jqeHNQ"
+            height="48px"
+            style="border-radius: 12px;"
+            type="button"
+            width="48px"
+          >
+            <div
+              class="_icon_e0ef48 _iconPrimary_e0ef48"
+              style="width: 24px; height: 24px;"
+            >
+              <svg
+                fill="none"
+                height="24"
+                style="color: var(--color-icon-primary); fill: currentColor;"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2 4.14286C2 3.57454 2.22576 3.02949 2.62763 2.62763C3.02949 2.22576 3.57454 2 4.14286 2H8.42857C8.99689 2 9.54194 2.22576 9.9438 2.62763C10.3457 3.02949 10.5714 3.57454 10.5714 4.14286V8.42857C10.5714 8.99689 10.3457 9.54194 9.9438 9.9438C9.54194 10.3457 8.99689 10.5714 8.42857 10.5714H4.14286C3.57454 10.5714 3.02949 10.3457 2.62763 9.9438C2.22576 9.54194 2 8.99689 2 8.42857V4.14286ZM13.4286 4.14286C13.4286 3.57454 13.6543 3.02949 14.0562 2.62763C14.4581 2.22576 15.0031 2 15.5714 2H19.8571C20.4255 2 20.9705 2.22576 21.3724 2.62763C21.7742 3.02949 22 3.57454 22 4.14286V8.42857C22 8.99689 21.7742 9.54194 21.3724 9.9438C20.9705 10.3457 20.4255 10.5714 19.8571 10.5714H15.5714C15.0031 10.5714 14.4581 10.3457 14.0562 9.9438C13.6543 9.54194 13.4286 8.99689 13.4286 8.42857V4.14286ZM2 15.5714C2 15.0031 2.22576 14.4581 2.62763 14.0562C3.02949 13.6543 3.57454 13.4286 4.14286 13.4286H8.42857C8.99689 13.4286 9.54194 13.6543 9.9438 14.0562C10.3457 14.4581 10.5714 15.0031 10.5714 15.5714V19.8571C10.5714 20.4255 10.3457 20.9705 9.9438 21.3724C9.54194 21.7742 8.99689 22 8.42857 22H4.14286C3.57454 22 3.02949 21.7742 2.62763 21.3724C2.22576 20.9705 2 20.4255 2 19.8571V15.5714ZM13.4286 15.5714C13.4286 15.0031 13.6543 14.4581 14.0562 14.0562C14.4581 13.6543 15.0031 13.4286 15.5714 13.4286H19.8571C20.4255 13.4286 20.9705 13.6543 21.3724 14.0562C21.7742 14.4581 22 15.0031 22 15.5714V19.8571C22 20.4255 21.7742 20.9705 21.3724 21.3724C20.9705 21.7742 20.4255 22 19.8571 22H15.5714C15.0031 22 14.4581 21.7742 14.0562 21.3724C13.6543 20.9705 13.4286 20.4255 13.4286 19.8571V15.5714Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </button>
+          <div
+            class="label"
+          >
+            Categories
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
