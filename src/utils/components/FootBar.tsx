@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
+import testsEnum from 'src/shared/test-contants /testsEnum.ts';
 import { BottomNavigation, BottomNavigationAction, Fab } from 'src/shared/ui-kit';
 import { Box, Icon, IconButton } from 'src/shared/ui-kit';
 
@@ -39,7 +40,7 @@ const FootBar = () => {
     isLoggedIn && (
       <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1 }}>
         <BottomNavigation showLabels value={location.pathname}>
-          {navigationItems.map((item, index) => (
+          {navigationItems.map((item) => (
             <BottomNavigationAction
               key={item.label}
               value={item.route}
@@ -57,7 +58,7 @@ const FootBar = () => {
                   }}
                 />
               }
-              data-testid={`navigate-button-${index}`}
+              data-testid={`navigate-button-${item.route}`}
               onClick={() => navigate(item.route)}
             />
           ))}
@@ -65,7 +66,7 @@ const FootBar = () => {
         {location.pathname !== RoutesEnum.ROOT && (
           <Fab
             color="success"
-            data-testid="fab-element"
+            data-testid={testsEnum.FAB_ELEMENT}
             onClick={() => navigate(RoutesEnum.ROOT)}
             style={{
               position: 'absolute',

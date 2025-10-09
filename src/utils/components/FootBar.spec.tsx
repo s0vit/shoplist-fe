@@ -1,7 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, within, fireEvent } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
-import { fireEvent } from '@storybook/test';
 import FootBar from 'src/utils/components/FootBar';
 
 enum RoutesEnum {
@@ -59,7 +58,7 @@ describe('FootBar', () => {
         <FootBar />
       </MemoryRouter>,
     );
-    const button = screen.getByTestId('navigate-button-0');
+    const button = screen.getByTestId('navigate-button-/payment-source');
     fireEvent.click(button);
     expect(mockedNavigate).toHaveBeenCalledWith(RoutesEnum.payment);
   });
@@ -69,7 +68,7 @@ describe('FootBar', () => {
         <FootBar />
       </MemoryRouter>,
     );
-    const div = screen.getByTestId('navigate-button-2');
+    const div = screen.getByTestId('navigate-button-/profile');
     const iconButton = within(div).getByRole('button');
     expect(iconButton).toHaveClass('dUzSPi');
   });
