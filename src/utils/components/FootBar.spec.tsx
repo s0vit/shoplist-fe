@@ -63,6 +63,9 @@ describe('FootBar', () => {
     expect(mockedNavigate).toHaveBeenCalledWith(RoutesEnum.payment);
   });
   it('IconButton has a variant contained if location route === navigation route', () => {
+    const root = document.documentElement;
+    root.style.setProperty('--color-button-contained-bg', '#000000');
+    root.style.setProperty('--color-button-contained-color', '#ffffff');
     render(
       <MemoryRouter initialEntries={[RoutesEnum.profile]}>
         <FootBar />
@@ -70,7 +73,10 @@ describe('FootBar', () => {
     );
     const div = screen.getByTestId('navigate-button-/profile');
     const iconButton = within(div).getByRole('button');
-    expect(iconButton).toHaveClass('dUzSPi');
+    expect(iconButton).toHaveStyle({
+      backgroundColor: '#000000',
+      color: '#ffffff',
+    });
   });
   it('do not have a Fab if location route is root', () => {
     render(

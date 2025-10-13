@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 import RoutesEnum from 'src/shared/constants/routesEnum.ts';
-import testsEnum from 'src/shared/test-contants /testsEnum.ts';
+import testsEnum from 'src/shared/test-constants/testsEnum.ts';
 import { BottomNavigation, BottomNavigationAction, Fab } from 'src/shared/ui-kit';
 import { Box, Icon, IconButton } from 'src/shared/ui-kit';
 
