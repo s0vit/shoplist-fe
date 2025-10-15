@@ -2,14 +2,7 @@ import { render, screen, within, fireEvent } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import FootBar from 'src/utils/components/FootBar';
-
-enum RoutesEnum {
-  root = '/',
-  payment = '/payment-source',
-  expenses = '/expenses',
-  profile = '/profile',
-  category = '/category',
-}
+import RoutesEnum from 'src/shared/constants/routesEnum.ts';
 
 const { mockedNavigate } = vi.hoisted(() => ({ mockedNavigate: vi.fn() }));
 
@@ -60,14 +53,14 @@ describe('FootBar', () => {
     );
     const button = screen.getByTestId('navigate-button-/payment-source');
     fireEvent.click(button);
-    expect(mockedNavigate).toHaveBeenCalledWith(RoutesEnum.payment);
+    expect(mockedNavigate).toHaveBeenCalledWith(RoutesEnum.PAYMENT_SOURCE);
   });
   it('IconButton has a variant contained if location route === navigation route', () => {
     const root = document.documentElement;
     root.style.setProperty('--color-button-contained-bg', '#000000');
     root.style.setProperty('--color-button-contained-color', '#ffffff');
     render(
-      <MemoryRouter initialEntries={[RoutesEnum.profile]}>
+      <MemoryRouter initialEntries={[RoutesEnum.PROFILE]}>
         <FootBar />
       </MemoryRouter>,
     );
@@ -80,7 +73,7 @@ describe('FootBar', () => {
   });
   it('do not have a Fab if location route is root', () => {
     render(
-      <MemoryRouter initialEntries={[RoutesEnum.root]}>
+      <MemoryRouter initialEntries={[RoutesEnum.ROOT]}>
         <FootBar />
       </MemoryRouter>,
     );
