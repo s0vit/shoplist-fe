@@ -7,6 +7,7 @@ import CalendarIcon from '../assets/icons/calendar.svg?react';
 import BurgerMenuIcon from '../assets/icons/burgerMenu.svg?react';
 import HomeIcon from '../assets/icons/home.svg?react';
 import CardIcon from '../assets/icons/card.svg?react';
+import ChartIcon from '../assets/icons/chart.svg?react';
 import CoinIcon from '../assets/icons/coin.svg?react';
 import MenuIcon from '../assets/icons/menu.svg?react';
 import CameraIcon from '../assets/icons/camera.svg?react';
@@ -34,6 +35,7 @@ export const ICON_MAP: Record<TIconName, React.FC<React.SVGProps<SVGSVGElement>>
   burgerMenu: BurgerMenuIcon,
   home: HomeIcon,
   card: CardIcon,
+  chart: ChartIcon,
   coin: CoinIcon,
   menu: MenuIcon,
   camera: CameraIcon,

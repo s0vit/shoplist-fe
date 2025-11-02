@@ -24,6 +24,7 @@ export { default as Chip } from './Chip/Chip';
 export { default as Skeleton } from './Skeleton/Skeleton';
 export { Alert, AlertTitle } from './Alert';
 export { default as CircularProgress } from './CircularProgress/CircularProgress';
+export { default as Calendar } from './Calendar/Calendar';
 export { Dialog, DialogTitle, DialogContent, DialogActions } from './Dialog';
 export { Menu, MenuItem, ListItemIcon as MenuListItemIcon } from './Menu';
 export { Accordion, AccordionSummary, AccordionDetails } from './Accordion';
