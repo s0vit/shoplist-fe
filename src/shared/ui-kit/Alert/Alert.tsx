@@ -32,22 +32,22 @@ const StyledAlert = styled.div<TAlertProps>`
     const colors = {
       error: {
         backgroundColor: 'var(--color-error)',
-        color: 'var(--color-white)',
+        color: 'var(--color-text-primary)',
         border: '1px solid var(--color-error)',
       },
       warning: {
         backgroundColor: 'var(--color-warning)',
-        color: 'var(--color-white)',
+        color: 'var(--color-text-primary)',
         border: '1px solid var(--color-warning)',
       },
       info: {
         backgroundColor: 'var(--color-info)',
-        color: 'var(--color-white)',
+        color: 'var(--color-text-primary)',
         border: '1px solid var(--color-info)',
       },
       success: {
         backgroundColor: 'var(--color-success)',
-        color: 'var(--color-white)',
+        color: 'var(--color-text-primary)',
         border: '1px solid var(--color-success)',
       },
     };

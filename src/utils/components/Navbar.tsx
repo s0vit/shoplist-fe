@@ -10,15 +10,16 @@ import useLoadConfigs from 'src/entities/userSettings/hooks/useLoadConfig';
 import useWindowWidth from 'src/utils/hooks/useWindowWidth.ts';
 import DrawerNavigation from 'src/widgets/Drawer/DrawerNavigation';
 import NavBarMenu from 'src/widgets/NavBarMenu/NavBarMenu.tsx';
-import { useTranslation } from 'react-i18next';
 import { ColorModeContext } from 'src/app/providers/Theme.tsx';
+import useNotificationsStore from 'src/entities/notifications/model/store/useNotificationsStore.ts';
+import { AlertIcon } from 'src/assets/icons/Icons.tsx';
 
 const Navbar = () => {
   const isLoggedIn = useUserStore.use.user?.() !== undefined;
   const isVerified = useUserStore.use.user?.()?.isVerified;
   const colorMode = useContext(ColorModeContext);
-  const { isDesktopWidth } = useWindowWidth();
-  const { t } = useTranslation('translation');
+  const { isDesktopWidth, isMobileWidth, isTabletWidth } = useWindowWidth();
+  const toggleIsModalOpen = useNotificationsStore.use.toggleIsModalOpen();
 
   useLoadExpenses({ shouldFetchOnLoad: isVerified });
   useLoadCategories(isVerified);
@@ -26,6 +27,14 @@ const Navbar = () => {
   useLoadConfigs();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const username = useUserStore.use.user?.()?.email;
+  const devVersion = import.meta.env.PACKAGE_VERSION;
+
+  const truncate = (str: string | undefined) => {
+    if (!str) return '';
+
+    return str.length > 5 ? str.slice(0, 5) + '...' : str;
+  };
 
   // Default toolbar styles
   const validToolbarStyles = {
@@ -46,11 +55,16 @@ const Navbar = () => {
                 onClick={() => setIsDrawerOpen(true)}
               />
             )}
-            <Typography variant="h3" style={{ flexGrow: 1 }}>
-              {t('Shoplist')} {`${import.meta.env.PACKAGE_VERSION}`}
-            </Typography>
-            <IconButton icon="moon" variant="text" onClick={colorMode.toggleColorMode} />
-            {isLoggedIn && <NavBarMenu />}
+            {(isMobileWidth || isTabletWidth) && isLoggedIn && (
+              <>
+                <NavBarMenu />
+                <Typography variant="h3" style={{ flexGrow: 1 }}>
+                  {truncate(username)} {import.meta.env.DEV && devVersion}
+                </Typography>
+              </>
+            )}
+            <IconButton icon="moon" variant="text" onClick={colorMode.toggleColorMode} style={{ marginLeft: 'auto' }} />
+            {!isVerified && <AlertIcon onClick={toggleIsModalOpen} style={{ cursor: 'pointer' }} />}
           </Toolbar>
         </AppBar>
       </Box>
