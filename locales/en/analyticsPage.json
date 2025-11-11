@@ -39,7 +39,7 @@
   },
   "intro": {
     "heading": "Welcome to your spending story",
-    "description": "Pick a time range, add any helpful filters, and we will highlight the patterns. Start simple—you can always dive deeper later."
+    "description": "Pick a time range, add any helpful filters, and we will highlight the patterns. Start simple - you can always dive deeper later."
   },
   "summary": {
     "heading": "Summary",
@@ -83,7 +83,7 @@
     "loading": "Generating insight..."
   },
   "emptyState": {
-    "title": "No expense data",
+    "title": "No expense data.",
     "description": "Adjust filters or add expenses to view analytics."
   },
   "loading": "Loading analytics..."

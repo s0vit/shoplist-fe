@@ -1416,6 +1416,7 @@ const AnalyticsPage = () => {
               </Stack>
               <Typography variant="body2" color="secondary" style={{ marginTop: '8px' }}>
                 {t('ai.helper')}
+                <br />
               </Typography>
               {isAiLoading && (
                 <Typography variant="body2" color="secondary" style={{ marginTop: '12px' }}>
@@ -1452,7 +1453,7 @@ const AnalyticsPage = () => {
             <Paper>
               <Typography variant="h3">{t('emptyState.title')}</Typography>
               <Typography variant="body2" color="secondary" style={{ marginTop: '8px' }}>
-                {t('emptyState.description')}
+                <p>{t('emptyState.description')}</p>
               </Typography>
             </Paper>
           )

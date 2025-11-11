@@ -103,7 +103,7 @@ export const getExpenseAnalytics = async (query: TExpenseAnalyticsQuery): Promis
 
   pushParam('amountStart', query.amountStart);
   pushParam('amountEnd', query.amountEnd);
-  pushParam('searchTerm', query.searchTerm?.trim() || undefined);
+  pushParam('searchTerm', query.searchTerm?.trim());
 
   if (typeof query.hasComments === 'boolean') {
     pushParam('hasComments', query.hasComments);
