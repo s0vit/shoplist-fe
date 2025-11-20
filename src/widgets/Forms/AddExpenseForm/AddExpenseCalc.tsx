@@ -29,7 +29,7 @@ import {
   createExpense,
   TCreateExpenseInput,
   TExpense,
-  TReceiptScanResult,
+  TReceiptParseResponse,
   updateExpense,
 } from 'src/shared/api/expenseApi.ts';
 import { deletePaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
@@ -271,24 +271,12 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     }
   };
 
-  const handleReceiptScanComplete = useStableCallback((result: TReceiptScanResult) => {
-    if (result.amount) {
-      setAmount(result.amount.toString());
-    }
-
-    if (result.currency) {
-      setCurrency(result.currency);
-    }
-
-    if (result.date) {
-      setSelectedDate(new Date(result.date));
-    }
-
-    if (result.merchant) {
-      setComments((prev) => (prev ? `${prev}\n${result.merchant}` : result.merchant || ''));
-    }
-
+  const handleReceiptScanComplete = useStableCallback((_result: TReceiptParseResponse) => {
+    // API уже создал expense в базе, просто обновляем список и закрываем модалку
     setIsReceiptScannerOpen(false);
+    fetchExpenses();
+    clearData();
+    closeModal?.();
   });
 
   useEffect(() => {

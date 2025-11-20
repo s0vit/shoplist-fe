@@ -2,14 +2,14 @@ import { Box, Button, CircularProgress, IconButton, Paper, Typography } from 'sr
 import { useMutation } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import { scanReceipt, TReceiptScanResult } from 'src/shared/api/expenseApi.ts';
+import { parseReceipt, TReceiptParseResponse } from 'src/shared/api/expenseApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import handleError from 'src/utils/errorHandler.ts';
 import { useTranslation } from 'react-i18next';
 import styles from './ReceiptScanner.module.scss';
 
 type TReceiptScannerProps = {
-  onScanComplete: (result: TReceiptScanResult) => void;
+  onScanComplete: (result: TReceiptParseResponse) => void;
 };
 
 const ReceiptScanner = ({ onScanComplete }: TReceiptScannerProps) => {
@@ -18,14 +18,18 @@ const ReceiptScanner = ({ onScanComplete }: TReceiptScannerProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation('homePage');
 
-  const { mutate: scanReceiptMutate, isPending: isScanPending } = useMutation<
-    TReceiptScanResult,
+  const { mutate: parseReceiptMutate, isPending: isScanPending } = useMutation<
+    TReceiptParseResponse,
     TErrorResponse,
     FormData
   >({
-    mutationFn: scanReceipt,
+    mutationFn: parseReceipt,
     onSuccess: (data) => {
-      toast(t('Receipt scanned successfully'), { type: 'success' });
+      const message = data.reason
+        ? `${t('Receipt scanned successfully')}\n${data.reason}`
+        : t('Receipt scanned successfully');
+
+      toast(message, { type: 'success' });
       onScanComplete(data);
       handleClear();
     },
@@ -67,8 +71,8 @@ const ReceiptScanner = ({ onScanComplete }: TReceiptScannerProps) => {
     }
 
     const formData = new FormData();
-    formData.append('file', selectedFile);
-    scanReceiptMutate(formData);
+    formData.append('receipt', selectedFile);
+    parseReceiptMutate(formData);
   };
 
   const handleClear = () => {
