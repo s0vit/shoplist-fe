@@ -14,5 +14,12 @@
   "Limit": "Количество записей",
   "Add Comment": "Добавить комментарий",
   "Comment": "Комментарий",
-  "Maximum number of characters:": "Максимальное количество символов"
+  "Maximum number of characters:": "Максимальное количество символов",
+  "Scan Receipt": "Сканировать чек",
+  "Take or upload photo": "Сделать фото или загрузить",
+  "Scan": "Сканировать",
+  "Receipt scanned successfully": "Чек успешно отсканирован",
+  "Please select an image file": "Пожалуйста, выберите изображение",
+  "File size must be less than 10MB": "Размер файла должен быть меньше 10 МБ",
+  "Please select a receipt image": "Пожалуйста, выберите изображение чека"
 }

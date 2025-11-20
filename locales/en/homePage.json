@@ -14,5 +14,12 @@
   "Limit": "Limit",
   "Add Comment": "Add Comment",
   "Comment": "Comment",
-  "Maximum number of characters:": "Maximum number of characters:"
+  "Maximum number of characters:": "Maximum number of characters:",
+  "Scan Receipt": "Scan Receipt",
+  "Take or upload photo": "Take or upload photo",
+  "Scan": "Scan",
+  "Receipt scanned successfully": "Receipt scanned successfully",
+  "Please select an image file": "Please select an image file",
+  "File size must be less than 10MB": "File size must be less than 10MB",
+  "Please select a receipt image": "Please select a receipt image"
 }

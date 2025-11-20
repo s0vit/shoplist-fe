@@ -25,7 +25,13 @@ import useExpensesStore from 'src/entities/expenses/model/store/useExpensesStore
 import useLoadPaymentSources from 'src/entities/paymentSource/hooks/useLoadPaymentSources.ts';
 import usePaymentSourcesStore from 'src/entities/paymentSource/model/store/usePaymentSourcesStore.ts';
 import { deleteCategory } from 'src/shared/api/categoryApi.ts';
-import { createExpense, TCreateExpenseInput, TExpense, updateExpense } from 'src/shared/api/expenseApi.ts';
+import {
+  createExpense,
+  TCreateExpenseInput,
+  TExpense,
+  TReceiptScanResult,
+  updateExpense,
+} from 'src/shared/api/expenseApi.ts';
 import { deletePaymentSource } from 'src/shared/api/paymentsSourceApi.ts';
 import { TErrorResponse } from 'src/shared/api/rootApi.ts';
 import { CURRENCIES, currencies } from 'src/shared/constants/currencies.ts';
@@ -40,6 +46,7 @@ import CalculatorButtons from './CalculatorButtons';
 import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserSettingsStore.ts';
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
+import ReceiptScanner from 'src/entities/expenses/ui/ReceiptScanner';
 
 import 'react-calendar/dist/Calendar.css';
 import styles from './AddExpenseCalc.module.scss';
@@ -68,6 +75,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
   // Deprecated: native datetime-local
   // const dateInputRef = useRef<HTMLInputElement>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
+  const [isReceiptScannerOpen, setIsReceiptScannerOpen] = useState<boolean>(false);
   const setIsCategoryModalOpen = useCategoryStore.use.setIsCategoryModalOpen();
   const setIsPaymentSourceModalOpen = usePaymentSourcesStore.use.setIsPaymentSourceModalOpen();
   const isVerified = _useUserStore.use.user?.()?.isVerified;
@@ -263,6 +271,26 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
     }
   };
 
+  const handleReceiptScanComplete = useStableCallback((result: TReceiptScanResult) => {
+    if (result.amount) {
+      setAmount(result.amount.toString());
+    }
+
+    if (result.currency) {
+      setCurrency(result.currency);
+    }
+
+    if (result.date) {
+      setSelectedDate(new Date(result.date));
+    }
+
+    if (result.merchant) {
+      setComments((prev) => (prev ? `${prev}\n${result.merchant}` : result.merchant || ''));
+    }
+
+    setIsReceiptScannerOpen(false);
+  });
+
   useEffect(() => {
     if (currentExpense) {
       setAmount(currentExpense.amount.toString());
@@ -288,6 +316,7 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
 
   return (
     <>
+      {isReceiptScannerOpen && <ReceiptScanner onScanComplete={handleReceiptScanComplete} />}
       <Paper className={styles.wrapper}>
         <Box className={`${styles.rootBox} ${styles.borderBox}`}>
           <Stack direction="row" gap={2} align="center" justify="space-between" className={styles.topRow}>
@@ -319,6 +348,14 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
             isLoading={isPaymentSourcesLoading}
           />
           <div className={styles.dateCommentRow}>
+            <IconButton
+              className={styles.scanButton}
+              icon="camera"
+              iconVariant="secondary"
+              iconSize="sm"
+              onClick={() => setIsReceiptScannerOpen((prev) => !prev)}
+              disabled={isPending}
+            />
             <div className={styles.calendarWrapper}>
               <IconButton
                 className={`${styles.dateButton} ${isDateChangedFromToday ? styles.dateButtonChanged : ''}`}

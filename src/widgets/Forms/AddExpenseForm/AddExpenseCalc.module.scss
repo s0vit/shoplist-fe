@@ -80,6 +80,27 @@
     position: relative;
   }
 
+  .scanButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 53px;
+    height: 53px;
+    background: var(--color-input-bg);
+    border-radius: var(--border-radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: var(--color-hover);
+      border-color: var(--color-primary);
+    }
+  }
+
   .dateButton {
     display: flex;
     justify-content: center;
