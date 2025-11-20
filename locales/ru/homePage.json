@@ -24,5 +24,8 @@
   "Please select a receipt image": "Пожалуйста, выберите изображение чека",
   "Converting HEIC format...": "Конвертация HEIC формата...",
   "Processing image...": "Обработка изображения...",
-  "Failed to process image": "Не удалось обработать изображение"
+  "Failed to process image": "Не удалось обработать изображение",
+  "Failed to scan receipt": "Не удалось отсканировать чек",
+  "Failed to read image file": "Не удалось прочитать файл изображения",
+  "Retry": "Повторить"
 }

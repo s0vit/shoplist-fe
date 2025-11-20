@@ -77,6 +77,19 @@
   max-width: 100%;
   display: flex;
   justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+
+  @media (max-width: 768px) {
+    border-radius: 8px;
+  }
+}
+
+.zoomWrapper {
+  width: 100%;
+  touch-action: none;
+  transform-origin: center center;
+  will-change: transform;
 }
 
 .preview {
@@ -86,6 +99,10 @@
   object-fit: contain;
   border-radius: 12px;
   border: 2px solid var(--color-border);
+  display: block;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
 
   @media (max-width: 768px) {
     max-height: 40vh;
@@ -112,6 +129,28 @@
   &:active {
     background-color: rgba(255, 255, 255, 1);
   }
+}
+
+.errorContainer {
+  width: 100%;
+  padding: 16px;
+  background-color: rgba(255, 59, 48, 0.1);
+  border: 1px solid rgba(255, 59, 48, 0.3);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
+}
+
+.errorText {
+  color: var(--color-error, #ff3b30);
+  text-align: center;
+  word-break: break-word;
 }
 
 .actions {

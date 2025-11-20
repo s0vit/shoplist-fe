@@ -24,5 +24,8 @@
   "Please select a receipt image": "Please select a receipt image",
   "Converting HEIC format...": "Converting HEIC format...",
   "Processing image...": "Processing image...",
-  "Failed to process image": "Failed to process image"
+  "Failed to process image": "Failed to process image",
+  "Failed to scan receipt": "Failed to scan receipt",
+  "Failed to read image file": "Failed to read image file",
+  "Retry": "Retry"
 }
