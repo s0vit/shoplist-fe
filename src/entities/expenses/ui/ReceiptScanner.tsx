@@ -11,6 +11,7 @@ import styles from './ReceiptScanner.module.scss';
 
 type TReceiptScannerProps = {
   onScanComplete: (result: TReceiptParseResponse) => void;
+  onClose?: () => void;
 };
 
 // Конвертация изображения в JPEG через Canvas
@@ -71,7 +72,7 @@ const convertToJPEG = async (file: File, maxWidth = 2048): Promise<File> => {
   });
 };
 
-const ReceiptScanner = ({ onScanComplete }: TReceiptScannerProps) => {
+const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isConverting, setIsConverting] = useState(false);
@@ -183,9 +184,20 @@ const ReceiptScanner = ({ onScanComplete }: TReceiptScannerProps) => {
   return (
     <Paper className={styles.wrapper}>
       <Box className={styles.content}>
-        <Typography variant="h3" className={styles.title}>
-          {t('Scan Receipt')}
-        </Typography>
+        <Box className={styles.header}>
+          <Typography variant="h3" className={styles.title}>
+            {t('Scan Receipt')}
+          </Typography>
+          {onClose && (
+            <IconButton
+              icon="decline"
+              iconSize="sm"
+              onClick={onClose}
+              className={styles.closeButton}
+              disabled={isScanPending || isConverting}
+            />
+          )}
+        </Box>
 
         <input
           ref={fileInputRef}

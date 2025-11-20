@@ -1,35 +1,71 @@
 .wrapper {
   width: 100%;
-  padding: 16px;
-  margin-bottom: 16px;
+  padding: 20px;
+  margin-bottom: 0;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   align-items: center;
+
+  @media (max-width: 768px) {
+    gap: 16px;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
 }
 
 .title {
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.closeButton {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 36px;
+  min-height: 36px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .uploadArea {
   width: 100%;
-  min-height: 200px;
-  border: 2px dashed var(--color-border);
-  border-radius: 8px;
+  min-height: 280px;
+  border: 3px dashed var(--color-border);
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
+  padding: 24px;
+  -webkit-tap-highlight-color: transparent;
 
-  &:hover {
+  @media (max-width: 768px) {
+    min-height: 240px;
+    padding: 20px;
+    gap: 12px;
+  }
+
+  &:hover,
+  &:active {
     border-color: var(--color-primary);
     background-color: var(--color-hover);
   }
@@ -38,26 +74,42 @@
 .previewContainer {
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .preview {
   width: 100%;
   height: auto;
-  max-height: 400px;
+  max-height: 50vh;
   object-fit: contain;
-  border-radius: 8px;
-  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  border: 2px solid var(--color-border);
+
+  @media (max-width: 768px) {
+    max-height: 40vh;
+    border-radius: 8px;
+  }
 }
 
 .clearButton {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  top: 12px;
+  right: 12px;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  min-width: 44px;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
 
-  &:hover {
+  @media (max-width: 768px) {
+    top: 8px;
+    right: 8px;
+  }
+
+  &:hover,
+  &:active {
     background-color: rgba(255, 255, 255, 1);
   }
 }
@@ -66,5 +118,8 @@
   display: flex;
   gap: 12px;
   width: 100%;
-  max-width: 400px;
+
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
 }

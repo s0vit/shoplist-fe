@@ -304,7 +304,11 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
 
   return (
     <>
-      {isReceiptScannerOpen && <ReceiptScanner onScanComplete={handleReceiptScanComplete} />}
+      <Modal open={isReceiptScannerOpen} onClose={() => setIsReceiptScannerOpen(false)} closeAfterTransition>
+        <Box className={styles.scannerModal}>
+          <ReceiptScanner onScanComplete={handleReceiptScanComplete} onClose={() => setIsReceiptScannerOpen(false)} />
+        </Box>
+      </Modal>
       <Paper className={styles.wrapper}>
         <Box className={`${styles.rootBox} ${styles.borderBox}`}>
           <Stack direction="row" gap={2} align="center" justify="space-between" className={styles.topRow}>

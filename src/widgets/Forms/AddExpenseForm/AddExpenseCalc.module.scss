@@ -101,6 +101,24 @@
     }
   }
 
+  .scannerModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    outline: none;
+    border-radius: var(--border-radius-lg);
+
+    @media (max-width: 768px) {
+      width: 95%;
+      max-height: 95vh;
+    }
+  }
+
   .dateButton {
     display: flex;
     justify-content: center;
