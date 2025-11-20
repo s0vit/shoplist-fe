@@ -21,5 +21,8 @@
   "Receipt scanned successfully": "Receipt scanned successfully",
   "Please select an image file": "Please select an image file",
   "File size must be less than 10MB": "File size must be less than 10MB",
-  "Please select a receipt image": "Please select a receipt image"
+  "Please select a receipt image": "Please select a receipt image",
+  "Converting HEIC format...": "Converting HEIC format...",
+  "Processing image...": "Processing image...",
+  "Failed to process image": "Failed to process image"
 }

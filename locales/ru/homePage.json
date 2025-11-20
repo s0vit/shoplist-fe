@@ -21,5 +21,8 @@
   "Receipt scanned successfully": "Чек успешно отсканирован",
   "Please select an image file": "Пожалуйста, выберите изображение",
   "File size must be less than 10MB": "Размер файла должен быть меньше 10 МБ",
-  "Please select a receipt image": "Пожалуйста, выберите изображение чека"
+  "Please select a receipt image": "Пожалуйста, выберите изображение чека",
+  "Converting HEIC format...": "Конвертация HEIC формата...",
+  "Processing image...": "Обработка изображения...",
+  "Failed to process image": "Не удалось обработать изображение"
 }

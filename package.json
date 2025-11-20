@@ -54,6 +54,7 @@
     "css-loader": "^7.1.2",
     "date-fns": "^3.6.0",
     "happy-dom": "^17.4.4",
+    "heic2any": "^0.0.4",
     "i18next": "^23.14.0",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.6.1",
