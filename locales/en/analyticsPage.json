@@ -1,0 +1,90 @@
+{
+  "title": "Expense Analytics",
+  "filters": {
+    "heading": "Filters",
+    "dateRange": "Date range",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "categories": "Categories",
+    "paymentSources": "Payment sources",
+    "currencies": "Currencies",
+    "amountFrom": "Min amount",
+    "amountTo": "Max amount",
+    "search": "Search in comments",
+    "hasComments": "Only with comments",
+    "includeAi": "AI insight requested",
+    "granularity": "Trend granularity",
+    "granularityOptions": {
+      "day": "Day",
+      "week": "Week",
+      "month": "Month",
+      "year": "Year"
+    },
+    "quickRanges": {
+      "label": "Quick range",
+      "thisYear": "This year",
+      "thisMonth": "This month",
+      "lastMonth": "Last month",
+      "last90Days": "Last 90 days"
+    },
+    "summary": "{{count}} filters active",
+    "summaryNone": "No extra filters",
+    "summaryDates": "{{start}} -> {{end}}",
+    "apply": "Apply",
+    "reset": "Reset"
+  },
+  "appliedFilters": {
+    "heading": "Active filters",
+    "none": "No filters applied"
+  },
+  "intro": {
+    "heading": "Welcome to your spending story",
+    "description": "Pick a time range, add any helpful filters, and we will highlight the patterns. Start simple - you can always dive deeper later."
+  },
+  "summary": {
+    "heading": "Summary",
+    "helper": "Here is how your spending adds up. Hover to see exact values.",
+    "totalAmount": "Total spent",
+    "totalCount": "Transactions",
+    "averageAmount": "Average per expense",
+    "minAmount": "Minimum",
+    "maxAmount": "Maximum",
+    "chartTitle": "Key figures",
+    "totalLabel": "Total spent",
+    "countLabel": "Transactions",
+    "averageLabel": "Average",
+    "minLabel": "Minimum",
+    "maxLabel": "Maximum"
+  },
+  "breakdown": {
+    "category": "By category",
+    "paymentSource": "By payment source",
+    "tableHeading": "Breakdown details",
+    "name": "Name",
+    "amount": "Amount",
+    "percentage": "Share",
+    "count": "Count",
+    "topN": "Show top",
+    "all": "All"
+  },
+  "trend": {
+    "heading": "Trend",
+    "totalAmount": "Total amount",
+    "averageAmount": "Average amount"
+  },
+  "ai": {
+    "heading": "AI insight",
+    "generated": "Generated {{date}}",
+    "model": "Model: {{model}}",
+    "empty": "AI insight is not available.",
+    "helper": "When you're ready, ask AI to review your spending.",
+    "request": "Generate AI insight",
+    "refresh": "Refresh AI insight",
+    "loading": "Generating insight..."
+  },
+  "emptyState": {
+    "title": "No expense data.",
+    "description": "Adjust filters or add expenses to view analytics."
+  },
+  "loading": "Loading analytics..."
+}

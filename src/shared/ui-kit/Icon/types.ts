@@ -8,6 +8,7 @@ export type TIconName =
   | 'burgerMenu'
   | 'home'
   | 'card'
+  | 'chart'
   | 'coin'
   | 'menu'
   | 'camera'

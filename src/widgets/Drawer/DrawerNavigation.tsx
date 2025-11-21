@@ -25,6 +25,7 @@ const navigationList: Array<TNavigationItem> = [
   { title: 'Profile', link: RoutesEnum.PROFILE, icon: <Icon name="user" size="md" /> },
   { title: 'Categories', link: RoutesEnum.CATEGORY, icon: <Icon name="menu" size="md" /> },
   { title: 'Accounts', link: RoutesEnum.PAYMENT_SOURCE, icon: <Icon name="card" size="md" /> },
+  { title: 'Analytics', link: RoutesEnum.ANALYTICS, icon: <Icon name="chart" size="md" /> },
 ];
 
 const DrawerNavigation = ({ isDrawerOpen, setIsDrawerOpen }: TDrawerNavigationProps) => {
