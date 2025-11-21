@@ -9,6 +9,7 @@ import { Button } from 'src/shared/ui-kit';
 import { useMutation } from '@tanstack/react-query';
 import handleError from '../errorHandler';
 import { getNewLink } from 'src/shared/api/authApi';
+import useNotificationsStore from 'src/entities/notifications/model/store/useNotificationsStore.ts';
 
 export const UnverifiedAlert = () => {
   const isVerified = _useUserStore.use.user?.()?.isVerified;
@@ -16,13 +17,14 @@ export const UnverifiedAlert = () => {
   const theme = useTheme();
   const userData = useUserStore.use.user?.();
   const { t } = useTranslation();
+  const isModalOpen = useNotificationsStore.use.isModalOpen();
 
   const { mutate: getNewLinkMutate } = useMutation({
     mutationFn: getNewLink,
     onError: (error) => handleError(error),
   });
 
-  if (!isVerified && isLoggedIn) {
+  if (!isVerified && isLoggedIn && isModalOpen) {
     return (
       <div>
         <Alert severity="warning" style={{ margin: '10px 15px', backgroundColor: theme.colors.cardBg }}>
