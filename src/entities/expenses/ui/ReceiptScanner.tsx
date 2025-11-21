@@ -19,7 +19,7 @@ type TReceiptScannerProps = {
 type ErrorType = 'conversion' | 'upload' | 'permission' | null;
 
 // Lazy load heic2any для оптимизации bundle size
-const loadHeic2any = async () => {
+const loadHeic2any = async (): Promise<(typeof import('heic2any'))['default']> => {
   const module = await import('heic2any');
 
   return module.default;
