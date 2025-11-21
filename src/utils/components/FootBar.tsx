@@ -20,6 +20,11 @@ const FootBar = () => {
       route: RoutesEnum.PAYMENT_SOURCE,
     },
     {
+      label: 'Analytics',
+      iconName: 'chart' as const,
+      route: RoutesEnum.ANALYTICS,
+    },
+    {
       label: 'Expenses',
       iconName: 'coin' as const,
       route: RoutesEnum.EXPENSES_LIST,

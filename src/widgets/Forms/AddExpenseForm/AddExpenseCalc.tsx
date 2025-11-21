@@ -17,7 +17,7 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import Calendar from 'react-calendar';
+import { Calendar } from 'src/shared/ui-kit';
 import useLoadCategories from 'src/entities/category/hooks/useLoadCategories.ts';
 import useCategoryStore from 'src/entities/category/model/store/useCategoryStore.ts';
 import useLoadExpenses from 'src/entities/expenses/hooks/useLoadExpenses.ts';
@@ -41,7 +41,6 @@ import useUserSettingsStore from 'src/entities/userSettings/model/store/useUserS
 import { useTranslation } from 'react-i18next';
 import _useUserStore from 'src/entities/user/model/store/useUserStore.ts';
 
-import 'react-calendar/dist/Calendar.css';
 import styles from './AddExpenseCalc.module.scss';
 
 type CalendarValuePiece = Date | null;
@@ -333,10 +332,6 @@ const AddExpenseCalculator = ({ closeModal }: TExpensesCalculatorProps) => {
                     onChange={handleCalendarChange}
                     value={selectedDate ?? new Date()}
                     locale={navigator?.language}
-                    showDoubleView={false}
-                    prev2Label={null}
-                    next2Label={null}
-                    calendarType="iso8601"
                   />
                 </div>
               </Modal>
