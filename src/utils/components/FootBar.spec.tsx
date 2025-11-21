@@ -40,7 +40,7 @@ describe('FootBar', () => {
       </MemoryRouter>,
     );
     const buttons = screen.getAllByTestId(/navigate-button-/);
-    expect(buttons).toHaveLength(4);
+    expect(buttons).toHaveLength(5);
     buttons.forEach((button) => {
       expect(button).toBeInTheDocument();
     });
