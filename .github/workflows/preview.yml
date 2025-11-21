@@ -117,7 +117,8 @@ jobs:
           final_name="${sanitized_ref_name}-${unique_suffix}"
           vercel deploy --prebuilt --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --meta base_hash=${{ env.META_TAG }} >> vercel_output.txt 2>&1
           alias="ui-${final_name}.${PROJECTS_ROOT}.vercel.app"
-          vercel alias set $(grep -oP 'Preview: \K(https://[^\s]+)' vercel_output.txt) $alias --token=${{ secrets.VERCEL_TOKEN }}
+          deployment_url=$(grep -oP 'Preview: \K(https://[^\s]+)' vercel_output.txt)
+          vercel alias $deployment_url $alias --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Extract URLs and add to summary
         run: |
