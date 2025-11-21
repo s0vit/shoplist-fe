@@ -118,7 +118,13 @@ jobs:
           vercel deploy --prebuilt --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --meta base_hash=${{ env.META_TAG }} >> vercel_output.txt 2>&1
           alias="ui-${final_name}.${PROJECTS_ROOT}.vercel.app"
           deployment_url=$(grep -oP 'Preview: \K(https://[^\s]+)' vercel_output.txt)
-          vercel alias $deployment_url $alias --token=${{ secrets.VERCEL_TOKEN }}
+          if [ -z "$deployment_url" ]; then
+            echo "Error: Failed to extract deployment URL from vercel output"
+            cat vercel_output.txt
+            exit 1
+          fi
+          echo "Setting alias $alias for deployment $deployment_url"
+          vercel alias "$deployment_url" "$alias" --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Extract URLs and add to summary
         run: |
