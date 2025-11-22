@@ -86,6 +86,7 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
   const [isConverting, setIsConverting] = useState(false);
   const [error, setError] = useState<{ type: ErrorType; message: string } | null>(null);
   const [lastScanTime, setLastScanTime] = useState<number>(0);
+  const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation('homePage');
 
@@ -134,9 +135,7 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
     },
   });
 
-  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
+  const processFile = async (file: File) => {
     if (!file) return;
 
     setIsConverting(true);
@@ -217,6 +216,38 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
     }
   };
 
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      await processFile(file);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      await processFile(file);
+    } else if (file) {
+      toast(t('Please select an image file'), { type: 'error' });
+    }
+  };
+
   const handleClear = useStableCallback(() => {
     setSelectedFile(null);
     setPreviewUrl(null);
@@ -284,7 +315,6 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
             ref={fileInputRef}
             type="file"
             accept="image/*"
-            capture="environment"
             onChange={handleFileSelect}
             style={{ display: 'none' }}
           />
@@ -295,10 +325,26 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
               <Typography variant="body1">{t('Processing image...')}</Typography>
             </Box>
           ) : !previewUrl ? (
-            <Box className={styles.uploadArea} onClick={handleButtonClick}>
+            <div
+              className={`${styles.uploadArea} ${isDragOver ? styles.dragOver : ''}`}
+              onClick={handleButtonClick}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  handleButtonClick();
+                }
+              }}
+            >
               <IconButton icon="camera" iconSize="lg" iconVariant="secondary" />
               <Typography variant="body1">{t('Take or upload photo')}</Typography>
-            </Box>
+              <Typography variant="body2" className={styles.dragHint}>
+                {t('or drag and drop here')}
+              </Typography>
+            </div>
           ) : (
             <Box className={styles.previewContainer}>
               <div ref={zoomRef} className={styles.zoomWrapper} style={zoomStyle}>
