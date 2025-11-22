@@ -116,8 +116,30 @@ jobs:
           unique_suffix=$(echo ${{ github.sha }} | cut -c1-8)
           final_name="${sanitized_ref_name}-${unique_suffix}"
           vercel deploy --prebuilt --name=${final_name} --token=${{ secrets.VERCEL_TOKEN }} --meta base_hash=${{ env.META_TAG }} >> vercel_output.txt 2>&1
+
+          echo "=== Vercel Output ==="
+          cat vercel_output.txt
+          echo "=== End Vercel Output ==="
+
           alias="ui-${final_name}.${PROJECTS_ROOT}.vercel.app"
-          vercel alias set $(grep -oP 'Preview: \K(https://[^\s]+)' vercel_output.txt) $alias --token=${{ secrets.VERCEL_TOKEN }}
+
+          echo "=== Extracting deployment URL ==="
+          deployment_url_raw=$(grep -oP 'Preview: \K(https://[^\s]+)' vercel_output.txt)
+          echo "Raw grep output:"
+          echo "$deployment_url_raw"
+
+          deployment_url=$(echo "$deployment_url_raw" | head -n 1 | xargs)
+          echo "Processed deployment URL: '$deployment_url'"
+
+          if [ -z "$deployment_url" ]; then
+            echo "Error: Failed to extract deployment URL from vercel output"
+            exit 1
+          fi
+
+          echo "=== Setting Vercel Alias ==="
+          echo "Alias: $alias"
+          echo "Deployment URL: $deployment_url"
+          vercel alias "$deployment_url" "$alias" --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Extract URLs and add to summary
         run: |

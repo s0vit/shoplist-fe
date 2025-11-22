@@ -9,10 +9,10 @@ exports[`FootBar > matches snapshot 1`] = `
         class="sc-fmZSGO bJpNxu"
       >
         <div
-          class="sc-kNmFTk jzDKHf"
+          class="sc-cExZcH gxFCvJ"
         >
           <div
-            class="sc-cExZcH jPtxOG"
+            class="sc-dEAvcG jSsShb"
             data-testid="navigate-button-/payment-source"
             data-value="/payment-source"
           >
@@ -49,7 +49,43 @@ exports[`FootBar > matches snapshot 1`] = `
             </div>
           </div>
           <div
-            class="sc-cExZcH jPtxOG"
+            class="sc-dEAvcG jSsShb"
+            data-testid="navigate-button-/analytics"
+            data-value="/analytics"
+          >
+            <button
+              class="sc-dTdQuR jqeHNQ"
+              height="48px"
+              style="border-radius: 12px;"
+              type="button"
+              width="48px"
+            >
+              <div
+                class="_icon_e0ef48 _iconPrimary_e0ef48"
+                style="width: 24px; height: 24px;"
+              >
+                <svg
+                  fill="currentColor"
+                  height="24"
+                  style="color: var(--color-icon-primary); fill: currentColor;"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 4a1 1 0 0 1 2 0v14h1v-6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v6h1v-9a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v9h1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5h1a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2h1z"
+                  />
+                </svg>
+              </div>
+            </button>
+            <div
+              class="label"
+            >
+              Analytics
+            </div>
+          </div>
+          <div
+            class="sc-dEAvcG jSsShb"
             data-testid="navigate-button-/expenses"
             data-value="/expenses"
           >
@@ -86,7 +122,7 @@ exports[`FootBar > matches snapshot 1`] = `
             </div>
           </div>
           <div
-            class="sc-cExZcH jPtxOG"
+            class="sc-dEAvcG jSsShb"
             data-testid="navigate-button-/profile"
             data-value="/profile"
           >
@@ -135,7 +171,7 @@ exports[`FootBar > matches snapshot 1`] = `
             </div>
           </div>
           <div
-            class="sc-cExZcH jPtxOG"
+            class="sc-dEAvcG jSsShb"
             data-testid="navigate-button-/category"
             data-value="/category"
           >
@@ -180,10 +216,10 @@ exports[`FootBar > matches snapshot 1`] = `
       class="sc-fmZSGO bJpNxu"
     >
       <div
-        class="sc-kNmFTk jzDKHf"
+        class="sc-cExZcH gxFCvJ"
       >
         <div
-          class="sc-cExZcH jPtxOG"
+          class="sc-dEAvcG jSsShb"
           data-testid="navigate-button-/payment-source"
           data-value="/payment-source"
         >
@@ -220,7 +256,43 @@ exports[`FootBar > matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-cExZcH jPtxOG"
+          class="sc-dEAvcG jSsShb"
+          data-testid="navigate-button-/analytics"
+          data-value="/analytics"
+        >
+          <button
+            class="sc-dTdQuR jqeHNQ"
+            height="48px"
+            style="border-radius: 12px;"
+            type="button"
+            width="48px"
+          >
+            <div
+              class="_icon_e0ef48 _iconPrimary_e0ef48"
+              style="width: 24px; height: 24px;"
+            >
+              <svg
+                fill="currentColor"
+                height="24"
+                style="color: var(--color-icon-primary); fill: currentColor;"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 4a1 1 0 0 1 2 0v14h1v-6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v6h1v-9a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v9h1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5h1a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2h1z"
+                />
+              </svg>
+            </div>
+          </button>
+          <div
+            class="label"
+          >
+            Analytics
+          </div>
+        </div>
+        <div
+          class="sc-dEAvcG jSsShb"
           data-testid="navigate-button-/expenses"
           data-value="/expenses"
         >
@@ -257,7 +329,7 @@ exports[`FootBar > matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-cExZcH jPtxOG"
+          class="sc-dEAvcG jSsShb"
           data-testid="navigate-button-/profile"
           data-value="/profile"
         >
@@ -306,7 +378,7 @@ exports[`FootBar > matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-cExZcH jPtxOG"
+          class="sc-dEAvcG jSsShb"
           data-testid="navigate-button-/category"
           data-value="/category"
         >

@@ -14,5 +14,22 @@
   "Limit": "Limit",
   "Add Comment": "Add Comment",
   "Comment": "Comment",
-  "Maximum number of characters:": "Maximum number of characters:"
+  "Maximum number of characters:": "Maximum number of characters:",
+  "Scan Receipt": "Scan Receipt",
+  "Take or upload photo": "Take or upload photo",
+  "or drag and drop here": "or drag and drop here",
+  "Scan": "Scan",
+  "Receipt scanned successfully": "Receipt scanned successfully",
+  "Please select an image file": "Please select an image file",
+  "File size must be less than 10MB": "File size must be less than 10MB",
+  "Please select a receipt image": "Please select a receipt image",
+  "Converting HEIC format...": "Converting HEIC format...",
+  "Processing image...": "Processing image...",
+  "Failed to process image": "Failed to process image",
+  "Failed to scan receipt": "Failed to scan receipt",
+  "Failed to read image file": "Failed to read image file",
+  "Retry": "Retry",
+  "HEIC format not supported by your browser": "HEIC format not supported by your browser. Please convert to JPG or PNG on your device first.",
+  "Trying alternative conversion...": "Trying alternative conversion method...",
+  "Failed to convert HEIC image": "Failed to convert HEIC image. Please try converting to JPG on your device first."
 }

@@ -1,11 +1,15 @@
 branch="$(git rev-parse --abbrev-ref HEAD)"
 
-pattern='^(feature|bug|hotfix|rc)/[0-9]+-[a-z]+(-[a-z]+)*$'
+# Strict pattern for feature/bug/hotfix/rc branches
+strict_pattern='^(feature|bug|hotfix|rc)/[0-9]+-[a-z]+(-[a-z]+)*$'
+# Relaxed pattern for claude branches
+claude_pattern='^claude/[0-9a-zA-Z]+(-[0-9a-zA-Z]+)*$'
 
-if ! echo "$branch" | grep -Eq "$pattern"; then
+if ! echo "$branch" | grep -Eq "$strict_pattern" && ! echo "$branch" | grep -Eq "$claude_pattern"; then
   echo "❌  Неверное имя ветки: '$branch'"
-  echo "    Имя должно быть формата feature|bug|hotfix|rc/issueID-short-description,"
-  echo "    например: feature/185-integration-husky-commitlint-commitizen"
+  echo "    Имя должно быть формата:"
+  echo "    - feature|bug|hotfix|rc/issueID-short-description (например: feature/185-integration-husky)"
+  echo "    - claude/any-branch-name (например: claude/add-receipt-scanning-01CYMt4kM1HQgUCnSb6zUPRZ)"
   exit 1
 fi
 

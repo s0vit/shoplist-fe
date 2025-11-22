@@ -80,6 +80,45 @@
     position: relative;
   }
 
+  .scanButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 53px;
+    height: 53px;
+    background: var(--color-input-bg);
+    border-radius: var(--border-radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: var(--color-hover);
+      border-color: var(--color-primary);
+    }
+  }
+
+  .scannerModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    outline: none;
+    border-radius: var(--border-radius-lg);
+
+    @media (max-width: 768px) {
+      width: 95%;
+      max-height: 95vh;
+    }
+  }
+
   .dateButton {
     display: flex;
     justify-content: center;

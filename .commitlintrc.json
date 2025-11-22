@@ -4,7 +4,7 @@
   ],
   "parserPreset": {
     "parserOpts": {
-      "headerPattern": "^(feat|fix|refactor|test|docs|style|chore|build)\\(([^)]+)\\): (.+)$",
+      "headerPattern": "^(feat|fix|refactor|test|docs|style|chore|build|ci|perf|revert)(?:\\(([^)]+)\\))?: (.+)$",
       "headerCorrespondence": [
         "type",
         "scope",
@@ -24,7 +24,10 @@
         "docs",
         "style",
         "chore",
-        "build"
+        "build",
+        "ci",
+        "perf",
+        "revert"
       ]
     ],
     "type-empty": [
@@ -32,12 +35,18 @@
       "never"
     ],
     "scope-empty": [
-      2,
+      0,
       "never"
     ],
     "subject-empty": [
       2,
       "never"
+    ],
+    "subject-case": [
+      0
+    ],
+    "header-max-length": [
+      0
     ]
   },
   "prompt": {

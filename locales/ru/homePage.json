@@ -14,5 +14,22 @@
   "Limit": "Количество записей",
   "Add Comment": "Добавить комментарий",
   "Comment": "Комментарий",
-  "Maximum number of characters:": "Максимальное количество символов"
+  "Maximum number of characters:": "Максимальное количество символов",
+  "Scan Receipt": "Сканировать чек",
+  "Take or upload photo": "Сделать фото или загрузить",
+  "or drag and drop here": "или перетащите сюда",
+  "Scan": "Сканировать",
+  "Receipt scanned successfully": "Чек успешно отсканирован",
+  "Please select an image file": "Пожалуйста, выберите изображение",
+  "File size must be less than 10MB": "Размер файла должен быть меньше 10 МБ",
+  "Please select a receipt image": "Пожалуйста, выберите изображение чека",
+  "Converting HEIC format...": "Конвертация HEIC формата...",
+  "Processing image...": "Обработка изображения...",
+  "Failed to process image": "Не удалось обработать изображение",
+  "Failed to scan receipt": "Не удалось отсканировать чек",
+  "Failed to read image file": "Не удалось прочитать файл изображения",
+  "Retry": "Повторить",
+  "HEIC format not supported by your browser": "Формат HEIC не поддерживается вашим браузером. Пожалуйста, сначала конвертируйте в JPG или PNG на вашем устройстве.",
+  "Trying alternative conversion...": "Пробуем альтернативный метод конвертации...",
+  "Failed to convert HEIC image": "Не удалось конвертировать изображение HEIC. Попробуйте сначала конвертировать в JPG на вашем устройстве."
 }

@@ -61,6 +61,17 @@ export const deleteExpense = async (id: string): Promise<TExpense> => {
   return response.data;
 };
 
+export const parseReceipt = async (formData: FormData): Promise<TReceiptParseResponse> => {
+  const response = await apiInstance.post<TReceiptParseResponse>('expense/receipt/parse', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    timeout: 60000,
+  });
+
+  return response.data;
+};
+
 export type TGetExpensesResponse = TExpense[];
 export type TExpense = TCreateExpenseInput & {
   _id: string;
@@ -88,4 +99,9 @@ export type TGetExpenseQuery = {
   amountEnd?: number;
   skip?: number;
   limit?: number;
+};
+
+export type TReceiptParseResponse = {
+  expense: TExpense;
+  reason?: string;
 };

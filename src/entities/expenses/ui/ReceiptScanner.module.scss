@@ -1,0 +1,180 @@
+.wrapper {
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 0;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    gap: 16px;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.closeButton {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 36px;
+  min-height: 36px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.uploadArea {
+  width: 100%;
+  min-height: 280px;
+  border: 3px dashed var(--color-border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 24px;
+  -webkit-tap-highlight-color: transparent;
+
+  @media (max-width: 768px) {
+    min-height: 240px;
+    padding: 20px;
+    gap: 12px;
+  }
+
+  &:hover,
+  &:active {
+    border-color: var(--color-primary);
+    background-color: var(--color-hover);
+  }
+
+  &.dragOver {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-light, rgba(0, 122, 255, 0.1));
+    border-style: solid;
+  }
+}
+
+.dragHint {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  opacity: 0.7;
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+  }
+}
+
+.previewContainer {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+
+  @media (max-width: 768px) {
+    border-radius: 8px;
+  }
+}
+
+.zoomWrapper {
+  width: 100%;
+  touch-action: none;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.preview {
+  width: 100%;
+  height: auto;
+  max-height: 50vh;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 2px solid var(--color-border);
+  display: block;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+
+  @media (max-width: 768px) {
+    max-height: 40vh;
+    border-radius: 8px;
+  }
+}
+
+.clearButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  min-width: 44px;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+
+  @media (max-width: 768px) {
+    top: 8px;
+    right: 8px;
+  }
+
+  &:hover,
+  &:active {
+    background-color: rgba(255, 255, 255, 1);
+  }
+}
+
+.errorContainer {
+  width: 100%;
+  padding: 16px;
+  background-color: rgba(255, 59, 48, 0.1);
+  border: 1px solid rgba(255, 59, 48, 0.3);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
+}
+
+.errorText {
+  color: var(--color-error, #ff3b30);
+  text-align: center;
+  word-break: break-word;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
+}
