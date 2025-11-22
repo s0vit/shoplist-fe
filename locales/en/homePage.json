@@ -27,5 +27,8 @@
   "Failed to process image": "Failed to process image",
   "Failed to scan receipt": "Failed to scan receipt",
   "Failed to read image file": "Failed to read image file",
-  "Retry": "Retry"
+  "Retry": "Retry",
+  "HEIC format not supported by your browser": "HEIC format not supported by your browser. Please use JPG or PNG instead.",
+  "Trying alternative conversion...": "Trying alternative conversion method...",
+  "Failed to convert HEIC image": "Failed to convert HEIC image. Please try converting to JPG on your device first."
 }

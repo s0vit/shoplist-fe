@@ -27,5 +27,8 @@
   "Failed to process image": "Не удалось обработать изображение",
   "Failed to scan receipt": "Не удалось отсканировать чек",
   "Failed to read image file": "Не удалось прочитать файл изображения",
-  "Retry": "Повторить"
+  "Retry": "Повторить",
+  "HEIC format not supported by your browser": "Формат HEIC не поддерживается вашим браузером. Пожалуйста, используйте JPG или PNG.",
+  "Trying alternative conversion...": "Пробуем альтернативный метод конвертации...",
+  "Failed to convert HEIC image": "Не удалось конвертировать изображение HEIC. Попробуйте сначала конвертировать в JPG на вашем устройстве."
 }

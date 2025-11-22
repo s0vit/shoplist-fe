@@ -152,22 +152,58 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
       let processedFile = file;
 
       // Проверка на HEIC формат (iPhone)
-      if (file.type === 'image/heic' || file.type === 'image/heif' || file.name.toLowerCase().endsWith('.heic')) {
+      const isHeic =
+        file.type === 'image/heic' ||
+        file.type === 'image/heif' ||
+        file.name.toLowerCase().endsWith('.heic') ||
+        file.name.toLowerCase().endsWith('.heif');
+
+      if (isHeic) {
         toast.info(t('Converting HEIC format...'));
 
-        // Lazy load heic2any только когда нужно
-        const heic2any = await loadHeic2any();
-        const convertedBlob = await heic2any({
-          blob: file,
-          toType: 'image/jpeg',
-          quality: 0.9,
-        });
+        try {
+          // Lazy load heic2any только когда нужно
+          const heic2any = await loadHeic2any();
+          const convertedBlob = await heic2any({
+            blob: file,
+            toType: 'image/jpeg',
+            quality: 0.9,
+          });
 
-        const blobArray = Array.isArray(convertedBlob) ? convertedBlob : [convertedBlob];
+          const blobArray = Array.isArray(convertedBlob) ? convertedBlob : [convertedBlob];
 
-        processedFile = new File(blobArray, file.name.replace(/\.[^.]+$/, '.jpg'), {
-          type: 'image/jpeg',
-        });
+          processedFile = new File(blobArray, file.name.replace(/\.[^.]+$/, '.jpg'), {
+            type: 'image/jpeg',
+          });
+        } catch (heicError: unknown) {
+          console.error('HEIC conversion error:', heicError);
+
+          // Проверяем специфичные ошибки heic2any
+          const error = heicError as { code?: number; message?: string };
+
+          if (error.code === 2 || error.message?.includes('not supported')) {
+            const errorMsg = t('HEIC format not supported by your browser');
+            toast(errorMsg, { type: 'error' });
+            setError({ type: 'conversion', message: errorMsg });
+            setIsConverting(false);
+
+            return;
+          }
+
+          // Пробуем fallback - конвертация через Canvas
+          toast.info(t('Trying alternative conversion...'));
+          try {
+            processedFile = await convertToJPEG(file);
+          } catch (canvasError) {
+            console.error('Canvas conversion also failed:', canvasError);
+            const errorMsg = t('Failed to convert HEIC image');
+            toast(errorMsg, { type: 'error' });
+            setError({ type: 'conversion', message: errorMsg });
+            setIsConverting(false);
+
+            return;
+          }
+        }
       }
 
       // Конвертируем все изображения в JPEG для гарантированной совместимости
