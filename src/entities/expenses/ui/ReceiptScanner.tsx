@@ -18,14 +18,12 @@ type TReceiptScannerProps = {
 
 type ErrorType = 'conversion' | 'upload' | 'permission' | null;
 
-// Lazy load heic-to для оптимизации bundle size
 const loadHeicTo = async () => {
   const module = await import('heic-to');
 
   return module.heicTo;
 };
 
-// Конвертация изображения в JPEG через Canvas
 const convertToJPEG = async (file: File, maxWidth = 2048): Promise<File> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -39,7 +37,6 @@ const convertToJPEG = async (file: File, maxWidth = 2048): Promise<File> => {
       const canvas = document.createElement('canvas');
       let { width, height } = img;
 
-      // Уменьшаем размер, если изображение слишком большое
       if (width > maxWidth) {
         height = (height * maxWidth) / width;
         width = maxWidth;
@@ -71,7 +68,7 @@ const convertToJPEG = async (file: File, maxWidth = 2048): Promise<File> => {
           }
         },
         'image/jpeg',
-        0.9, // Качество 90%
+        0.9,
       );
     };
 
@@ -92,10 +89,8 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation('homePage');
 
-  // Debounce delay (500ms)
   const DEBOUNCE_DELAY = 500;
 
-  // Swipe gesture для закрытия модалки
   const swipeRef = useSwipeGesture({
     onSwipeDown: () => {
       if (!isScanPending && !isConverting && onClose) {
@@ -105,7 +100,6 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
     minSwipeDistance: 80,
   });
 
-  // Pinch to zoom для preview изображения
   const {
     elementRef: zoomRef,
     style: zoomStyle,
@@ -151,7 +145,6 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
     try {
       let processedFile = file;
 
-      // Проверка на HEIC формат (iPhone)
       const isHeic =
         file.type === 'image/heic' ||
         file.type === 'image/heif' ||
@@ -162,7 +155,6 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
         toast.info(t('Converting HEIC format...'));
 
         try {
-          // Lazy load heic-to только когда нужно
           const heicTo = await loadHeicTo();
           const convertedBlob = await heicTo({
             blob: file,
@@ -173,15 +165,11 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
           processedFile = new File([convertedBlob], file.name.replace(/\.[^.]+$/, '.jpg'), {
             type: 'image/jpeg',
           });
-        } catch (heicError: unknown) {
-          console.error('HEIC conversion error:', heicError);
-
-          // heic-to использует WebAssembly, если упала ошибка - пробуем Canvas fallback
+        } catch {
           toast.info(t('Trying alternative conversion...'));
           try {
             processedFile = await convertToJPEG(file);
-          } catch (canvasError) {
-            console.error('Canvas conversion also failed:', canvasError);
+          } catch {
             const errorMsg = t('Failed to convert HEIC image');
             toast(errorMsg, { type: 'error' });
             setError({ type: 'conversion', message: errorMsg });
@@ -192,12 +180,10 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
         }
       }
 
-      // Конвертируем все изображения в JPEG для гарантированной совместимости
       if (processedFile.type !== 'image/jpeg' && processedFile.type !== 'image/png') {
         processedFile = await convertToJPEG(processedFile);
       }
 
-      // Проверка размера после конвертации
       if (processedFile.size > 10 * 1024 * 1024) {
         const errorMsg = t('File size must be less than 10MB');
         toast(errorMsg, { type: 'error' });
@@ -209,7 +195,6 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
 
       setSelectedFile(processedFile);
 
-      // Создаем preview
       const reader = new FileReader();
 
       reader.onloadend = () => {
@@ -224,8 +209,7 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
       };
 
       reader.readAsDataURL(processedFile);
-    } catch (error) {
-      console.error('Error processing image:', error);
+    } catch {
       const errorMsg = t('Failed to process image');
       toast(errorMsg, { type: 'error' });
       setError({ type: 'conversion', message: errorMsg });
@@ -250,7 +234,6 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
       return;
     }
 
-    // Debounce: проверяем не было ли недавнего клика
     const now = Date.now();
     if (now - lastScanTime < DEBOUNCE_DELAY) {
       return;
@@ -267,10 +250,8 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
   const handleRetry = useStableCallback(() => {
     setError(null);
     if (error?.type === 'upload' && selectedFile) {
-      // Повторная попытка загрузки
       handleScan();
     } else if (error?.type === 'conversion') {
-      // Повторная попытка выбора файла
       handleClear();
       handleButtonClick();
     }

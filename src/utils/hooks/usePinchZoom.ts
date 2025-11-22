@@ -38,13 +38,11 @@ export const usePinchZoom = (options: PinchZoomOptions = {}) => {
 
     const handleTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 2) {
-        // Pinch gesture
         e.preventDefault();
         initialDistanceRef.current = getDistance(e.touches);
         initialScaleRef.current = scale;
         isDraggingRef.current = false;
       } else if (e.touches.length === 1 && scale > 1) {
-        // Pan gesture (только если изображение увеличено)
         isDraggingRef.current = true;
         lastTouchRef.current = {
           x: e.touches[0].clientX,
@@ -55,14 +53,12 @@ export const usePinchZoom = (options: PinchZoomOptions = {}) => {
 
     const handleTouchMove = (e: TouchEvent) => {
       if (e.touches.length === 2 && initialDistanceRef.current) {
-        // Pinch zoom
         e.preventDefault();
         const currentDistance = getDistance(e.touches);
         const scaleChange = currentDistance / initialDistanceRef.current;
         const newScale = Math.min(Math.max(initialScaleRef.current * scaleChange, minScale), maxScale);
         setScale(newScale);
       } else if (e.touches.length === 1 && isDraggingRef.current && lastTouchRef.current) {
-        // Panning
         e.preventDefault();
         const touch = e.touches[0];
         const deltaX = touch.clientX - lastTouchRef.current.x;
@@ -89,14 +85,12 @@ export const usePinchZoom = (options: PinchZoomOptions = {}) => {
         isDraggingRef.current = false;
         lastTouchRef.current = null;
 
-        // Сброс позиции если вернулись к исходному масштабу
         if (scale === initialScale) {
           setPosition({ x: 0, y: 0 });
         }
       }
     };
 
-    // Двойное касание для reset zoom
     let lastTapTime = 0;
     const handleDoubleTap = (e: TouchEvent) => {
       const currentTime = Date.now();

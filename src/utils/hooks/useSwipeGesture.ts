@@ -39,7 +39,6 @@ export const useSwipeGesture = (options: SwipeGestureOptions) => {
       const absDeltaX = Math.abs(deltaX);
       const absDeltaY = Math.abs(deltaY);
 
-      // Определяем направление свайпа
       if (Math.max(absDeltaX, absDeltaY) < minSwipeDistance) {
         touchStartRef.current = null;
 
@@ -49,14 +48,11 @@ export const useSwipeGesture = (options: SwipeGestureOptions) => {
       let direction: SwipeDirection;
 
       if (absDeltaX > absDeltaY) {
-        // Горизонтальный свайп
         direction = deltaX > 0 ? 'right' : 'left';
       } else {
-        // Вертикальный свайп
         direction = deltaY > 0 ? 'down' : 'up';
       }
 
-      // Вызываем колбэки
       onSwipe?.(direction);
 
       switch (direction) {
