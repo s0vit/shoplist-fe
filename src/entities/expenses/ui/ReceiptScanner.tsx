@@ -182,32 +182,38 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
           const error = heicError as { code?: number; message?: string };
 
           if (error.code === 2 || error.message?.includes('not supported')) {
-            const errorMsg = t('HEIC format not supported by your browser');
-            toast(errorMsg, { type: 'error' });
-            setError({ type: 'conversion', message: errorMsg });
-            setIsConverting(false);
+            // Браузер не поддерживает HEIC, но Gemini API поддерживает!
+            // Отправим оригинальный HEIC файл напрямую на бэкенд
+            toast.info(t('Browser cannot preview HEIC, will send original file to server'));
+            processedFile = file; // Используем оригинальный HEIC файл
+          } else {
+            // Для других ошибок пробуем fallback через Canvas
+            toast.info(t('Trying alternative conversion...'));
+            try {
+              processedFile = await convertToJPEG(file);
+            } catch (canvasError) {
+              console.error('Canvas conversion also failed:', canvasError);
+              const errorMsg = t('Failed to convert HEIC image');
+              toast(errorMsg, { type: 'error' });
+              setError({ type: 'conversion', message: errorMsg });
+              setIsConverting(false);
 
-            return;
-          }
-
-          // Пробуем fallback - конвертация через Canvas
-          toast.info(t('Trying alternative conversion...'));
-          try {
-            processedFile = await convertToJPEG(file);
-          } catch (canvasError) {
-            console.error('Canvas conversion also failed:', canvasError);
-            const errorMsg = t('Failed to convert HEIC image');
-            toast(errorMsg, { type: 'error' });
-            setError({ type: 'conversion', message: errorMsg });
-            setIsConverting(false);
-
-            return;
+              return;
+            }
           }
         }
       }
 
       // Конвертируем все изображения в JPEG для гарантированной совместимости
-      if (processedFile.type !== 'image/jpeg' && processedFile.type !== 'image/png') {
+      // КРОМЕ HEIC - его отправим как есть, Gemini поддерживает
+      if (
+        processedFile.type !== 'image/jpeg' &&
+        processedFile.type !== 'image/png' &&
+        processedFile.type !== 'image/heic' &&
+        processedFile.type !== 'image/heif' &&
+        !processedFile.name.toLowerCase().endsWith('.heic') &&
+        !processedFile.name.toLowerCase().endsWith('.heif')
+      ) {
         processedFile = await convertToJPEG(processedFile);
       }
 
@@ -224,20 +230,34 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
       setSelectedFile(processedFile);
 
       // Создаем preview
-      const reader = new FileReader();
+      // Для HEIC файлов которые браузер не может декодировать - используем placeholder
+      const isHeicFile =
+        processedFile.type === 'image/heic' ||
+        processedFile.type === 'image/heif' ||
+        processedFile.name.toLowerCase().endsWith('.heic') ||
+        processedFile.name.toLowerCase().endsWith('.heif');
 
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result as string);
+      if (isHeicFile) {
+        // HEIC файл - браузер не может показать preview, но сервер обработает
+        setPreviewUrl('heic-placeholder');
         setIsConverting(false);
-      };
+      } else {
+        // Обычные форматы - создаем preview
+        const reader = new FileReader();
 
-      reader.onerror = () => {
-        const errorMsg = t('Failed to read image file');
-        setError({ type: 'conversion', message: errorMsg });
-        setIsConverting(false);
-      };
+        reader.onloadend = () => {
+          setPreviewUrl(reader.result as string);
+          setIsConverting(false);
+        };
 
-      reader.readAsDataURL(processedFile);
+        reader.onerror = () => {
+          const errorMsg = t('Failed to read image file');
+          setError({ type: 'conversion', message: errorMsg });
+          setIsConverting(false);
+        };
+
+        reader.readAsDataURL(processedFile);
+      }
     } catch (error) {
       console.error('Error processing image:', error);
       const errorMsg = t('Failed to process image');
@@ -334,9 +354,19 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
             </Box>
           ) : (
             <Box className={styles.previewContainer}>
-              <div ref={zoomRef} className={styles.zoomWrapper} style={zoomStyle}>
-                <img src={previewUrl} alt="Receipt preview" className={styles.preview} />
-              </div>
+              {previewUrl === 'heic-placeholder' ? (
+                <Box className={styles.heicPlaceholder}>
+                  <IconButton icon="camera" iconSize="lg" iconVariant="secondary" />
+                  <Typography variant="body1">{t('HEIC file selected')}</Typography>
+                  <Typography variant="body2" className={styles.heicHint}>
+                    {t('Preview not available, but server will process it')}
+                  </Typography>
+                </Box>
+              ) : (
+                <div ref={zoomRef} className={styles.zoomWrapper} style={zoomStyle}>
+                  <img src={previewUrl} alt="Receipt preview" className={styles.preview} />
+                </div>
+              )}
               <IconButton
                 icon="decline"
                 iconSize="sm"

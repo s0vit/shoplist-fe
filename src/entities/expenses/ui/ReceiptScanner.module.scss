@@ -85,6 +85,32 @@
   }
 }
 
+.heicPlaceholder {
+  width: 100%;
+  min-height: 280px;
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  background-color: var(--color-input-bg);
+
+  @media (max-width: 768px) {
+    min-height: 240px;
+    border-radius: 8px;
+    padding: 20px;
+  }
+}
+
+.heicHint {
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: 280px;
+}
+
 .zoomWrapper {
   width: 100%;
   touch-action: none;

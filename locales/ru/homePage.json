@@ -30,5 +30,8 @@
   "Retry": "Повторить",
   "HEIC format not supported by your browser": "Формат HEIC не поддерживается вашим браузером. Пожалуйста, используйте JPG или PNG.",
   "Trying alternative conversion...": "Пробуем альтернативный метод конвертации...",
-  "Failed to convert HEIC image": "Не удалось конвертировать изображение HEIC. Попробуйте сначала конвертировать в JPG на вашем устройстве."
+  "Failed to convert HEIC image": "Не удалось конвертировать изображение HEIC. Попробуйте сначала конвертировать в JPG на вашем устройстве.",
+  "Browser cannot preview HEIC, will send original file to server": "Браузер не может показать HEIC формат. Оригинальный файл будет отправлен на сервер для обработки.",
+  "HEIC file selected": "Выбран HEIC файл",
+  "Preview not available, but server will process it": "Предпросмотр недоступен в вашем браузере, но сервер обработает файл"
 }
