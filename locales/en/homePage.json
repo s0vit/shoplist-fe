@@ -28,10 +28,7 @@
   "Failed to scan receipt": "Failed to scan receipt",
   "Failed to read image file": "Failed to read image file",
   "Retry": "Retry",
-  "HEIC format not supported by your browser": "HEIC format not supported by your browser. Please use JPG or PNG instead.",
+  "HEIC format not supported by your browser": "HEIC format not supported by your browser. Please convert to JPG or PNG on your device first.",
   "Trying alternative conversion...": "Trying alternative conversion method...",
-  "Failed to convert HEIC image": "Failed to convert HEIC image. Please try converting to JPG on your device first.",
-  "Browser cannot preview HEIC, will send original file to server": "Browser cannot preview HEIC format. Original file will be sent to server for processing.",
-  "HEIC file selected": "HEIC file selected",
-  "Preview not available, but server will process it": "Preview not available in your browser, but the server will process it"
+  "Failed to convert HEIC image": "Failed to convert HEIC image. Please try converting to JPG on your device first."
 }
