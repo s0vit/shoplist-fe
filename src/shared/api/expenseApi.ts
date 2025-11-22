@@ -66,6 +66,7 @@ export const parseReceipt = async (formData: FormData): Promise<TReceiptParseRes
     headers: {
       'Content-Type': 'multipart/form-data',
     },
+    timeout: 60000,
   });
 
   return response.data;
