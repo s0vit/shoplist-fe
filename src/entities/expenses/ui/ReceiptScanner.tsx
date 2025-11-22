@@ -18,11 +18,11 @@ type TReceiptScannerProps = {
 
 type ErrorType = 'conversion' | 'upload' | 'permission' | null;
 
-// Lazy load heic2any для оптимизации bundle size
-const loadHeic2any = async (): Promise<(typeof import('heic2any'))['default']> => {
-  const module = await import('heic2any');
+// Lazy load heic-to для оптимизации bundle size
+const loadHeicTo = async () => {
+  const module = await import('heic-to');
 
-  return module.default;
+  return module.heicTo;
 };
 
 // Конвертация изображения в JPEG через Canvas
@@ -162,37 +162,21 @@ const ReceiptScanner = ({ onScanComplete, onClose }: TReceiptScannerProps) => {
         toast.info(t('Converting HEIC format...'));
 
         try {
-          // Lazy load heic2any только когда нужно
-          const heic2any = await loadHeic2any();
-          const convertedBlob = await heic2any({
+          // Lazy load heic-to только когда нужно
+          const heicTo = await loadHeicTo();
+          const convertedBlob = await heicTo({
             blob: file,
-            toType: 'image/jpeg',
+            type: 'image/jpeg',
             quality: 0.9,
           });
 
-          const blobArray = Array.isArray(convertedBlob) ? convertedBlob : [convertedBlob];
-
-          processedFile = new File(blobArray, file.name.replace(/\.[^.]+$/, '.jpg'), {
+          processedFile = new File([convertedBlob], file.name.replace(/\.[^.]+$/, '.jpg'), {
             type: 'image/jpeg',
           });
         } catch (heicError: unknown) {
           console.error('HEIC conversion error:', heicError);
 
-          // Проверяем специфичные ошибки heic2any
-          const error = heicError as { code?: number; message?: string };
-
-          if (error.code === 2 || error.message?.includes('not supported')) {
-            // Браузер не поддерживает HEIC и не может его конвертировать
-            // Сервер тоже не принимает HEIC напрямую
-            const errorMsg = t('HEIC format not supported by your browser');
-            toast(errorMsg, { type: 'error' });
-            setError({ type: 'conversion', message: errorMsg });
-            setIsConverting(false);
-
-            return;
-          }
-
-          // Для других ошибок пробуем fallback через Canvas
+          // heic-to использует WebAssembly, если упала ошибка - пробуем Canvas fallback
           toast.info(t('Trying alternative conversion...'));
           try {
             processedFile = await convertToJPEG(file);
